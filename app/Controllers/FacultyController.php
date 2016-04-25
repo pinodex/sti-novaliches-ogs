@@ -12,6 +12,7 @@
 namespace App\Controllers;
 
 use Silex\Application;
+use App\Models\Grade;
 use App\Models\Student;
 use App\Services\Form;
 use App\Services\View;
@@ -90,7 +91,7 @@ class FacultyController
         $student = Student::with('grades')->find($id);
 
         if (!$student) {
-            FlashBag::add('page_errors', 'Student not found');
+            FlashBag::add('messages', 'danger>>>Student not found');
 
             return $app->redirect($app->path('faculty.index'));
         }
@@ -112,7 +113,7 @@ class FacultyController
         $grades = $student->grades->toArray();
 
         if (empty($grades)) {
-            FlashBag::add('page_errors', 'Nothing has been imported and can be edited for this student yet.');
+            FlashBag::add('messages', 'danger>>>Nothing has been imported and can be edited for this student yet.');
 
             return $app->redirect($app->path('faculty.students.view', array(
                 'id' => $id
@@ -149,14 +150,15 @@ class FacultyController
      * URL: /faculty/grades/import/1
      */
     public function gradesImport1(Request $request, Application $app) {
-        if ($uploadedFile = Session::get('gradeWizardUploadedFile')) {
+        if ($uploadedFile = Session::get('gw_uploaded_file')) {
             @unlink($uploadedFile);
         }
 
         // cleanup first
-        Session::remove('gradeWizardUploadedFile');
-        Session::remove('gradeWizardSelectedSheets');
-        Session::remove('gradeWizardImportDone');
+        Session::remove('gw_uploaded_file');
+        Session::remove('gw_selected_sheets');
+        Session::remove('gw_import_done');
+        Session::remove('gw_contents');
 
         $form = Form::create();
 
@@ -178,7 +180,7 @@ class FacultyController
             $file = $form['file']->getData();
 
             if ($file->getError() != 0) {
-                FlashBag::add('page_errors', $file->getErrorMessage());
+                FlashBag::add('messages', 'danger>>>' . $file->getErrorMessage());
                 
                 return $app->redirect($app->path('faculty.grades.import.1'));
             }
@@ -190,7 +192,7 @@ class FacultyController
                 date('Y-m-d-H-i-s'), uniqid(), $extension
             ));
 
-            Session::set('gradeWizardUploadedFile', $uploadedFile->getPathName());
+            Session::set('gw_uploaded_file', $uploadedFile->getPathName());
             
             return $app->redirect($app->path('faculty.grades.import.2'));
         }
@@ -207,7 +209,7 @@ class FacultyController
      * URL: /faculty/grades/import/2
      */
     public function gradesImport2(Request $request, Application $app) {
-        if (!$uploadedFile = Session::get('gradeWizardUploadedFile')) {
+        if (!$uploadedFile = Session::get('gw_uploaded_file')) {
             return $app->redirect($app->path('faculty.grades.import.1'));
         }
 
@@ -244,11 +246,18 @@ class FacultyController
             $data = $form['choices']->getData();
 
             if (count($data) > 3) {
-                FlashBag::add('page_errors', 'You can only select/import up to 3 sheets at a time.');
+                FlashBag::add('messages', 'danger>>>You can only select/import up to 3 sheets at a time.');
                 return $app->redirect($app->path('faculty.grades.import.2'));
             }
 
-            Session::set('gradeWizardSelectedSheets', serialize($data));
+            if ($previousData = Session::get('gw_selected_sheets')) {
+                // Check if there are changes to sheet selection before busting the cache
+                if ($previousData != $data) {
+                    Session::remove('gw_contents');
+                }
+            }
+
+            Session::set('gw_selected_sheets', $data);
             return $app->redirect($app->path('faculty.grades.import.3'));
         }
 
@@ -264,23 +273,23 @@ class FacultyController
      * URL: /faculty/grades/import/3
      */
     public function gradesImport3(Request $request, Application $app) {
-        if (!$uploadedFile = Session::get('gradeWizardUploadedFile')) {
+        if (!$uploadedFile = Session::get('gw_uploaded_file')) {
             return $app->redirect($app->path('faculty.grades.import.1'));
         }
 
-        if (!$selectedSheets = Session::get('gradeWizardSelectedSheets')) {
+        if (!$selectedSheets = Session::get('gw_selected_sheets')) {
             return $app->redirect($app->path('faculty.grades.import.2'));
         }
 
-        $gradingSheet = new GradingSheet($uploadedFile);
-        $availableSheets = $gradingSheet->getSheets();
-        $selectedSheets = unserialize($selectedSheets);
+        /* Check if spreadsheet contents is cached in the session database
+           Used remove the need to load the spreadsheet file again, thus saving time */
+        if (!$contents = Session::get('gw_contents')) {
+            set_time_limit(0);
+            
+            $gradingSheet = new GradingSheet($uploadedFile);
+            $contents = $gradingSheet->getSheetsContents($selectedSheets);
 
-        $spreadSheetContents = array();
-
-        foreach ($selectedSheets as $sheetIndex) {
-            $sheetName = $availableSheets[$sheetIndex];
-            $spreadSheetContents[$sheetName] = $gradingSheet->getSheetContents($sheetIndex);
+            Session::set('gw_contents', $contents);
         }
 
         $form = Form::create();
@@ -293,38 +302,16 @@ class FacultyController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            foreach ($spreadSheetContents as $subject => $sheet) {
-                $subject = explode(' ', $subject)[0];
+            Grade::import($contents);
+            Session::set('gw_import_done', true);
 
-                foreach ($sheet as $row) {
-                    if (!$student = Student::find($row['student_id'])) {
-                        continue;
-                    }
-
-                    // Prefer row for insertion
-                    unset($row['name']);
-
-                    $subjects = array(
-                        $subject => $row
-                    );
-
-                    if (!$student->updateGrades($subjects)) {
-                        FlashBag::add('page_errors', 
-                            'An error occurred while updating student ' . $student->id . '. ' .
-                            'Please verify the imported data.'
-                        );
-                    }
-                }
-            }
-
-            Session::set('gradeWizardImportDone', true);
             return $app->redirect($app->path('faculty.grades.import.4'));
         }
 
         return VieW::render('faculty/grades/import/3', array(
             'current_step' => 3,
             'confirm_form' => $form->createView(),
-            'spreadsheet_contents' => $spreadSheetContents
+            'spreadsheet_contents' => $contents
         ));
     }
 
@@ -334,22 +321,23 @@ class FacultyController
      * URL: /faculty/grades/import/4
      */
     public function gradesImport4(Request $request, Application $app) {
-        if (!$uploadedFile = Session::get('gradeWizardUploadedFile')) {
+        if (!$uploadedFile = Session::get('gw_uploaded_file')) {
             return $app->redirect($app->path('faculty.grades.import.1'));
         }
 
-        if (!$selectedSheets = Session::get('gradeWizardSelectedSheets')) {
+        if (!$selectedSheets = Session::get('gw_selected_sheets')) {
             return $app->redirect($app->path('faculty.grades.import.2'));
         }
 
-        if (!$selectedSheets = Session::get('gradeWizardImportDone')) {
+        if (!$selectedSheets = Session::get('gw_import_done')) {
             return $app->redirect($app->path('faculty.grades.import.3'));
         }
 
         // cleanup
-        Session::remove('gradeWizardUploadedFile');
-        Session::remove('gradeWizardSelectedSheets');
-        Session::remove('gradeWizardImportDone');
+        Session::remove('gw_uploaded_file');
+        Session::remove('gw_selected_sheets');
+        Session::remove('gw_import_done');
+        Session::remove('gw_contents');
 
         @unlink($uploadedFile);
 

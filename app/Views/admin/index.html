@@ -1,13 +1,21 @@
 {% extends '/_layout/main-default.html' %}
 
 {% set page_title = 'Admin' %}
+{% set active_nav = 'admin' %}
 
 {% block content %}
     <div class="container">
-        <div class="grid">
-            <div class="column-12">
-                <h1>Admin Page</h1>
-            </div>
-        </div>
+        <h1>Administrator</h1>
+        <ul>
+            <li>
+                <a href="{{ path('admin.manage.faculty') }}">Manage faculty accounts</a>
+            </li>
+            <li>
+                <a href="#">Manage administrator accounts</a>
+            </li>
+            <li>
+                <a href="#">Manage student list</a>
+            </li>
+        </ul>
     </div>
 {% endblock %}

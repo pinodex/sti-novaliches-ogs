@@ -31,6 +31,21 @@ class AdminRoute implements ControllerProviderInterface
         $controller->get('/', [AdminController::class, 'index'])
             ->bind('admin.index');
 
+        $controller->get('/manage/faculty', [AdminController::class, 'manageFaculty'])
+            ->bind('admin.manage.faculty');
+
+        $controller->get('/manage/faculty/search', [AdminController::class, 'manageFaculty'])
+            ->bind('admin.manage.faculty.search');
+
+        $controller->match('/manage/faculty/add', [AdminController::class, 'addFaculty'])
+            ->bind('admin.manage.faculty.add');
+
+        $controller->match('/manage/faculty/{id}/delete', [AdminController::class, 'deleteFaculty'])
+            ->bind('admin.manage.faculty.delete');
+
+        $controller->match('/manage/faculty/{id}/edit', [AdminController::class, 'editFaculty'])
+            ->bind('admin.manage.faculty.edit');
+
         $controller->before(function (Request $request, Application $app) {
             if (!$user = Auth::user()) {
                 return $app->redirect($app->path('site.login', array(

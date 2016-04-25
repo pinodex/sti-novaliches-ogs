@@ -3,14 +3,11 @@
 {% form_theme choose_form '/_layout/form-default.html' %}
 
 {% set page_title = 'Grades Import Wizard' %}
+{% set active_nav = 'import_grades' %}
 
 {% block content %}
     <div class="container">
-        <div class="grid">
-            <div class="column-12">
-                <h1>Grades Import Wizard</h1>
-            </div>
-        </div>
+        <h1><span class="icon-file_upload"></span> Grades Import Wizard</h1>
 
         <div class="grid">
             {% include '/faculty/grades/import/steps.html' %}
@@ -26,8 +23,8 @@
                         <form method="post" action="{{ app.request.getRequestUri }}">
                             {{ form_widget(choose_form) }}
 
-                            <a href="{{ path('faculty.grades.import.1') }}" class="button neutral">Back</a>
-                            <button type="submit" class="success">Next</button>
+                            <a href="{{ path('faculty.grades.import.1') }}" class="button neutral"><span class="icon-navigate_before"></span> Back</a>
+                            <button type="submit" class="success">Next <span class="icon-navigate_next"></span></button>
                         </form>
                     </div>
                 </div>

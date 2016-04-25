@@ -2,23 +2,34 @@
 
 {% form_theme search_form '/_layout/form-default.html' %}
 
-{% set page_title = 'Students - Faculty Page' %}
-{% set active_nav = 'students' %}
+{% set page_title = 'Manage Faculty Accounts' %}
+{% set active_nav = 'admin' %}
 
 {% block content %}
     <div class="container">
-        <h1>Students</h1>
+        <div class="grid">
+            <div class="column-12">
+                <h1>Faculty Accounts</h1>
+            </div>
+        </div>
 
         <div class="grid">
             <div class="column-4">
                 <div class="panel">
-                    <div class="panel-heading"><span class="icon-search"></span> Search Student</div>
+                    <div class="panel-heading"><span class="icon-search"></span> Search Faculty</div>
                     <div class="panel-body">
-                        <div class="alert alert-info">Fill any of the fields below</div>
-                        <form method="get" action="{{ path('faculty.search') }}">
+                        <form method="get" action="{{ path('admin.manage.faculty.search') }}">
                             {{ form_widget(search_form) }}
+
                             <button type="submit"><span class="icon-search"></span> Search</button>
                         </form>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-heading">Actions</div>
+                    <div class="panel-body">
+                        <a href="{{ path('admin.manage.faculty.add') }}" class="button neutral">Add new faculty account</a>
                     </div>
                 </div>
             </div>
@@ -34,16 +45,16 @@
                     <thead>
                         <tr>
                             <th>
-                                <span class="long">Student #</span>
-                                <span class="short">#</span>
+                                <span class="long">Username</span>
+                                <span class="short">U</span>
                             </th>
                             <th>
                                 <span class="long">Name</span>
                                 <span class="short">N</span>
                             </th>
                             <th>
-                                <span class="long">Course</span>
-                                <span class="short">C</span>
+                                <span class="long">Department</span>
+                                <span class="short">D</span>
                             </th>
                             <th></th>
                         </tr>
@@ -52,11 +63,11 @@
                     <tbody>
                         {% for row in result %}
                             <tr>
-                                <td>{{ row.id|format_student_id }}</td>
-                                <td>{{ row.last_name ~ ', ' ~ row.first_name ~ ' ' ~ row.middle_name }}</td>
-                                <td>{{ row.course }}</td>
+                                <td>{{ row.username }}</td>
+                                <td>{{ row.last_name ~ ', ' ~ row.first_name }}</td>
+                                <td>{{ row.department }}</td>
                                 <td>
-                                    <a href="{{ path('faculty.students.view', {id: row.id}) }}">View</a>
+                                    <a href="{{ path('admin.manage.faculty.edit', {id: row.id}) }}">Edit</a>
                                 </td>
                             </tr>
                         {% endfor %}

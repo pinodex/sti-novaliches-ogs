@@ -68,4 +68,36 @@ class Grade extends Model
             $period, 'student_id'
         ))->toArray();
     }
+
+    /**
+     * Import data to databas
+     * 
+     * @param array $data
+     */
+    public static function import($data)
+    {
+        foreach ($data as $subject => $sheet) {
+            $subject = explode(' ', $subject)[0];
+
+            foreach ($sheet as $row) {
+                if (!$student = Student::find($row['student_id'])) {
+                    continue;
+                }
+
+                // Prefer row for insertion
+                unset($row['name']);
+
+                $subjects = array(
+                    $subject => $row
+                );
+
+                if (!$student->updateGrades($subjects)) {
+                    FlashBag::add('page_errors', 
+                        'An error occurred while updating student ' . $student->id . '. ' .
+                        'Please verify the imported data.'
+                    );
+                }
+            }
+        }
+    }
 }

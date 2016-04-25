@@ -24,6 +24,7 @@ html, body {
 
 body {
     padding-top: 80px;
+    padding-bottom: 20px;
 
     @media (min-width: $grid-float-breakpoint) {
         &.login-page {
@@ -87,6 +88,14 @@ div > h1:first-child {
 
 div > p:first-child {
     margin-top: 0;
+}
+
+h1 {
+    font-size: 1.5em;
+
+    @media (min-width: 425px) {
+        font-size: 2em;
+    }
 }
 
 input,
@@ -267,7 +276,7 @@ a.button {
             padding: 0;
 
             li {
-                span, a {
+                > span, > a {
                     display: block;
                     color: #fff;
                     text-decoration: none;
@@ -281,6 +290,22 @@ a.button {
                 &.active {
                     span, a {
                         background: darken(#006db7, 20%);
+                    }
+                }
+
+                span.text {
+                    @media (min-width: $grid-float-breakpoint) {
+                        display: none;
+                    }
+
+                    @media (min-width: 992px) {
+                        display: inline;
+                    }
+                }
+
+                span[class^="icon-"] {
+                    @media (min-width: 992px) {
+                        display: none;
                     }
                 }
 
@@ -303,6 +328,18 @@ a.button {
         @media (min-width: $grid-float-breakpoint) {
             background: transparent;
             display: block;
+        }
+    }
+
+    &.not-logged-in {
+        text-align: center;
+
+        .logo-area {
+            float: none;
+        }
+
+        .nav-toggle {
+            display: none;
         }
     }
 
@@ -366,11 +403,17 @@ form {
             box-shadow: none;
         }
 
+        input, select {
+            border-color: $brand-danger-hover;
+        }
+
         ul {
+            background: $brand-danger-hover;
+            color: #fff;
             list-style: none;
             font-size: 11px;
             margin: 0;
-            padding: 0;
+            padding: 5px;
         }
     }
 }
@@ -405,6 +448,10 @@ form {
             margin-bottom: 0;
         }
     }
+}
+
+.panel + .panel {
+    margin-top: 15px;
 }
 
 .align-right {
@@ -573,7 +620,6 @@ table {
 
         .step {
             color: #ccc;
-            border-color: #6FD06F;
         }
     }
 
@@ -582,8 +628,6 @@ table {
 
         .step {
             color: #999;
-            padding-right: 10px;
-            border-right: 1px solid #ccc;
         }
 
         .text {

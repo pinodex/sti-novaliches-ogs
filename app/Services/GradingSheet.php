@@ -50,6 +50,13 @@ class GradingSheet
         return $this->sheets;
     }
 
+    /**
+     * Get sheet contents
+     * 
+     * @param int $index Sheet index
+     * 
+     * @return array
+     */
     public function getSheetContents($index)
     {
         $output = array();
@@ -75,6 +82,32 @@ class GradingSheet
             }
         }
         
+        return $output;
+    }
+
+    /**
+     * Get sheets contents.
+     * 
+     * Don't be confused with getSheetContents. This method
+     * accepts array of sheet indices as a parameter and return an
+     * array of sheet contents.
+     * 
+     * Element keys will be the sheet name and values will be the contents.
+     * 
+     * This method calls $this->getSheetContents() internally.
+     * 
+     * @param array $indices Sheets indices
+     * 
+     * @return array
+     */
+    public function getSheetsContents($indices)
+    {
+        $output = array();
+
+        foreach ($indices as $index) {
+            $output[$this->sheets[$index]] = $this->getSheetContents($index);
+        }
+
         return $output;
     }
 }

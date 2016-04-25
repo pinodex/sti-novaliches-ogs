@@ -1,14 +1,11 @@
 {% extends '/_layout/main-default.html' %}
 
 {% set page_title = 'Grades Import Wizard' %}
+{% set active_nav = 'import_grades' %}
 
 {% block content %}
     <div class="container">
-        <div class="grid">
-            <div class="column-12">
-                <h1>Grades Import Wizard</h1>
-            </div>
-        </div>
+        <h1><span class="icon-file_upload"></span> Grades Import Wizard</h1>
 
         <div class="grid">
             {% include '/faculty/grades/import/steps.html' %}

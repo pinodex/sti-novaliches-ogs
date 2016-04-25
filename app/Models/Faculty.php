@@ -12,6 +12,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Capsule\Manager as DB;
 use App\Services\Hash;
 
 /**
@@ -35,5 +36,30 @@ class Faculty extends Model
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = Hash::make($password);
+    }
+
+    /**
+     * Search faculty
+     * 
+     * @param string $id    Student ID
+     * @param string $name  Student name
+     * 
+     * @param array
+     */
+    public static function search($name = null)
+    {
+        $nameFormats = array(
+            DB::raw("CONCAT(last_name, ' ', first_name, ' ', middle_name)"),
+            DB::raw("CONCAT(last_name, ', ', first_name, ' ', middle_name)"),
+            DB::raw("CONCAT(first_name, ' ', middle_name, ' ', last_name)"),
+            DB::raw("CONCAT(first_name, ' ', last_name)")
+        );
+
+        $result = self::where($nameFormats[0], 'LIKE', '%' . $name . '%')
+            ->orWhere($nameFormats[1], 'LIKE', '%' . $name . '%')
+            ->orWhere($nameFormats[2], 'LIKE', '%' . $name . '%')
+            ->orWhere($nameFormats[3], 'LIKE', '%' . $name . '%');
+
+        return $result->paginate(50);
     }
 }
