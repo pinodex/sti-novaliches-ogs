@@ -1,0 +1,74 @@
+<?php
+
+/*
+ * This file is part of the Boardy forum software
+ *
+ * (c) Raphael Marco <raphaelmarco@outlook.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/*
+ * Debug mode
+ *
+ * Shows debug, error, and exception information.
+ */
+$app['debug'] = false;
+
+/*
+ * Enforce https
+ */
+$app['https'] = false;
+
+/*
+ * Profiler options
+ */
+$app['profiler.cache_dir'] = ROOT . 'cache/profiler';
+
+/*
+ * Twig options
+ */
+$app['twig.options'] = array(
+    'cache' => ROOT . 'cache/twig'
+);
+
+/*
+ * Database connection
+ *
+ * Defines the connection parameters that will be used to
+ * connect to your database.
+ */
+$app['database.connection'] = array(
+    'driver'    => 'mysql',
+    'host'      => 'localhost',
+    'database'  => '',
+    'username'  => '',
+    'password'  => '',
+    'charset'   => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+    'prefix'    => '',
+    'logging'   => false
+);
+
+/*
+ * Session storage options
+ *
+ * Refer to http://silex.sensiolabs.org/doc/providers/session.html#parameters
+ * for available options.
+ */
+$app['session.storage.options'] = array(
+    'name'              => 'session',
+    'cookie_httponly'   => true,
+    'cookie_lifetime'   => 3600,
+    'lifetime'          => 3600
+);
+
+/*
+ * Session storage handler options
+ *
+ * Options used by the IlluminateDatabaseSessionHandler
+ */
+$app['session.storage.handler.options'] = array(
+    'table' => 'sessions'
+);

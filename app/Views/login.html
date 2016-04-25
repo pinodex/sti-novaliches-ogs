@@ -1,0 +1,55 @@
+{% extends '/_layout/main-default.html' %}
+
+{% form_theme login_form '/_layout/form-default.html' %}
+
+{% set page_title = 'Login' %}
+{% set body_class = 'login-page' %}
+
+{% block content %}
+    <div class="container">
+        <div class="grid" v-show="isLoginBoxShowed" transition="fade">
+            <div class="column-4 column-offset-4">
+                <h1><span class="icon-lock"></span> Login</h1>
+
+                <form method="post" action="{{ app.request.getRequestUri }}">
+                    {{ form_errors(login_form) }}
+                    {{ form_widget(login_form._token) }}
+                        
+                    <div class="fancy-input">
+                        <label for="id">
+                            <span class="icon-user"></span>
+                        </label>
+                        {{ form_widget(login_form.id) }}
+                    </div>
+
+                    <div class="fancy-input">
+                        <label for="password">
+                            <span class="icon-key"></span>
+                        </label>
+                        {{ form_widget(login_form.password) }}
+                    </div>
+
+                    <div class="align-right">
+                        <button type="button" class="link" v-on:click="showHelpBox()">Help</button>
+                        <button type="submit">Login <span class="icon-arrow_forward"></span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="grid" v-show="isHelpBoxShowed" transition="fade">
+            <div class="column-4 column-offset-4">
+                <h1><span class="icon-help"></span> Help</h1>
+                <h3>Instructions</h3>
+            
+                <ol>
+                    <li>Enter student number. Hyphenated <em>(021-2016-1234</em> and non-hyphenated <em>(02120161234)</em> formats are accepted.</li>
+                    <li>Enter your middle name as the password. If it doesn't work, try entering your middle initial.</li>
+                    <li>If you are still unable to login, you may visit the Academic Head Office and look for Mr. Noriel Domondon</li>
+                </ol>
+            
+                <button type="button" class="link" v-on:click="showLoginBox()">Back to login</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

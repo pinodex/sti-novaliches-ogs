@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <!--
+    ╭──────────────────────────────────────────╮
+    │        Front-end & Back-end Dev't        │
+    ╞══════════════════════════════════════════╡
+    │             RAPHAEL MARCO                │
+    │                                          │
+    │           pinodex.github.io              │
+    │        raphaelmarco@outlook.com          │
+    ╰──────────────────────────────────────────╯
+    -->
+    <meta name="description" content="View your grades online." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="{{ page_title }} - STI College Novaliches" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ app.request.uri }}" />
+    <meta property="og:description" content="View your grades online." />
+    <meta property="og:image" content="" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+    <!--
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+    -->
+
+    <title>{{ page_title }} - STI College Novaliches</title>
+</head>
+<body class="{{ body_class | default('') }}" id="app">
+    <div class="top-bar">
+        <div class="container">
+            <button class="nav-toggle" v-on:click="toggleNav()">
+                <span class="icon-menu"></span>
+            </button>
+            
+            <div class="logo-area">
+                <img src="/assets/img/logo-horizontal.png" alt="Logo" />
+            </div>
+
+            <nav v-bind:class="{'active': isNavActive}">
+                {% if current_user is not null and (current_user.getRole() == 'faculty' or current_user.getRole() == 'admin') %}
+
+                <ul class="left">
+                    <li>
+                        <a href="{{ path('faculty.index') }}">Student List</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('faculty.grades.import') }}">Import Grading Sheet</a>
+                    </li>
+                </ul>
+
+                {% else %}
+
+                <ul class="left">
+                    <li>
+                        <span>Online Grades</span>
+                    </li>
+                </ul>
+                {% endif %}
+                {% if current_user is not null %}
+
+                <ul class="right">
+                    <li>
+                        <span><strong>{{ current_user.getName()|title }}</strong></span>
+                    </li>
+                    <li>
+                        <a href="{{ path('site.logout', {_token: csrf_token('logout')}) }}">Logout</a>
+                    </li>
+                </ul>
+                {% endif %}
+
+            </nav>
+        </div>
+    </div>
+
+    <div class="container">
+    {% for error in flashbag('page_errors') %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endfor %}
+    </div>
+
+{% block content %}{% endblock %}
+
+    <script src="/assets/js/vue.js"></script>
+    <script src="/assets/js/app.js"></script>
+{% if extra_data is defined %}
+    <script>var extraData = {{ extra_data|json_encode|raw }};</script>
+{% endif %}
+</body>
+</html>

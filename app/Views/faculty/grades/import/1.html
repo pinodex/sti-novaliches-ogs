@@ -1,0 +1,32 @@
+{% extends '/_layout/main-default.html' %}
+
+{% form_theme upload_form '/_layout/form-default.html' %}
+
+{% set page_title = 'Grades Import Wizard' %}
+
+{% block content %}
+    <div class="container">
+        <div class="grid">
+            <div class="column-12">
+                <h1>Grades Import Wizard</h1>
+            </div>
+        </div>
+
+        <div class="grid">
+            {% include '/faculty/grades/import/steps.html' %}
+
+            <div class="column-8">
+                <div class="panel">
+                    <div class="panel-heading">Upload XLSX/XLSM file</div>
+                    <div class="panel-body">
+                        <form method="post" action="{{ app.request.getRequestUri }}" enctype="multipart/form-data">
+                            {{ form_widget(upload_form) }}
+
+                            <button type="submit" class="success">Next</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

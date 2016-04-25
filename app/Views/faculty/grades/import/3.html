@@ -1,0 +1,93 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'Grades Import Wizard' %}
+
+{% block content %}
+    <div class="container">
+        <div class="grid">
+            <div class="column-12">
+                <h1>Grades Import Wizard</h1>
+            </div>
+        </div>
+
+        <div class="grid">
+            {% include '/faculty/grades/import/steps.html' %}
+
+            <div class="column-8">
+                <div class="panel">
+                    <div class="panel-heading">Confirm imports</div>
+                    <div class="panel-body">
+                        <ul class="tabs">
+                            {% set index = 0 %}
+                            {% for name,rows in spreadsheet_contents %}
+                                <li v-on:click.prevent="wizActivateTab({{ index }})" v-bind:class="{'active': wizActiveTab == {{ index }}}">
+                                    <a href="#">{{ name }}</a>
+                                </li>
+                                {% set index = index + 1 %}
+                            {% endfor %}
+                        </ul>
+
+                        {% set index = 0 %}
+                        {% for name,rows in spreadsheet_contents %}
+                            <div class="sheet" v-show="wizActiveTab == {{ index }}">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <span class="long">Name</span>
+                                                <span class="short">N</span>
+                                            </th>
+                                            <th>
+                                                <span class="long">Student #</span>
+                                                <span class="short">#</span>
+                                            </th>
+                                            <th>
+                                                <span class="long">Prelim</span>
+                                                <span class="short">1</span>
+                                            </th>
+                                            <th>
+                                                <span class="long">Midterm</span>
+                                                <span class="short">2</span>
+                                            </th>
+                                            <th>
+                                                <span class="long">Pre-final</span>
+                                                <span class="short">3</span>
+                                            </th>
+                                            <th>
+                                                <span class="long">Final</span>
+                                                <span class="short">4</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for row in rows %}
+                                            <tr>
+                                                <td>{{ row.student_id|format_student_id }}</td>
+                                                <td>{{ row.name }}</td>
+                                                <td class="{{ row.prelim|grade_class }}">{{ row.prelim|format_grade }}</td>
+                                                <td class="{{ row.midterm|grade_class }}">{{ row.midterm|format_grade }}</td>
+                                                <td class="{{ row.prefinal|grade_class }}">{{ row.prefinal|format_grade }}</td>
+                                                <td class="{{ row.final|grade_class }}">{{ row.final|format_grade }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% set index = index + 1 %}
+                        {% endfor %}
+
+                        <form method="post" action="{{ app.request.getRequestUri }}">
+                            {{ form_widget(confirm_form) }}
+
+                            <a href="{{ path('faculty.grades.import.2') }}" class="button neutral">Back</a>
+                            <button type="submit" class="success">Confirm and save changes</button>
+                        </form>
+
+                        <p><em>Importing to database may take several seconds depending on the amount of records to be imported. Please don't close this window/tab while importing.</em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

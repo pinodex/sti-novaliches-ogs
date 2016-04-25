@@ -1,0 +1,71 @@
+{% extends '/_layout/main-default.html' %}
+
+{% form_theme search_form '/_layout/form-default.html' %}
+
+{% set page_title = 'Faculty' %}
+
+{% block content %}
+    <div class="container">
+        <div class="grid">
+            <div class="column-12">
+                <h1>Faculty Page</h1>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="column-4">
+                <div class="panel">
+                    <div class="panel-heading">Search Student</div>
+                    <div class="panel-body">
+                        <div class="alert alert-info">Fill any of the fields below</div>
+                        <form method="get" action="{{ path('faculty.search') }}">
+                            {{ form_widget(search_form) }}
+                            <button type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column-8">
+                <select name="pages" v-on:change="changePaginationPage" v-model="paginationPage">
+                    {% for i in 1..last_page %}
+                        <option value="{{ i }}">Page {{ i }}</option>
+                    {% endfor %}
+                </select>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="long">Student #</span>
+                                <span class="short">#</span>
+                            </th>
+                            <th>
+                                <span class="long">Name</span>
+                                <span class="short">N</span>
+                            </th>
+                            <th>
+                                <span class="long">Course</span>
+                                <span class="short">C</span>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for student in result %}
+                            <tr>
+                                <td>{{ student.id|format_student_id }}</td>
+                                <td>{{ student.last_name ~ ', ' ~ student.first_name ~ ' ' ~ student.middle_name }}</td>
+                                <td>{{ student.course }}</td>
+                                <td>
+                                    <a href="{{ path('faculty.students.view', {id: student.id}) }}">View</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
