@@ -1,11 +1,11 @@
 {% extends '/_layout/main-default.html' %}
 
-{% set page_title = 'Delete faculty account' %}
+{% set page_title = 'Delete admin account' %}
 {% set active_nav = 'admin' %}
 
 {% block content %}
     <div class="container">
-        <h1>Delete faculty account</h1>
+        <h1>Delete admin account</h1>
 
         <div class="grid">
             <div class="column-4">
@@ -13,7 +13,7 @@
                 <form method="post" action="{{ app.request.getRequestUri }}">
                     {{ form_widget(manage_form) }}
                     
-                    <a href="{{ path('admin.manage.faculty.edit', {id: faculty.id}) }}" class="button neutral">Cancel</a>
+                    <a href="{{ path('admin.manage.admin.edit', {id: admin.id}) }}" class="button neutral">Cancel</a>
                     <button type="submit">Delete Account <span class="icon-navigate_next"></span></button>
                 </form>
             </div>

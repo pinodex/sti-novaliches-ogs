@@ -24,7 +24,15 @@ class Grade extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['student_id', 'subject', 'course', 'prelim', 'midterm', 'prefinal', 'final'];
+    protected $fillable = array(
+        'student_id',
+        'subject',
+        'course',
+        'prelim',
+        'midterm',
+        'prefinal',
+        'final'
+    );
 
     protected $primaryKey = 'student_id';
 

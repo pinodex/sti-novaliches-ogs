@@ -24,9 +24,16 @@ class Faculty extends Model
 {
     public $timestamps = false;
     
-    protected $fillable = ['username', 'password', 'first_name', 'middle_name', 'last_name', 'department'];
+    protected $fillable = array(
+        'username',
+        'password',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'department'
+    );
 
-    protected $hidden = ['password'];
+    protected $hidden = array('password');
 
     /**
      * Auto-hash incoming password

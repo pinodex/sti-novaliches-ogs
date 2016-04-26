@@ -25,6 +25,10 @@ class Student extends Model
 
     public $incrementing = false;
 
+    protected $fillable = array(
+        'id', 'last_name', 'first_name', 'middle_name', 'course'
+    );
+
     /**
      * Get student grade models
      * 

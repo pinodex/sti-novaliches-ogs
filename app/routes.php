@@ -10,12 +10,23 @@
  */
 
 use App\Routes;
+use App\Routes\Student;
+use App\Routes\Faculty;
+use App\Routes\Admin;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 $app->mount('/', new Routes\MainRoute);
-$app->mount('/student', new Routes\StudentRoute);
-$app->mount('/faculty', new Routes\FacultyRoute);
-$app->mount('/admin', new Routes\AdminRoute);
+
+$app->mount('/student', new Student\MainRoute);
+
+$app->mount('/faculty', new Faculty\MainRoute);
+$app->mount('/faculty/grades', new Faculty\GradesRoute);
+$app->mount('/faculty/student', new Faculty\StudentRoute);
+
+$app->mount('/admin', new Admin\MainRoute);
+$app->mount('/admin/manage/admin', new Admin\ManageAdminRoute);
+$app->mount('/admin/manage/faculty', new Admin\ManageFacultyRoute);
+$app->mount('/admin/manage/student', new Admin\ManageStudentRoute);
 
 $app->error(function (\Exception $e, $code) use ($app) {
     $request = $app['request_stack']->getCurrentRequest();

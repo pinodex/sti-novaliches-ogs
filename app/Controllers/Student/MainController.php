@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Controllers;
+namespace App\Controllers\Student;
 
 use Silex\Application;
 use App\Services\Auth;
@@ -26,7 +26,7 @@ use App\Models\Grade;
  * 
  * Route controllers for student pages (/student/*)
  */
-class StudentController
+class MainController
 {
     /**
      * Student page index

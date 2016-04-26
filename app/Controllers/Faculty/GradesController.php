@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Controllers;
+namespace App\Controllers\Faculty;
 
 use Silex\Application;
 use App\Models\Grade;
@@ -26,121 +26,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Illuminate\Pagination\Paginator;
 
 /**
- * Faculty controller
+ * Faculty maion controller
  * 
- * Route controllers for faculty pages (/faculty/*)
+ * Route controllers for /faculty/
  */
-class FacultyController
+class GradesController
 {
-    /**
-     * Faculty page index
-     * 
-     * URL: /faculty/
-     */
-    public function index(Request $request, Application $app)
-    {
-        if ($page = $request->query->get('page')) {
-            Paginator::currentPageResolver(function() use($page) {
-                return $page;
-            });
-        }
-
-        $form = Form::create(null, array(
-            'csrf_protection' => false
-        ));
-        
-        $form->add('id', Type\TextType::class, array(
-            'label' => 'Search by number',
-            'required' => false,
-            'data' => $request->query->get('id')
-        ));
-        
-        $form->add('name', Type\TextType::class, array(
-            'label' => 'Search by name',
-            'required' => false,
-            'data' => $request->query->get('name')
-        ));
-
-        $result = array();
-        $form = $form->getForm();
-
-        $request->query->set('id', Helper::parseId(
-            $request->query->get('id')
-        ));
-
-        $result = Student::search(
-            $request->query->get('id'),
-            $request->query->get('name')
-        );
-
-        return View::render('faculty/index', array(
-            'search_form' => $form->createView(),
-            'current_page' => $result->currentPage(),
-            'last_page' => $result->lastPage(),
-            'result' => $result
-        ));
-    }
-
-    /**
-     * Faculty student view
-     * 
-     * URL: /faculty/student/{id}
-     */
-    public function studentsView(Application $app, $id)
-    {
-        $student = Student::with('grades')->find($id);
-
-        if (!$student) {
-            FlashBag::add('messages', 'danger>>>Student not found');
-
-            return $app->redirect($app->path('faculty.index'));
-        }
-
-        return View::render('faculty/students/view', array(
-            'student' => $student->toArray(),
-            'grades' => $student->grades->toArray()
-        ));
-    }
-
-    /**
-     * Faculty student edit
-     * 
-     * URL: /faculty/student/{id}/edit
-     */
-    public function studentsEdit(Request $request, Application $app, $id)
-    {
-        $student = Student::with('grades')->findOrFail($id);
-        $grades = $student->grades->toArray();
-
-        if (empty($grades)) {
-            FlashBag::add('messages', 'danger>>>Nothing has been imported and can be edited for this student yet.');
-
-            return $app->redirect($app->path('faculty.students.view', array(
-                'id' => $id
-            )));
-        }
-
-        if ($request->getMethod() == 'POST') {
-            $subjects = $request->request->get('subjects');
-            $student->updateGrades($subjects);
-
-            return $app->redirect($app->path('faculty.students.view', array(
-                'id' => $id
-            )));
-        }
-
-        return View::render('faculty/students/edit', array(
-            'student' => $student,
-            'grades' => $grades
-        ));
-    }
-
     /**
      * Grade import wizard index
      * 
      * URL: /faculty/grades/import
      */
-    public function gradesImport(Application $app) {
+    public function index(Application $app) {
         return $app->redirect($app->path('faculty.grades.import.1'));
     }
 
@@ -149,7 +46,7 @@ class FacultyController
      * 
      * URL: /faculty/grades/import/1
      */
-    public function gradesImport1(Request $request, Application $app) {
+    public function import1(Request $request, Application $app) {
         if ($uploadedFile = Session::get('gw_uploaded_file')) {
             @unlink($uploadedFile);
         }
@@ -176,6 +73,8 @@ class FacultyController
         $form = $form->getForm();
         $form->handleRequest($request);
 
+        Form::handleFlashErrors('gw_upload_form', $form);
+
         if ($form->isValid()) {
             $file = $form['file']->getData();
 
@@ -193,6 +92,17 @@ class FacultyController
             ));
 
             Session::set('gw_uploaded_file', $uploadedFile->getPathName());
+
+            // Check if it's a valid grading sheet
+            $sheets = (new GradingSheet($uploadedFile))->getSheets();
+
+            if (!in_array('Master', $sheets) &&
+                !in_array('Info Sheet', $sheets) &&
+                !in_array('Setup', $sheets)) {
+
+                Form::flashError('gw_upload_form', 'Please upload a valid grading sheet file.');
+                return $app->redirect($app->path('faculty.grades.import.1'));
+            }
             
             return $app->redirect($app->path('faculty.grades.import.2'));
         }
@@ -208,7 +118,7 @@ class FacultyController
      * 
      * URL: /faculty/grades/import/2
      */
-    public function gradesImport2(Request $request, Application $app) {
+    public function import2(Request $request, Application $app) {
         if (!$uploadedFile = Session::get('gw_uploaded_file')) {
             return $app->redirect($app->path('faculty.grades.import.1'));
         }
@@ -272,7 +182,7 @@ class FacultyController
      * 
      * URL: /faculty/grades/import/3
      */
-    public function gradesImport3(Request $request, Application $app) {
+    public function import3(Request $request, Application $app) {
         if (!$uploadedFile = Session::get('gw_uploaded_file')) {
             return $app->redirect($app->path('faculty.grades.import.1'));
         }
@@ -293,7 +203,6 @@ class FacultyController
         }
 
         $form = Form::create();
-
         $form->add('_confirm', Type\HiddenType::class, array(
             'required' => false
         ));
@@ -320,16 +229,16 @@ class FacultyController
      * 
      * URL: /faculty/grades/import/4
      */
-    public function gradesImport4(Request $request, Application $app) {
+    public function import4(Request $request, Application $app) {
         if (!$uploadedFile = Session::get('gw_uploaded_file')) {
             return $app->redirect($app->path('faculty.grades.import.1'));
         }
 
-        if (!$selectedSheets = Session::get('gw_selected_sheets')) {
+        if (!Session::get('gw_selected_sheets')) {
             return $app->redirect($app->path('faculty.grades.import.2'));
         }
 
-        if (!$selectedSheets = Session::get('gw_import_done')) {
+        if (!Session::get('gw_import_done')) {
             return $app->redirect($app->path('faculty.grades.import.3'));
         }
 

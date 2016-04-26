@@ -38,6 +38,19 @@
                         </table>
                     </div>
                 </div>
+
+                {% if current_user.getRole() == 'admin' %}
+                    <div class="panel">
+                        <div class="panel-heading">Actions</div>
+                        <div class="panel-body">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="{{ path('admin.manage.student.edit', {id: student.id}) }}">Edit Student</a>   
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
 
             <div class="column-8">

@@ -9,20 +9,24 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Models;
+namespace App\Controllers\Admin;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Services\View;
 
 /**
- * Session model
+ * Admin controller
  * 
- * Session model for sessions table
+ * Route controllers for /admin/
  */
-class Session extends Model
+class MainController
 {
-    public $timestamps = false;
-
-    public $incrementing = false;
-
-    protected $fillable = array('id', 'data', 'expiry');
+    /**
+     * Admin page index
+     * 
+     * URL: /admin/
+     */
+    public function index()
+    {
+        return View::render('admin/index');
+    }
 }

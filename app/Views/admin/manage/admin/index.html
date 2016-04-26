@@ -2,23 +2,23 @@
 
 {% form_theme search_form '/_layout/form-default.html' %}
 
-{% set page_title = 'Manage faciulty accounts' %}
+{% set page_title = 'Manage admin accounts' %}
 {% set active_nav = 'admin' %}
 
 {% block content %}
     <div class="container">
         <div class="grid">
             <div class="column-12">
-                <h1>Faculty Accounts</h1>
+                <h1>Admin Accounts</h1>
             </div>
         </div>
 
         <div class="grid">
             <div class="column-4">
                 <div class="panel">
-                    <div class="panel-heading"><span class="icon-search"></span> Search Faculty</div>
+                    <div class="panel-heading"><span class="icon-search"></span> Search Admin</div>
                     <div class="panel-body">
-                        <form method="get" action="{{ path('admin.manage.faculty.search') }}">
+                        <form method="get" action="{{ path('admin.manage.admin.search') }}">
                             {{ form_widget(search_form) }}
 
                             <button type="submit"><span class="icon-search"></span> Search</button>
@@ -29,7 +29,7 @@
                 <div class="panel">
                     <div class="panel-heading">Actions</div>
                     <div class="panel-body">
-                        <a href="{{ path('admin.manage.faculty.add') }}">Add new faculty account</a>
+                        <a href="{{ path('admin.manage.admin.add') }}">Add new admin account</a>
                     </div>
                 </div>
             </div>
@@ -67,7 +67,7 @@
                                 <td>{{ row.last_name ~ ', ' ~ row.first_name }}</td>
                                 <td>{{ row.department }}</td>
                                 <td>
-                                    <a href="{{ path('admin.manage.faculty.edit', {id: row.id}) }}">Edit</a>
+                                    <a href="{{ path('admin.manage.admin.edit', {id: row.id}) }}">Edit</a>
                                 </td>
                             </tr>
                         {% endfor %}
