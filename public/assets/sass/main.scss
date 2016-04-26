@@ -431,6 +431,8 @@ form {
 }
 
 .panel {
+    margin-bottom: 15px;
+
     .panel-heading {
         background: rgba(0,109,183,1);
         background: -moz-linear-gradient(45deg, rgba(0,109,183,1) 0%, rgba(0,109,183,1) 50%, rgba(255,242,0,1) 50%, rgba(255,242,0,1) 100%);
@@ -454,10 +456,6 @@ form {
             margin-bottom: 0;
         }
     }
-}
-
-.panel + .panel {
-    margin-top: 15px;
 }
 
 .align-right {

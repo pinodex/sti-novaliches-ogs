@@ -1049,6 +1049,9 @@ form .alert {
   margin-top: 5px;
 }
 
+.panel {
+  margin-bottom: 15px;
+}
 .panel .panel-heading {
   background: #006db7;
   background: -moz-linear-gradient(45deg, #006db7 0%, #006db7 50%, #fff200 50%, #fff200 100%);
@@ -1068,10 +1071,6 @@ form .alert {
 }
 .panel .panel-body > *:last-child {
   margin-bottom: 0;
-}
-
-.panel + .panel {
-  margin-top: 15px;
 }
 
 .align-right {

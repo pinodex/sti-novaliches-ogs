@@ -66,6 +66,10 @@ class Helper
             return 'INC';
         }
 
+        if ($grade === -1 || $grade === 'DRP') {
+            return 'DRP';
+        }
+
         return $grade;
     }
 
@@ -76,6 +80,10 @@ class Helper
         }
 
         if ($grade === 0 || $grade === 'INC') {
+            return 'incomplete';
+        }
+
+        if ($grade === -1 || $grade === 'DRP') {
             return 'incomplete';
         }
 

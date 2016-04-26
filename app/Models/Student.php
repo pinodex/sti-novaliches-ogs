@@ -88,6 +88,12 @@ class Student extends Model
                     continue;
                 }
 
+                if (preg_match('/(?i)DRP/', $grade)) {
+                    $grades[$period] = -1;
+
+                    continue;
+                }
+
                 if (!preg_match('/((?![0-5])[0-9]{2,3})|((?i)INC)/', $grade)) {
                     unset($grades[$period]);
                 }
