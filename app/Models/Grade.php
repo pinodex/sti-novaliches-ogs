@@ -28,7 +28,7 @@ class Grade extends Model
     protected $fillable = array(
         'student_id',
         'subject',
-        'course',
+        'section',
         'prelim',
         'midterm',
         'prefinal',

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2016 at 02:17 AM
+-- Generation Time: Apr 27, 2016 at 03:30 AM
 -- Server version: 5.6.30-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.16
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `admins` (
   `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `department` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `faculties` (
   `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `department` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -62,7 +62,6 @@ CREATE TABLE IF NOT EXISTS `faculties` (
 
 CREATE TABLE IF NOT EXISTS `grades` (
   `student_id` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
-  `course` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `subject` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `section` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `prelim` int(3) DEFAULT NULL,
