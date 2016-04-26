@@ -13,6 +13,9 @@ use App\Routes;
 use App\Routes\Student;
 use App\Routes\Faculty;
 use App\Routes\Admin;
+use App\Services\Auth;
+use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 $app->mount('/', new Routes\MainRoute);
@@ -27,6 +30,35 @@ $app->mount('/admin', new Admin\MainRoute);
 $app->mount('/admin/manage/admin', new Admin\ManageAdminRoute);
 $app->mount('/admin/manage/faculty', new Admin\ManageFacultyRoute);
 $app->mount('/admin/manage/student', new Admin\ManageStudentRoute);
+
+$protectedControllers = array(
+    'App\Controllers\Admin\MainController',
+    'App\Controllers\Admin\ManageAdminController',
+    'App\Controllers\Admin\ManageFacultyController',
+    'App\Controllers\Admin\ManageStudentController',
+    'App\Controllers\Faculty\MainController',
+    'App\Controllers\Faculty\GradesController',
+    'App\Controllers\Faculty\StudentController',
+    'App\Controllers\Student\MainController'
+);
+
+$app->before(function(Request $request, Application $app) use ($protectedControllers) {
+    $currentController = $request->get('_controller')[0];
+    
+    if ($user = Auth::user()) {
+        $provider = $user->getProvider();
+
+        if (!in_array($currentController, $provider->getAllowedControllers())) {
+            return $app->redirect($app->path($provider->getRedirectRoute()));
+        }
+
+        return;
+    };
+
+    if (in_array($currentController, $protectedControllers)) {
+        return $app->redirect($app->path('site.index'));
+    }
+});
 
 $app->error(function (\Exception $e, $code) use ($app) {
     $request = $app['request_stack']->getCurrentRequest();

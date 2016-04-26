@@ -12,7 +12,6 @@
 namespace App\Services\Auth\Provider;
 
 use App\Models\Student;
-use App\Routes\StudentRoute;
 use App\Services\Auth\User;
 
 /**
@@ -32,10 +31,11 @@ class StudentProvider implements AuthProviderInterface
         return 'student.index';
     }
 
-    public function getAllowedRouteGroup()
+    public function getAllowedControllers()
     {
         return array(
-            StudentRoute::class
+            'App\Controllers\MainController',
+            'App\Controllers\Student\MainController'
         );
     }
 

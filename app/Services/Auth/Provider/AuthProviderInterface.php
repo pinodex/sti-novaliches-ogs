@@ -35,9 +35,9 @@ interface AuthProviderInterface
     /**
      * Get protected route group the user has access to
      * 
-     * @return \Silex\ControllerProviderInterface[]
+     * @return object[]
      */
-    public function getAllowedRouteGroup();
+    public function getAllowedControllers();
 
     /**
      * Get user name

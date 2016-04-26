@@ -14,7 +14,6 @@ namespace App\Services\Auth\Provider;
 use App\Services\Hash;
 use App\Services\Auth\User;
 use App\Models\Faculty;
-use App\Routes\FacultyRoute;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -34,10 +33,13 @@ class FacultyProvider implements AuthProviderInterface
         return 'faculty.index';
     }
 
-    public function getAllowedRouteGroup()
+    public function getAllowedControllers()
     {
         return array(
-            FacultyRoute::class
+            'App\Controllers\MainController',
+            'App\Controllers\Faculty\MainController',
+            'App\Controllers\Faculty\GradesController',
+            'App\Controllers\Faculty\StudentController'
         );
     }
 

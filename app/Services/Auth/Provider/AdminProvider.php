@@ -14,8 +14,6 @@ namespace App\Services\Auth\Provider;
 use App\Services\Hash;
 use App\Services\Auth\User;
 use App\Models\Admin;
-use App\Routes\AdminRoute;
-use App\Routes\FacultyRoute;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -35,11 +33,17 @@ class AdminProvider implements AuthProviderInterface
         return 'admin.index';
     }
 
-    public function getAllowedRouteGroup()
+    public function getAllowedControllers()
     {
         return array(
-            AdminRoute::class,
-            FacultyRoute::class
+            'App\Controllers\MainController',
+            'App\Controllers\Admin\MainController',
+            'App\Controllers\Admin\ManageAdminController',
+            'App\Controllers\Admin\ManageFacultyController',
+            'App\Controllers\Admin\ManageStudentController',
+            'App\Controllers\Faculty\MainController',
+            'App\Controllers\Faculty\GradesController',
+            'App\Controllers\Faculty\StudentController'
         );
     }
 
