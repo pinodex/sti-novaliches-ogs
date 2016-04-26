@@ -32,7 +32,7 @@ class MainController
      * 
      * URL: /student/
      */
-    public function index(Application $app)
+    public function index()
     {
         $userModel = Auth::user()->getModel();
 

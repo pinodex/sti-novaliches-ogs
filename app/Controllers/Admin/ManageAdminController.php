@@ -33,7 +33,7 @@ class ManageAdminController
      * 
      * URL: /admin/manage/admin
      */
-    public function manageAdmin(Request $request, Application $app)
+    public function manageAdmin(Request $request)
     {
         if ($page = $request->query->get('page')) {
             Paginator::currentPageResolver(function() use($page) {
