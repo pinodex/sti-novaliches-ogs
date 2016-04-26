@@ -33,7 +33,7 @@ class ManageFacultyController
      * 
      * URL: /admin/manage/faculty
      */
-    public function manageFaculty(Request $request, Application $app)
+    public function manageFaculty(Request $request)
     {
         if ($page = $request->query->get('page')) {
             Paginator::currentPageResolver(function() use($page) {
@@ -128,7 +128,7 @@ class ManageFacultyController
         if ($form->isValid()) {
             $data = $form->getData();
 
-            if ($data['password'] == null) {
+            if ($data['password'] === null) {
                 unset($data['password']);
             }
 

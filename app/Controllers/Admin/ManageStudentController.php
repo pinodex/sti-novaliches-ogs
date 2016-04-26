@@ -78,7 +78,6 @@ class ManageStudentController
                 return $app->redirect($app->path('admin.manage.student.import.1'));
             }
 
-            $mime = $form['file']->getData()->getMimeType();
             $extension = $form['file']->getData()->guessExtension();
             
             $name = ROOT . 'storage/' . sprintf('%s-%s.%s',
@@ -214,7 +213,7 @@ class ManageStudentController
      * 
      * URL: /admin/manage/student/import/4
      */
-    public function studentImport4(Request $request, Application $app) {
+    public function studentImport4(Application $app) {
         if (!$uploadedFile = Session::get('sw_uploaded_file')) {
             return $app->redirect($app->path('admin.manage.student.import.1'));
         }

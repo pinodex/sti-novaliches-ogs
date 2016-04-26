@@ -25,11 +25,17 @@ class MainRoute implements ControllerProviderInterface
     {
         $controller = $app['controllers_factory'];
         
-        $controller->get('/', [MainController::class, 'index'])->bind('site.index');
+        $controller->get('/',
+            array('App\Controllers\MainController', 'index')
+        )->bind('site.index');
 
-        $controller->match('/login', [MainController::class, 'login'])->bind('site.login');
+        $controller->match('/login',
+            array('App\Controllers\MainController', 'login')
+        )->bind('site.login');
 
-        $controller->get('/logout', [MainController::class, 'logout'])->bind('site.logout');
+        $controller->get('/logout',
+            array('App\Controllers\MainController', 'logout')
+        )->bind('site.logout');
         
         return $controller;
     }

@@ -11,18 +11,12 @@
 
 namespace App\Controllers\Faculty;
 
-use Silex\Application;
-use App\Models\Grade;
 use App\Models\Student;
 use App\Services\Form;
 use App\Services\View;
 use App\Services\Helper;
-use App\Services\GradingSheet;
-use App\Services\Session\Session;
-use App\Services\Session\FlashBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type;
-use Symfony\Component\Validator\Constraints as Assert;
 use Illuminate\Pagination\Paginator;
 
 /**

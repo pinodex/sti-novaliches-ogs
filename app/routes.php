@@ -42,7 +42,11 @@ $protectedControllers = array(
 );
 
 $app->before(function(Request $request, Application $app) use ($protectedControllers) {
-    $currentController = $request->get('_controller')[0];
+    $currentController = '';
+    
+    if (is_array($request->get('_controller'))) {
+        $currentController = $request->get('_controller')[0];
+    }
     
     if ($user = Auth::user()) {
         $provider = $user->getProvider();

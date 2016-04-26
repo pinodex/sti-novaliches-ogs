@@ -32,7 +32,7 @@ class MainController
      * 
      * URL: /
      */
-    public function index(Application $app)
+    public function index()
     {
         $destination = 'site.login';
         
