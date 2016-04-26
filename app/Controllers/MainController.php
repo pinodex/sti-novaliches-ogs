@@ -13,7 +13,6 @@ namespace App\Controllers;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type;
 use App\Services\Auth;
 use App\Services\Csrf;
 use App\Services\Form;
@@ -56,14 +55,14 @@ class MainController
 
         $form = Form::create();
         
-        $form->add('id', Type\TextType::class, array(
+        $form->add('id', 'text', array(
             'attr' => array(
                 'autofocus' => true,
                 'placeholder' => 'Student/Faculty Number'
             )
         ));
         
-        $form->add('password', Type\PasswordType::class, array(
+        $form->add('password', 'password', array(
             'attr' => array(
                 'placeholder' => 'Password'
             )

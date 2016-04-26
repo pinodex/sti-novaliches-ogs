@@ -43,13 +43,13 @@ class MainController
             'csrf_protection' => false
         ));
         
-        $form->add('id', Type\TextType::class, array(
+        $form->add('id', 'text', array(
             'label' => 'Search by number',
             'required' => false,
             'data' => $request->query->get('id')
         ));
         
-        $form->add('name', Type\TextType::class, array(
+        $form->add('name', 'text', array(
             'label' => 'Search by name',
             'required' => false,
             'data' => $request->query->get('name')

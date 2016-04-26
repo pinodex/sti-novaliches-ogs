@@ -19,7 +19,6 @@ use App\Services\GradingSheet;
 use App\Services\Session\Session;
 use App\Services\Session\FlashBag;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -56,7 +55,7 @@ class GradesController
 
         $form = Form::create();
 
-        $form->add('file', Type\FileType::class, array(
+        $form->add('file', 'file', array(
             'label' => ' ',
             'constraints' => new Assert\File(array(
                 'mimeTypesMessage' => 'Please upload a valid XLSX/XLSM file',
@@ -128,8 +127,9 @@ class GradesController
 
         $form = Form::create();
 
-        $form->add('choices', Type\ChoiceType::class, array(
+        $form->add('choices', 'choice', array(
             'choices' => $sheets,
+            'choices_as_values' => true,
             'label' => ' ',
             'multiple' => true,
             'expanded' => true,
@@ -199,7 +199,7 @@ class GradesController
         }
 
         $form = Form::create();
-        $form->add('_confirm', Type\HiddenType::class, array(
+        $form->add('_confirm', 'hidden', array(
             'required' => false
         ));
 

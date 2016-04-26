@@ -30,7 +30,7 @@ class Form extends Service
     public static function create($data = null, array $options = array())
     {
         $form = self::$app['form.factory']->createNamedBuilder(
-            null, FormType::class, $data, $options
+            null, 'form', $data, $options
         );
         
         return $form;

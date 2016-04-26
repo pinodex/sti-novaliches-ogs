@@ -69,12 +69,12 @@ class MainController
 
         $form = Form::create();
 
-        $form->add('subject', Type\ChoiceType::class, array(
+        $form->add('subject', 'choice', array(
             'choices' => $subjectChoices,
             'data' => $subject
         ));
 
-        $form->add('period', Type\ChoiceType::class, array(
+        $form->add('period', 'choice', array(
             'choices' => array(
                 'Prelim' => 'prelim',
                 'Midterm' => 'midterm',
@@ -82,6 +82,7 @@ class MainController
                 'Final' => 'final'
             ),
 
+            'choices_as_values' => true,
             'data' => $period,
             'expanded' => true,
             'label' => ' '

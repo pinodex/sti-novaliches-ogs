@@ -20,7 +20,6 @@ use App\Services\Session\Session;
 use App\Services\Session\FlashBag;
 use App\Constraints as CustomAssert;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -59,7 +58,7 @@ class ManageStudentController
         $form = Form::create();
         $fs = new Filesystem();
 
-        $form->add('file', Type\FileType::class, array(
+        $form->add('file', 'file', array(
             'label' => ' ',
             'attr' => array(
                 'accept' => 'text/csv'
@@ -120,8 +119,9 @@ class ManageStudentController
 
         $form = Form::create();
 
-        $form->add('choices', Type\ChoiceType::class, array(
+        $form->add('choices', 'choice', array(
             'choices' => $sheets,
+            'choices_as_values' => true,
             'label' => ' ',
             'multiple' => true,
             'expanded' => true
@@ -187,7 +187,7 @@ class ManageStudentController
         }
 
         $form = Form::create();
-        $form->add('_confirm', Type\HiddenType::class, array(
+        $form->add('_confirm', 'hidden', array(
             'required' => false
         ));
 
@@ -261,7 +261,7 @@ class ManageStudentController
 
         $form = Form::create($student->toArray());
 
-        $form->add('id', Type\TextType::class, array(
+        $form->add('id', 'text', array(
             'label' => 'Student ID',
 
             'constraints' => array(
@@ -272,7 +272,7 @@ class ManageStudentController
                 )),
 
                 new CustomAssert\UniqueRecord(array(
-                    'model'     => Student::class,
+                    'model'     => 'App\Models\Student',
                     'exclude'   => $student->id,
                     'row'       => 'id',
                     'message'   => 'Student ID already in use.'
@@ -280,10 +280,10 @@ class ManageStudentController
             )
         ));
 
-        $form->add('first_name', Type\TextType::class);
-        $form->add('middle_name', Type\TextType::class);
-        $form->add('last_name', Type\TextType::class);
-        $form->add('course', Type\TextType::class);
+        $form->add('first_name', 'text');
+        $form->add('middle_name', 'text');
+        $form->add('last_name', 'text');
+        $form->add('course', 'text');
 
         $form = $form->getForm();
         $form->handleRequest($request);
@@ -317,7 +317,7 @@ class ManageStudentController
         }
 
         $form = Form::create();
-        $form->add('_confirm', Type\HiddenType::class);
+        $form->add('_confirm', 'hidden');
 
         $form = $form->getForm();
         $form->handleRequest($request);

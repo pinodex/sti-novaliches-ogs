@@ -30,9 +30,9 @@ class Auth extends Service
      * @var array Array of user providers
      */
     private static $providers = array(
-        Provider\StudentProvider::class,
-        Provider\FacultyProvider::class,
-        Provider\AdminProvider::class
+        'App\Services\Auth\Provider\StudentProvider',
+        'App\Services\Auth\Provider\FacultyProvider',
+        'App\Services\Auth\Provider\AdminProvider'
     );
 
     /**

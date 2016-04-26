@@ -18,7 +18,6 @@ use App\Services\Form;
 use App\Services\Session\FlashBag;
 use App\Constraints as CustomAssert;
 use Illuminate\Pagination\Paginator;
-use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -45,7 +44,7 @@ class ManageFacultyController
             'csrf_protection' => false
         ));
         
-        $form->add('name', Type\TextType::class, array(
+        $form->add('name', 'text', array(
             'label' => 'Name',
             'required' => false,
             'data' => $request->query->get('name')
@@ -87,10 +86,10 @@ class ManageFacultyController
 
         $form = Form::create($faculty->toArray());
 
-        $form->add('first_name', Type\TextType::class);
-        $form->add('middle_name', Type\TextType::class);
-        $form->add('last_name', Type\TextType::class);
-        $form->add('department', Type\ChoiceType::class, array(
+        $form->add('first_name', 'text');
+        $form->add('middle_name', 'text');
+        $form->add('last_name', 'text');
+        $form->add('department', 'choice', array(
             'choices' => array(
                 'Accounting Technology' => 'Accounting Technology',
                 'Business Management' => 'Business Management',
@@ -100,17 +99,17 @@ class ManageFacultyController
             )
         ));
 
-        $form->add('username', Type\TextType::class, array(
+        $form->add('username', 'text', array(
             'constraints' => new CustomAssert\UniqueRecord(array(
-                'model'     => Faculty::class,
+                'model'     => 'App\Models\Faculty',
                 'exclude'   => $faculty->username,
                 'row'       => 'username',
                 'message'   => 'Username already in use.'
             ))
         ));
 
-        $form->add('password', Type\RepeatedType::class, array(
-            'type' => Type\PasswordType::class,
+        $form->add('password', 'repeated', array(
+            'type' => 'password',
             'required' => false,
 
             'first_options' => array(
@@ -160,7 +159,7 @@ class ManageFacultyController
         }
 
         $form = Form::create();
-        $form->add('_confirm', Type\HiddenType::class);
+        $form->add('_confirm', 'hidden');
 
         $form = $form->getForm();
         $form->handleRequest($request);

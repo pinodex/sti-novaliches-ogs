@@ -44,7 +44,7 @@ class Grade extends Model
      */
     public function student()
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo('App\Models\Student');
     }
 
     /**

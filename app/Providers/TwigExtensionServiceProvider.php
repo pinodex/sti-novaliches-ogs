@@ -29,26 +29,20 @@ class TwigExtensionServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         $app->extend('twig', function (Twig_Environment $twig, Application $app) {
-            $twig->addFunction(new Twig_SimpleFunction('helper', function ($method, $args = array()) {
-                return call_user_func_array(array(
-                    Helper::class, $method
-                ), $args);
-            }));
-
             $twig->addFunction(new \Twig_SimpleFunction('flashbag', function ($name) use ($app) {
                 return $app['flashbag']->get($name);
             }));
 
             $twig->addFilter(new Twig_SimpleFilter('format_student_id', array(
-                Helper::class, 'formatStudentId'
+                'App\Services\Helper', 'formatStudentId'
             )));
 
             $twig->addFilter(new Twig_SimpleFilter('format_grade', array(
-                Helper::class, 'formatGrade'
+                'App\Services\Helper', 'formatGrade'
             )));
 
             $twig->addFilter(new Twig_SimpleFilter('grade_class', array(
-                Helper::class, 'getGradeClass'
+                'App\Services\Helper', 'getGradeClass'
             )));
 
             return $twig;
