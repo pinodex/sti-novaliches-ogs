@@ -463,6 +463,9 @@ body {
   padding-bottom: 20px;
 }
 @media (min-width: 768px) {
+  body {
+    overflow-y: scroll;
+  }
   body.login-page {
     padding-top: 120px;
   }
@@ -1041,6 +1044,9 @@ form .alert {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+.list-unstyled li + li {
+  margin-top: 5px;
 }
 
 .panel .panel-heading {

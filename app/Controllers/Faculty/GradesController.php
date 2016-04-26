@@ -67,7 +67,11 @@ class GradesController
                     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                     'application/vnd.ms-excel.sheet.macroEnabled.12'
                 )
-            ))
+            )),
+            'attr' => array(
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/vnd.ms-excel.sheet.macroEnabled.12'
+            )
         ));
 
         $form = $form->getForm();

@@ -19,11 +19,12 @@
     <meta property="og:url" content="{{ app.request.uri }}" />
     <meta property="og:description" content="View your grades online." />
     <meta property="og:image" content="" />
-
-    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
-    <!--
+    {% if app.debug %}
+        <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="/assets/css/main.min.css" />
+    {% endif %}
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
-    -->
 
     <title>{{ page_title }} - STI College Novaliches</title>
 </head>
@@ -85,10 +86,11 @@
 
     {% block content %}{% endblock %}
 
-    <script src="/assets/js/vue.js"></script>
-    <script src="/assets/js/app.js"></script>
-    {% if extra_data is defined %}
-        <script>var extraData = {{ extra_data|json_encode|raw }};</script>
+    {% if app.debug %}
+        <script src="/assets/js/vue.js"></script>
+        <script src="/assets/js/app.js"></script>
+    {% else %}
+        <script src="/assets/js/compiled.js"></script>
     {% endif %}
 </body>
 </html>

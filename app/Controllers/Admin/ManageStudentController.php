@@ -22,6 +22,7 @@ use App\Services\Session\Session;
 use App\Services\Session\FlashBag;
 use App\Constraints as CustomAssert;
 use Illuminate\Pagination\Paginator;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,16 +60,13 @@ class ManageStudentController
         Session::remove('sw_contents');
 
         $form = Form::create();
+        $fs = new Filesystem();
 
         $form->add('file', Type\FileType::class, array(
             'label' => ' ',
-            'constraints' => new Assert\File(array(
-                'mimeTypesMessage' => 'Please upload a valid XLSX/XLSM file',
-                'mimeTypes' => array(
-                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                    'application/vnd.ms-excel.sheet.macroEnabled.12'
-                )
-            ))
+            'attr' => array(
+                'accept' => 'text/csv'
+            )
         ));
 
         $form = $form->getForm();
@@ -86,11 +84,17 @@ class ManageStudentController
             $mime = $form['file']->getData()->getMimeType();
             $extension = $form['file']->getData()->guessExtension();
             
-            $uploadedFile = $form['file']->getData()->move(ROOT . 'storage', sprintf('%s-%s.%s',
+            $name = ROOT . 'storage/' . sprintf('%s-%s.%s',
                 date('Y-m-d-H-i-s'), uniqid(), $extension
-            ));
+            );
 
-            Session::set('sw_uploaded_file', $uploadedFile->getPathName());
+            /**
+             * We need to convert it to utf-8 to store special and accented characters
+             */
+            $contents = file_get_contents($form['file']->getData()->getPathName());
+            $fs->dumpFile($name, mb_convert_encoding($contents, 'UTF-8', 'pass'));
+
+            Session::set('sw_uploaded_file', $name);
             
             return $app->redirect($app->path('admin.manage.student.import.2'));
         }
@@ -195,7 +199,7 @@ class ManageStudentController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            //Grade::import($contents);
+            Student::import($contents);
             Session::set('sw_import_done', true);
 
             return $app->redirect($app->path('admin.manage.student.import.4'));
@@ -204,7 +208,7 @@ class ManageStudentController
         return VieW::render('admin/manage/student/import/3', array(
             'current_step' => 3,
             'confirm_form' => $form->createView(),
-            'row_count' => $row_count
+            'row_count' => $rowCount
         ));
     }
 

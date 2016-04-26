@@ -140,4 +140,28 @@ class Student extends Model
 
         return $result->paginate(50);
     }
+
+    /**
+     * Import data to database
+     * 
+     * @param array $data Array of students
+     */
+    public static function import($data)
+    {
+        foreach ($data as $sheet) {
+            $chunks = array_chunk($sheet, 500);
+
+            foreach ($chunks as $students) {
+                $values = array();
+                $bindings = array();
+
+                foreach ($students as $i => $student) {
+                    $values[] = '(?,?,?,?,?)';
+                    $bindings = array_merge($bindings, array_values($student));
+                }
+
+                DB::insert('insert ignore into students values ' . implode(',', $values), $bindings);
+            }
+        }
+    }
 }

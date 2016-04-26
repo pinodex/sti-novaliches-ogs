@@ -74,14 +74,14 @@
                             {% set index = index + 1 %}
                         {% endfor %}
 
+                        <p><em>Importing to database may take several seconds depending on the amount of records to be imported. Please don't close this window/tab while importing.</em></p>
+
                         <form method="post" action="{{ app.request.getRequestUri }}">
                             {{ form_widget(confirm_form) }}
 
                             <a href="{{ path('faculty.grades.import.2') }}" class="button neutral"><span class="icon-navigate_before"></span> Back</a>
                             <button type="submit" class="success">Confirm and save changes <span class="icon-navigate_next"></span></button>
                         </form>
-
-                        <p><em>Importing to database may take several seconds depending on the amount of records to be imported. Please don't close this window/tab while importing.</em></p>
                     </div>
                 </div>
             </div>

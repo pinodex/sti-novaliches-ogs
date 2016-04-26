@@ -27,6 +27,8 @@ body {
     padding-bottom: 20px;
 
     @media (min-width: $grid-float-breakpoint) {
+        overflow-y: scroll;
+        
         &.login-page {
             padding-top: 120px;
         }
@@ -422,6 +424,10 @@ form {
     list-style: none;
     margin: 0;
     padding: 0;
+
+    li + li {
+        margin-top: 5px;
+    }
 }
 
 .panel {

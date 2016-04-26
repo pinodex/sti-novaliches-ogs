@@ -65,7 +65,7 @@ class OmegaSheet
         foreach ($this->excel as $i => $row) {
             if ($i > 0 && Helper::isStudentId($row[0])) {
                 $output[] = array(
-                    'id' => $row[0],
+                    'id'          => $row[0],
                     'last_name'   => $row[1],
                     'first_name'  => $row[2],
                     'middle_name' => $row[3],

@@ -16,7 +16,7 @@ use App\Routes\Admin;
 use App\Services\Auth;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 $app->mount('/', new Routes\MainRoute);
 
@@ -48,7 +48,9 @@ $app->before(function(Request $request, Application $app) use ($protectedControl
     if ($user = Auth::user()) {
         $provider = $user->getProvider();
 
-        if (!in_array($currentController, $provider->getAllowedControllers())) {
+        if (in_array($currentController, $protectedControllers) &&
+            !in_array($currentController, $provider->getAllowedControllers())) {
+            
             return $app->redirect($app->path($provider->getRedirectRoute()));
         }
 
@@ -56,19 +58,8 @@ $app->before(function(Request $request, Application $app) use ($protectedControl
     };
 
     if (in_array($currentController, $protectedControllers)) {
-        return $app->redirect($app->path('site.index'));
-    }
-});
-
-$app->error(function (\Exception $e, $code) use ($app) {
-    $request = $app['request_stack']->getCurrentRequest();
-
-    // If the request URL starts with /api,
-    // send a JSON formatted error
-    if (strpos($request->getPathInfo(), '/api') === 0) {
-        return new JsonResponse([
-            'code' => $code,
-            'message' => $e->getMessage()
-        ]);
+        return $app->redirect($app->path('site.login', array(
+            'next' => urlencode($request->getRequestUri())
+        )));
     }
 });
