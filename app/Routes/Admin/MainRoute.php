@@ -13,8 +13,6 @@ namespace App\Routes\Admin;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
-use Symfony\Component\HttpFoundation\Request;
-use App\Services\Auth;
 
 /**
  * Main admin route

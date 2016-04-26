@@ -14,7 +14,6 @@ namespace App\Services\Auth\Provider;
 use App\Services\Hash;
 use App\Services\Auth\User;
 use App\Models\Faculty;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Faculty provider

@@ -13,17 +13,14 @@ namespace App\Controllers\Faculty;
 
 use Silex\Application;
 use App\Models\Grade;
-use App\Models\Student;
 use App\Services\Form;
 use App\Services\View;
-use App\Services\Helper;
 use App\Services\GradingSheet;
 use App\Services\Session\Session;
 use App\Services\Session\FlashBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
-use Illuminate\Pagination\Paginator;
 
 /**
  * Faculty maion controller
@@ -67,11 +64,7 @@ class GradesController
                     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                     'application/vnd.ms-excel.sheet.macroEnabled.12'
                 )
-            )),
-            'attr' => array(
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                'application/vnd.ms-excel.sheet.macroEnabled.12'
-            )
+            ))
         ));
 
         $form = $form->getForm();
@@ -87,8 +80,7 @@ class GradesController
                 
                 return $app->redirect($app->path('faculty.grades.import.1'));
             }
-
-            $mime = $form['file']->getData()->getMimeType();
+            
             $extension = $form['file']->getData()->guessExtension();
             
             $uploadedFile = $form['file']->getData()->move(ROOT . 'storage', sprintf('%s-%s.%s',
@@ -233,7 +225,7 @@ class GradesController
      * 
      * URL: /faculty/grades/import/4
      */
-    public function import4(Request $request, Application $app) {
+    public function import4(Application $app) {
         if (!$uploadedFile = Session::get('gw_uploaded_file')) {
             return $app->redirect($app->path('faculty.grades.import.1'));
         }

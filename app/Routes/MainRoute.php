@@ -13,7 +13,6 @@ namespace App\Routes;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
-use App\Controllers\MainController;
 
 /**
  * Main route

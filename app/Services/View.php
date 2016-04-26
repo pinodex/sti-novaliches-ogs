@@ -11,8 +11,6 @@
 
 namespace App\Services;
 
-use Silex\Application;
-
 /**
  * View renderer wrapper for Twig
  */

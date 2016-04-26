@@ -15,7 +15,6 @@ use Silex\Application;
 use App\Services\Auth;
 use App\Services\Form;
 use App\Services\View;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

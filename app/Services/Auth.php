@@ -11,7 +11,6 @@
 
 namespace App\Services;
 
-use App\Services\Helper;
 use App\Services\Service;
 use App\Services\Auth\User;
 use App\Services\Auth\Provider;

@@ -16,7 +16,6 @@ use App\Routes\Admin;
 use App\Services\Auth;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 $app->mount('/', new Routes\MainRoute);
 

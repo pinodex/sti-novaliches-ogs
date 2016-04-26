@@ -13,9 +13,6 @@ namespace App\Routes\Faculty;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
-use Symfony\Component\HttpFoundation\Request;
-use App\Controllers\FacultyController;
-use App\Services\Auth;
 
 /**
  * Faculty route

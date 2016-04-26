@@ -13,7 +13,6 @@ namespace App\Services\Auth;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Auth\Provider\AuthProviderInterface;
 
 /**
  * Generic user class

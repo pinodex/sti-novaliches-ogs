@@ -11,6 +11,7 @@
 
 namespace App\Models;
 
+use App\Services\Session\FlashBag;
 use Illuminate\Database\Eloquent\Model;
 
 /**

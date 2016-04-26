@@ -12,7 +12,6 @@
 namespace App\Services\Session;
 
 use App\Models\Session;
-use Illuminate\Database\Capsule\Manager as Capsule;
 
 /**
  * Provides session handler for database

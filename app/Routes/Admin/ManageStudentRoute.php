@@ -13,9 +13,6 @@ namespace App\Routes\Admin;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
-use Symfony\Component\HttpFoundation\Request;
-use App\Controllers\AdminController;
-use App\Services\Auth;
 
 /**
  * Manage faculty admin route

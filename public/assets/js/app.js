@@ -109,7 +109,4 @@
     if (currentPage) {
         app.$set('paginationPage', currentPage);
     }
-
-    // TODO: remove line after this
-    window.app = app;
 }());
