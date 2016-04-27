@@ -85,11 +85,14 @@ class Grade extends Model
      */
     public static function import($data)
     {
+        $importFails = array();
+
         foreach ($data as $subject => $sheet) {
             $subject = explode(' ', $subject)[0];
 
             foreach ($sheet as $row) {
                 if (!$student = Student::find($row['student_id'])) {
+                    $importFails[] = $row['student_id'];
                     continue;
                 }
 
@@ -101,12 +104,18 @@ class Grade extends Model
                 );
 
                 if (!$student->updateGrades($subjects)) {
-                    FlashBag::add('page_errors', 
-                        'An error occurred while updating student ' . $student->id . '. ' .
+                    FlashBag::add('messages', 
+                        'danger>>>An error occurred while updating student ' . $student->id . '. ' .
                         'Please verify the imported data.'
                     );
                 }
             }
+        }
+
+        if (count($importFails) > 0) {
+            FlashBag::add('messages', 'danger>>>Grades for the following student ID was not imported: ' .
+                implode(', ', $importFails)
+            );
         }
     }
 }
