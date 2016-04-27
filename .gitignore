@@ -10,3 +10,5 @@ config/app.php
 
 *.sublime-project
 *.sublime-workspace
+
+composer.lock
