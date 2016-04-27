@@ -111,11 +111,21 @@ class User
         return $this->name;
     }
 
+    /**
+     * Get user role
+     * 
+     * @return string
+     */
     public function getRole()
     {
         return $this->provider->getRole();
     }
 
+    /**
+     * Get serialized user data
+     * 
+     * @return string
+     */
     public function serialize()
     {
         return serialize(array(
