@@ -18,7 +18,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ app.request.uri }}" />
     <meta property="og:description" content="View your grades online." />
-    <meta property="og:image" content="" />
+    <meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() }}/assets/img/og-image.png" />
     {% if app.debug %}
         <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
     {% else %}
