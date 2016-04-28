@@ -93,7 +93,7 @@
             {"type": "Class", "fromName": "App\\Models", "fromLink": "App/Models.html", "link": "App/Models/Grade.html", "name": "App\\Models\\Grade", "doc": "&quot;Grade model&quot;"},
                                                         {"type": "Method", "fromName": "App\\Models\\Grade", "fromLink": "App/Models/Grade.html", "link": "App/Models/Grade.html#method_student", "name": "App\\Models\\Grade::student", "doc": "&quot;Get student from grade model&quot;"},
                     {"type": "Method", "fromName": "App\\Models\\Grade", "fromLink": "App/Models/Grade.html", "link": "App/Models/Grade.html#method_getTopByTermAndSubject", "name": "App\\Models\\Grade::getTopByTermAndSubject", "doc": "&quot;Get top students&quot;"},
-                    {"type": "Method", "fromName": "App\\Models\\Grade", "fromLink": "App/Models/Grade.html", "link": "App/Models/Grade.html#method_import", "name": "App\\Models\\Grade::import", "doc": "&quot;Import data to databas&quot;"},
+                    {"type": "Method", "fromName": "App\\Models\\Grade", "fromLink": "App/Models/Grade.html", "link": "App/Models/Grade.html#method_import", "name": "App\\Models\\Grade::import", "doc": "&quot;Import data to database&quot;"},
             
             {"type": "Class", "fromName": "App\\Models", "fromLink": "App/Models.html", "link": "App/Models/Session.html", "name": "App\\Models\\Session", "doc": "&quot;Session model&quot;"},
                     
