@@ -46,10 +46,14 @@ class Student extends Model
      */
     public function subjects()
     {
-        return Grade::where('student_id', $this->id)
-            ->get(array('subject'))
-            ->pluck('subject')
-            ->toArray();
+         $grades = Grade::where('student_id', $this->id)->get(array('subject'));
+         $subjects = array();
+
+         foreach ($grades as $grade) {
+             $subjects[] = $grade->subject;
+         }
+
+         return $subjects;
     }
 
     /**
