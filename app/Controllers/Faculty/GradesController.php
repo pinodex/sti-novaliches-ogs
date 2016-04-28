@@ -102,7 +102,7 @@ class GradesController
             return $app->redirect($app->path('faculty.grades.import.2'));
         }
 
-        return VieW::render('faculty/grades/import/1', array(
+        return View::render('faculty/grades/import/1', array(
             'upload_form' => $form->createView(),
             'current_step' => 1
         ));
@@ -167,7 +167,7 @@ class GradesController
             return $app->redirect($app->path('faculty.grades.import.3'));
         }
 
-        return VieW::render('faculty/grades/import/2', array(
+        return View::render('faculty/grades/import/2', array(
             'choose_form' => $form->createView(),
             'current_step' => 2
         ));
@@ -213,7 +213,7 @@ class GradesController
             return $app->redirect($app->path('faculty.grades.import.4'));
         }
 
-        return VieW::render('faculty/grades/import/3', array(
+        return View::render('faculty/grades/import/3', array(
             'current_step' => 3,
             'confirm_form' => $form->createView(),
             'spreadsheet_contents' => $contents
@@ -246,7 +246,7 @@ class GradesController
 
         @unlink($uploadedFile);
 
-        return VieW::render('faculty/grades/import/4', array(
+        return View::render('faculty/grades/import/4', array(
             'current_step' => 4
         ));
     }

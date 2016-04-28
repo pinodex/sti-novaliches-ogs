@@ -60,19 +60,25 @@ class GradingSheet
     public function getSheetContents($index)
     {
         $output = array();
+        $subject = '';
         $section = '';
 
         $this->excel->ChangeSheet($index);
 
         foreach ($this->excel as $i => $row) {
-            if ($i == 3) {
+            if (empty($section) && $i == 3) {
                 $section = $row[3];
+            }
+
+            if (empty($subject) && $i == 6) {
+                $subject = explode(' ', $row[0])[0];
             }
 
             if ($i >= 10 && Helper::isStudentId($row[2])) {
                 $output[] = array(
                     'student_id' => $row[2],
                     'name'       => $row[4],
+                    'subject'    => $subject,
                     'section'    => $section,
                     'prelim'     => $row[6],
                     'midterm'    => $row[7],

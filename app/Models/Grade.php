@@ -79,7 +79,7 @@ class Grade extends Model
     }
 
     /**
-     * Import data to databas
+     * Import data to database
      * 
      * @param array $data
      */
@@ -87,28 +87,14 @@ class Grade extends Model
     {
         $importFails = array();
 
-        foreach ($data as $subject => $sheet) {
-            $subject = explode(' ', $subject)[0];
-
+        foreach ($data as $sheet) {
             foreach ($sheet as $row) {
                 if (!$student = Student::find($row['student_id'])) {
                     $importFails[] = $row['student_id'];
                     continue;
                 }
 
-                // Prefer row for insertion
-                unset($row['name']);
-
-                $subjects = array(
-                    $subject => $row
-                );
-
-                if (!$student->updateGrades($subjects)) {
-                    FlashBag::add('messages', 
-                        'danger>>>An error occurred while updating student ' . $student->id . '. ' .
-                        'Please verify the imported data.'
-                    );
-                }
+                $student->updateGrades(array($row));
             }
         }
 

@@ -94,7 +94,7 @@ class ManageStudentController
             return $app->redirect($app->path('admin.manage.student.import.2'));
         }
 
-        return VieW::render('admin/manage/student/import/1', array(
+        return View::render('admin/manage/student/import/1', array(
             'upload_form' => $form->createView(),
             'current_step' => 1
         ));
@@ -149,7 +149,7 @@ class ManageStudentController
             return $app->redirect($app->path('admin.manage.student.import.3'));
         }
 
-        return VieW::render('admin/manage/student/import/2', array(
+        return View::render('admin/manage/student/import/2', array(
             'choose_form' => $form->createView(),
             'current_step' => 2
         ));
@@ -201,7 +201,7 @@ class ManageStudentController
             return $app->redirect($app->path('admin.manage.student.import.4'));
         }
 
-        return VieW::render('admin/manage/student/import/3', array(
+        return View::render('admin/manage/student/import/3', array(
             'current_step' => 3,
             'confirm_form' => $form->createView(),
             'row_count' => $rowCount
@@ -234,7 +234,7 @@ class ManageStudentController
 
         @unlink($uploadedFile);
 
-        return VieW::render('admin/manage/student/import/4', array(
+        return View::render('admin/manage/student/import/4', array(
             'current_step' => 4
         ));
     }

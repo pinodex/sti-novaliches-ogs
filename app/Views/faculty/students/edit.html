@@ -78,20 +78,23 @@
                         </thead>
 
                         <tbody>
-                            {% for grade in grades %}
+                            {% for i,grade in grades %}
                                 <tr>
-                                    <th>{{ grade.subject }}</th>
+                                    <th>
+                                        {{ grade.subject }}
+                                        <input type="hidden" name="grades[{{ i }}][subject]" value="{{ grade.subject }}" />
+                                    </th>
                                     <td>
-                                        <input type="input" class="grade-edit-input" name="subjects[{{ grade.subject }}][prelim]" value="{{ grade.prelim is not null and grade.prelim == 0 ? 'INC' : grade.prelim }}" autocomplete="off" />
+                                        <input type="input" class="grade-edit-input" name="grades[{{ i }}][prelim]" value="{{ grade.prelim is not null and grade.prelim == 0 ? 'INC' : grade.prelim }}" autocomplete="off" />
                                     </td>
                                     <td>
-                                        <input type="input" class="grade-edit-input" name="subjects[{{ grade.subject }}][midterm]" value="{{ grade.midterm is not null and grade.midterm == 0 ? 'INC' : grade.midterm }}" autocomplete="off" />
+                                        <input type="input" class="grade-edit-input" name="grades[{{ i }}][midterm]" value="{{ grade.midterm is not null and grade.midterm == 0 ? 'INC' : grade.midterm }}" autocomplete="off" />
                                     </td>
                                     <td>
-                                        <input type="input" class="grade-edit-input" name="subjects[{{ grade.subject }}][prefinal]" value="{{ grade.prefinal is not null and grade.prefinal == 0 ? 'INC' : grade.prefinal }}" autocomplete="off" />
+                                        <input type="input" class="grade-edit-input" name="grades[{{ i }}][prefinal]" value="{{ grade.prefinal is not null and grade.prefinal == 0 ? 'INC' : grade.prefinal }}" autocomplete="off" />
                                     </td>
                                     <td>
-                                        <input type="input" class="grade-edit-input" name="subjects[{{ grade.subject }}][final]" value="{{ grade.final is not null and grade.final == 0 ? 'INC' : grade.final }}" autocomplete="off" />
+                                        <input type="input" class="grade-edit-input" name="grades[{{ i }}][final]" value="{{ grade.final is not null and grade.final == 0 ? 'INC' : grade.final }}" autocomplete="off" />
                                     </td>
                                 </tr>
                             {% endfor %}

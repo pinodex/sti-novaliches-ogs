@@ -55,25 +55,24 @@ class Student extends Model
     /**
      * Update student grades
      * 
-     * @param array $grades Array of subjects with array of periods
+     * @param array $date Array of grade data
      * 
      * @return boolean
      */
-    public function updateGrades($subjects)
+    public function updateGrades($data)
     {
-        foreach ($subjects as $subject => $grades) {
+        foreach ($data as $row) {
             $query = array(
                 'student_id' => $this->id,
-                'subject' => $subject
+                'subject'    => $row['subject'],
             );
 
-            if (!array_key_exists('prelim', $grades) &&
-                !array_key_exists('midterm', $grades) &&
-                !array_key_exists('prefinal', $grades) &&
-                !array_key_exists('final', $grades)) {
-
-                return false;
-            }
+            $grades = array(
+                'prelim'    => $row['prelim'],
+                'midterm'   => $row['midterm'],
+                'prefinal'  => $row['prefinal'],
+                'final'     => $row['final'],
+            );
 
             foreach ($grades as $period => $grade) {
                 if (trim($grade) == '') {
@@ -94,7 +93,7 @@ class Student extends Model
                     continue;
                 }
 
-                if (!preg_match('/((?![0-5])[0-9]{2,3})|((?i)INC)/', $grade)) {
+                if (!preg_match('/((?![0-5])[0-9]{2,3})/', $grade)) {
                     unset($grades[$period]);
                 }
             }
@@ -102,14 +101,10 @@ class Student extends Model
             if (Grade::where($query)->first()) {
                 Grade::where($query)->update($grades);
             } else {
-                $grades['student_id'] = $this->id;
-                $grades['subject'] = $subject;
-
-                Grade::create($grades);
+                Grade::create($row);
             }
-        }
 
-        return true;
+        }
     }
 
     /**

@@ -63,9 +63,23 @@ class StudentController
             )));
         }
 
+        $subjectSet = array();
+
+        foreach ($grades as $grade) {
+            $subjectSet[] = $grade['subject'];
+        }
+
         if ($request->getMethod() == 'POST') {
-            $subjects = $request->request->get('subjects');
-            $student->updateGrades($subjects);
+            $gradesInput = $request->request->get('grades');
+
+            // Check if the input subjects matches the current subject set
+            foreach ($gradesInput as $i => $inputItem) {
+                if (!in_array($inputItem['subject'], $subjectSet)) {
+                    unset($gradesInput[$i]);
+                }
+            }
+
+            $student->updateGrades($gradesInput);
 
             return $app->redirect($app->path('faculty.students.view', array(
                 'id' => $id
