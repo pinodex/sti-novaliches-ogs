@@ -24,8 +24,7 @@
     {% else %}
         <link rel="stylesheet" type="text/css" href="/assets/css/main.min.css" />
     {% endif %}
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
-
+    <!--<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />-->
     <title>{{ page_title }} - STI College Novaliches</title>
 </head>
 <body class="{{ body_class | default('') }}" id="app">
@@ -66,8 +65,11 @@
                         {% endif %}
                     </ul>
                     <ul class="right">
-                        <li>
-                            <span><strong>{{ current_user.getName()|title }}</strong></span>
+                        <li{{ active_nav == 'settings' ? ' class="active"'}}>
+                            <a href="{{ path('site.settings') }}">
+                                <span class="icon-settings"></span>
+                                <strong>{{ current_user.getModel.name }}</strong>
+                            </a>
                         </li>
                         <li>
                             <a href="{{ path('site.logout', {_token: csrf_token('logout')}) }}">Logout</a>
@@ -78,13 +80,15 @@
         </div>
     </div>
 
-    <div class="container">
-        {% for error in flashbag('messages') %}
-            <div class="alert alert-{{ error|split('>>>')[0] }}">{{ error|split('>>>')[1] }}</div>
-        {% endfor %}
-    </div>
+    <div id="page-content">
+        <div class="container">
+            {% for error in flashbag('messages') %}
+                <div class="alert alert-{{ error|split('>>>')[0] }}">{{ error|split('>>>')[1] }}</div>
+            {% endfor %}
+        </div>
 
-    {% block content %}{% endblock %}
+        {% block content %}{% endblock %}
+    </div>
 
     {% if app.debug %}
         <script src="/assets/js/vue.js"></script>

@@ -18,7 +18,7 @@ use App\Models\Admin;
 /**
  * Admin provider
  * 
- * Provides user model and authentication for admin users
+ * Provides authentication for admin model
  */
 class AdminProvider implements AuthProviderInterface
 {
@@ -29,29 +29,17 @@ class AdminProvider implements AuthProviderInterface
 
     public function getRedirectRoute()
     {
-        return 'admin.index';
+        return 'dashboard.index';
     }
 
     public function getAllowedControllers()
     {
         return array(
-            'App\Controllers\MainController',
-            'App\Controllers\Admin\MainController',
-            'App\Controllers\Admin\ManageAdminController',
-            'App\Controllers\Admin\ManageFacultyController',
-            'App\Controllers\Admin\ManageStudentController',
-            'App\Controllers\Faculty\MainController',
-            'App\Controllers\Faculty\GradesController',
-            'App\Controllers\Faculty\StudentController'
-        );
-    }
-
-    public function getName(User $user)
-    {
-        $model = $user->getModel();
-
-        return sprintf('%s, %s %s',
-            $model->last_name, $model->first_name, $model->middle_name
+            'App\Controllers\Dashboard\MainController',
+            'App\Controllers\Dashboard\Admin\AdminsController',
+            'App\Controllers\Dashboard\Admin\HeadsController',
+            'App\Controllers\Dashboard\Admin\FacultiesController',
+            'App\Controllers\Dashboard\Admin\DepartmentsController',
         );
     }
 
@@ -62,10 +50,13 @@ class AdminProvider implements AuthProviderInterface
                 return false;
             }
 
+            $user->last_login_at = date('Y-m-d H:i:s');
+
             if (Hash::needsRehash($user->password)) {
                 $user->password = Hash::make($password);
-                $user->save();
             }
+
+            $user->save();
 
             return new User($this, $user);
         }

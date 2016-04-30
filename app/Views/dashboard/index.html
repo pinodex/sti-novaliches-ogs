@@ -1,0 +1,71 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'Dashboard' %}
+
+{% block content %}
+    <div class="container">
+        <h1>Dashboard</h1>
+
+        <ul>
+            <li>
+                Administration
+
+                <ul>
+                    <li>
+                        <a href="{{ path('dashboard.admins') }}">Site admins</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('dashboard.heads') }}">Head accounts</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('dashboard.faculties') }}">Faculty accounts</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('dashboard.departments') }}">Departments</a>
+                    </li>
+                    <li>
+                        <a href="#">Class Sections</a>
+                    </li>
+                    <li>
+                        <a href="#">Student Master List</a>
+                    </li>
+                    <li>
+                        <a href="#">School Status Settings</a>
+                    </li>
+                    <li>
+                        <a href="#">Maintenance</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                Department Head
+
+                <ul>
+                    <li>
+                        <a href="#">View faculties</a>
+                    </li>
+                    <li>
+                        <a href="#">Student List</a>
+                    </li>
+                    <li>
+                        <a href="#">Import Grades</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                Department Faculty
+
+                <ul>
+                    <li>
+                        <a href="#">Student List</a>
+                    </li>
+                    <li>
+                        <a href="#">Import Grades</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

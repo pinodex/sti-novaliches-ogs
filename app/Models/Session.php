@@ -24,5 +24,9 @@ class Session extends Model
 
     public $incrementing = false;
 
-    protected $fillable = array('id', 'data', 'expiry');
+    protected $fillable = array(
+        'id',
+        'data',
+        'expiry'
+    );
 }

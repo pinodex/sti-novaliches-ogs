@@ -22,18 +22,9 @@ use App\Services\Session\Session;
 class Auth extends Service
 {
     /**
-     * @var User Current logged in user. Used to cache user model for current request.
+     * @var User Current logged in user. Used to cache user for current request.
      */
     private static $user;
-
-    /**
-     * @var array Array of user providers
-     */
-    private static $providers = array(
-        'App\Services\Auth\Provider\StudentProvider',
-        'App\Services\Auth\Provider\FacultyProvider',
-        'App\Services\Auth\Provider\AdminProvider'
-    );
 
     /**
      * Authenticate user by username and password
@@ -45,7 +36,7 @@ class Auth extends Service
      */
     public static function attempt($username, $password)
     {
-        foreach (self::$providers as $provider) {
+        foreach (self::$app['auth.providers'] as $provider) {
             $user = (new $provider)->attempt($username, $password);
 
             if ($user) {
@@ -73,6 +64,33 @@ class Auth extends Service
                 Session::remove('user');
             }
         }
+    }
+
+    /**
+     * Is user allowed at controller
+     * 
+     * @param string $controller Controller FQCN
+     * 
+     * @return boolean
+     */
+    public static function isAllowed($controller)
+    {
+        if ($user = self::user()) {
+            $provider = $user->getProvider();
+            $disallowed = array_diff(self::$app['auth.protected_controllers'], $provider->getAllowedControllers());
+
+            if (in_array($controller, $disallowed)) {
+                return false;
+            }
+
+            return true;
+        }
+
+        if (in_array($controller, self::$app['auth.protected_controllers'])) {
+            return false;
+        }
+        
+        return true;
     }
 
     /**

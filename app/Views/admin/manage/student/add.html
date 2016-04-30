@@ -1,6 +1,6 @@
 {% extends '/_layout/main-default.html' %}
 
-{% form_theme manage_form '/_layout/form-default.html' %}
+{% form_theme form '/_layout/form-default.html' %}
 
 {% set page_title = 'Add student' %}
 {% set active_nav = 'admin' %}
@@ -12,7 +12,7 @@
         <div class="grid">
             <div class="column-4">
                 <form method="post" action="{{ app.request.getRequestUri }}">
-                    {{ form_widget(manage_form) }}
+                    {{ form_widget(form) }}
                     
                     <button type="submit">Save <span class="icon-navigate_next"></span></button>
                 </form>

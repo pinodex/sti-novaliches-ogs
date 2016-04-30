@@ -26,23 +26,23 @@ class ManageAdminRoute implements ControllerProviderInterface
         $controller = $app['controllers_factory'];
 
         $controller->get('/',
-            array('App\Controllers\Admin\ManageAdminController', 'manageAdmin')
+            array('App\Controllers\Admin\ManageAdminController', 'index')
         )->bind('admin.manage.admin');
 
         $controller->get('/search',
-            array('App\Controllers\Admin\ManageAdminController', 'manageAdmin')
+            array('App\Controllers\Admin\ManageAdminController', 'index')
         )->bind('admin.manage.admin.search');
 
         $controller->match('/add',
-            array('App\Controllers\Admin\ManageAdminController', 'editAdmin')
+            array('App\Controllers\Admin\ManageAdminController', 'edit')
         )->bind('admin.manage.admin.add')->value('id', null);
 
         $controller->match('/{id}/edit',
-            array('App\Controllers\Admin\ManageAdminController', 'editAdmin')
+            array('App\Controllers\Admin\ManageAdminController', 'edit')
         )->bind('admin.manage.admin.edit');
 
         $controller->match('/{id}/delete',
-            array('App\Controllers\Admin\ManageAdminController', 'deleteAdmin')
+            array('App\Controllers\Admin\ManageAdminController', 'delete')
         )->bind('admin.manage.admin.delete');
         
         return $controller;

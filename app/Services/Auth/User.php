@@ -97,21 +97,6 @@ class User
     }
 
     /**
-     * Get user name
-     * 
-     * @return string
-     */
-    public function getName()
-    {
-        if ($this->name) {
-            return $this->name;
-        }
-
-        $this->name = $this->provider->getName($this);
-        return $this->name;
-    }
-
-    /**
      * Get user role
      * 
      * @return string
@@ -129,9 +114,9 @@ class User
     public function serialize()
     {
         return serialize(array(
-            'provider' => get_class($this->provider),
-            'model' => get_class($this->model),
-            'userId' => $this->model->id
+            'provider'  => get_class($this->provider),
+            'model'     => get_class($this->model),
+            'userId'    => $this->model->id
         ));
     }
 }

@@ -12,61 +12,68 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Capsule\Manager as DB;
+use App\Traits\HumanReadableDateTrait;
+use App\Traits\HashablePasswordTrait;
+use App\Traits\SearchableTrait;
 use App\Services\Hash;
 
 /**
- * Faculty model
+ * Head model
  * 
- * Faculty model for faculties table
+ * Model class for faculty table
  */
 class Faculty extends Model
 {
-    public $timestamps = false;
-    
+    use HumanReadableDateTrait, HashablePasswordTrait, SearchableTrait;
+
     protected $fillable = array(
         'username',
         'password',
+        'last_name',
         'first_name',
         'middle_name',
-        'last_name',
+        'department_id'
+    );
+
+    protected $hidden = array(
+        'password'
+    );
+
+    private static $searchWithRelations = array(
         'department'
     );
 
-    protected $hidden = array('password');
-
     /**
-     * Auto-hash incoming password
+     * Get department
      * 
-     * @param string $password Password
+     * @return \Illuminate\Database\Eloquent\Relations\Relation
      */
-    public function setPasswordAttribute($password)
+    public function department()
     {
-        $this->attributes['password'] = Hash::make($password);
+        return $this->belongsTo('App\Models\Department');
     }
 
     /**
-     * Search faculty
+     * Get associated faculties
      * 
-     * @param string $id    Student ID
-     * @param string $name  Student name
-     * 
-     * @param array
+     * @return \Illuminate\Database\Eloquent\Relations\Relation
      */
-    public static function search($name = null)
+    public function head()
     {
-        $nameFormats = array(
-            DB::raw("CONCAT(last_name, ' ', first_name, ' ', middle_name)"),
-            DB::raw("CONCAT(last_name, ', ', first_name, ' ', middle_name)"),
-            DB::raw("CONCAT(first_name, ' ', middle_name, ' ', last_name)"),
-            DB::raw("CONCAT(first_name, ' ', last_name)")
-        );
+        return $this->belongsTo('App\Models\Head', 'department_id', 'department_id');
+    }
 
-        $result = self::where($nameFormats[0], 'LIKE', '%' . $name . '%')
-            ->orWhere($nameFormats[1], 'LIKE', '%' . $name . '%')
-            ->orWhere($nameFormats[2], 'LIKE', '%' . $name . '%')
-            ->orWhere($nameFormats[3], 'LIKE', '%' . $name . '%');
+    protected $appends = array(
+        'name'
+    );
 
-        return $result->paginate(50);
+    /**
+     * Get full name
+     * 
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return $this->last_name . ', ' . $this->first_name;
     }
 }

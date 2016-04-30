@@ -57,8 +57,8 @@ class MainController
         
         $form->add('id', 'text', array(
             'attr' => array(
-                'autofocus' => true,
-                'placeholder' => 'Student/Faculty Number'
+                'autofocus'     => true,
+                'placeholder'   => 'Student/Faculty Number'
             )
         ));
         
@@ -83,7 +83,14 @@ class MainController
 
             if (!$user) {
                 Form::flashError('login_form', 'Invalid ID and/or password');
-                return $app->redirect($app->path('site.login'));
+
+                $urlParams = array();
+
+                if ($next = $request->query->get('next')) {
+                    $urlParams['next'] = $next;
+                }
+                
+                return $app->redirect($app->path('site.login', $urlParams));
             }
 
             Auth::login($user);
@@ -115,5 +122,31 @@ class MainController
         }
 
         return $app->redirect($app->path('site.login'));
+    }
+
+    /**
+     * Account settings redirector
+     * 
+     * URL: /settings
+     */
+    public function settings(Application $app)
+    {
+        $destination = 'site.login';
+        
+        if ($user = Auth::user()) {
+            $role = $user->getProvider()->getRole();
+
+            switch ($role) {
+                case 'admin':
+                    $destination = 'admin.settings';
+                    break;
+                
+                case 'faculty':
+                    $destination = 'faculty.settings';
+                    break;
+            }
+        }
+
+        return $app->redirect($app->path($destination));
     }
 }

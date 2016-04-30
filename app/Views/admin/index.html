@@ -8,13 +8,23 @@
         <h1>Administrator</h1>
         <ul>
             <li>
+                <a href="{{ path('dashboard.admins') }}">Manage administrator accounts</a>
+            </li>
+            <li>
                 <a href="{{ path('admin.manage.faculty') }}">Manage faculty accounts</a>
             </li>
+        </ul>
+        <ul>
             <li>
-                <a href="{{ path('admin.manage.admin') }}">Manage administrator accounts</a>
+                <a href="{{ path('admin.departments') }}">Departments</a>
             </li>
             <li>
-                <a href="{{ path('faculty.index') }}">Manage student list</a>
+                <a href="{{ path('faculty.index') }}">Sections</a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <a href="{{ path('faculty.index') }}">Student list</a>
             </li>
         </ul>
     </div>

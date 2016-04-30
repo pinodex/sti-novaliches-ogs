@@ -26,35 +26,35 @@ class ManageStudentRoute implements ControllerProviderInterface
         $controller = $app['controllers_factory'];
 
         $controller->match('/import',
-            array('App\Controllers\Admin\ManageStudentController', 'studentImport')
+            array('App\Controllers\Admin\ManageStudentController', 'import')
         )->bind('admin.manage.student.import');
 
         $controller->match('/import/1',
-            array('App\Controllers\Admin\ManageStudentController', 'studentImport1')
+            array('App\Controllers\Admin\ManageStudentController', 'import1')
         )->bind('admin.manage.student.import.1');
 
         $controller->match('/import/2',
-            array('App\Controllers\Admin\ManageStudentController', 'studentImport2')
+            array('App\Controllers\Admin\ManageStudentController', 'import2')
         )->bind('admin.manage.student.import.2');
 
         $controller->match('/import/3',
-            array('App\Controllers\Admin\ManageStudentController', 'studentImport3')
+            array('App\Controllers\Admin\ManageStudentController', 'import3')
         )->bind('admin.manage.student.import.3');
 
         $controller->match('/import/4',
-            array('App\Controllers\Admin\ManageStudentController', 'studentImport4')
+            array('App\Controllers\Admin\ManageStudentController', 'import4')
         )->bind('admin.manage.student.import.4');
 
         $controller->match('/add',
-            array('App\Controllers\Admin\ManageStudentController', 'editStudent')
+            array('App\Controllers\Admin\ManageStudentController', 'edit')
         )->bind('admin.manage.student.add')->value('id', null);
 
         $controller->match('/{id}/edit',
-            array('App\Controllers\Admin\ManageStudentController', 'editStudent')
+            array('App\Controllers\Admin\ManageStudentController', 'edit')
         )->bind('admin.manage.student.edit');
 
         $controller->match('/{id}/delete',
-            array('App\Controllers\Admin\ManageStudentController', 'deleteStudent')
+            array('App\Controllers\Admin\ManageStudentController', 'delete')
         )->bind('admin.manage.student.delete');
         
         return $controller;

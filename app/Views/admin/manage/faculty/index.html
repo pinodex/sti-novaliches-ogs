@@ -56,7 +56,10 @@
                                 <span class="long">Department</span>
                                 <span class="short">D</span>
                             </th>
-                            <th></th>
+                            <th>
+                                <span class="long">Actions</span>
+                                <span class="short">A</span>
+                            </th>
                         </tr>
                     </thead>
 
@@ -65,7 +68,7 @@
                             <tr>
                                 <td>{{ row.username }}</td>
                                 <td>{{ row.last_name ~ ', ' ~ row.first_name }}</td>
-                                <td>{{ row.department }}</td>
+                                <td>{{ row.department.name }}</td>
                                 <td>
                                     <a href="{{ path('admin.manage.faculty.edit', {id: row.id}) }}">Edit</a>
                                 </td>

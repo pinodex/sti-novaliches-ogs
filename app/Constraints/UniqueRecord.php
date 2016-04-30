@@ -39,5 +39,5 @@ class UniqueRecord extends Constraint
     /**
      * @var string Error message
      */
-    public $message = 'Record already exists.';
+    public $message = 'Record already exists';
 }

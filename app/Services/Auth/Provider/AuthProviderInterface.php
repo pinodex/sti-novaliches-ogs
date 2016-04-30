@@ -40,13 +40,6 @@ interface AuthProviderInterface
     public function getAllowedControllers();
 
     /**
-     * Get user name
-     * 
-     * @return string
-     */
-    public function getName(User $user);
-
-    /**
      * Attempt to login
      * 
      * @return boolean|\App\Services\Auth\User

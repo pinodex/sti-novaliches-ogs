@@ -26,23 +26,23 @@ class ManageFacultyRoute implements ControllerProviderInterface
         $controller = $app['controllers_factory'];
 
         $controller->get('/',
-            array('App\Controllers\Admin\ManageFacultyController', 'manageFaculty')
+            array('App\Controllers\Admin\ManageFacultyController', 'index')
         )->bind('admin.manage.faculty');
 
         $controller->get('/search',
-            array('App\Controllers\Admin\ManageFacultyController', 'manageFaculty')
+            array('App\Controllers\Admin\ManageFacultyController', 'index')
         )->bind('admin.manage.faculty.search');
 
         $controller->match('/add',
-            array('App\Controllers\Admin\ManageFacultyController', 'editFaculty')
+            array('App\Controllers\Admin\ManageFacultyController', 'edit')
         )->bind('admin.manage.faculty.add')->value('id', null);
 
         $controller->match('/{id}/edit',
-            array('App\Controllers\Admin\ManageFacultyController', 'editFaculty')
+            array('App\Controllers\Admin\ManageFacultyController', 'edit')
         )->bind('admin.manage.faculty.edit');
 
         $controller->match('/{id}/delete',
-            array('App\Controllers\Admin\ManageFacultyController', 'deleteFaculty')
+            array('App\Controllers\Admin\ManageFacultyController', 'delete')
         )->bind('admin.manage.faculty.delete');
 
         return $controller;

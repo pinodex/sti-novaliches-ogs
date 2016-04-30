@@ -1,0 +1,23 @@
+{% extends '/_layout/main-default.html' %}
+
+{% form_theme form '/_layout/form-default.html' %}
+
+{% set page_title = 'Edit faculty account' %}
+{% set active_nav = 'admin' %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ page_title }}</h1>
+
+        <div class="grid">
+            <div class="column-4">
+                <form method="post" action="{{ app.request.getRequestUri }}">
+                    {{ form_widget(form) }}
+                    
+                    <button type="submit">Save <span class="icon-navigate_next"></span></button>
+                    <a href="{{ path('dashboard.faculties.delete', {id: faculty.id}) }}" class="button link">Delete Faculty</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

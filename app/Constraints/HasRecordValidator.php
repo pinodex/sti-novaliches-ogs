@@ -16,9 +16,6 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class HasRecordValidator extends ConstraintValidator
 {
-    /**
-     * {@inheritDoc}
-     */
     public function validate($value, Constraint $constraint)
     {
         if ($constraint->exclude && $constraint->exclude == $value) {

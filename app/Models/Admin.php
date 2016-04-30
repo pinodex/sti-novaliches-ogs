@@ -12,61 +12,42 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Capsule\Manager as DB;
-use App\Services\Hash;
+use App\Traits\HumanReadableDateTrait;
+use App\Traits\HashablePasswordTrait;
+use App\Traits\SearchableTrait;
 
 /**
  * Admin model
  * 
- * Admin model for admins table
+ * Model class for admins table
  */
 class Admin extends Model
 {
-    public $timestamps = false;
-
+    use HumanReadableDateTrait, HashablePasswordTrait, SearchableTrait;
+    
     protected $fillable = array(
         'username',
         'password',
+        'last_name',
         'first_name',
         'middle_name',
-        'last_name',
-        'department'
     );
 
-    protected $hidden = array('password');
+    protected $hidden = array(
+        'password'
+    );
+
+    protected $appends = array(
+        'name'
+    );
 
     /**
-     * Auto-hash incoming password
+     * Get full name
      * 
-     * @param string $password Password
+     * @return string
      */
-    public function setPasswordAttribute($password)
+    public function getNameAttribute()
     {
-        $this->attributes['password'] = Hash::make($password);
-    }
-
-    /**
-     * Search admin
-     * 
-     * @param string $id    Student ID
-     * @param string $name  Student name
-     * 
-     * @param array
-     */
-    public static function search($name = null)
-    {
-        $nameFormats = array(
-            DB::raw("CONCAT(last_name, ' ', first_name, ' ', middle_name)"),
-            DB::raw("CONCAT(last_name, ', ', first_name, ' ', middle_name)"),
-            DB::raw("CONCAT(first_name, ' ', middle_name, ' ', last_name)"),
-            DB::raw("CONCAT(first_name, ' ', last_name)")
-        );
-
-        $result = self::where($nameFormats[0], 'LIKE', '%' . $name . '%')
-            ->orWhere($nameFormats[1], 'LIKE', '%' . $name . '%')
-            ->orWhere($nameFormats[2], 'LIKE', '%' . $name . '%')
-            ->orWhere($nameFormats[3], 'LIKE', '%' . $name . '%');
-
-        return $result->paginate(50);
+        return $this->last_name . ', ' . $this->first_name;
     }
 }

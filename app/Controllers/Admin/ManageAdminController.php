@@ -13,6 +13,7 @@ namespace App\Controllers\Admin;
 
 use Silex\Application;
 use App\Models\Admin;
+use App\Models\Department;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Session\FlashBag;
@@ -32,7 +33,7 @@ class ManageAdminController
      * 
      * URL: /admin/manage/admin
      */
-    public function manageAdmin(Request $request)
+    public function index(Request $request)
     {
         if ($page = $request->query->get('page')) {
             Paginator::currentPageResolver(function() use($page) {
@@ -45,57 +46,55 @@ class ManageAdminController
         ));
         
         $form->add('name', 'text', array(
-            'label' => 'Name',
-            'required' => false,
-            'data' => $request->query->get('name')
+            'label'     => 'Name',
+            'required'  => false,
+            'data'      => $request->query->get('name')
         ));
 
         $form = $form->getForm();
-
-        $result = Admin::search(
-            $request->query->get('name')
-        );
+        $result = Admin::search(null, $request->query->get('name'));
 
         return View::render('admin/manage/admin/index', array(
-            'search_form' => $form->createView(),
-            'current_page' => $result->currentPage(),
-            'last_page' => $result->lastPage(),
-            'result' => $result
+            'search_form'   => $form->createView(),
+            'current_page'  => $result->currentPage(),
+            'last_page'     => $result->lastPage(),
+            'result'        => $result
         ));
     }
 
     /**
      * Edit admin account page
      * 
+     * URL: /admin/manage/admin/add
      * URL: /admin/manage/admin/{id}/edit
      */
-    public function editAdmin(Request $request, Application $app, $id)
+    public function edit(Request $request, Application $app, $id)
     {
-        $mode = 'edit';
+        $mode = 'add';
+        $admin = Admin::findOrNew($id);
 
-        if ($id && !$admin = Admin::find($id)) {
+        if ($admin->id != $id) {
             FlashBag::add('messages', 'danger>>>Admin account not found');
-
             return $app->redirect($app->path('admin.manage.admin'));
         }
 
-        if (!$id) {
-            $mode = 'add';
-            $admin = new Admin();
-        }
-
+        $id && $mode = 'edit';
         $form = Form::create($admin->toArray());
 
         $form->add('first_name', 'text');
         $form->add('middle_name', 'text');
         $form->add('last_name', 'text');
-        $form->add('department', 'choice', array(
-            'choices' => array(
-                'Accounting Technology Head' => 'Accounting Technology Head',
-                'Business Management Head' => 'Business Management Head',
-                'General Education Head' => 'General Education Head',
-                'Hotel and Restaurant Management Head' => 'Hotel and Restaurant Management Head',
-                'Information Technology Head' => 'Information Technology Head'
+        $form->add('department_id', 'choice', array(
+            'label'       => 'Department',
+            'choices'     => Department::getFormChoices(),
+            'data'        => $admin->department ? $admin->department->id : null,
+            'constraints' => array(
+                new CustomAssert\UniqueRecord(array(
+                    'model'     => 'App\Models\Admin',
+                    'exclude'   => $admin->department ? $admin->department->id : null,
+                    'row'       => 'department_id',
+                    'message'   => 'The department has head already assigned.'
+                ))
             )
         ));
 
@@ -109,8 +108,8 @@ class ManageAdminController
         ));
 
         $form->add('password', 'repeated', array(
-            'type' => 'password',
-            'required' => false,
+            'type'      => 'password',
+            'required'  => false,
 
             'first_options' => array(
                 'label' => 'Password (leave blank if not changing)'
@@ -140,7 +139,7 @@ class ManageAdminController
         }
 
         return View::render('admin/manage/admin/' . $mode, array(
-            'manage_form' => $form->createView(),
+            'form'  => $form->createView(),
             'admin' => $admin->toArray()
         ));
     }
@@ -150,7 +149,7 @@ class ManageAdminController
      * 
      * URL: /admin/manage/admin/{id}/delete
      */
-    public function deleteAdmin(Request $request, Application $app, $id)
+    public function delete(Request $request, Application $app, $id)
     {
         if (!$admin = Admin::find($id)) {
             FlashBag::add('messages', 'danger>>>Admin account not found');
@@ -173,7 +172,7 @@ class ManageAdminController
         }
 
         return View::render('admin/manage/admin/delete', array(
-            'manage_form' => $form->createView(),
+            'form'  => $form->createView(),
             'admin' => $admin->toArray()
         ));
     }

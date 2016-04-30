@@ -39,5 +39,5 @@ class HasRecord extends Constraint
     /**
      * @var string Error message
      */
-    public $message = 'Record does not exist.';
+    public $message = 'Record does not exist';
 }

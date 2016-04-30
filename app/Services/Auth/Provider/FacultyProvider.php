@@ -18,7 +18,7 @@ use App\Models\Faculty;
 /**
  * Faculty provider
  * 
- * Provides user model and authentication for faculty users
+ * Provides authentication for faculty model
  */
 class FacultyProvider implements AuthProviderInterface
 {
@@ -29,7 +29,7 @@ class FacultyProvider implements AuthProviderInterface
 
     public function getRedirectRoute()
     {
-        return 'faculty.index';
+        return 'dashboard.index';
     }
 
     public function getAllowedControllers()
@@ -41,16 +41,7 @@ class FacultyProvider implements AuthProviderInterface
             'App\Controllers\Faculty\StudentController'
         );
     }
-
-    public function getName(User $user)
-    {
-        $model = $user->getModel();
-
-        return sprintf('%s, %s %s',
-            $model->last_name, $model->first_name, $model->middle_name
-        );
-    }
-
+    
     public function attempt($username, $password)
     {
         if ($user = Faculty::where('username', $username)->first()) {
@@ -58,10 +49,13 @@ class FacultyProvider implements AuthProviderInterface
                 return false;
             }
 
+            $user->last_login_at = date('Y-m-d H:i:s');
+
             if (Hash::needsRehash($user->password)) {
                 $user->password = Hash::make($password);
-                $user->save();
             }
+            
+            $user->save();
 
             return new User($this, $user);
         }

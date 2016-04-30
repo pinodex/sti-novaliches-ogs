@@ -40,8 +40,8 @@ class StudentController
         }
 
         return View::render('faculty/students/view', array(
-            'student' => $student->toArray(),
-            'grades' => $student->grades->toArray()
+            'student'   => $student->toArray(),
+            'grades'    => $student->grades->toArray()
         ));
     }
 
@@ -87,8 +87,8 @@ class StudentController
         }
 
         return View::render('faculty/students/edit', array(
-            'student' => $student,
-            'grades' => $grades
+            'student'   => $student,
+            'grades'    => $grades
         ));
     }
 }

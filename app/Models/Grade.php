@@ -60,8 +60,8 @@ class Grade extends Model
     {
         // Retrieve student section first
         $section = self::where(array(
-            'student_id' => $studentId,
-            'subject' => $subject
+            'student_id'    => $studentId,
+            'subject'       => $subject
         ))->first(array('section'));
 
         if (!$section) {

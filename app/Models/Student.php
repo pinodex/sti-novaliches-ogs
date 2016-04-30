@@ -13,20 +13,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Capsule\Manager as DB;
+use App\Traits\SearchableTrait;
 
 /**
  * Student model
  * 
- * Student model for student table
+ * Model class for student table
  */
 class Student extends Model
 {
-    public $timestamps = false;
-
+    use SearchableTrait;
+    
     public $incrementing = false;
 
     protected $fillable = array(
-        'id', 'last_name', 'first_name', 'middle_name', 'course'
+        'id',
+        'last_name',
+        'first_name',
+        'middle_name',
+        'course'
     );
 
     /**
@@ -46,14 +51,21 @@ class Student extends Model
      */
     public function subjects()
     {
-         $grades = Grade::where('student_id', $this->id)->get(array('subject'));
-         $subjects = array();
+         $grades = Grade::where('student_id', $this->id)->get();
 
-         foreach ($grades as $grade) {
-             $subjects[] = $grade->subject;
-         }
+         return $grades->map(function ($item) {
+            return $item->subject;
+         })->toArray();
+    }
 
-         return $subjects;
+    /**
+     * Get user name
+     * 
+     * @return string
+     */
+    public function getName()
+    {
+        return ucwords($this->last_name . ', ' . $this->first_name);
     }
 
     /**
@@ -109,41 +121,6 @@ class Student extends Model
             }
 
         }
-    }
-
-    /**
-     * Search student
-     * 
-     * @param string $id    Student ID
-     * @param string $name  Student name
-     * 
-     * @param array
-     */
-    public static function search($id = null, $name = null)
-    {
-        $nameFormats = array(
-            DB::raw("CONCAT(last_name, ' ', first_name, ' ', middle_name)"),
-            DB::raw("CONCAT(last_name, ', ', first_name, ' ', middle_name)"),
-            DB::raw("CONCAT(first_name, ' ', middle_name, ' ', last_name)"),
-            DB::raw("CONCAT(first_name, ' ', last_name)")
-        );
-
-        $result = self::orderBy('last_name', 'ASC')
-                      ->orderBy('first_name', 'ASC')
-                      ->orderBy('middle_name', 'ASC');
-
-        if ($id) {
-            $result->where('id', $id);
-        }
-
-        if ($name) {
-            $result->where($nameFormats[0], 'LIKE', '%' . $name . '%')
-                 ->orWhere($nameFormats[1], 'LIKE', '%' . $name . '%')
-                 ->orWhere($nameFormats[2], 'LIKE', '%' . $name . '%')
-                 ->orWhere($nameFormats[3], 'LIKE', '%' . $name . '%');
-        }
-
-        return $result->paginate(50);
     }
 
     /**

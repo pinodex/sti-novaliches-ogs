@@ -58,5 +58,7 @@ $app['session']->start();
 
 Service::setApplication($app);
 
+require 'auth.php';
 require 'routes.php';
+
 return $app;

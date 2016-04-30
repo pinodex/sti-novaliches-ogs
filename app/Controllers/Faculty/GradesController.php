@@ -56,10 +56,10 @@ class GradesController
         $form = Form::create();
 
         $form->add('file', 'file', array(
-            'label' => ' ',
-            'constraints' => new Assert\File(array(
-                'mimeTypesMessage' => 'Please upload a valid XLSX/XLSM file',
-                'mimeTypes' => array(
+            'label'         => ' ',
+            'constraints'   => new Assert\File(array(
+                'mimeTypesMessage'  => 'Please upload a valid XLSX/XLSM file',
+                'mimeTypes'         => array(
                     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                     'application/vnd.ms-excel.sheet.macroEnabled.12'
                 )
@@ -103,8 +103,8 @@ class GradesController
         }
 
         return View::render('faculty/grades/import/1', array(
-            'upload_form' => $form->createView(),
-            'current_step' => 1
+            'upload_form'   => $form->createView(),
+            'current_step'  => 1
         ));
     }
 
@@ -128,12 +128,12 @@ class GradesController
         $form = Form::create();
 
         $form->add('choices', 'choice', array(
-            'choices' => $sheets,
+            'choices'           => $sheets,
             'choices_as_values' => true,
-            'label' => ' ',
-            'multiple' => true,
-            'expanded' => true,
-            'choice_attr' => function($val, $key, $index) {
+            'label'             => ' ',
+            'multiple'          => true,
+            'expanded'          => true,
+            'choice_attr'       => function($val, $key, $index) {
                 if (in_array($key, array('Master', 'Info Sheet', 'Setup', 'Class 1'))) {
                     return array(
                         'disabled' => true,
@@ -168,8 +168,8 @@ class GradesController
         }
 
         return View::render('faculty/grades/import/2', array(
-            'choose_form' => $form->createView(),
-            'current_step' => 2
+            'choose_form'   => $form->createView(),
+            'current_step'  => 2
         ));
     }
 

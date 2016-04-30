@@ -28,6 +28,10 @@ class MainRoute implements ControllerProviderInterface
         $controller->get('/',
             array('App\Controllers\Admin\MainController', 'index')
         )->bind('admin.index');
+
+        $controller->match('/settings',
+            array('App\Controllers\Admin\MainController', 'settings')
+        )->bind('admin.settings');
         
         return $controller;
     }

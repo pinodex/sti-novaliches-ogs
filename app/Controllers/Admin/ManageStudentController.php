@@ -31,11 +31,107 @@ use Symfony\Component\HttpFoundation\Request;
 class ManageStudentController
 {
     /**
+     * Add/Edit student
+     * 
+     * URL: /admin/manage/student/add
+     * URL: /admin/manage/student/{id}/edit
+     */
+    public function edit(Request $request, Application $app, $id)
+    {
+        $mode = 'add';
+        $student = Student::findOrNew($id);
+
+        if ($student->id != $id) {
+            FlashBag::add('messages', 'danger>>>Student not found');
+            return $app->redirect($app->path('faculty.index'));
+        }
+
+        $id && $mode = 'edit';
+        $form = Form::create($student->toArray());
+
+        $form->add('id', 'text', array(
+            'label' => 'Student ID',
+
+            'constraints' => array(
+                new Assert\Regex(array(
+                    'pattern'   => '/([\d+]{3}-[\d+]{4}-[\d+]{4})|([\d+]{3})([\d+]{4})([\d+]{4})/',
+                    'match'     => true,
+                    'message'   => 'Invalid Student ID format'
+                )),
+
+                new CustomAssert\UniqueRecord(array(
+                    'model'     => 'App\Models\Student',
+                    'exclude'   => $student->id,
+                    'row'       => 'id',
+                    'message'   => 'Student ID already in use.'
+                ))
+            )
+        ));
+
+        $form->add('first_name', 'text');
+        $form->add('middle_name', 'text');
+        $form->add('last_name', 'text');
+        $form->add('course', 'text');
+
+        $form = $form->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $student->fill($form->getData());
+            $student->save();
+
+            FlashBag::add('messages', 'success>>>Student has been saved');
+
+            return $app->redirect($app->path('faculty.students.view', array(
+                'id' => $student->id
+            )));
+        }
+
+        return View::render('admin/manage/student/' . $mode, array(
+            'form'      => $form->createView(),
+            'student'   => $student->toArray()
+        ));
+    }
+
+    /**
+     * Delete student
+     * 
+     * URL: /admin/manage/student/{id}/delete
+     */
+    public function delete(Request $request, Application $app, $id)
+    {
+        if (!$student = Student::find($id)) {
+            FlashBag::add('messages', 'danger>>>Student not found');
+
+            return $app->redirect($app->path('faculty.index'));
+        }
+
+        $form = Form::create();
+        $form->add('_confirm', 'hidden');
+
+        $form = $form->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $student->delete();
+
+            FlashBag::add('messages', 'info>>>Student has been deleted');
+
+            return $app->redirect($app->path('faculty.index'));
+        }
+
+        return View::render('admin/manage/student/delete', array(
+            'form'      => $form->createView(),
+            'student'   => $student->toArray()
+        ));
+    }
+
+    /**
      * Student import wizard index
      * 
      * URL: /admin/manage/student/import
      */
-    public function studentImport(Application $app) {
+    public function import(Application $app) {
         return $app->redirect($app->path('admin.manage.student.import.1'));
     }
 
@@ -44,7 +140,7 @@ class ManageStudentController
      * 
      * URL: /admin/manage/student/import/1
      */
-    public function studentImport1(Request $request, Application $app) {
+    public function import1(Request $request, Application $app) {
         if ($uploadedFile = Session::get('sw_uploaded_file')) {
             @unlink($uploadedFile);
         }
@@ -60,7 +156,7 @@ class ManageStudentController
 
         $form->add('file', 'file', array(
             'label' => ' ',
-            'attr' => array(
+            'attr'  => array(
                 'accept' => 'text/csv'
             )
         ));
@@ -95,8 +191,8 @@ class ManageStudentController
         }
 
         return View::render('admin/manage/student/import/1', array(
-            'upload_form' => $form->createView(),
-            'current_step' => 1
+            'upload_form'   => $form->createView(),
+            'current_step'  => 1
         ));
     }
 
@@ -105,7 +201,7 @@ class ManageStudentController
      * 
      * URL: /admin/manage/student/import/2
      */
-    public function studentImport2(Request $request, Application $app) {
+    public function import2(Request $request, Application $app) {
         if (!$uploadedFile = Session::get('sw_uploaded_file')) {
             return $app->redirect($app->path('admin.manage.student.import.1'));
         }
@@ -120,11 +216,11 @@ class ManageStudentController
         $form = Form::create();
 
         $form->add('choices', 'choice', array(
-            'choices' => $sheets,
+            'choices'           => $sheets,
             'choices_as_values' => true,
-            'label' => ' ',
-            'multiple' => true,
-            'expanded' => true
+            'label'             => ' ',
+            'multiple'          => true,
+            'expanded'          => true
         ));
 
         $form = $form->getForm();
@@ -150,8 +246,8 @@ class ManageStudentController
         }
 
         return View::render('admin/manage/student/import/2', array(
-            'choose_form' => $form->createView(),
-            'current_step' => 2
+            'choose_form'   => $form->createView(),
+            'current_step'  => 2
         ));
     }
 
@@ -160,7 +256,7 @@ class ManageStudentController
      * 
      * URL: /admin/manage/student/import/3
      */
-    public function studentImport3(Request $request, Application $app) {
+    public function import3(Request $request, Application $app) {
         if (!$uploadedFile = Session::get('sw_uploaded_file')) {
             return $app->redirect($app->path('admin.manage.student.import.1'));
         }
@@ -202,9 +298,9 @@ class ManageStudentController
         }
 
         return View::render('admin/manage/student/import/3', array(
-            'current_step' => 3,
-            'confirm_form' => $form->createView(),
-            'row_count' => $rowCount
+            'current_step'  => 3,
+            'confirm_form'  => $form->createView(),
+            'row_count'     => $rowCount
         ));
     }
 
@@ -213,7 +309,7 @@ class ManageStudentController
      * 
      * URL: /admin/manage/student/import/4
      */
-    public function studentImport4(Application $app) {
+    public function import4(Application $app) {
         if (!$uploadedFile = Session::get('sw_uploaded_file')) {
             return $app->redirect($app->path('admin.manage.student.import.1'));
         }
@@ -236,103 +332,6 @@ class ManageStudentController
 
         return View::render('admin/manage/student/import/4', array(
             'current_step' => 4
-        ));
-    }
-
-    /**
-     * Add/Edit student
-     * 
-     * URL: /admin/manage/student/add
-     * URL: /admin/manage/student/{id}/edit
-     */
-    public function editStudent(Request $request, Application $app, $id)
-    {
-        $mode = 'edit';
-
-        if ($id && !$student = Student::find($id)) {
-            FlashBag::add('messages', 'danger>>>Student not found');
-            return $app->redirect($app->path('faculty.index'));
-        }
-
-        if (!$id) {
-            $mode = 'add';
-            $student = new Student();
-        }
-
-        $form = Form::create($student->toArray());
-
-        $form->add('id', 'text', array(
-            'label' => 'Student ID',
-
-            'constraints' => array(
-                new Assert\Regex(array(
-                    'pattern' => '/([\d+]{3}-[\d+]{4}-[\d+]{4})|([\d+]{3})([\d+]{4})([\d+]{4})/',
-                    'match' => true,
-                    'message' => 'Invalid Student ID format'
-                )),
-
-                new CustomAssert\UniqueRecord(array(
-                    'model'     => 'App\Models\Student',
-                    'exclude'   => $student->id,
-                    'row'       => 'id',
-                    'message'   => 'Student ID already in use.'
-                ))
-            )
-        ));
-
-        $form->add('first_name', 'text');
-        $form->add('middle_name', 'text');
-        $form->add('last_name', 'text');
-        $form->add('course', 'text');
-
-        $form = $form->getForm();
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $student->fill($form->getData());
-            $student->save();
-
-            FlashBag::add('messages', 'success>>>Student has been saved');
-
-            return $app->redirect($app->path('faculty.index'));
-        }
-
-        return View::render('admin/manage/student/' . $mode, array(
-            'manage_form' => $form->createView(),
-            'student' => $student->toArray()
-        ));
-    }
-
-    /**
-     * Delete student
-     * 
-     * URL: /admin/manage/student/{id}/delete
-     */
-    public function deleteStudent(Request $request, Application $app, $id)
-    {
-        if (!$student = Student::find($id)) {
-            FlashBag::add('messages', 'danger>>>Student not found');
-
-            return $app->redirect($app->path('faculty.index'));
-        }
-
-        $form = Form::create();
-        $form->add('_confirm', 'hidden');
-
-        $form = $form->getForm();
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $student->delete();
-
-            FlashBag::add('messages', 'info>>>Student has been deleted');
-
-            return $app->redirect($app->path('faculty.index'));
-        }
-
-        return View::render('admin/manage/student/delete', array(
-            'manage_form' => $form->createView(),
-            'student' => $student->toArray()
         ));
     }
 }

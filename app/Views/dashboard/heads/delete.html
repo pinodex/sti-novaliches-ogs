@@ -1,0 +1,22 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'Delete head account' %}
+{% set active_nav = 'admin' %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ page_title }}</h1>
+
+        <div class="grid">
+            <div class="column-4">
+                <p>Are you sure you want to delete this account?</p>
+                <form method="post" action="{{ app.request.getRequestUri }}">
+                    {{ form_widget(form) }}
+                    
+                    <a href="{{ path('dashboard.heads.edit', {id: head.id}) }}" class="button neutral">Cancel</a>
+                    <button type="submit">Delete Account <span class="icon-navigate_next"></span></button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

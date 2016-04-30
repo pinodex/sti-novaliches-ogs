@@ -109,4 +109,12 @@
     if (currentPage) {
         app.$set('paginationPage', currentPage);
     }
+
+    /*
+    History.Adapter.bind(window, 'statechange', function() {
+        var state = History.getState();
+
+
+    });
+    */
 }());

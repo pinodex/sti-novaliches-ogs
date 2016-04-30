@@ -44,15 +44,15 @@ class MainController
         ));
         
         $form->add('id', 'text', array(
-            'label' => 'Search by number',
-            'required' => false,
-            'data' => $request->query->get('id')
+            'label'     => 'Search by number',
+            'required'  => false,
+            'data'      => $request->query->get('id')
         ));
         
         $form->add('name', 'text', array(
-            'label' => 'Search by name',
-            'required' => false,
-            'data' => $request->query->get('name')
+            'label'     => 'Search by name',
+            'required'  => false,
+            'data'      => $request->query->get('name')
         ));
 
         $result = array();
@@ -68,10 +68,10 @@ class MainController
         );
 
         return View::render('faculty/index', array(
-            'search_form' => $form->createView(),
-            'current_page' => $result->currentPage(),
-            'last_page' => $result->lastPage(),
-            'result' => $result
+            'search_form'   => $form->createView(),
+            'current_page'  => $result->currentPage(),
+            'last_page'     => $result->lastPage(),
+            'result'        => $result
         ));
     }
 }

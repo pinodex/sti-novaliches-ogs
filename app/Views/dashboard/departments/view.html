@@ -1,0 +1,95 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = department.name ~ ' Department' %}
+{% set active_nav = 'admin' %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ page_title }}</h1>
+
+        <div class="grid">
+            <div class="column-4">
+                <div class="panel">
+                    <div class="panel-heading">Head Info</div>
+                    <div class="panel-body">
+                        <table class="borderless colorless">
+                            <tbody>
+                                <tr class="left-align">
+                                    <td>Name</td>
+                                    <td>{{ department.head ? department.head.name : 'N/A' }}</td>
+                                </tr>
+                                <tr class="left-align">
+                                    <td>Last login</td>
+                                    <td>{{ department.head ? department.head.last_login_at : 'N/A' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-heading"><span class="icon-search"></span> Search Faculty</div>
+                    <div class="panel-body">
+                        <form method="get" action="{{ path('dashboard.departments.view.search', {id: department.id}) }}">
+                            {{ form_widget(search_form) }}
+
+                            <button type="submit"><span class="icon-search"></span> Search</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="column-8">
+                <div class="panel">
+                    <div class="panel-heading">Faculties</div>
+                    <div class="panel-body">
+                        {% if faculties is not empty %}
+                            <select name="pages" v-on:change="changePaginationPage" v-model="paginationPage">
+                                {% for i in 1..last_page %}
+                                    <option value="{{ i }}">Page {{ i }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <span class="long">Name</span>
+                                            <span class="short">N</span>
+                                        </th>
+                                        <th>
+                                            <span class="long">Department</span>
+                                            <span class="short">D</span>
+                                        </th>
+                                        <th>
+                                            <span class="long">Last Login</span>
+                                            <span class="short">L</span>
+                                        </th>
+                                        <th>
+                                            <span class="long">Actions</span>
+                                            <span class="short">A</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for faculty in faculties %}
+                                        <tr>
+                                            <td>{{ faculty.name }}</td>
+                                            <td></td>
+                                            <td>{{ faculty.last_login_at }}</td>
+                                            <td>
+                                                <a href="{{ path('dashboard.faculties.edit', {id: faculty.id}) }}">Edit</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <p>No results</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

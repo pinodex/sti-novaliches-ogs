@@ -17,7 +17,7 @@ use App\Services\Auth\User;
 /**
  * Student provider
  * 
- * Provides user model and authentication for student users
+ * Provides authentication for student model
  */
 class StudentProvider implements AuthProviderInterface
 {
@@ -39,20 +39,11 @@ class StudentProvider implements AuthProviderInterface
         );
     }
 
-    public function getName(User $user)
-    {
-        $model = $user->getModel();
-
-        return sprintf('%s, %s %s',
-            $model->last_name, $model->first_name, $model->middle_name
-        );
-    }
-
     public function attempt($username, $password)
     {
         $user = Student::where(array(
-            'id' => self::parseId($username),
-            'middle_name' => strtoupper($password)
+            'id'            => self::parseId($username),
+            'middle_name'   => strtoupper($password)
         ))->first();
 
         if ($user) {

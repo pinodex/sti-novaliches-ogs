@@ -37,8 +37,8 @@ class MainController
         $userModel = Auth::user()->getModel();
 
         return View::render('student/index', array(
-            'student' => $userModel->toArray(),
-            'grades' => $userModel->grades->toArray()
+            'student'   => $userModel->toArray(),
+            'grades'    => $userModel->grades->toArray()
         ));
     }
 
@@ -70,22 +70,22 @@ class MainController
         $form = Form::create();
 
         $form->add('subject', 'choice', array(
-            'choices' => $subjectChoices,
-            'data' => $subject
+            'choices'   => $subjectChoices,
+            'data'      => $subject
         ));
 
         $form->add('period', 'choice', array(
             'choices' => array(
-                'Prelim' => 'prelim',
-                'Midterm' => 'midterm',
+                'Prelim'    => 'prelim',
+                'Midterm'   => 'midterm',
                 'Pre-final' => 'prefinal',
-                'Final' => 'final'
+                'Final'     => 'final'
             ),
 
             'choices_as_values' => true,
-            'data' => $period,
-            'expanded' => true,
-            'label' => ' '
+            'data'              => $period,
+            'expanded'          => true,
+            'label'             => ' '
         ));
 
         $form = $form->getForm();
@@ -100,11 +100,11 @@ class MainController
         }
         
         return View::render('student/top', array(
-            'browse_form' => $form->createView(),
-            'extra_data' => array('query_result' => $result),
-            'period' => $period,
-            'subject' => $subject,
-            'result' => $result,
+            'browse_form'   => $form->createView(),
+            'extra_data'    => array('query_result' => $result),
+            'period'        => $period,
+            'subject'       => $subject,
+            'result'        => $result,
         ));
     }
 }

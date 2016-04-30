@@ -13,6 +13,7 @@ namespace App\Controllers\Admin;
 
 use Silex\Application;
 use App\Models\Faculty;
+use App\Models\Department;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Session\FlashBag;
@@ -32,7 +33,7 @@ class ManageFacultyController
      * 
      * URL: /admin/manage/faculty
      */
-    public function manageFaculty(Request $request)
+    public function index(Request $request)
     {
         if ($page = $request->query->get('page')) {
             Paginator::currentPageResolver(function() use($page) {
@@ -45,9 +46,9 @@ class ManageFacultyController
         ));
         
         $form->add('name', 'text', array(
-            'label' => 'Name',
-            'required' => false,
-            'data' => $request->query->get('name')
+            'label'     => 'Name',
+            'required'  => false,
+            'data'      => $request->query->get('name')
         ));
 
         $form = $form->getForm();
@@ -57,10 +58,10 @@ class ManageFacultyController
         );
 
         return View::render('admin/manage/faculty/index', array(
-            'search_form' => $form->createView(),
-            'current_page' => $result->currentPage(),
-            'last_page' => $result->lastPage(),
-            'result' => $result
+            'search_form'   => $form->createView(),
+            'current_page'  => $result->currentPage(),
+            'last_page'     => $result->lastPage(),
+            'result'        => $result
         ));
     }
 
@@ -70,33 +71,26 @@ class ManageFacultyController
      * URL: /admin/manage/faculty/add
      * URL: /admin/manage/faculty/{id}/edit
      */
-    public function editFaculty(Request $request, Application $app, $id)
+    public function edit(Request $request, Application $app, $id)
     {
-        $mode = 'edit';
+        $mode = 'add';
+        $faculty = Faculty::findOrNew($id);
 
-        if ($id && !$faculty = Faculty::find($id)) {
+        if ($faculty->id != $id) {
             FlashBag::add('messages', 'danger>>>Faculty account not found');
             return $app->redirect($app->path('admin.manage.faculty'));
         }
 
-        if (!$id) {
-            $mode = 'add';
-            $faculty = new Faculty();
-        }
-
+        $id && $mode = 'edit';
         $form = Form::create($faculty->toArray());
 
         $form->add('first_name', 'text');
         $form->add('middle_name', 'text');
         $form->add('last_name', 'text');
-        $form->add('department', 'choice', array(
-            'choices' => array(
-                'Accounting Technology' => 'Accounting Technology',
-                'Business Management' => 'Business Management',
-                'General Education' => 'General Education',
-                'Hotel and Restaurant Management' => 'Hotel and Restaurant Management',
-                'Information Technology' => 'Information Technology'
-            )
+        $form->add('department_id', 'choice', array(
+            'label'     => 'Department',
+            'choices'   => Department::getFormChoices(),
+            'data'      => $faculty->department ? $faculty->department->id : null
         ));
 
         $form->add('username', 'text', array(
@@ -109,8 +103,8 @@ class ManageFacultyController
         ));
 
         $form->add('password', 'repeated', array(
-            'type' => 'password',
-            'required' => false,
+            'type'      => 'password',
+            'required'  => false,
 
             'first_options' => array(
                 'label' => 'Password (leave blank if not changing)'
@@ -140,8 +134,8 @@ class ManageFacultyController
         }
 
         return View::render('admin/manage/faculty/' . $mode, array(
-            'manage_form' => $form->createView(),
-            'faculty' => $faculty->toArray()
+            'form'      => $form->createView(),
+            'faculty'   => $faculty->toArray()
         ));
     }
 
@@ -150,7 +144,7 @@ class ManageFacultyController
      * 
      * URL: /admin/manage/faculty/{id}/delete
      */
-    public function deleteFaculty(Request $request, Application $app, $id)
+    public function delete(Request $request, Application $app, $id)
     {
         if (!$faculty = Faculty::find($id)) {
             FlashBag::add('messages', 'danger>>>Faculty account not found');
@@ -173,8 +167,8 @@ class ManageFacultyController
         }
 
         return View::render('admin/manage/faculty/delete', array(
-            'manage_form' => $form->createView(),
-            'faculty' => $faculty->toArray()
+            'form'      => $form->createView(),
+            'faculty'   => $faculty->toArray()
         ));
     }
 }

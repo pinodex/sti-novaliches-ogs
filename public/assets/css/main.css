@@ -382,8 +382,8 @@ table {
 
 @font-face {
   font-family: 'icomoon';
-  src: url("fonts/icomoon.eot?rikju8");
-  src: url("fonts/icomoon.eot?rikju8#iefix") format("embedded-opentype"), url("fonts/icomoon.ttf?rikju8") format("truetype"), url("fonts/icomoon.woff?rikju8") format("woff"), url("fonts/icomoon.svg?rikju8#icomoon") format("svg");
+  src: url("fonts/icomoon.eot?mx06vx");
+  src: url("fonts/icomoon.eot?mx06vx#iefix") format("embedded-opentype"), url("fonts/icomoon.ttf?mx06vx") format("truetype"), url("fonts/icomoon.woff?mx06vx") format("woff"), url("fonts/icomoon.svg?mx06vx#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -447,6 +447,10 @@ table {
 
 .icon-search:before {
   content: "\e8b6";
+}
+
+.icon-settings:before {
+  content: "\e8b8";
 }
 
 .icon-key:before {
@@ -1015,6 +1019,10 @@ form > *:last-child {
   margin-bottom: 0;
 }
 form .alert {
+  font-size: 12px;
+}
+
+label {
   font-size: 12px;
 }
 

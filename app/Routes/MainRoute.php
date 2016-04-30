@@ -36,6 +36,10 @@ class MainRoute implements ControllerProviderInterface
         $controller->get('/logout',
             array('App\Controllers\MainController', 'logout')
         )->bind('site.logout');
+
+        $controller->get('/settings',
+            array('App\Controllers\MainController', 'settings')
+        )->bind('site.settings');
         
         return $controller;
     }
