@@ -941,21 +941,6 @@ a.button, input.button[type="button"].link, .button.link {
   background: #003051;
 }
 @media (min-width: 768px) {
-  .top-bar nav ul li span.text {
-    display: none;
-  }
-}
-@media (min-width: 992px) {
-  .top-bar nav ul li span.text {
-    display: inline;
-  }
-}
-@media (min-width: 992px) {
-  .top-bar nav ul li span[class^="icon-"] {
-    display: none;
-  }
-}
-@media (min-width: 768px) {
   .top-bar nav ul li {
     float: left;
   }

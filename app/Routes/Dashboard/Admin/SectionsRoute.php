@@ -9,29 +9,29 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Routes\Admin;
+namespace App\Routes\Dashboard\Admin;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 
 /**
- * Main admin route
+ * Main route
  * 
- * Route group for /admin/ mount
+ * Handles route for /dashboard/sections/ mount
  */
-class DepartmentsRoute implements ControllerProviderInterface
+class SectionsRoute implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
         $controller = $app['controllers_factory'];
-
+        
         $controller->get('/',
-            array('App\Controllers\Admin\DepartmentsController', 'index')
-        )->bind('admin.departments');
+            array('App\Controllers\Dashboard\Admin\SectionsController', 'index')
+        )->bind('dashboard.sections');
 
         $controller->match('/add',
-            array('App\Controllers\Admin\DepartmentsController', 'edit')
-        )->bind('admin.departments.add')->value('id', null);
+            array('App\Controllers\Dashboard\Admin\SectionsController', 'edit')
+        )->bind('dashboard.sections.add')->value('id', null);
         
         return $controller;
     }

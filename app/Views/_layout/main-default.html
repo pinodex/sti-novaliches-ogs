@@ -41,26 +41,13 @@
             <nav v-bind:class="{'active': isNavActive}">
                 {% if current_user is not null %}
                     <ul class="left">
-                        {% if current_user.getRole() == 'admin' %}
-                            <li{{ active_nav == 'admin' ? ' class="active"'}}>
-                                <a href="{{ path('admin.index') }}" title="Admin">
-                                    <span class="icon-person_outline"></span>
-                                    <span class="text">Admin</span>
-                                </a>
+                        {% if current_user.getRole() != 'student' %}
+                            <li>
+                                <a href="{{ path('dashboard.index') }}">Dashboard</a>
                             </li>
-                        {% endif %}
-                        {% if current_user.getRole() == 'faculty' or current_user.getRole() == 'admin' %}
-                            <li{{ active_nav == 'students' ? ' class="active"'}}>
-                                <a href="{{ path('faculty.index') }}" title="Student List">
-                                    <span class="icon-list"></span>
-                                    <span class="text">Students</span>
-                                </a>
-                            </li>
-                            <li{{ active_nav == 'import_grades' ? ' class="active"'}}>
-                                <a href="{{ path('faculty.grades.import') }}" title="Import Grades">
-                                    <span class="icon-file_upload"></span>
-                                    <span class="text">Import Grades</span>
-                                </a>
+                        {% elseif current_user.getRole() == 'student' %}
+                            <li>
+                                <a href="{{ path('student.index') }}">Student</a>
                             </li>
                         {% endif %}
                     </ul>

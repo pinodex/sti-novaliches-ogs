@@ -13,43 +13,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Capsule\Manager as DB;
-use App\Traits\RelationSearchableTrait;
 use App\Traits\ChoosableTrait;
 
 /**
- * Department model
+ * Section model
  * 
- * Model class for departments table
+ * Section model for sections table
  */
-class Department extends Model
+class Section extends Model
 {
-    use RelationSearchableTrait, ChoosableTrait;
+    use ChoosableTrait;
 
     public $timestamps = false;
 
     protected $fillable = array(
-        'name', 'head'
+        'id'
     );
-
-    /**
-     * Get department head
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\Relation
-     */
-    public function head()
-    {
-        return $this->hasOne('App\Models\Head');
-    }
-
-    /**
-     * Get department faculties
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\Relation
-     */
-    public function faculties()
-    {
-        return $this->hasMany('App\Models\Faculty');
-    }
 
     /**
      * Get name for choice display. Used by FormModelChoicesTrait
@@ -58,6 +37,6 @@ class Department extends Model
      */
     public function getChoiceName()
     {
-        return $this->name;
+        return $this->id;
     }
 }

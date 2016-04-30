@@ -12,7 +12,7 @@
 namespace App\Controllers\Dashboard\Admin;
 
 use Silex\Application;
-use App\Models\Admin;
+use App\Models\Section;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Session\FlashBag;
@@ -24,12 +24,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Route controller for administrator management pages
  */
-class AdminsController
+class SectionsController
 {
     /**
      * Manage admin accounts page
      * 
-     * URL: /dashboard/admins/
+     * URL: /dashboard/sections/
      */
     public function index(Request $request)
     {
@@ -43,16 +43,22 @@ class AdminsController
             'csrf_protection' => false
         ));
         
-        $form->add('name', 'text', array(
+        $form->add('id', 'text', array(
             'label'     => 'Name',
             'required'  => false,
             'data'      => $request->query->get('name')
         ));
 
         $form = $form->getForm();
-        $result = Admin::search(null, $request->query->get('name'));
 
-        return View::render('dashboard/admins/index', array(
+        if ($nameQuery = $request->query->get('name')) {
+            $result = Section::where('id', 'LIKE', '%' . $request->query->get('name') . '%')
+                ->paginate(50);
+        } else {
+            $result = Section::paginate(50);
+        }
+
+        return View::render('dashboard/sections/index', array(
             'search_form'   => $form->createView(),
             'result'        => $result->toArray()
         ));
@@ -61,50 +67,30 @@ class AdminsController
     /**
      * Edit admin account page
      * 
-     * URL: /dashboard/admins/add
-     * URL: /dashboard/admins/{id}/edit
+     * URL: /dashboard/sections/add
+     * URL: /dashboard/sections/{id}/edit
      */
     public function edit(Request $request, Application $app, $id)
     {
         $mode = 'add';
-        $admin = Admin::findOrNew($id);
+        $section = Section::findOrNew($id);
 
-        if ($admin->id != $id) {
+        if ($section->id != $id) {
             FlashBag::add('messages', 'danger>>>Admin account not found');
-            return $app->redirect($app->path('dashboard.admins'));
+            return $app->redirect($app->path('dashboard.sections'));
         }
 
         $id && $mode = 'edit';
-        $form = Form::create($admin->toArray());
+        $form = Form::create($section->toArray());
 
-        $form->add('first_name', 'text');
-        $form->add('middle_name', 'text');
-        $form->add('last_name', 'text');
-
-        $form->add('username', 'text', array(
-            'constraints' => new CustomAssert\UniqueRecord(array(
-                'model'     => 'App\Models\Admin',
-                'exclude'   => $admin->username,
-                'row'       => 'username',
-                'message'   => 'Username already in use.'
-            ))
-        ));
-
-        $form->add('password', 'repeated', array(
-            'type'      => 'password',
-            'required'  => false,
-
-            'first_options' => array(
-                'label' => 'Password (leave blank if not changing)'
-            ),
-
-            'second_options' => array(
-                'label' => 'Repeat Password (leave blank if not changing)'
-            ),
-
-            'constraints' => new Assert\Length(array(
-                'min'        => 8,
-                'minMessage' => 'Password should be at least 8 characters long'
+        $form->add('id', 'text', array(
+            'label'         => 'Name',
+            'constraints'   => new CustomAssert\UniqueRecord(array(
+                'model'         => 'App\Models\Section',
+                'exclude'       => $section->id,
+                'comparator'    => 'LIKE',
+                'row'           => 'id',
+                'message'       => 'Section already added.'
             ))
         ));
 
@@ -114,35 +100,33 @@ class AdminsController
         if ($form->isValid()) {
             $data = $form->getData();
 
-            if ($data['password'] === null) {
-                unset($data['password']);
-            }
+            $data['id'] = strtoupper($data['id']);
 
-            $admin->fill($data);
-            $admin->save();
+            $section->fill($data);
+            $section->save();
 
-            FlashBag::add('messages', 'success>>>Admin account has been saved');
+            FlashBag::add('messages', 'success>>>Section has been saved');
 
-            return $app->redirect($app->path('dashboard.admins'));
+            return $app->redirect($app->path('dashboard.sections'));
         }
 
-        return View::render('dashboard/admins/' . $mode, array(
+        return View::render('dashboard/sections/' . $mode, array(
             'form'  => $form->createView(),
-            'admin' => $admin->toArray()
+            'admin' => $section->toArray()
         ));
     }
 
     /**
      * Delete admin account page
      * 
-     * URL: /dashboard/admins/{id}/delete
+     * URL: /dashboard/sections/{id}/delete
      */
     public function delete(Request $request, Application $app, $id)
     {
-        if (!$admin = Admin::find($id)) {
+        if (!$section = Section::find($id)) {
             FlashBag::add('messages', 'danger>>>Admin account not found');
 
-            return $app->redirect($app->path('dashboard.admins'));
+            return $app->redirect($app->path('dashboard.sections'));
         }
 
         $form = Form::create();
@@ -152,16 +136,16 @@ class AdminsController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $admin->delete();
+            $section->delete();
 
             FlashBag::add('messages', 'info>>>Admin account has been deleted');
 
-            return $app->redirect($app->path('dashboard.admins'));
+            return $app->redirect($app->path('dashboard.sections'));
         }
 
-        return View::render('dashboard/admins/delete', array(
+        return View::render('dashboard/sections/delete', array(
             'form'  => $form->createView(),
-            'admin' => $admin->toArray()
+            'admin' => $section->toArray()
         ));
     } 
 }

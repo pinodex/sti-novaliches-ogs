@@ -2,8 +2,7 @@
 
 {% form_theme search_form '/_layout/form-default.html' %}
 
-{% set page_title = 'Students - Faculty Page' %}
-{% set active_nav = 'students' %}
+{% set page_title = 'Students' %}
 
 {% block content %}
     <div class="container">
@@ -15,7 +14,7 @@
                     <div class="panel-heading"><span class="icon-search"></span> Search Student</div>
                     <div class="panel-body">
                         <div class="alert alert-info">Fill any of the fields below</div>
-                        <form method="get" action="{{ path('faculty.search') }}">
+                        <form method="get" action="{{ path('dashboard.students.search') }}">
                             {{ form_widget(search_form) }}
                             <button type="submit"><span class="icon-search"></span> Search</button>
                         </form>
@@ -28,10 +27,10 @@
                         <div class="panel-body">
                             <ul class="list-unstyled">
                                 <li>
-                                    <a href="{{ path('admin.manage.student.import') }}">Upload Omega Students</a>   
+                                    <a href="{{ path('dashboard.students.import') }}">Upload Omega Students</a>   
                                 </li>
                                 <li>
-                                    <a href="{{ path('admin.manage.student.add') }}">Add Student</a>   
+                                    <a href="{{ path('dashboard.students.add') }}">Add Student</a>   
                                 </li> 
                             </ul>
                         </div>
@@ -75,7 +74,7 @@
                                 <td>{{ row.last_name ~ ', ' ~ row.first_name ~ ' ' ~ row.middle_name }}</td>
                                 <td>{{ row.course }}</td>
                                 <td>
-                                    <a href="{{ path('faculty.students.view', {id: row.id}) }}">View</a>
+                                    <a href="{{ path('dashboard.students.view', {id: row.id}) }}">View</a>
                                 </td>
                             </tr>
                         {% endfor %}

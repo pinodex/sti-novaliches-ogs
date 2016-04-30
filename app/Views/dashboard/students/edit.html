@@ -2,12 +2,11 @@
 
 {% form_theme form '/_layout/form-default.html' %}
 
-{% set page_title = 'Department assigner' %}
-{% set active_nav = 'admin' %}
+{% set page_title = 'Edit student' %}
 
 {% block content %}
     <div class="container">
-        <h1>Department assigner</h1>
+        <h1>Edit student</h1>
 
         <div class="grid">
             <div class="column-4">
@@ -15,6 +14,7 @@
                     {{ form_widget(form) }}
                     
                     <button type="submit">Save <span class="icon-navigate_next"></span></button>
+                    <a href="{{ path('dashboard.students.delete', {id: student.id}) }}" class="button link">Delete Student</a>
                 </form>
             </div>
         </div>

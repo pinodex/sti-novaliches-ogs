@@ -55,9 +55,7 @@ class FacultiesController
 
         return View::render('dashboard/faculties/index', array(
             'search_form'   => $form->createView(),
-            'current_page'  => $result->currentPage(),
-            'last_page'     => $result->lastPage(),
-            'result'        => $result
+            'result'        => $result->toArray()
         ));
     }
 
@@ -80,14 +78,17 @@ class FacultiesController
         $id && $mode = 'edit';
         $form = Form::create($head->toArray());
 
+        $departments = Department::getFormChoices();
+        $departments['0'] = 'Unassigned';
+
         $form->add('first_name', 'text');
         $form->add('middle_name', 'text');
         $form->add('last_name', 'text');
 
         $form->add('department_id', 'choice', array(
             'label'         => 'Department',
-            'placeholder'   => 'Choose a department',
-            'choices'       => Department::getFormChoices()
+            'choices'       => $departments,
+            'data'          => $head->department_id ?: '0'
         ));
 
         $form->add('username', 'text', array(

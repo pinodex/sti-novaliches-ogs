@@ -1,7 +1,6 @@
 {% extends '/_layout/main-default.html' %}
 
 {% set page_title = 'Delete student' %}
-{% set active_nav = 'admin' %}
 
 {% block content %}
     <div class="container">
@@ -13,7 +12,7 @@
                 <form method="post" action="{{ app.request.getRequestUri }}">
                     {{ form_widget(form) }}
                     
-                    <a href="{{ path('admin.manage.student.edit', {id: student.id}) }}" class="button neutral">Cancel</a>
+                    <a href="{{ path('dashboard.students.edit', {id: student.id}) }}" class="button neutral">Cancel</a>
                     <button type="submit">Delete Student <span class="icon-navigate_next"></span></button>
                 </form>
             </div>

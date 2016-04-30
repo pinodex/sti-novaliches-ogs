@@ -55,9 +55,7 @@ class HeadsController
 
         return View::render('dashboard/heads/index', array(
             'search_form'   => $form->createView(),
-            'current_page'  => $result->currentPage(),
-            'last_page'     => $result->lastPage(),
-            'result'        => $result
+            'result'        => $result->toArray()
         ));
     }
 
@@ -79,6 +77,9 @@ class HeadsController
 
         $id && $mode = 'edit';
         $form = Form::create($head->toArray());
+        
+        $departments = Department::getFormChoices();
+        $departments['0'] = 'Unassigned';
 
         $form->add('first_name', 'text');
         $form->add('middle_name', 'text');
@@ -86,8 +87,8 @@ class HeadsController
 
         $form->add('department_id', 'choice', array(
             'label'         => 'Department',
-            'placeholder'   => 'Choose a department',
-            'choices'       => Department::getFormChoices(),
+            'choices'       => $departments,
+            'data'          => $head->department_id ?: '0',
             'constraints'   => new CustomAssert\UniqueRecord(array(
                 'model'     => 'App\Models\Head',
                 'exclude'   => $head->department_id,
@@ -128,6 +129,10 @@ class HeadsController
 
         if ($form->isValid()) {
             $data = $form->getData();
+
+            if ($data['department_id'] == '0') {
+                $data['department_id'] = null;
+            }
 
             if ($data['password'] === null) {
                 unset($data['password']);

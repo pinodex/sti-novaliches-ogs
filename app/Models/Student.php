@@ -18,7 +18,7 @@ use App\Traits\SearchableTrait;
 /**
  * Student model
  * 
- * Model class for student table
+ * Model class for students table
  */
 class Student extends Model
 {
@@ -130,6 +130,8 @@ class Student extends Model
      */
     public static function import($data)
     {
+        $timestamp = date('Y-m-d H:i:s');
+
         foreach ($data as $sheet) {
             $chunks = array_chunk($sheet, 500);
 
@@ -138,7 +140,7 @@ class Student extends Model
                 $bindings = array();
 
                 foreach ($students as $i => $student) {
-                    $values[] = '(?,?,?,?,?)';
+                    $values[] = '(?, ?, ?, ?, ?, "' . $timestamp . '", "' . $timestamp . '")';
                     $bindings = array_merge($bindings, array_values($student));
                 }
 

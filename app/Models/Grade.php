@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Grade model
  * 
- * Grade model for grade table
+ * Model class for grades table
  */
 class Grade extends Model
 {

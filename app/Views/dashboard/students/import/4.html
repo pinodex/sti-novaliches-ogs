@@ -1,22 +1,21 @@
 {% extends '/_layout/main-default.html' %}
 
-{% set page_title = 'Grades Import Wizard' %}
-{% set active_nav = 'import_grades' %}
+{% set page_title = 'Students import wizard' %}
 
 {% block content %}
     <div class="container">
-        <h1><span class="icon-file_upload"></span> Grades Import Wizard</h1>
+        <h1><span class="icon-file_upload"></span> {{ page_title }}</h1>
 
         <div class="grid">
-            {% include '/faculty/grades/import/steps.html' %}
+            {% include '/admin/manage/student/import/steps.html' %}
 
             <div class="column-8">
                 <div class="panel">
                     <div class="panel-heading">Finished</div>
                     <div class="panel-body">
                         <div>Import finished.</div>
-                        <p><a href="{{ path('faculty.index') }}">Back to faculty page</a></p>
-                        <p><a href="{{ path('faculty.grades.import') }}">Import another grades</a></p>
+
+                        <p><a href="{{ path('dashboard.students') }}">View student list</a></p>
                     </div>
                 </div>
             </div>

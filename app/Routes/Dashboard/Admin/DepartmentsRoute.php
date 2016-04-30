@@ -39,10 +39,6 @@ class DepartmentsRoute implements ControllerProviderInterface
             array('App\Controllers\Dashboard\Admin\DepartmentsController', 'view')
         )->bind('dashboard.departments.view.search');
 
-        $controller->match('/{id}/assigner',
-            array('App\Controllers\Dashboard\Admin\DepartmentsController', 'assigner')
-        )->bind('dashboard.departments.assigner');
-
         $controller->match('/{id}/edit',
             array('App\Controllers\Dashboard\Admin\DepartmentsController', 'edit')
         )->bind('dashboard.departments.edit');

@@ -27,6 +27,8 @@ $app->mount('/dashboard/admins',        new Dashboard\Admin\AdminsRoute);
 $app->mount('/dashboard/heads',         new Dashboard\Admin\HeadsRoute);
 $app->mount('/dashboard/faculties',     new Dashboard\Admin\FacultiesRoute);
 $app->mount('/dashboard/departments',   new Dashboard\Admin\DepartmentsRoute);
+$app->mount('/dashboard/sections',      new Dashboard\Admin\SectionsRoute);
+$app->mount('/dashboard/students',      new Dashboard\Admin\StudentsRoute);
 
 $app->mount('/faculty', new Faculty\MainRoute);
 $app->mount('/faculty/grades', new Faculty\GradesRoute);

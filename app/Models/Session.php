@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Session model
  * 
- * Session model for sessions table
+ * Model class for sessions table
  */
 class Session extends Model
 {

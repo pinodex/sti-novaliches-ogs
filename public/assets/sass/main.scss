@@ -295,22 +295,6 @@ a.button {
                     }
                 }
 
-                span.text {
-                    @media (min-width: $grid-float-breakpoint) {
-                        display: none;
-                    }
-
-                    @media (min-width: 992px) {
-                        display: inline;
-                    }
-                }
-
-                span[class^="icon-"] {
-                    @media (min-width: 992px) {
-                        display: none;
-                    }
-                }
-
                 @media (min-width: $grid-float-breakpoint) {
                     float: left;
                 }

@@ -35,7 +35,7 @@
 
             <div class="column-8">
                 <select name="pages" v-on:change="changePaginationPage" v-model="paginationPage">
-                    {% for i in 1..last_page %}
+                    {% for i in 1..result.last_page %}
                         <option value="{{ i }}">Page {{ i }}</option>
                     {% endfor %}
                 </select>
@@ -63,10 +63,10 @@
                     </thead>
 
                     <tbody>
-                        {% for row in result %}
+                        {% for row in result.data %}
                             <tr>
                                 <td>{{ row.name }}</td>
-                                <td>{{ row.department.name }}</td>
+                                <td>{{ row.department ? row.department.name : 'Unassigned' }}</td>
                                 <td>{{ row.last_login_at }}</td>
                                 <td>
                                     <a href="{{ path('dashboard.heads.edit', {id: row.id}) }}">Edit</a>

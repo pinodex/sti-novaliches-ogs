@@ -1,11 +1,12 @@
 {% extends '/_layout/main-default.html' %}
 
-{% set page_title = 'Students Import Wizard' %}
-{% set active_nav = 'admin' %}
+{% form_theme confirm_form '/_layout/form-default.html' %}
+
+{% set page_title = 'Students import wizard' %}
 
 {% block content %}
     <div class="container">
-        <h1><span class="icon-file_upload"></span> Students Import Wizard</h1>
+        <h1><span class="icon-file_upload"></span> {{ page_title }}</h1>
 
         <div class="grid">
             {% include '/admin/manage/student/import/steps.html' %}
@@ -21,7 +22,7 @@
                         <form method="post" action="{{ app.request.getRequestUri }}">
                             {{ form_widget(confirm_form) }}
 
-                            <a href="{{ path('admin.manage.student.import.2') }}" class="button neutral"><span class="icon-navigate_before"></span> Back</a>
+                            <a href="{{ path('dashboard.students.import.2') }}" class="button neutral"><span class="icon-navigate_before"></span> Back</a>
                             <button type="submit" class="success">Confirm and save changes <span class="icon-navigate_next"></span></button>
                         </form>
                     </div>

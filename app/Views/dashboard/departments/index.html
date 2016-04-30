@@ -1,7 +1,6 @@
 {% extends '/_layout/main-default.html' %}
 
 {% set page_title = 'Departments' %}
-{% set active_nav = 'admin' %}
 
 {% block content %}
     <div class="container">
@@ -48,7 +47,7 @@
                         {% for department in departments %}
                             <tr>
                                 <td>{{ department.name }}</td>
-                                <td>{{ department.head ? (department.head.last_name ~ ', ' ~ department.head.first_name) : 'N/A' }}</td>
+                                <td>{{ department.head ? department.head.name : 'N/A' }}</td>
                                 <td>{{ department.faculties|length }}</td>
                                 <td>
                                     <a href="{{ path('dashboard.departments.view', {id: department.id}) }}">View</a>

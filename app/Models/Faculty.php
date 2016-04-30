@@ -20,7 +20,7 @@ use App\Services\Hash;
 /**
  * Head model
  * 
- * Model class for faculty table
+ * Model class for faculties table
  */
 class Faculty extends Model
 {

@@ -93,7 +93,7 @@ class DepartmentsController
             return $app->redirect($app->path('dashboard.departments'));
         }
 
-        $form = Form::create();
+        $form = Form::create($department->toArray());
 
         $form->add('name', 'text', array(
             'label' => 'Department Name'
@@ -107,29 +107,15 @@ class DepartmentsController
             $department->save();
 
             FlashBag::add('messages', 'success>>>Department has been saved');
-
-            if ($mode == 'add') {
-                return $app->redirect($app->path('dashboard.departments.assigner', array(
-                    'id' => $department->id
-                )));
-            }
-
-            return $app->redirect($app->path('dashboard.departments.assigner'));
+            
+            return $app->redirect($app->path('dashboard.departments.view', array(
+                'id' => $department->id
+            )));
         }
 
         return View::render('dashboard/departments/' . $mode, array(
             'department'    => $department,
             'form'          => $form->createView()
         ));
-    }
-
-    /**
-     * Admin department assigner page
-     * 
-     * URL: /dashboard/departments/{id}/assigner
-     */
-    public function assigner(Request $request, Application $app, $id)
-    {
-
     }
 }
