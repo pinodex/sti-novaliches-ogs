@@ -30,15 +30,6 @@ $app->mount('/dashboard/departments',   new Dashboard\Admin\DepartmentsRoute);
 $app->mount('/dashboard/sections',      new Dashboard\Admin\SectionsRoute);
 $app->mount('/dashboard/students',      new Dashboard\Admin\StudentsRoute);
 
-$app->mount('/faculty', new Faculty\MainRoute);
-$app->mount('/faculty/grades', new Faculty\GradesRoute);
-$app->mount('/faculty/student', new Faculty\StudentRoute);
-
-$app->mount('/admin', new Admin\MainRoute);
-$app->mount('/admin/manage/admin', new Admin\ManageAdminRoute);
-$app->mount('/admin/manage/faculty', new Admin\ManageFacultyRoute);
-$app->mount('/admin/manage/student', new Admin\ManageStudentRoute);
-
 $app->before(function(Request $request, Application $app) {
     $currentController = '';
     
