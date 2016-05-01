@@ -8,12 +8,12 @@
 
         <div class="grid">
             <div class="column-4">
-                <p>Are you sure you want to delete this faculty?</p>
+                <p>Are you sure you want to delete <strong>{{ faculty.name }}</strong>?</p>
                 <form method="post" action="{{ app.request.getRequestUri }}">
                     {{ form_widget(form) }}
                     
                     <a href="{{ path('dashboard.faculties.edit', {id: faculty.id}) }}" class="button neutral">Cancel</a>
-                    <button type="submit">Delete Faculty <span class="icon-navigate_next"></span></button>
+                    <button type="submit" class="danger">Delete Faculty <span class="icon-navigate_next"></span></button>
                 </form>
             </div>
         </div>

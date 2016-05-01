@@ -13,23 +13,23 @@
                     <div class="panel-body">
                         <table class="borderless colorless">
                             <tbody>
-                                <tr class="left-align">
+                                <tr>
                                     <td>Student #</td>
                                     <td>{{ student.id }}</td>
                                 </tr>
-                                <tr class="left-align">
+                                <tr>
                                     <td>Last Name</td>
                                     <td>{{ student.last_name }}</td>
                                 </tr>
-                                <tr class="left-align">
+                                <tr>
                                     <td>First Name</td>
                                     <td>{{ student.first_name }}</td>
                                 </tr>
-                                <tr class="left-align">
+                                <tr>
                                     <td>Middle Name</td>
                                     <td>{{ student.middle_name }}</td>
                                 </tr>
-                                <tr class="left-align">
+                                <tr>
                                     <td>Course</td>
                                     <td>{{ student.course }}</td>
                                 </tr>
@@ -50,7 +50,7 @@
                 <form action="{{ app.request.getRequestUri }}" method="post">
                     <input type="hidden" name="_token" value="{{ csrf_token('student.grades.edit') }}" />
 
-                    <table>
+                    <table class="center-align">
                         <thead>
                             <tr>
                                 <th>

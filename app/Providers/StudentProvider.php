@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Services\Auth\Provider;
+namespace App\Providers;
 
 use App\Models\Student;
-use App\Services\Auth\User;
+use App\Services\User;
 
 /**
  * Student provider

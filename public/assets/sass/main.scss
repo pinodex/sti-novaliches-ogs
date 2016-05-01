@@ -502,15 +502,7 @@ table {
             background: #eee;
         }
 
-        tr.left-align {
-            td {
-                text-align: left;
-            }
-        }
-
         td {
-            text-align: center;
-
             &.none {
                 color: #999;
             }
@@ -542,6 +534,12 @@ table {
     &.colorless {
         tr:nth-child(even) {
             background: none;
+        }
+    }
+
+    &.center-align {
+        td {
+            text-align: center;
         }
     }
 }

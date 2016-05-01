@@ -32,6 +32,14 @@ class SectionsRoute implements ControllerProviderInterface
         $controller->match('/add',
             array('App\Controllers\Dashboard\Admin\SectionsController', 'edit')
         )->bind('dashboard.sections.add')->value('id', null);
+
+        $controller->match('/{id}/edit',
+            array('App\Controllers\Dashboard\Admin\SectionsController', 'edit')
+        )->bind('dashboard.sections.edit');
+
+        $controller->match('/{id}/delete',
+            array('App\Controllers\Dashboard\Admin\SectionsController', 'delete')
+        )->bind('dashboard.sections.delete');
         
         return $controller;
     }

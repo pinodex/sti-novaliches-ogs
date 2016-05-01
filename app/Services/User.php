@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Services\Auth;
+namespace App\Services;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;

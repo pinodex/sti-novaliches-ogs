@@ -63,6 +63,16 @@ class Faculty extends Model
         return $this->belongsTo('App\Models\Head', 'department_id', 'department_id');
     }
 
+    /**
+     * Get associated sections
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\Relation
+     */
+    public function sections()
+    {
+        return $this->belongsToMany('App\Models\Section');
+    }
+
     protected $appends = array(
         'name'
     );

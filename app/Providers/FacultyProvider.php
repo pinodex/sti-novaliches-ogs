@@ -9,22 +9,22 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Services\Auth\Provider;
+namespace App\Providers;
 
 use App\Services\Hash;
-use App\Services\Auth\User;
+use App\Services\User;
 use App\Models\Faculty;
 
 /**
- * Head provider
+ * Faculty provider
  * 
- * Provides authentication for head model
+ * Provides authentication for faculty model
  */
-class HeadProvider implements AuthProviderInterface
+class FacultyProvider implements AuthProviderInterface
 {
     public function getRole()
     {
-        return 'head';
+        return 'faculty';
     }
 
     public function getRedirectRoute()

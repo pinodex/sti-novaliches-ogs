@@ -9,17 +9,23 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Services\Session;
+namespace App\Models;
 
-use App\Services\Service;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * Static class wrapper for session service
+ * Setting model
+ * 
+ * Model class for settings table
  */
-class Session extends Service
+class Setting extends Model
 {
-    public static function __callStatic($name, $args)
-    {
-        return call_user_func_array([self::$app['session'], $name], $args);
-    }
+    public $incrementing = false;
+
+    public $timestamps = false;
+
+    protected $fillable = array(
+        'id',
+        'value'
+    );
 }

@@ -14,11 +14,11 @@
                         {% if department.head %}
                             <table class="borderless colorless">
                                 <tbody>
-                                    <tr class="left-align">
+                                    <tr>
                                         <td>Name</td>
                                         <td>{{ department.head ? department.head.name : 'N/A' }}</td>
                                     </tr>
-                                    <tr class="left-align">
+                                    <tr>
                                         <td>Last login</td>
                                         <td>{{ department.head ? department.head.last_login_at : 'N/A' }}</td>
                                     </tr>
@@ -68,7 +68,7 @@
                                 {% endfor %}
                             </select>
 
-                            <table>
+                            <table class="center-align">
                                 <thead>
                                     <tr>
                                         <th>

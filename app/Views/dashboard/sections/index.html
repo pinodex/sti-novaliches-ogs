@@ -40,16 +40,12 @@
                     {% endfor %}
                 </select>
 
-                <table>
+                <table class="center-align">
                     <thead>
                         <tr>
                             <th>
                                 <span class="long">Name</span>
                                 <span class="short">N</span>
-                            </th>
-                            <th>
-                                <span class="long">Students</span>
-                                <span class="short">S</span>
                             </th>
                             <th>
                                 <span class="long">Actions</span>
@@ -62,9 +58,8 @@
                         {% for row in result.data %}
                             <tr>
                                 <td>{{ row.id }}</td>
-                                <td>n</td>
                                 <td>
-                                    <a href="#">Edit</a>
+                                    <a href="{{ path('dashboard.sections.edit', {id: row.id}) }}">Edit</a>
                                 </td>
                             </tr>
                         {% endfor %}

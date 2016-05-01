@@ -22,7 +22,7 @@ use App\Constraints as CustomAssert;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Route controller for administrator management pages
+ * Route controller for departmentistrator management pages
  */
 class DepartmentsController
 {
@@ -93,6 +93,7 @@ class DepartmentsController
             return $app->redirect($app->path('dashboard.departments'));
         }
 
+        $id && $mode = 'edit';
         $form = Form::create($department->toArray());
 
         $form->add('name', 'text', array(
@@ -118,4 +119,37 @@ class DepartmentsController
             'form'          => $form->createView()
         ));
     }
+
+    /**
+     * Delete department page
+     * 
+     * URL: /dashboard/departments/{id}/delete
+     */
+    public function delete(Request $request, Application $app, $id)
+    {
+        if (!$department = Department::find($id)) {
+            FlashBag::add('messages', 'danger>>>Department not found');
+
+            return $app->redirect($app->path('dashboard.departments'));
+        }
+
+        $form = Form::create();
+        $form->add('_confirm', 'hidden');
+
+        $form = $form->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $department->delete();
+
+            FlashBag::add('messages', 'info>>>Department has been deleted');
+
+            return $app->redirect($app->path('dashboard.departments'));
+        }
+
+        return View::render('dashboard/departments/delete', array(
+            'form'          => $form->createView(),
+            'department'    => $department->toArray()
+        ));
+    } 
 }

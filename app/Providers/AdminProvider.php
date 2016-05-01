@@ -9,22 +9,22 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Services\Auth\Provider;
+namespace App\Providers;
 
 use App\Services\Hash;
-use App\Services\Auth\User;
-use App\Models\Faculty;
+use App\Services\User;
+use App\Models\Admin;
 
 /**
- * Faculty provider
+ * Admin provider
  * 
- * Provides authentication for faculty model
+ * Provides authentication for admin model
  */
-class FacultyProvider implements AuthProviderInterface
+class AdminProvider implements AuthProviderInterface
 {
     public function getRole()
     {
-        return 'faculty';
+        return 'admin';
     }
 
     public function getRedirectRoute()
@@ -35,16 +35,20 @@ class FacultyProvider implements AuthProviderInterface
     public function getAllowedControllers()
     {
         return array(
-            'App\Controllers\MainController',
-            'App\Controllers\Faculty\MainController',
-            'App\Controllers\Faculty\GradesController',
-            'App\Controllers\Faculty\StudentController'
+            'App\Controllers\Dashboard\MainController',
+            'App\Controllers\Dashboard\Admin\AdminsController',
+            'App\Controllers\Dashboard\Admin\HeadsController',
+            'App\Controllers\Dashboard\Admin\FacultiesController',
+            'App\Controllers\Dashboard\Admin\DepartmentsController',
+            'App\Controllers\Dashboard\Admin\SectionsController',
+            'App\Controllers\Dashboard\Admin\StudentsController',
+            'App\Controllers\Dashboard\Admin\SettingsController',
         );
     }
-    
+
     public function attempt($username, $password)
     {
-        if ($user = Faculty::where('username', $username)->first()) {
+        if ($user = Admin::where('username', $username)->first()) {
             if (!Hash::check($password, $user->password)) {
                 return false;
             }
@@ -54,7 +58,7 @@ class FacultyProvider implements AuthProviderInterface
             if (Hash::needsRehash($user->password)) {
                 $user->password = Hash::make($password);
             }
-            
+
             $user->save();
 
             return new User($this, $user);

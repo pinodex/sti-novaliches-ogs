@@ -11,11 +11,6 @@
 
 namespace App\Services;
 
-use App\Services\Service;
-use App\Services\Auth\User;
-use App\Services\Auth\Provider;
-use App\Services\Session\Session;
-
 /**
  * Provides auth service
  */
@@ -32,7 +27,7 @@ class Auth extends Service
      * @param string $username Username
      * @param string $password Password
      *
-     * @return \App\Services\Auth\User
+     * @return \App\Services\User
      */
     public static function attempt($username, $password)
     {

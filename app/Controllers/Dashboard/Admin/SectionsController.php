@@ -13,6 +13,7 @@ namespace App\Controllers\Dashboard\Admin;
 
 use Silex\Application;
 use App\Models\Section;
+use App\Models\Faculty;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Session\FlashBag;
@@ -76,7 +77,7 @@ class SectionsController
         $section = Section::findOrNew($id);
 
         if ($section->id != $id) {
-            FlashBag::add('messages', 'danger>>>Admin account not found');
+            FlashBag::add('messages', 'danger>>>Section not found');
             return $app->redirect($app->path('dashboard.sections'));
         }
 
@@ -102,6 +103,12 @@ class SectionsController
 
             $data['id'] = strtoupper($data['id']);
 
+            $section->faculties->each(function (Faculty $item) use ($section, $data) {
+                // Replace old value to new value from the many-to-many relation table.
+                $item->sections()->detach($section->id);
+                $item->sections()->attach($data['id']);
+            });
+
             $section->fill($data);
             $section->save();
 
@@ -111,8 +118,8 @@ class SectionsController
         }
 
         return View::render('dashboard/sections/' . $mode, array(
-            'form'  => $form->createView(),
-            'admin' => $section->toArray()
+            'form'      => $form->createView(),
+            'section'   => $section->toArray()
         ));
     }
 
@@ -124,7 +131,7 @@ class SectionsController
     public function delete(Request $request, Application $app, $id)
     {
         if (!$section = Section::find($id)) {
-            FlashBag::add('messages', 'danger>>>Admin account not found');
+            FlashBag::add('messages', 'danger>>>Section not found');
 
             return $app->redirect($app->path('dashboard.sections'));
         }
@@ -138,14 +145,14 @@ class SectionsController
         if ($form->isValid()) {
             $section->delete();
 
-            FlashBag::add('messages', 'info>>>Admin account has been deleted');
+            FlashBag::add('messages', 'info>>>Section has been deleted');
 
             return $app->redirect($app->path('dashboard.sections'));
         }
 
         return View::render('dashboard/sections/delete', array(
-            'form'  => $form->createView(),
-            'admin' => $section->toArray()
+            'form'      => $form->createView(),
+            'section'   => $section->toArray()
         ));
     } 
 }

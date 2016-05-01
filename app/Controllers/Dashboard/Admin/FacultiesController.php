@@ -13,6 +13,7 @@ namespace App\Controllers\Dashboard\Admin;
 
 use Silex\Application;
 use App\Models\Department;
+use App\Models\Section;
 use App\Models\Faculty;
 use App\Services\View;
 use App\Services\Form;
@@ -68,15 +69,15 @@ class FacultiesController
     public function edit(Request $request, Application $app, $id)
     {
         $mode = 'add';
-        $head = Faculty::findOrNew($id);
+        $faculty = Faculty::findOrNew($id);
 
-        if ($head->id != $id) {
+        if ($faculty->id != $id) {
             FlashBag::add('messages', 'danger>>>Faculty account not found');
             return $app->redirect($app->path('dashboard.faculties'));
         }
 
         $id && $mode = 'edit';
-        $form = Form::create($head->toArray());
+        $form = Form::create($faculty->toArray());
 
         $departments = Department::getFormChoices();
         $departments['0'] = 'Unassigned';
@@ -88,13 +89,13 @@ class FacultiesController
         $form->add('department_id', 'choice', array(
             'label'         => 'Department',
             'choices'       => $departments,
-            'data'          => $head->department_id ?: '0'
+            'data'          => $faculty->department_id ?: '0'
         ));
 
         $form->add('username', 'text', array(
             'constraints' => new CustomAssert\UniqueRecord(array(
                 'model'     => 'App\Models\Faculty',
-                'exclude'   => $head->username,
+                'exclude'   => $faculty->username,
                 'row'       => 'username',
                 'message'   => 'Username already in use.'
             ))
@@ -128,8 +129,8 @@ class FacultiesController
                 unset($data['password']);
             }
 
-            $head->fill($data);
-            $head->save();
+            $faculty->fill($data);
+            $faculty->save();
 
             FlashBag::add('messages', 'success>>>Faculty account has been saved');
 
@@ -138,7 +139,7 @@ class FacultiesController
 
         return View::render('dashboard/faculties/' . $mode, array(
             'form'      => $form->createView(),
-            'faculty'   => $head->toArray()
+            'faculty'   => $faculty->toArray()
         ));
     }
 
@@ -149,7 +150,7 @@ class FacultiesController
      */
     public function delete(Request $request, Application $app, $id)
     {
-        if (!$head = Faculty::find($id)) {
+        if (!$faculty = Faculty::find($id)) {
             FlashBag::add('messages', 'danger>>>Faculty account not found');
 
             return $app->redirect($app->path('dashboard.faculties'));
@@ -162,7 +163,7 @@ class FacultiesController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $head->delete();
+            $faculty->delete();
 
             FlashBag::add('messages', 'info>>>Faculty account has been deleted');
 
@@ -171,7 +172,51 @@ class FacultiesController
 
         return View::render('dashboard/faculties/delete', array(
             'form'      => $form->createView(),
-            'faculty'   => $head->toArray()
+            'faculty'   => $faculty->toArray()
+        ));
+    } 
+
+    /**
+     * Faculty account sections page
+     * 
+     * URL: /dashboard/faculties/{id}/sections
+     */
+    public function sections(Request $request, Application $app, $id)
+    {
+        if (!$faculty = Faculty::with('sections')->find($id)) {
+            FlashBag::add('messages', 'danger>>>Faculty account not found');
+
+            return $app->redirect($app->path('dashboard.faculties'));
+        }
+
+        $form = Form::create();
+        $data = $faculty->sections->map(function(Section $value) {
+            return $value->id;
+        })->toArray();
+
+        $form->add('sections', 'choice', array(
+            'choices'   => Section::getFormChoices(),
+            'label'     => ' ',
+            'expanded'  => true,
+            'multiple'  => true,
+            'required'  => false,
+            'data'      => $data
+        ));
+
+        $form = $form->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $faculty->sections()->sync($form['sections']->getData());
+
+            FlashBag::add('messages', 'success>>>Faculty sections has been updated');
+
+            return $app->redirect($app->path('dashboard.faculties'));
+        }
+
+        return View::render('dashboard/faculties/sections', array(
+            'form'      => $form->createView(),
+            'faculty'   => $faculty->toArray()
         ));
     } 
 }

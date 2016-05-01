@@ -1112,12 +1112,6 @@ table thead th .long {
 table tbody tr:nth-child(even) {
   background: #eee;
 }
-table tbody tr.left-align td {
-  text-align: left;
-}
-table tbody td {
-  text-align: center;
-}
 table tbody td.none {
   color: #999;
 }
@@ -1140,6 +1134,9 @@ table.borderless thead, table.borderless tbody, table.borderless tr, table.borde
 }
 table.colorless tr:nth-child(even) {
   background: none;
+}
+table.center-align td {
+  text-align: center;
 }
 
 .tabs {

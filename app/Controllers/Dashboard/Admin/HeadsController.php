@@ -71,7 +71,7 @@ class HeadsController
         $head = Head::findOrNew($id);
 
         if ($head->id != $id) {
-            FlashBag::add('messages', 'danger>>>Admin account not found');
+            FlashBag::add('messages', 'danger>>>Head account not found');
             return $app->redirect($app->path('dashboard.heads'));
         }
 
@@ -141,7 +141,7 @@ class HeadsController
             $head->fill($data);
             $head->save();
 
-            FlashBag::add('messages', 'success>>>Admin account has been saved');
+            FlashBag::add('messages', 'success>>>Head account has been saved');
 
             return $app->redirect($app->path('dashboard.heads'));
         }
@@ -160,7 +160,7 @@ class HeadsController
     public function delete(Request $request, Application $app, $id)
     {
         if (!$head = Head::find($id)) {
-            FlashBag::add('messages', 'danger>>>Admin account not found');
+            FlashBag::add('messages', 'danger>>>Head account not found');
 
             return $app->redirect($app->path('dashboard.heads'));
         }
@@ -174,7 +174,7 @@ class HeadsController
         if ($form->isValid()) {
             $head->delete();
 
-            FlashBag::add('messages', 'info>>>Admin account has been deleted');
+            FlashBag::add('messages', 'info>>>Head account has been deleted');
 
             return $app->redirect($app->path('dashboard.heads'));
         }

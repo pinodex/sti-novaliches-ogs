@@ -10,10 +10,10 @@
  */
 
 $app['auth.providers'] = array(
-    'App\Services\Auth\Provider\StudentProvider',
-    'App\Services\Auth\Provider\FacultyProvider',
-    'App\Services\Auth\Provider\HeadProvider',
-    'App\Services\Auth\Provider\AdminProvider',
+    'App\Providers\StudentProvider',
+    'App\Providers\FacultyProvider',
+    'App\Providers\HeadProvider',
+    'App\Providers\AdminProvider',
 );
 
 $app['auth.protected_controllers'] = array(
@@ -24,5 +24,6 @@ $app['auth.protected_controllers'] = array(
     'App\Controllers\Dashboard\Admin\DepartmentsController',
     'App\Controllers\Dashboard\Admin\SectionsController',
     'App\Controllers\Dashboard\Admin\StudentsController',
+    'App\Controllers\Dashboard\Admin\SettingsController',
     'App\Controllers\Student\MainController'
 );

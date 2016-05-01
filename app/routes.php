@@ -29,6 +29,7 @@ $app->mount('/dashboard/faculties',     new Dashboard\Admin\FacultiesRoute);
 $app->mount('/dashboard/departments',   new Dashboard\Admin\DepartmentsRoute);
 $app->mount('/dashboard/sections',      new Dashboard\Admin\SectionsRoute);
 $app->mount('/dashboard/students',      new Dashboard\Admin\StudentsRoute);
+$app->mount('/dashboard/settings',      new Dashboard\Admin\SettingsRoute);
 
 $app->before(function(Request $request, Application $app) {
     $currentController = '';

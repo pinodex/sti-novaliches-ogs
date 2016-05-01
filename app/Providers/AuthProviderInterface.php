@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Services\Auth\Provider;
+namespace App\Providers;
 
-use App\Services\Auth\User;
+use App\Services\User;
 
 /**
  * Interface for auth providers
@@ -42,7 +42,7 @@ interface AuthProviderInterface
     /**
      * Attempt to login
      * 
-     * @return boolean|\App\Services\Auth\User
+     * @return boolean|\App\Services\User
      */
     public function attempt($username, $password);
 }

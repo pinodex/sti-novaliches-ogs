@@ -13,7 +13,7 @@
                 <form method="post" action="{{ app.request.getRequestUri }}">
                     {{ form_widget(form) }}
                     
-                    <button type="submit">Save <span class="icon-navigate_next"></span></button>
+                    <button type="submit" class="success">Save <span class="icon-navigate_next"></span></button>
                     <a href="{{ path('dashboard.admins.delete', {id: admin.id}) }}" class="button link">Delete Admin</a>
                 </form>
             </div>

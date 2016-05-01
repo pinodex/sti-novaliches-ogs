@@ -43,6 +43,10 @@ class FacultiesRoute implements ControllerProviderInterface
             array('App\Controllers\Dashboard\Admin\FacultiesController', 'delete')
         )->bind('dashboard.faculties.delete');
         
+        $controller->match('/{id}/sections',
+            array('App\Controllers\Dashboard\Admin\FacultiesController', 'sections')
+        )->bind('dashboard.faculties.sections');
+
         return $controller;
     }
 }

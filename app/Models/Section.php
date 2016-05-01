@@ -39,4 +39,14 @@ class Section extends Model
     {
         return $this->id;
     }
+
+    /**
+     * Get associated faculties
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\Relation
+     */
+    public function faculties()
+    {
+        return $this->belongsToMany('App\Models\Faculty');
+    }
 }

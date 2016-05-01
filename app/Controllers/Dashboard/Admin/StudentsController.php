@@ -17,7 +17,7 @@ use App\Services\View;
 use App\Services\Form;
 use App\Services\Helper;
 use App\Services\OmegaSheet;
-use App\Services\Session\Session;
+use App\Services\Session;
 use App\Services\Session\FlashBag;
 use App\Constraints as CustomAssert;
 use Symfony\Component\Filesystem\Filesystem;
