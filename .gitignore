@@ -1,7 +1,9 @@
 .sass-cache/
 cache/*
+storage/*
 
 !cache/.gitkeep
+!storaage/.gitkeep
 
 node_modules/
 vendor/

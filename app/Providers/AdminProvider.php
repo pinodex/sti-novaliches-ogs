@@ -36,13 +36,14 @@ class AdminProvider implements AuthProviderInterface
     {
         return array(
             'App\Controllers\Dashboard\MainController',
-            'App\Controllers\Dashboard\Admin\AdminsController',
-            'App\Controllers\Dashboard\Admin\HeadsController',
-            'App\Controllers\Dashboard\Admin\FacultiesController',
-            'App\Controllers\Dashboard\Admin\DepartmentsController',
-            'App\Controllers\Dashboard\Admin\SectionsController',
-            'App\Controllers\Dashboard\Admin\StudentsController',
-            'App\Controllers\Dashboard\Admin\SettingsController',
+            'App\Controllers\Dashboard\AdminsController',
+            'App\Controllers\Dashboard\HeadsController',
+            'App\Controllers\Dashboard\FacultiesController',
+            'App\Controllers\Dashboard\DepartmentsController',
+            'App\Controllers\Dashboard\StudentsController',
+            'App\Controllers\Dashboard\SectionsController',
+            'App\Controllers\Dashboard\GradesController',
+            'App\Controllers\Dashboard\SettingsController'
         );
     }
 

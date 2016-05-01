@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Controllers\Dashboard\Admin;
+namespace App\Controllers\Dashboard;
 
 use Silex\Application;
 use App\Models\Section;
@@ -28,7 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SectionsController
 {
     /**
-     * Manage admin accounts page
+     * Manage sections page
      * 
      * URL: /dashboard/sections/
      */
@@ -66,7 +66,7 @@ class SectionsController
     }
 
     /**
-     * Edit admin account page
+     * Edit section page
      * 
      * URL: /dashboard/sections/add
      * URL: /dashboard/sections/{id}/edit
@@ -124,7 +124,7 @@ class SectionsController
     }
 
     /**
-     * Delete admin account page
+     * Delete section page
      * 
      * URL: /dashboard/sections/{id}/delete
      */

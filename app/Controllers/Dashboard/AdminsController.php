@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Controllers\Dashboard\Admin;
+namespace App\Controllers\Dashboard;
 
 use Silex\Application;
 use App\Models\Admin;

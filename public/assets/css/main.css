@@ -868,6 +868,30 @@ input[type="button"].link, button.link, .button.link {
   background: transparent;
 }
 
+.color-primary {
+  color: #428bca;
+}
+
+.color-success {
+  color: #5cb85c;
+}
+
+.color-warning {
+  color: #f0ad4e;
+}
+
+.color-danger {
+  color: #d9534f;
+}
+
+.color-info {
+  color: #5bc0de;
+}
+
+.color-neutral {
+  color: gray;
+}
+
 a.button, input.button[type="button"].link, .button.link {
   text-decoration: none;
 }

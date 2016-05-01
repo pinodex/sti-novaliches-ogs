@@ -35,10 +35,25 @@ class FacultyProvider implements AuthProviderInterface
     public function getAllowedControllers()
     {
         return array(
-            'App\Controllers\MainController',
-            'App\Controllers\Faculty\MainController',
-            'App\Controllers\Faculty\GradesController',
-            'App\Controllers\Faculty\StudentController'
+            'App\Controllers\Dashboard\MainController',
+            
+            'App\Controllers\Dashboard\StudentsController' => array(
+                'index',
+                'view'
+            ),
+
+            'App\Controllers\Dashboard\SectionsController' => array(
+                'index'
+            ),
+
+            'App\Controllers\Dashboard\GradesController' => array(
+                'index',
+                'import',
+                'import1',
+                'import2',
+                'import3',
+                'import4'
+            ),
         );
     }
     

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Routes\Dashboard\Admin;
+namespace App\Routes\Dashboard;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
@@ -26,19 +26,19 @@ class SectionsRoute implements ControllerProviderInterface
         $controller = $app['controllers_factory'];
         
         $controller->get('/',
-            array('App\Controllers\Dashboard\Admin\SectionsController', 'index')
+            array('App\Controllers\Dashboard\SectionsController', 'index')
         )->bind('dashboard.sections');
 
         $controller->match('/add',
-            array('App\Controllers\Dashboard\Admin\SectionsController', 'edit')
+            array('App\Controllers\Dashboard\SectionsController', 'edit')
         )->bind('dashboard.sections.add')->value('id', null);
 
         $controller->match('/{id}/edit',
-            array('App\Controllers\Dashboard\Admin\SectionsController', 'edit')
+            array('App\Controllers\Dashboard\SectionsController', 'edit')
         )->bind('dashboard.sections.edit');
 
         $controller->match('/{id}/delete',
-            array('App\Controllers\Dashboard\Admin\SectionsController', 'delete')
+            array('App\Controllers\Dashboard\SectionsController', 'delete')
         )->bind('dashboard.sections.delete');
         
         return $controller;

@@ -9,26 +9,32 @@
         <div class="grid">
             <div class="column-4">
                 <div class="panel">
-                    <div class="panel-heading">Head Info</div>
+                    <div class="panel-heading">Information</div>
                     <div class="panel-body">
                         {% if department.head %}
                             <table class="borderless colorless">
                                 <tbody>
                                     <tr>
-                                        <td>Name</td>
+                                        <td>Head Name</td>
                                         <td>{{ department.head ? department.head.name : 'N/A' }}</td>
                                     </tr>
                                     <tr>
                                         <td>Last login</td>
                                         <td>{{ department.head ? department.head.last_login_at : 'N/A' }}</td>
                                     </tr>
+                                    <tr>
+                                        <td>Submission deadline</td>
+                                        <td>{{ department.grade_submission_deadline }}</td>
+                                    </tr>
                                 </tbody>
                             </table>
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a href="{{ path('dashboard.heads.edit', {id: department.head.id}) }}">Edit head</a>
-                                </li>
-                            </ul>
+                            {% if current_user.getRole() == 'admin' %}
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <a href="{{ path('dashboard.heads.edit', {id: department.head.id}) }}">Edit head</a>
+                                    </li>
+                                </ul>
+                            {% endif %}
                         {% else %}
                             <p>No head assigned</p>
                         {% endif %}
@@ -50,8 +56,13 @@
                     <div class="panel-heading">Actions</div>
                     <div class="panel-body">
                         <ul class="list-unstyled">
+                            {% if current_user.getRole() == 'admin' %}
+                                <li>
+                                    <a href="{{ path('dashboard.departments.edit', {id: department.id}) }}">Edit department</a>
+                                </li>
+                            {% endif %}
                             <li>
-                                <a href="{{ path('dashboard.departments.edit', {id: department.id}) }}">Edit department</a>
+                                <a href="{{ path('dashboard.departments.settings', {id: department.id}) }}">Edit settings</a>
                             </li>
                         </ul>
                     </div>
@@ -80,6 +91,10 @@
                                             <span class="short">L</span>
                                         </th>
                                         <th>
+                                            <span class="long">Last Grade Submisstion</span>
+                                            <span class="short">S</span>
+                                        </th>
+                                        <th>
                                             <span class="long">Actions</span>
                                             <span class="short">A</span>
                                         </th>
@@ -88,11 +103,12 @@
 
                                 <tbody>
                                     {% for faculty in faculties %}
-                                        <tr>
+                                        <tr{{ faculty.is_grade_submission_deadline_due ? ' class="color-danger"' }}>
                                             <td>{{ faculty.name }}</td>
                                             <td>{{ faculty.last_login_at }}</td>
+                                            <td>{{ faculty.last_grade_submission_at }}</td>
                                             <td>
-                                                <a href="{{ path('dashboard.faculties.edit', {id: faculty.id}) }}">Edit</a>
+                                                <a href="{{ path('dashboard.faculties.view', {id: faculty.id}) }}">View</a>
                                             </td>
                                         </tr>
                                     {% endfor %}

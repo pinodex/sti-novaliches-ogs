@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Routes\Dashboard\Admin;
+namespace App\Routes\Dashboard;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
@@ -24,23 +24,23 @@ class HeadsRoute implements ControllerProviderInterface
         $controller = $app['controllers_factory'];
         
         $controller->get('/',
-            array('App\Controllers\Dashboard\Admin\HeadsController', 'index')
+            array('App\Controllers\Dashboard\HeadsController', 'index')
         )->bind('dashboard.heads');
 
         $controller->get('/search',
-            array('App\Controllers\Dashboard\Admin\HeadsController', 'index')
+            array('App\Controllers\Dashboard\HeadsController', 'index')
         )->bind('dashboard.heads.search');
 
         $controller->match('/add',
-            array('App\Controllers\Dashboard\Admin\HeadsController', 'edit')
+            array('App\Controllers\Dashboard\HeadsController', 'edit')
         )->bind('dashboard.heads.add')->value('id', null);
 
         $controller->match('/{id}/edit',
-            array('App\Controllers\Dashboard\Admin\HeadsController', 'edit')
+            array('App\Controllers\Dashboard\HeadsController', 'edit')
         )->bind('dashboard.heads.edit');
 
         $controller->match('/{id}/delete',
-            array('App\Controllers\Dashboard\Admin\HeadsController', 'delete')
+            array('App\Controllers\Dashboard\HeadsController', 'delete')
         )->bind('dashboard.heads.delete');
         
         return $controller;

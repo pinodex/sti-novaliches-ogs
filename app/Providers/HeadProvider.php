@@ -13,7 +13,7 @@ namespace App\Providers;
 
 use App\Services\Hash;
 use App\Services\User;
-use App\Models\Faculty;
+use App\Models\Head;
 
 /**
  * Head provider
@@ -35,16 +35,36 @@ class HeadProvider implements AuthProviderInterface
     public function getAllowedControllers()
     {
         return array(
-            'App\Controllers\MainController',
-            'App\Controllers\Faculty\MainController',
-            'App\Controllers\Faculty\GradesController',
-            'App\Controllers\Faculty\StudentController'
+            'App\Controllers\Dashboard\MainController',
+
+            'App\Controllers\Dashboard\DepartmentsController' => array(
+                'self',
+                'view',
+                'settings'
+            ),
+            
+            'App\Controllers\Dashboard\FacultiesController' => array(
+                'view'
+            ),
+            
+            'App\Controllers\Dashboard\StudentsController' => array(
+                'index',
+                'view'
+            ),
+
+            'App\Controllers\Dashboard\SectionsController' => array(
+                'index'
+            ),
+
+            'App\Controllers\Dashboard\GradesController' => array(
+                'index',
+            )
         );
     }
     
     public function attempt($username, $password)
     {
-        if ($user = Faculty::where('username', $username)->first()) {
+        if ($user = Head::where('username', $username)->first()) {
             if (!Hash::check($password, $user->password)) {
                 return false;
             }

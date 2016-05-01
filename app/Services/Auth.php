@@ -70,18 +70,41 @@ class Auth extends Service
      */
     public static function isAllowed($controller)
     {
+        $controllerClass = $controller[0];
+        $controllerAction = $controller[1];
+
         if ($user = self::user()) {
             $provider = $user->getProvider();
-            $disallowed = array_diff(self::$app['auth.protected_controllers'], $provider->getAllowedControllers());
+            $allowedControllers = array();
 
-            if (in_array($controller, $disallowed)) {
+            foreach ($provider->getAllowedControllers() as $key => $value) {
+                if (is_integer($key)) {
+                    $allowedControllers[] = $value;
+
+                    continue;
+                }
+                
+                $allowedControllers[] = $key;
+            }
+
+            $disallowed = array_diff(self::$app['auth.protected_controllers'], $allowedControllers);
+
+            if (in_array($controllerClass, $disallowed)) {
                 return false;
+            }
+
+            if (array_key_exists($controllerClass, $provider->getAllowedControllers())) {
+                $allowedActions = $provider->getAllowedControllers()[$controllerClass];
+
+                if (!in_array($controllerAction, $allowedActions)) {
+                    return false;
+                }
             }
 
             return true;
         }
 
-        if (in_array($controller, self::$app['auth.protected_controllers'])) {
+        if (in_array($controllerClass, self::$app['auth.protected_controllers'])) {
             return false;
         }
         

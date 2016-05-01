@@ -1,0 +1,69 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'View faculty' %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ page_title }}</h1>
+
+        <div class="grid">
+            <div class="column-4">
+                <div class="panel">
+                    <div class="panel-heading">Information</div>
+                    <div class="panel-body">
+                        <table class="borderless colorless">
+                            <tbody>
+                                <tr>
+                                    <td>Last Name</td>
+                                    <td>{{ faculty.last_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>First Name</td>
+                                    <td>{{ faculty.first_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Middle Name</td>
+                                    <td>{{ faculty.middle_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Department</td>
+                                    <td>{{ faculty.department ? faculty.department.name : 'Unassigned' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Last login</td>
+                                    <td>{{ faculty.last_login_at }}</td>
+                                </tr>
+                                <tr{{ faculty.is_grade_submission_deadline_due ? ' class="color-danger"' }}>
+                                    <td>Submitted at</td>
+                                    <td>{{ faculty.last_grade_submission_at }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {% if current_user.getRole() == 'admin' %}
+                    <div class="panel">
+                        <div class="panel-heading">Actions</div>
+                        <div class="panel-body">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="{{ path('dashboard.faculties.edit', {id: faculty.id}) }}">Edit Faculty</a>   
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="column-8">
+                <div class="panel">
+                    <div class="panel-heading">Summary</div>
+                    <div class="panel-body">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Routes\Dashboard\Admin;
+namespace App\Routes\Dashboard;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
@@ -24,23 +24,23 @@ class AdminsRoute implements ControllerProviderInterface
         $controller = $app['controllers_factory'];
         
         $controller->get('/',
-            array('App\Controllers\Dashboard\Admin\AdminsController', 'index')
+            array('App\Controllers\Dashboard\AdminsController', 'index')
         )->bind('dashboard.admins');
 
         $controller->get('/search',
-            array('App\Controllers\Dashboard\Admin\AdminsController', 'index')
+            array('App\Controllers\Dashboard\AdminsController', 'index')
         )->bind('dashboard.admins.search');
 
         $controller->match('/add',
-            array('App\Controllers\Dashboard\Admin\AdminsController', 'edit')
+            array('App\Controllers\Dashboard\AdminsController', 'edit')
         )->bind('dashboard.admins.add')->value('id', null);
 
         $controller->match('/{id}/edit',
-            array('App\Controllers\Dashboard\Admin\AdminsController', 'edit')
+            array('App\Controllers\Dashboard\AdminsController', 'edit')
         )->bind('dashboard.admins.edit');
 
         $controller->match('/{id}/delete',
-            array('App\Controllers\Dashboard\Admin\AdminsController', 'delete')
+            array('App\Controllers\Dashboard\AdminsController', 'delete')
         )->bind('dashboard.admins.delete');
         
         return $controller;

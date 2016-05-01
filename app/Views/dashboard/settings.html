@@ -3,7 +3,6 @@
 {% form_theme settings_form '/_layout/form-default.html' %}
 
 {% set page_title = 'Settings' %}
-{% set active_nav = 'settings' %}
 
 {% block content %}
     <div class="container">
@@ -15,7 +14,7 @@
                         <form method="post" action="{{ app.request.getRequestUri }}">
                             {{ form_widget(settings_form) }}
 
-                            <button type="submit">Save Changes</button>
+                            <button type="submit" class="success">Save Changes</button>
                         </form>
                     </div>
                 </div>

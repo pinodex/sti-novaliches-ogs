@@ -25,12 +25,14 @@
                     </div>
                 </div>
 
-                <div class="panel">
-                    <div class="panel-heading">Actions</div>
-                    <div class="panel-body">
-                        <a href="{{ path('dashboard.sections.add') }}">Add new section</a>
+                {% if current_user.getRole() == 'admin' %}
+                    <div class="panel">
+                        <div class="panel-heading">Actions</div>
+                        <div class="panel-body">
+                            <a href="{{ path('dashboard.sections.add') }}">Add new section</a>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
             </div>
 
             <div class="column-8">

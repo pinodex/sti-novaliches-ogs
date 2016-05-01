@@ -216,6 +216,30 @@ input[type="button"], button, .button {
     @extend button.info;
 }
 
+.color-primary {
+    color: $brand-primary;
+}
+
+.color-success {
+    color: $brand-success;
+}
+
+.color-warning {
+    color: $brand-warning;
+}
+
+.color-danger {
+    color: $brand-danger;
+}
+
+.color-info {
+    color: $brand-info;
+}
+
+.color-neutral {
+    color: $black-50;
+}
+
 a.button {
     text-decoration: none;
 }

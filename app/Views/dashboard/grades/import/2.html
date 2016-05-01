@@ -1,0 +1,29 @@
+{% extends '/_layout/main-default.html' %}
+
+{% form_theme choose_form '/_layout/form-default.html' %}
+
+{% set page_title = 'Grades import wizard' %}
+
+{% block content %}
+    <div class="container">
+        <h1><span class="icon-file_upload"></span> {{ page_title }}</h1>
+
+        <div class="grid">
+            {% include '/dashboard/grades/import/steps.html' %}
+
+            <div class="column-8">
+                <div class="panel">
+                    <div class="panel-heading">Choose sheets to import</div>
+                    <div class="panel-body">
+                        <form method="post" action="{{ app.request.getRequestUri }}">
+                            {{ form_widget(choose_form) }}
+
+                            <a href="{{ path('dashboard.grades.import.1') }}" class="button neutral"><span class="icon-navigate_before"></span> Back</a>
+                            <button type="submit" class="success">Next <span class="icon-navigate_next"></span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

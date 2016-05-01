@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Routes\Dashboard\Admin;
+namespace App\Routes\Dashboard;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
@@ -24,15 +24,15 @@ class SettingsRoute implements ControllerProviderInterface
         $controller = $app['controllers_factory'];
         
         $controller->match('/',
-            array('App\Controllers\Dashboard\Admin\SettingsController', 'index')
+            array('App\Controllers\Dashboard\SettingsController', 'index')
         )->bind('dashboard.settings');
 
         $controller->match('/maintenance',
-            array('App\Controllers\Dashboard\Admin\SettingsController', 'maintenance')
+            array('App\Controllers\Dashboard\SettingsController', 'maintenance')
         )->bind('dashboard.settings.maintenance');
 
         $controller->match('/maintenance/clear',
-            array('App\Controllers\Dashboard\Admin\SettingsController', 'clear')
+            array('App\Controllers\Dashboard\SettingsController', 'clear')
         )->bind('dashboard.settings.maintenance.clear');
         
         return $controller;

@@ -28,6 +28,10 @@ class MainRoute implements ControllerProviderInterface
         $controller->get('/',
             array('App\Controllers\Dashboard\MainController', 'index')
         )->bind('dashboard.index');
+
+        $controller->match('/account',
+            array('App\Controllers\Dashboard\MainController', 'account')
+        )->bind('dashboard.account');
         
         return $controller;
     }

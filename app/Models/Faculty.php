@@ -74,7 +74,7 @@ class Faculty extends Model
     }
 
     protected $appends = array(
-        'name'
+        'name', 'is_grade_submission_deadline_due'
     );
 
     /**
@@ -85,5 +85,33 @@ class Faculty extends Model
     public function getNameAttribute()
     {
         return $this->last_name . ', ' . $this->first_name;
+    }
+
+    public function getIsGradeSubmissionDeadlineDueAttribute()
+    {
+        $deadline = $this->department->getOriginal('grade_submission_deadline');
+        $submissionDate = $this->getOriginal('last_grade_submission_at');
+
+        if (!$deadline || !$submissionDate) {
+            return false;
+        }
+
+        return strtotime($deadline) < strtotime($submissionDate);
+    }
+
+    /**
+     * Format last_grade_submission_at attribute
+     * 
+     * @param string $value Input date
+     * 
+     * @return string
+     */
+    public function getLastGradeSubmissionAtAttribute($value)
+    {
+        if (!$value) {
+            return 'N/A';
+        }
+
+        return date('M d, Y h:i a', strtotime($value));
     }
 }

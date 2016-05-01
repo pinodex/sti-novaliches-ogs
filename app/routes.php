@@ -9,13 +9,14 @@
  * file that was distributed with this source code.
  */
 
+use Silex\Application;
 use App\Routes;
 use App\Routes\Student;
 use App\Routes\Dashboard;
 use App\Routes\Faculty;
 use App\Routes\Admin;
 use App\Services\Auth;
-use Silex\Application;
+use App\Services\Session\FlashBag;
 use Symfony\Component\HttpFoundation\Request;
 
 $app->mount('/', new Routes\MainRoute);
@@ -23,22 +24,23 @@ $app->mount('/', new Routes\MainRoute);
 $app->mount('/student',                 new Student\MainRoute);
 
 $app->mount('/dashboard',               new Dashboard\MainRoute);
-$app->mount('/dashboard/admins',        new Dashboard\Admin\AdminsRoute);
-$app->mount('/dashboard/heads',         new Dashboard\Admin\HeadsRoute);
-$app->mount('/dashboard/faculties',     new Dashboard\Admin\FacultiesRoute);
-$app->mount('/dashboard/departments',   new Dashboard\Admin\DepartmentsRoute);
-$app->mount('/dashboard/sections',      new Dashboard\Admin\SectionsRoute);
-$app->mount('/dashboard/students',      new Dashboard\Admin\StudentsRoute);
-$app->mount('/dashboard/settings',      new Dashboard\Admin\SettingsRoute);
+$app->mount('/dashboard/admins',        new Dashboard\AdminsRoute);
+$app->mount('/dashboard/heads',         new Dashboard\HeadsRoute);
+$app->mount('/dashboard/faculties',     new Dashboard\FacultiesRoute);
+$app->mount('/dashboard/departments',   new Dashboard\DepartmentsRoute);
+$app->mount('/dashboard/students',      new Dashboard\StudentsRoute);
+$app->mount('/dashboard/sections',      new Dashboard\SectionsRoute);
+$app->mount('/dashboard/grades',      new Dashboard\GradesRoute);
+$app->mount('/dashboard/settings',      new Dashboard\SettingsRoute);
 
 $app->before(function(Request $request, Application $app) {
-    $currentController = '';
-    
-    if (is_array($request->get('_controller'))) {
-        $currentController = $request->get('_controller')[0];
-    }
-    
-    if (!Auth::isAllowed($currentController)) {
+    if (is_array($request->get('_controller')) &&
+        !Auth::isAllowed($request->get('_controller'))) {
+        
+        if (Auth::user()) {
+            FlashBag::add('messages', 'danger>>>You are not allowed to perform this action');
+        }
+
         return $app->redirect($app->path('site.login', array(
             'next' => urlencode($request->getRequestUri())
         )));

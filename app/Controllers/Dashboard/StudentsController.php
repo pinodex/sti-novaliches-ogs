@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Controllers\Dashboard\Admin;
+namespace App\Controllers\Dashboard;
 
 use Silex\Application;
 use App\Models\Student;
@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\Request;
 class StudentsController
 {
     /**
-     * Faculty page index
+     * Student page index
      * 
      * URL: /dashboard/students/
      */
@@ -79,7 +79,7 @@ class StudentsController
     }
 
     /**
-     * Faculty student view
+     * View student page
      * 
      * URL: /dashboard/students/{id}
      */
@@ -163,7 +163,7 @@ class StudentsController
     }
 
     /**
-     * Faculty student edit
+     * Edit student page
      * 
      * URL: /dashboard/students/{id}/edit/grades
      */

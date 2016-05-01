@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Controllers\Dashboard\Admin;
+namespace App\Controllers\Dashboard;
 
 use Silex\Application;
 use App\Models\Setting;
@@ -19,6 +19,7 @@ use App\Services\Helper;
 use App\Services\Session\FlashBag;
 use Illuminate\Support\Collection;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -139,8 +140,10 @@ class SettingsController
             return $app->redirect($app->path('dashboard.settings.maintenance'));
         }
 
-        $files = new Finder();
-        $files->files()->in(ROOT . $target);
+        $fs = new Filesystem();
+
+        $dirs = new Finder();
+        $dirs->directories()->in(ROOT . $target);
 
         $form = Form::create();
         $form->add('_confirm', 'hidden');
@@ -149,6 +152,8 @@ class SettingsController
         $form->handleRequest($request);
         
         if ($form->isValid()) {
+            $fs->remove($dirs);
+
             FlashBag::add('messages', 'info>>>Directory has been cleared');
             return $app->redirect($app->path('dashboard.settings.maintenance'));
         }

@@ -52,12 +52,20 @@
                         {% endif %}
                     </ul>
                     <ul class="right">
-                        <li{{ active_nav == 'settings' ? ' class="active"'}}>
-                            <a href="{{ path('site.settings') }}">
-                                <span class="icon-settings"></span>
-                                <strong>{{ current_user.getModel.name }}</strong>
-                            </a>
-                        </li>
+                        {% if current_user.getRole() != 'student' %}
+                            <li>
+                                <a href="{{ path('dashboard.account') }}">
+                                    <span class="icon-settings"></span>
+                                    <strong>{{ current_user.getModel.name }}</strong>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a>
+                                    <strong>{{ current_user.getModel.name }}</strong>
+                                </a>
+                            </li>
+                        {% endif %}
                         <li>
                             <a href="{{ path('site.logout', {_token: csrf_token('logout')}) }}">Logout</a>
                         </li>

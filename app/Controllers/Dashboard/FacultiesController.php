@@ -9,12 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Controllers\Dashboard\Admin;
+namespace App\Controllers\Dashboard;
 
 use Silex\Application;
 use App\Models\Department;
 use App\Models\Section;
 use App\Models\Faculty;
+use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Session\FlashBag;
@@ -57,6 +58,37 @@ class FacultiesController
         return View::render('dashboard/faculties/index', array(
             'search_form'   => $form->createView(),
             'result'        => $result->toArray()
+        ));
+    }
+
+    /**
+     * View faculty account page
+     * 
+     * URL: /dashboard/faculties/{id}
+     */
+    public function view(Request $request, Application $app, $id)
+    {
+        if (!$faculty = Faculty::with('department')->find($id)) {
+            FlashBag::add('messages', 'danger>>>Faculty account not found');
+            return $app->redirect($app->path('dashboard.faculties'));
+        }
+
+        $user = Auth::user();
+
+        if ($user->getRole() == 'head') {
+            // Deny if the faculty and head does not belong to the same department
+            // 
+            if (!$faculty->department || $faculty->department->id != $user->getModel()->department->id) {
+                FlashBag::add('messages', 'danger>>>This faculty is not in your department');
+
+                return $app->redirect($app->path('dashboard.departments.view', array(
+                    'id' => $user->getModel()->department->id
+                )));
+            }
+        }
+
+        return View::render('dashboard/faculties/view', array(
+            'faculty'   => $faculty->toArray()
         ));
     }
 
