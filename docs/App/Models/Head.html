@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>App\Models\Admin | API</title>
+    <title>App\Models\Head | API</title>
 
             <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:App_Models_Admin" data-root-path="../../">
+    <body id="class" data-name="class:App_Models_Head" data-root-path="../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -66,21 +66,21 @@
                                                             <li><a href="../../App.html">App</a></li>
                                         <li><a href="../../App/Models.html">Models</a></li>
     
-                <li>Admin</li>
+                <li>Head</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
-        <h1>Admin</h1>
+        <h1>Head</h1>
     </div>
 
     <p>    class
-    <strong>Admin</strong>        extends <abbr title="Illuminate\Database\Eloquent\Model">Model</abbr>
+    <strong>Head</strong>        extends <abbr title="Illuminate\Database\Eloquent\Model">Model</abbr>
 </p>
 
             <div class="description">
-            <p>Admin model</p>            <p>Model class for admins table</p>        </div>
+            <p>Head model</p>            <p>Model class for heads table</p>        </div>
     
             <h2>Traits</h2>
 
@@ -170,6 +170,26 @@
                     <a href="#method_search">search</a>($id = null, $name = null)
                                             <p>Search</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/SearchableTrait.html#method_search"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_department">department</a>()
+                                            <p>Get department</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_faculties">faculties</a>()
+                                            <p>Get associated faculties</p>                </div>
+                <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -371,8 +391,64 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_department">
+        <div class="location">at line         line 51</div>
+        <code>                    
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
+    <strong>department</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get department</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_faculties">
+        <div class="location">at line         line 61</div>
+        <code>                    
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
+    <strong>faculties</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get associated faculties</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_getNameAttribute">
-        <div class="location">at line         line 49</div>
+        <div class="location">at line         line 75</div>
         <code>                    
     string
     <strong>getNameAttribute</strong>()</code>

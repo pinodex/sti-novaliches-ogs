@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>App\Controllers\Student\MainController | API</title>
+    <title>App\Controllers\Dashboard\DepartmentsController | API</title>
 
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:App_Controllers_Student_MainController" data-root-path="../../../">
+    <body id="class" data-name="class:App_Controllers_Dashboard_DepartmentsController" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -65,23 +65,23 @@
                 <li><span class="label label-default">class</span></li>
                                                             <li><a href="../../../App.html">App</a></li>
                                         <li><a href="../../../App/Controllers.html">Controllers</a></li>
-                                        <li><a href="../../../App/Controllers/Student.html">Student</a></li>
+                                        <li><a href="../../../App/Controllers/Dashboard.html">Dashboard</a></li>
     
-                <li>MainController</li>
+                <li>DepartmentsController</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
-        <h1>MainController</h1>
+        <h1>DepartmentsController</h1>
     </div>
 
     <p>    class
-    <strong>MainController</strong>
+    <strong>DepartmentsController</strong>
 </p>
 
             <div class="description">
-            <p>Student controller</p>            <p>Route controllers for student pages (/student/*)</p>        </div>
+            <p>Route controller for departmentistrator management pages</p>                    </div>
     
     
     
@@ -95,9 +95,8 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_index">index</a>(
-    <abbr title="Silex\Application">Application</abbr> $app)
-                                            <p>Student page index</p>                </div>
+                    <a href="#method_index">index</a>()
+                                            <p>Admin departments page index</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -106,10 +105,9 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_top">top</a>(
-    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
-    <abbr title="Silex\Application">Application</abbr> $app, $period, $subject)
-                                            <p>Top students page</p>                </div>
+                    <a href="#method_self">self</a>(
+    <abbr title="Silex\Application">Application</abbr> $app)
+                                            <p>My department page</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -118,10 +116,46 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_account">account</a>(
+                    <a href="#method_view">view</a>(
     <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
-    <abbr title="Silex\Application">Application</abbr> $app)
-                                            <p>Dashboard user account settings</p>                </div>
+    <abbr title="Silex\Application">Application</abbr> $app, $id)
+                                            <p>Admin department view page</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_edit">edit</a>(
+    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
+    <abbr title="Silex\Application">Application</abbr> $app, $id)
+                                            <p>Admin departments page edit</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_settings">settings</a>(
+    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
+    <abbr title="Silex\Application">Application</abbr> $app, $id)
+                                            <p>Admin departments page edit</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_delete">delete</a>(
+    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
+    <abbr title="Silex\Application">Application</abbr> $app, $id)
+                                            <p>Delete department page</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -132,15 +166,33 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_index">
-        <div class="location">at line         line 36</div>
+        <div class="location">at line         line 34</div>
         <code>                    
     
-    <strong>index</strong>(
+    <strong>index</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Admin departments page index</p>                    <p>URL: /dashboard/departments/</p>            </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_self">
+        <div class="location">at line         line 48</div>
+        <code>                    
+    
+    <strong>self</strong>(
     <abbr title="Silex\Application">Application</abbr> $app)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Student page index</p>                    <p>URL: /student/</p>            </div>
+                                    <p>My department page</p>                    <p>URL: /dashboard/departments/self</p>            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -161,17 +213,17 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_top">
-        <div class="location">at line         line 62</div>
+                    <h3 id="method_view">
+        <div class="location">at line         line 66</div>
         <code>                    
     
-    <strong>top</strong>(
+    <strong>view</strong>(
     <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
-    <abbr title="Silex\Application">Application</abbr> $app, $period, $subject)</code>
+    <abbr title="Silex\Application">Application</abbr> $app, $id)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Top students page</p>                    <p>URL: /student/top</p>            </div>
+                                    <p>Admin department view page</p>                    <p>URL: /dashboard/departments/{id}</p>            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -190,12 +242,7 @@
             </tr>
                     <tr>
                 <td></td>
-                <td>$period</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$subject</td>
+                <td>$id</td>
                 <td></td>
             </tr>
             </table>
@@ -208,17 +255,18 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_account">
-        <div class="location">at line         line 140</div>
+                    <h3 id="method_edit">
+        <div class="location">at line         line 118</div>
         <code>                    
     
-    <strong>account</strong>(
+    <strong>edit</strong>(
     <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
-    <abbr title="Silex\Application">Application</abbr> $app)</code>
+    <abbr title="Silex\Application">Application</abbr> $app, $id)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Dashboard user account settings</p>                    <p>Url: /student/account</p>            </div>
+                                    <p>Admin departments page edit</p>                    <p>URL: /dashboard/departments/add
+URL: /dashboard/departments/{id}/edit</p>            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -233,6 +281,95 @@
                 <td>
     <abbr title="Silex\Application">Application</abbr></td>
                 <td>$app</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$id</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_settings">
+        <div class="location">at line         line 160</div>
+        <code>                    
+    
+    <strong>settings</strong>(
+    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
+    <abbr title="Silex\Application">Application</abbr> $app, $id)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Admin departments page edit</p>                    <p>URL: /dashboard/departments/{id}/settings</p>            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr></td>
+                <td>$request</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>
+    <abbr title="Silex\Application">Application</abbr></td>
+                <td>$app</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$id</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_delete">
+        <div class="location">at line         line 220</div>
+        <code>                    
+    
+    <strong>delete</strong>(
+    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
+    <abbr title="Silex\Application">Application</abbr> $app, $id)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Delete department page</p>                    <p>URL: /dashboard/departments/{id}/delete</p>            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr></td>
+                <td>$request</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>
+    <abbr title="Silex\Application">Application</abbr></td>
+                <td>$app</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$id</td>
                 <td></td>
             </tr>
             </table>

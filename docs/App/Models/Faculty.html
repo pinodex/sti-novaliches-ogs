@@ -80,28 +80,76 @@
 </p>
 
             <div class="description">
-            <p>Faculty model</p>            <p>Faculty model for faculties table</p>        </div>
+            <p>Head model</p>            <p>Model class for faculties table</p>        </div>
     
-    
-    
-            <h2>Properties</h2>
+            <h2>Traits</h2>
 
-            <table class="table table-condensed">
-                    <tr>
-                <td class="type" id="property_timestamps">
-                                                                                
+        
+    <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="../../App/Traits/HumanReadableDateTrait.html"><abbr title="App\Traits\HumanReadableDateTrait">HumanReadableDateTrait</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Provides mutation of date attributes
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="../../App/Traits/HashablePasswordTrait.html"><abbr title="App\Traits\HashablePasswordTrait">HashablePasswordTrait</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Provides password attribute mutation for hashing
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="../../App/Traits/SearchableTrait.html"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Gives a model method to search by id or name
+                </div>
+            </div>
+            </div>
     
-                </td>
-                <td>$timestamps</td>
-                <td class="last"></td>
-                <td></td>
-            </tr>
-            </table>
-
+    
     
             <h2>Methods</h2>
 
             <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getCreatedAtAttribute">getCreatedAtAttribute</a>(
+    string $value)
+                                            <p>Format created_at attribute</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/HumanReadableDateTrait.html#method_getCreatedAtAttribute"><abbr title="App\Traits\HumanReadableDateTrait">HumanReadableDateTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getUpdatedAtAttribute">getUpdatedAtAttribute</a>(
+    string $value)
+                                            <p>Format updated_at attribute</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/HumanReadableDateTrait.html#method_getUpdatedAtAttribute"><abbr title="App\Traits\HumanReadableDateTrait">HumanReadableDateTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getLastLoginAtAttribute">getLastLoginAtAttribute</a>(
+    string $value)
+                                            <p>Format last<em>login</em>at attribute</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/HumanReadableDateTrait.html#method_getLastLoginAtAttribute"><abbr title="App\Traits\HumanReadableDateTrait">HumanReadableDateTrait</abbr></a></small></div>
+            </div>
                     <div class="row">
                 <div class="col-md-2 type">
                     
@@ -111,6 +159,136 @@
                     <a href="#method_setPasswordAttribute">setPasswordAttribute</a>(
     string $password)
                                             <p>Auto-hash incoming password</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/HashablePasswordTrait.html#method_setPasswordAttribute"><abbr title="App\Traits\HashablePasswordTrait">HashablePasswordTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_search">search</a>($id = null, $name = null)
+                                            <p>Search</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/SearchableTrait.html#method_search"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_department">department</a>()
+                                            <p>Get department</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_head">head</a>()
+                                            <p>Get associated faculties</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_submissionLogs">submissionLogs</a>()
+                                            <p>Get associated submission log</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_submittedGrades">submittedGrades</a>()
+                                            <p>Get submitted grades</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getNameAttribute">getNameAttribute</a>()
+                                            <p>Get full name</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getStatusAttribute">getStatusAttribute</a>()
+                                            <p>Get status attribute</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getIsNeverSubmittedAttribute">getIsNeverSubmittedAttribute</a>()
+                                            <p>Get is<em>never</em>submitted attribute</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getIsIncompleteAttribute">getIsIncompleteAttribute</a>()
+                                            <p>Get is_incomplete attribute</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getIsSubmittedLateAttribute">getIsSubmittedLateAttribute</a>()
+                                            <p>Get is<em>submitted</em>late attribute</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getNumberOfFailsAttribute">getNumberOfFailsAttribute</a>()
+                                            <p>Get number<em>of</em>fails attribute</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getNumberOfDropsAttribute">getNumberOfDropsAttribute</a>()
+                                            <p>Get number<em>of</em>drops attribute</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_addSubmissionLogEntry">addSubmissionLogEntry</a>()
+                                            <p>Add submission log entry</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -119,8 +297,9 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_search">search</a>($name = null)
-                                            <p>Search faculty</p>                </div>
+                    <a href="#method_import">import</a>(
+    array $data)
+                                            <p>Import data to database</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -130,8 +309,128 @@
 
             <div id="method-details">
                     <div class="method-item">
+                    <h3 id="method_getCreatedAtAttribute">
+        <div class="location">in <a href="../../App/Traits/HumanReadableDateTrait.html#method_getCreatedAtAttribute"><abbr title="App\Traits\HumanReadableDateTrait">HumanReadableDateTrait</abbr></a> at line         line 26</div>
+        <code>                    
+    string
+    <strong>getCreatedAtAttribute</strong>(
+    string $value)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Format created_at attribute</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+    string</td>
+                <td>$value</td>
+                <td>Input date</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getUpdatedAtAttribute">
+        <div class="location">in <a href="../../App/Traits/HumanReadableDateTrait.html#method_getUpdatedAtAttribute"><abbr title="App\Traits\HumanReadableDateTrait">HumanReadableDateTrait</abbr></a> at line         line 38</div>
+        <code>                    
+    string
+    <strong>getUpdatedAtAttribute</strong>(
+    string $value)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Format updated_at attribute</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+    string</td>
+                <td>$value</td>
+                <td>Input date</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getLastLoginAtAttribute">
+        <div class="location">in <a href="../../App/Traits/HumanReadableDateTrait.html#method_getLastLoginAtAttribute"><abbr title="App\Traits\HumanReadableDateTrait">HumanReadableDateTrait</abbr></a> at line         line 50</div>
+        <code>                    
+    string
+    <strong>getLastLoginAtAttribute</strong>(
+    string $value)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Format last<em>login</em>at attribute</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+    string</td>
+                <td>$value</td>
+                <td>Input date</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_setPasswordAttribute">
-        <div class="location">at line         line 43</div>
+        <div class="location">in <a href="../../App/Traits/HashablePasswordTrait.html#method_setPasswordAttribute"><abbr title="App\Traits\HashablePasswordTrait">HashablePasswordTrait</abbr></a> at line         line 26</div>
         <code>                    
     
     <strong>setPasswordAttribute</strong>(
@@ -161,21 +460,382 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_search">
-        <div class="location">at line         line 56</div>
+        <div class="location">in <a href="../../App/Traits/SearchableTrait.html#method_search"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a> at line         line 29</div>
         <code>        static            
     
-    <strong>search</strong>($name = null)</code>
+    <strong>search</strong>($id = null, $name = null)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Search faculty</p>                                </div>
+                                    <p>Search</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
                 <td></td>
+                <td>$id</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
                 <td>$name</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_department">
+        <div class="location">at line         line 61</div>
+        <code>                    
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
+    <strong>department</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get department</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_head">
+        <div class="location">at line         line 71</div>
+        <code>                    
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
+    <strong>head</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get associated faculties</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_submissionLogs">
+        <div class="location">at line         line 81</div>
+        <code>                    
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
+    <strong>submissionLogs</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get associated submission log</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_submittedGrades">
+        <div class="location">at line         line 91</div>
+        <code>                    
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
+    <strong>submittedGrades</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get submitted grades</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getNameAttribute">
+        <div class="location">at line         line 101</div>
+        <code>                    
+    string
+    <strong>getNameAttribute</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get full name</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getStatusAttribute">
+        <div class="location">at line         line 111</div>
+        <code>                    
+    string
+    <strong>getStatusAttribute</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get status attribute</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getIsNeverSubmittedAttribute">
+        <div class="location">at line         line 133</div>
+        <code>                    
+    string
+    <strong>getIsNeverSubmittedAttribute</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get is<em>never</em>submitted attribute</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getIsIncompleteAttribute">
+        <div class="location">at line         line 143</div>
+        <code>                    
+    string
+    <strong>getIsIncompleteAttribute</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get is_incomplete attribute</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getIsSubmittedLateAttribute">
+        <div class="location">at line         line 176</div>
+        <code>                    
+    string
+    <strong>getIsSubmittedLateAttribute</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get is<em>submitted</em>late attribute</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getNumberOfFailsAttribute">
+        <div class="location">at line         line 199</div>
+        <code>                    
+    string
+    <strong>getNumberOfFailsAttribute</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get number<em>of</em>fails attribute</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getNumberOfDropsAttribute">
+        <div class="location">at line         line 218</div>
+        <code>                    
+    string
+    <strong>getNumberOfDropsAttribute</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get number<em>of</em>drops attribute</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_addSubmissionLogEntry">
+        <div class="location">at line         line 235</div>
+        <code>                    
+    
+    <strong>addSubmissionLogEntry</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Add submission log entry</p>                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_import">
+        <div class="location">at line         line 248</div>
+        <code>        static            
+    
+    <strong>import</strong>(
+    array $data)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Import data to database</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+    array</td>
+                <td>$data</td>
                 <td></td>
             </tr>
             </table>
