@@ -58,6 +58,11 @@ class DepartmentsController
         )));
     }
 
+    /**
+     * Admin department view page
+     * 
+     * URL: /dashboard/departments/{id}
+     */
     public function view(Request $request, Application $app, $id)
     {
         $user = Auth::user();

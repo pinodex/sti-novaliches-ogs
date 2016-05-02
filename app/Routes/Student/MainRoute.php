@@ -29,6 +29,10 @@ class MainRoute implements ControllerProviderInterface
             array('App\Controllers\Student\MainController', 'index')
         )->bind('student.index');
 
+        $controller->match('/account',
+            array('App\Controllers\Student\MainController', 'account')
+        )->bind('student.account');
+
         $controller->match('/top/{period}/{subject}',
             array('App\Controllers\Student\MainController', 'top')
         )->bind('student.top')->value('period', null)->value('subject', null);

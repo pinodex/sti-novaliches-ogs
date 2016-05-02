@@ -40,6 +40,11 @@ class GradesController
         return View::render('dashboard/grades/index');
     }
 
+    /**
+     * Grade import wizard redirector
+     * 
+     * URL: /dashboard/grades/import
+     */
     public function import(Application $app) {
         return $app->redirect($app->path('dashboard.grades.import.1'));
     }
@@ -203,7 +208,10 @@ class GradesController
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            Grade::import($contents);
+            $faculty = Auth::user()->getModel();
+            $faculty->addSubmissionLogEntry();
+            
+            Grade::import($contents, $faculty);
             Session::set('gw_import_done', true);
             
             return $app->redirect($app->path('dashboard.grades.import.4'));
@@ -232,13 +240,6 @@ class GradesController
 
         if (!Session::get('gw_import_done')) {
             return $app->redirect($app->path('dashboard.grades.import.3'));
-        }
-
-        $user = Auth::user();
-
-        if ($user->getRole() == 'faculty') {
-            $user->getModel()->last_grade_submission_at = date('Y-m-d H:i:s');
-            $user->getModel()->save();
         }
 
         // cleanup

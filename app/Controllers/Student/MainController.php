@@ -15,9 +15,10 @@ use Silex\Application;
 use App\Services\Auth;
 use App\Services\Form;
 use App\Services\View;
+use App\Services\Session\FlashBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Models\Grade;
 
 /**
@@ -32,13 +33,24 @@ class MainController
      * 
      * URL: /student/
      */
-    public function index()
+    public function index(Application $app)
     {
-        $userModel = Auth::user()->getModel();
+        $user = Auth::user()->getModel();
+
+        if (!$user->mobile_number ||
+            !$user->email_address ||
+            !$user->address ||
+            !$user->guardian_name ||
+            !$user->guardian_contact_number) {
+
+            FlashBag::add('messages', 'info>>>You must complete your information to continue viewing.');
+
+            return $app->redirect($app->path('student.account'));
+        }
 
         return View::render('student/index', array(
-            'student'   => $userModel->toArray(),
-            'grades'    => $userModel->grades->toArray()
+            'student'   => $user->toArray(),
+            'grades'    => $user->grades->toArray()
         ));
     }
 
@@ -50,14 +62,26 @@ class MainController
     public function top(Request $request, Application $app, $period, $subject)
     {
         if ($period && !in_array($period, array('prelim', 'midterm', 'prefinal', 'final'))) {
-            throw new NotFoundHttpException('Period not found');
+            return $app->abort(404);
         }
 
         $user = Auth::user();
+
+        if (!$user->mobile_number ||
+            !$user->email_address ||
+            !$user->address ||
+            !$user->guardian_name ||
+            !$user->guardian_contact_number) {
+
+            FlashBag::add('messages', 'info>>>You must complete your information to continue viewing.');
+
+            return $app->redirect($app->path('student.account'));
+        }
+
         $subjects = $user->getModel()->subjects();
 
         if ($subject && !in_array($subject, $subjects)) {
-            throw new NotFoundHttpException('Subject not found');
+            return $app->abort(404);
         }
 
         $subjectChoices = array();
@@ -105,6 +129,73 @@ class MainController
             'period'        => $period,
             'subject'       => $subject,
             'result'        => $result,
+        ));
+    }
+
+    /**
+     * Dashboard user account settings
+     * 
+     * Url: /student/account
+     */
+    public function account(Request $request, Application $app)
+    {
+        $user = Auth::user()->getModel();
+        $form = Form::create($user->toArray());
+
+        $form->add('mobile_number', 'text', array(
+            'label' => 'Mobile number *',
+            'constraints' => new Assert\Regex(array(
+                'pattern'   => '/(0|63|\+63)[\d+]{10}/',
+                'message'   => 'Please enter a valid mobile number',
+                'match'     => true
+            ))
+        ));
+
+        $form->add('landline', 'text', array(
+            'constraints' => new Assert\Regex(array(
+                'pattern'   => '/([\d+]{3}[\d+]{4})|([\d+]{3}-[\d+]{4})/',
+                'message'   => 'Please enter a valid landline number',
+                'match'     => true
+            )),
+
+            'required' => false
+        ));
+
+        $form->add('email_address', 'text', array(
+            'label'       => 'Email address *',
+            'constraints' => new Assert\Email()
+        ));
+
+        $form->add('address', 'textarea', array(
+            'label' => 'Address *'
+        ));
+
+        $form->add('guardian_name', 'text', array(
+            'label' => 'Name of guardian/parent *'
+        ));
+
+        $form->add('guardian_contact_number', 'text', array(
+            'label' => 'Guardian\'s/Parent\'s contact no. *',
+            'constraints' => new Assert\Regex(array(
+                'pattern'   => '/([\d+]{3}[\d+]{4})|([\d+]{3}-[\d+]{4})|((0|63|\+63)[\d+]{10})/',
+                'message'   => 'Please enter a valid mobile number or landline',
+                'match'     => true
+            ))
+        ));
+
+        $form = $form->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $user->fill($form->getData());
+            $user->save();
+
+            FlashBag::add('messages', 'success>>>Your account settings has been updated');
+            return $app->redirect($app->path('student.index'));
+        }
+
+        return View::render('student/account', array(
+            'settings_form' => $form->createView()
         ));
     }
 }

@@ -103,10 +103,10 @@
 
                                 <tbody>
                                     {% for faculty in faculties %}
-                                        <tr{{ faculty.is_grade_submission_deadline_due ? ' class="color-danger"' }}>
+                                        <tr{{ faculty.is_submitted_late ? ' class="color-danger"' }}>
                                             <td>{{ faculty.name }}</td>
                                             <td>{{ faculty.last_login_at }}</td>
-                                            <td>{{ faculty.last_grade_submission_at }}</td>
+                                            <td>{{ faculty.grade_submitted_at }}</td>
                                             <td>
                                                 <a href="{{ path('dashboard.faculties.view', {id: faculty.id}) }}">View</a>
                                             </td>

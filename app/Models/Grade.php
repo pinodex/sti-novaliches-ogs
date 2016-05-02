@@ -27,6 +27,7 @@ class Grade extends Model
 
     protected $fillable = array(
         'student_id',
+        'importer_id',
         'subject',
         'section',
         'prelim',
@@ -45,6 +46,16 @@ class Grade extends Model
     public function student()
     {
         return $this->belongsTo('App\Models\Student');
+    }
+
+    /**
+     * Get grade importer
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\Relation;
+     */
+    public function importer()
+    {
+        return $this->belongsTo('App\Models\Faculty', 'importer_id');
     }
 
     /**
@@ -83,7 +94,7 @@ class Grade extends Model
      * 
      * @param array $data
      */
-    public static function import($data)
+    public static function import($data, Faculty $importer)
     {
         $importFails = array();
 
@@ -94,6 +105,7 @@ class Grade extends Model
                     continue;
                 }
 
+                $row['importer_id'] = $importer->id;
                 $student->updateGrades(array($row));
             }
         }

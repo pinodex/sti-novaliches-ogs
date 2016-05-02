@@ -75,7 +75,7 @@ class MainController
             return $app->redirect($app->path('dashboard.index'));
         }
 
-        return View::render('dashboard/settings', array(
+        return View::render('dashboard/account', array(
             'settings_form' => $form->createView()
         ));
     }

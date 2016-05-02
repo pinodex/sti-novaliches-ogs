@@ -2,7 +2,7 @@
 
 {% form_theme search_form '/_layout/form-default.html' %}
 
-{% set page_title = 'Faculties' %}
+{% set page_title = 'Faculty' %}
 
 {% block content %}
     <div class="container">
@@ -29,7 +29,17 @@
                     <div class="panel">
                         <div class="panel-heading">Actions</div>
                         <div class="panel-body">
-                            <a href="{{ path('dashboard.faculties.add') }}">Add new faculty account</a>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="{{ path('dashboard.faculties.add') }}">Add new faculty account</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('dashboard.faculties.import') }}">Import faculty list</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('dashboard.faculties.summary') }}">View summary</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 {% endif %}

@@ -31,7 +31,15 @@ class Student extends Model
         'last_name',
         'first_name',
         'middle_name',
-        'course'
+        'course',
+        'mobile_number',
+        'landline',
+        'email_address',
+        'address',
+        'guardian_name',
+        'guardian_contact_number',
+        'other_info',
+        'remarks'
     );
 
     /**

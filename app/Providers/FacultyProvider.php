@@ -52,7 +52,8 @@ class FacultyProvider implements AuthProviderInterface
                 'import1',
                 'import2',
                 'import3',
-                'import4'
+                'import4',
+                'denied'
             ),
         );
     }

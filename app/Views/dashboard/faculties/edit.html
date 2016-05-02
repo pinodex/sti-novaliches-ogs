@@ -12,8 +12,6 @@
             <div class="column-4">
                 <form method="post" action="{{ app.request.getRequestUri }}">
                     {{ form_widget(form) }}
-
-                    <p><a href="{{ path('dashboard.faculties.sections', {id: faculty.id}) }}">Edit sections handled by {{ faculty.name }}</p>
                     
                     <button type="submit" class="success">Save <span class="icon-navigate_next"></span></button>
                     <a href="{{ path('dashboard.faculties.delete', {id: faculty.id}) }}" class="button link">Delete Faculty</a>
