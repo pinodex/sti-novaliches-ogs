@@ -1,6 +1,6 @@
 {% extends '/_layout/main-default.html' %}
 
-{% form_theme choose_form '/_layout/form-default.html' %}
+{% form_theme confirm_form '/_layout/form-default.html' %}
 
 {% set page_title = 'Students import wizard' %}
 
@@ -9,21 +9,21 @@
         <h1><span class="icon-file_upload"></span> {{ page_title }}</h1>
 
         <div class="grid">
-            {% include '/admin/manage/student/import/steps.html' %}
+            {% include '/dashboard/students/import/steps.html' %}
 
             <div class="column-8">
                 <div class="panel">
-                    <div class="panel-heading">Choose sheets to import</div>
+                    <div class="panel-heading">Confirm imports</div>
                     <div class="panel-body">
-                        <div class="alert alert-neutral">
-                            <p>Please choose which sheets you want to import.</p>
-                            <small>You can select up to 3 sheets at a time. If error occurs during selection, reduce your selection and try again.</small>
-                        </div>
+                        <p>You are importing {{ row_count }} rows.</p>
+                        <p><em>Importing to database may take several seconds depending on the amount of records to be imported. Please don't close this window/tab while importing.</em></p>
+                        <p>Please also note that this will skip existing records to avoid duplicates.</p>
+                        
                         <form method="post" action="{{ app.request.getRequestUri }}">
-                            {{ form_widget(choose_form) }}
+                            {{ form_widget(confirm_form) }}
 
-                            <a href="{{ path('dashboard.students.import.1') }}" class="button neutral"><span class="icon-navigate_before"></span> Back</a>
-                            <button type="submit" class="success">Next <span class="icon-navigate_next"></span></button>
+                            <a href="{{ path('dashboard.students.import.2') }}" class="button neutral"><span class="icon-navigate_before"></span> Back</a>
+                            <button type="submit" class="success">Confirm and save changes <span class="icon-navigate_next"></span></button>
                         </form>
                     </div>
                 </div>

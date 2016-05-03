@@ -23,15 +23,19 @@ $app->mount('/', new Routes\MainRoute);
 
 $app->mount('/student',                 new Student\MainRoute);
 
-$app->mount('/dashboard',               new Dashboard\MainRoute);
-$app->mount('/dashboard/admins',        new Dashboard\AdminsRoute);
-$app->mount('/dashboard/heads',         new Dashboard\HeadsRoute);
-$app->mount('/dashboard/faculties',     new Dashboard\FacultiesRoute);
-$app->mount('/dashboard/departments',   new Dashboard\DepartmentsRoute);
-$app->mount('/dashboard/students',      new Dashboard\StudentsRoute);
-$app->mount('/dashboard/sections',      new Dashboard\SectionsRoute);
-$app->mount('/dashboard/grades',      new Dashboard\GradesRoute);
-$app->mount('/dashboard/settings',      new Dashboard\SettingsRoute);
+$app->mount('/dashboard',                   new Dashboard\MainRoute);
+$app->mount('/dashboard/admins',            new Dashboard\AdminsRoute);
+$app->mount('/dashboard/heads',             new Dashboard\HeadsRoute);
+$app->mount('/dashboard/faculties',         new Dashboard\FacultiesRoute);
+$app->mount('/dashboard/departments',       new Dashboard\DepartmentsRoute);
+$app->mount('/dashboard/students',          new Dashboard\StudentsRoute);
+$app->mount('/dashboard/sections',          new Dashboard\SectionsRoute);
+$app->mount('/dashboard/grades',            new Dashboard\GradesRoute);
+$app->mount('/dashboard/settings',          new Dashboard\SettingsRoute);
+
+$app->mount('/dashboard/faculties/import',  new Dashboard\FacultiesImportRoute);
+$app->mount('/dashboard/students/import',   new Dashboard\StudentsImportRoute);
+$app->mount('/dashboard/grades/import',     new Dashboard\GradesImportRoute);
 
 $app->before(function(Request $request, Application $app) {
     if (is_array($request->get('_controller')) &&

@@ -868,6 +868,13 @@ input[type="button"].link, button.link, .button.link {
   background: transparent;
 }
 
+.buttons {
+  margin-bottom: 15px;
+}
+.buttons button, .buttons .button {
+  margin-bottom: 0;
+}
+
 .color-primary {
   color: #428bca;
 }
@@ -1156,6 +1163,9 @@ table.borderless {
 table.borderless thead, table.borderless tbody, table.borderless tr, table.borderless td, table.borderless th {
   border: none;
 }
+table.borderless td {
+  padding: 5px;
+}
 table.colorless tr:nth-child(even) {
   background: none;
 }
@@ -1175,20 +1185,19 @@ table.center-align td {
 }
 .tabs li {
   float: left;
-}
-.tabs li a, .tabs li input[type="button"].link, .tabs li button.link, .tabs li .button.link {
-  display: block;
-  border-radius: 50px;
+  border-radius: 2px;
   background: #999;
   font-size: 12px;
   padding: 5px 10px;
-  color: #fff;
   text-decoration: none;
+  color: #fff;
+  cursor: pointer;
 }
-.tabs li.active a, .tabs li.active input[type="button"].link, .tabs li.active button.link, .tabs li.active .button.link, .tabs li.active:hover a, .tabs li.active:hover input[type="button"].link, .tabs li.active:hover button.link, .tabs li.active:hover .button.link {
+.tabs li.active, .tabs li.active:hover {
   background: #428bca;
+  cursor: default;
 }
-.tabs li:hover a, .tabs li:hover input[type="button"].link, .tabs li:hover button.link, .tabs li:hover .button.link {
+.tabs li:hover {
   background: #3071a9;
 }
 

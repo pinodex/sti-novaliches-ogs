@@ -29,26 +29,6 @@ class GradesRoute implements ControllerProviderInterface
             array('App\Controllers\Dashboard\GradesController', 'index')
         )->bind('dashboard.grades');
         
-        $controller->match('/import',
-            array('App\Controllers\Dashboard\GradesController', 'import')
-        )->bind('dashboard.grades.import');
-
-        $controller->match('/import/1',
-            array('App\Controllers\Dashboard\GradesController', 'import1')
-        )->bind('dashboard.grades.import.1');
-
-        $controller->match('/import/2',
-            array('App\Controllers\Dashboard\GradesController', 'import2')
-        )->bind('dashboard.grades.import.2');
-
-        $controller->match('/import/3',
-            array('App\Controllers\Dashboard\GradesController', 'import3')
-        )->bind('dashboard.grades.import.3');
-
-        $controller->match('/import/4',
-            array('App\Controllers\Dashboard\GradesController', 'import4')
-        )->bind('dashboard.grades.import.4');
-        
         return $controller;
     }
 }

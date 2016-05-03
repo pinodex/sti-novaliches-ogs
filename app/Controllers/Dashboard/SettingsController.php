@@ -152,7 +152,13 @@ class SettingsController
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $fs->remove($dirs);
+            try {
+                $fs->remove($dirs);
+            } catch (\Exception $e) {
+                dd($e);
+                FlashBag::add('messages', 'danger>>>Error: ' . $e->getMessage());
+                return $app->redirect($app->path('dashboard.settings.maintenance'));
+            }
 
             FlashBag::add('messages', 'info>>>Directory has been cleared');
             return $app->redirect($app->path('dashboard.settings.maintenance'));

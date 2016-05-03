@@ -60,7 +60,7 @@
         isLoginBoxShowed: true,
         isHelpBoxShowed: false,
         paginationPage: 1,
-        wizActiveTab: 0
+        activeTab: 0
     };
 
     var appMethods = {
@@ -93,8 +93,8 @@
             location = location.pathname + '?' + stringifyUrlParams(params);
         },
 
-        wizActivateTab: function(index) {
-            this.wizActiveTab = index;
+        activateTab: function(index) {
+            this.activeTab = index;
         }
     };
 
@@ -110,6 +110,12 @@
         app.$set('paginationPage', currentPage);
     }
 
+    var tabSwitcher = document.querySelector('[data-activated-tab]');
+
+    if (tabSwitcher) {
+        app.activateTab(tabSwitcher.getAttribute('data-activated-tab'));
+    }
+
     /*
     History.Adapter.bind(window, 'statechange', function() {
         var state = History.getState();
@@ -117,4 +123,6 @@
 
     });
     */
+   
+    window.app = app;
 }());

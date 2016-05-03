@@ -15,6 +15,7 @@ use Silex\Application;
 use App\Services\Auth;
 use App\Services\Form;
 use App\Services\View;
+use App\Services\Settings;
 use App\Services\Session\FlashBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type;
@@ -24,7 +25,7 @@ use App\Models\Grade;
 /**
  * Student controller
  * 
- * Route controllers for student pages (/student/*)
+ * Route controllers for /student/*
  */
 class MainController
 {
@@ -37,20 +38,18 @@ class MainController
     {
         $user = Auth::user()->getModel();
 
-        if (!$user->mobile_number ||
-            !$user->email_address ||
-            !$user->address ||
-            !$user->guardian_name ||
-            !$user->guardian_contact_number) {
-
-            FlashBag::add('messages', 'info>>>You must complete your information to continue viewing.');
-
+        if (!$user->is_required_info_filled) {
             return $app->redirect($app->path('student.account'));
         }
 
+        $period = strtolower(Settings::get('period', 'prelim'));
+        $periodIndex = array_flip(array('prelim', 'midterm', 'prefinal', 'final'))[$period];
+
         return View::render('student/index', array(
-            'student'   => $user->toArray(),
-            'grades'    => $user->grades->toArray()
+            'student'       => $user->toArray(),
+            'grades'        => $user->grades->toArray(),
+            'period'        => $period,
+            'active_period' => $periodIndex
         ));
     }
 
@@ -65,20 +64,13 @@ class MainController
             return $app->abort(404);
         }
 
-        $user = Auth::user();
+        $user = Auth::user()->getModel();
 
-        if (!$user->mobile_number ||
-            !$user->email_address ||
-            !$user->address ||
-            !$user->guardian_name ||
-            !$user->guardian_contact_number) {
-
-            FlashBag::add('messages', 'info>>>You must complete your information to continue viewing.');
-
+        if (!$user->is_required_info_filled) {
             return $app->redirect($app->path('student.account'));
         }
 
-        $subjects = $user->getModel()->subjects();
+        $subjects = $user->subjects();
 
         if ($subject && !in_array($subject, $subjects)) {
             return $app->abort(404);

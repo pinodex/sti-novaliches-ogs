@@ -12,7 +12,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Capsule\Manager as DB;
 use App\Traits\SearchableTrait;
 
 /**
@@ -40,6 +39,10 @@ class Student extends Model
         'guardian_contact_number',
         'other_info',
         'remarks'
+    );
+
+    protected $appends = array(
+        'is_required_info_filled'
     );
 
     /**
@@ -77,6 +80,17 @@ class Student extends Model
     }
 
     /**
+     * Check if required informations are filled
+     * 
+     * @return boolean
+     */
+    public function getIsRequiredInfoFilledAttribute()
+    {
+        return $this->mobile_number || $this->email_address || $this->address || 
+                $this->guardian_name || $this->guardian_contact_number;
+    }
+
+    /**
      * Update student grades
      * 
      * @param array $date Array of grade data
@@ -91,68 +105,9 @@ class Student extends Model
                 'subject'    => $row['subject'],
             );
 
-            $grades = array(
-                'prelim'    => $row['prelim'],
-                'midterm'   => $row['midterm'],
-                'prefinal'  => $row['prefinal'],
-                'final'     => $row['final'],
-            );
-
-            foreach ($grades as $period => $grade) {
-                if (trim($grade) == '') {
-                    $grades[$period] = null;
-
-                    continue;
-                }
-
-                if (preg_match('/(?i)INC/', $grade)) {
-                    $grades[$period] = 0;
-
-                    continue;
-                }
-
-                if (preg_match('/(?i)DRP/', $grade)) {
-                    $grades[$period] = -1;
-
-                    continue;
-                }
-
-                if (!preg_match('/((?![0-5])[0-9]{2,3})/', $grade)) {
-                    unset($grades[$period]);
-                }
-            }
-
-            if (Grade::where($query)->first()) {
-                Grade::where($query)->update($grades);
-            } else {
-                Grade::create($row);
-            }
-
-        }
-    }
-
-    /**
-     * Import data to database
-     * 
-     * @param array $data Array of students
-     */
-    public static function import($data)
-    {
-        $timestamp = date('Y-m-d H:i:s');
-
-        foreach ($data as $sheet) {
-            $chunks = array_chunk($sheet, 500);
-
-            foreach ($chunks as $students) {
-                $values = array();
-                $bindings = array();
-
-                foreach ($students as $i => $student) {
-                    $values[] = '(?, ?, ?, ?, ?, "' . $timestamp . '", "' . $timestamp . '")';
-                    $bindings = array_merge($bindings, array_values($student));
-                }
-
-                DB::insert('insert ignore into students values ' . implode(',', $values), $bindings);
+            if ($grade = Grade::where($query)->first()) {
+                $grade->fill($row);
+                $grade->save();
             }
         }
     }

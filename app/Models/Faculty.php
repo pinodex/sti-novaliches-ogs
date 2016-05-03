@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Traits\HumanReadableDateTrait;
 use App\Traits\HashablePasswordTrait;
 use App\Traits\SearchableTrait;
+use App\Services\Settings;
 use App\Services\Hash;
 
 /**
@@ -80,7 +81,7 @@ class Faculty extends Model
      */
     public function submissionLogs()
     {
-        return $this->hasMany('App\Models\FacultySubmissionLog');
+        return $this->hasMany('App\Models\FacultyGradeImportLog');
     }
 
     /**
@@ -143,7 +144,7 @@ class Faculty extends Model
     public function getIsIncompleteAttribute()
     {
         $isIncomplete = false;
-        $period = strtolower(Setting::find('period')->value);
+        $period = strtolower(Settings::get('period', 'prelim'));
 
         $sheets = $this->submittedGrades->groupBy(function (Grade $grade) {
             return $grade->subject . ' ' . $grade->section;
@@ -199,7 +200,7 @@ class Faculty extends Model
     public function getNumberOfFailsAttribute()
     {
         $count = 0;
-        $period = strtolower(Setting::find('period')->value);
+        $period = strtolower(Settings::get('period', 'prelim'));
 
         foreach ($this->submittedGrades as $grade) {
             if ($grade->getAttribute($period) != null && $grade->getAttribute($period) < 75) {
@@ -218,7 +219,7 @@ class Faculty extends Model
     public function getNumberOfDropsAttribute()
     {
         $count = 0;
-        $period = strtolower(Setting::find('period')->value);
+        $period = strtolower(Settings::get('period', 'prelim'));
 
         foreach ($this->submittedGrades as $grade) {
             if ($grade->getAttribute($period) == -1) {
@@ -234,59 +235,9 @@ class Faculty extends Model
      */
     public function addSubmissionLogEntry()
     {
-        FacultySubmissionLog::create(array(
+        FacultyGradeImportLog::create(array(
             'faculty_id'    => $this->id,
             'date'          => date('Y-m-d H:i:s')
         ));
-    }
-
-    /**
-     * Import data to database
-     * 
-     * @param array $data
-     */
-    public static function import($data)
-    {
-        $input = array();
-        $mappings = array(
-            'BM'    => 'Business Management',
-            'BMAT'  => 'Business Management',
-            'IT'    => 'Information Technology',
-            'ICT'   => 'Information Technology',
-            'AT'    => 'Accounting Technology',
-            'HR'    => 'Hotel and Restaurant Management',
-            'TM'    => 'Hotel and Restaurant Management',
-            'TH'    => 'Hotel and Restaurant Management',
-            'HR/TM' => 'Hotel and Restaurant Management'
-        );
-
-        $departments = Department::all()->groupBy(function (Department $department) {
-            return $department->name;
-        });
-
-        foreach ($data as $sheet) {
-            foreach ($sheet as $row) {
-                $departmentId = null;
-
-                if (array_key_exists($row['department'], $mappings) &&
-                    $departments->has($mappings[$row['department']])) {
-                    
-                    $departmentId = $departments->get($mappings[$row['department']])[0]->id;
-                }
-
-                $input[] = array(
-                    'last_name' => $row['last_name'],
-                    'first_name'    => $row['first_name'],
-                    'middle_name'   => $row['middle_name'],
-                    'department_id' => $departmentId,
-                    'username'      => strtoupper(substr($row['first_name'], 0, 1) . $row['last_name']),
-                    'password'      => Hash::make('stinova123'),
-                    'created_at'    => date('Y-m-d H:i:s'),
-                    'updated_at'    => date('Y-m-d H:i:s')
-                );
-            }
-        }
-
-        self::insert($input);
     }
 }

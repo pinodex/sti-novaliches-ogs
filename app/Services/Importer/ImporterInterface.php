@@ -9,22 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Controllers\Dashboard;
-
-use App\Services\View;
+namespace App\Services\Importer;
 
 /**
- * Route controller for grade pages
+ * Grading Sheet importer interface
  */
-class GradesController
+interface ImporterInterface
 {
     /**
-     * Grades page index
+     * Import sheets
      * 
-     * URL: /dashboard/grades/
+     * @param array $sheets Sheets to import
      */
-    public function index()
-    {
-        return View::render('dashboard/grades/index');
-    }
+    public static function import($sheets);
 }

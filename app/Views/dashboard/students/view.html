@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="container">
-        <h1>View Student Grades</h1>
+        <h1>View Student</h1>
 
         <div class="grid">
             <div class="column-4">
@@ -33,6 +33,30 @@
                                     <td>Course</td>
                                     <td>{{ student.course }}</td>
                                 </tr>
+                                <tr>
+                                    <td>Mobile number</td>
+                                    <td>{{ student.mobile_number|default('N/A') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Landline</td>
+                                    <td>{{ student.landline|default('N/A') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email address</td>
+                                    <td>{{ student.email_address|default('N/A') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Address</td>
+                                    <td>{{ student.address|default('N/A') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Name of Parent/Guardian</td>
+                                    <td>{{ student.guardian_name|default('N/A') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Contact no.</td>
+                                    <td>{{ student.guardian_contact_number|default('N/A') }}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -46,6 +70,9 @@
                                 <li>
                                     <a href="{{ path('dashboard.students.edit', {id: student.id}) }}">Edit Student</a>   
                                 </li>
+                                <li>
+                                    <a href="{{ path('dashboard.students.edit.grades', {id: student.id}) }}">Edit Grades</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -53,14 +80,11 @@
             </div>
 
             <div class="column-8">
-                <div class="panel">
-                    <div class="panel-heading">Grades</div>
-                    {% if grades is empty %}
-                        <div class="panel-body">Nothing has been imported yet for this student</div>
-                    {% endif %}
-                </div>
-                
                 {% if grades is not empty %}
+                    <div class="panel">
+                        <div class="panel-heading">Grades</div>
+                    </div>
+
                     <table class="center-align">
                         <thead>
                             <tr>
@@ -91,16 +115,88 @@
                             {% for grade in grades %}
                                 <tr>
                                     <th>{{ grade.subject }}</th>
-                                    <td class="{{ grade.prelim|grade_class }}">{{ grade.prelim|format_grade }}</td>
-                                    <td class="{{ grade.midterm|grade_class }}">{{ grade.midterm|format_grade }}</td>
-                                    <td class="{{ grade.prefinal|grade_class }}">{{ grade.prefinal|format_grade }}</td>
-                                    <td class="{{ grade.final|grade_class }}">{{ grade.final|format_grade }}</td>
+                                    <td class="{{ grade.prelim_grade|grade_class }}">{{ grade.prelim_grade }}</td>
+                                    <td class="{{ grade.midterm_grade|grade_class }}">{{ grade.midterm_grade }}</td>
+                                    <td class="{{ grade.prefinal_grade|grade_class }}">{{ grade.prefinal_grade }}</td>
+                                    <td class="{{ grade.final_grade|grade_class }}">{{ grade.final_grade }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
                     </table>
+                    
+                    <div class="panel">
+                        <div class="panel-heading">Attendance summary</div>
+                    </div>
 
-                    <a href="{{ path('dashboard.students.edit.grades', {id: student.id}) }}" class="button neutral">Edit Grades</a>
+                    <ul class="tabs" data-activated-tab="{{ active_period }}">
+                        <li v-on:click="activateTab(0)" v-bind:class="{'active': activeTab == 0}">Prelim</li>
+                        <li v-on:click="activateTab(1)" v-bind:class="{'active': activeTab == 1}">Midterm</li>
+                        <li v-on:click="activateTab(2)" v-bind:class="{'active': activeTab == 2}">Prefinal</li>
+                        <li v-on:click="activateTab(3)" v-bind:class="{'active': activeTab == 3}">Final</li>
+                    </ul>
+
+                    <table class="center-align">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="long">Subject</span>
+                                    <span class="short">Subj</span>
+                                </th>
+                                <th>
+                                    <span class="long">Total class hours</span>
+                                    <span class="short">TH</span>
+                                </th>
+                                <th>
+                                    <span class="long">Hours absent</span>
+                                    <span class="short">HA</span>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody v-show="activeTab == 0">
+                            {% for grade in grades %}
+                                <tr>
+                                    <th>{{ grade.subject }}</th>
+                                    <td>{{ grade.prelim_attendance_hours }}</td>
+                                    <td>{{ grade.prelim_absent_hours }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+
+                        <tbody v-show="activeTab == 1">
+                            {% for grade in grades %}
+                                <tr>
+                                    <th>{{ grade.subject }}</th>
+                                    <td>{{ grade.midterm_attendance_hours }}</td>
+                                    <td>{{ grade.midterm_absent_hours }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+
+                        <tbody v-show="activeTab == 2">
+                            {% for grade in grades %}
+                                <tr>
+                                    <th>{{ grade.subject }}</th>
+                                    <td>{{ grade.prefinal_attendance_hours }}</td>
+                                    <td>{{ grade.prefinal_absent_hours }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+
+                        <tbody v-show="activeTab == 3">
+                            {% for grade in grades %}
+                                <tr>
+                                    <th>{{ grade.subject }}</th>
+                                    <td>{{ grade.final_attendance_hours }}</td>
+                                    <td>{{ grade.final_absent_hours }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="alert alert-info">
+                        Grades are not yet available for this student yet.
+                    </div>
                 {% endif %}
             </div>
         </div>

@@ -78,11 +78,55 @@ class Helper
     }
 
     /**
-     * Get display text for grade value
+     * Get HTML class for grade value
      * 
      * @param string $grade Grade
      * 
-     * @return string|int
+     * @return string
+     */
+    public static function getGradeClass($grade)
+    {
+        if ($grade === null || $grade === '' || $grade == 'N/A') {
+            return 'color-neutral';
+        }
+
+        if ($grade === 0 || $grade === 'INC' || $grade === -1 || $grade === 'DRP' || $grade < 75) {
+            return 'color-danger';
+        }
+
+        return '';
+    }
+
+    /**
+     * Parse grade for database storage
+     * 
+     * @param string $grade Grade
+     * 
+     * @return int
+     */
+    public static function parseGrade($grade)
+    {
+        if (trim($grade) == '') {
+            return null;
+        }
+
+        if (preg_match('/(?i)INC/', $grade)) {
+            return 0;
+        }
+
+        if (preg_match('/(?i)DRP/', $grade)) {
+            return -1;
+        }
+
+        return $grade;
+    }
+
+    /**
+     * Format grade for view
+     * 
+     * @param int $grade Grade
+     * 
+     * @return string
      */
     public static function formatGrade($grade)
     {
@@ -99,30 +143,6 @@ class Helper
         }
 
         return $grade;
-    }
-
-    /**
-     * Get HTML class for grade value
-     * 
-     * @param string $grade Grade
-     * 
-     * @return string
-     */
-    public static function getGradeClass($grade)
-    {
-        if ($grade === null || $grade === '') {
-            return 'none';
-        }
-
-        if ($grade === 0 || $grade === 'INC') {
-            return 'incomplete';
-        }
-
-        if ($grade === -1 || $grade === 'DRP') {
-            return 'incomplete';
-        }
-
-        return 'complete';
     }
 
     /**

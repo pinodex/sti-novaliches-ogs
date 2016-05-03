@@ -216,6 +216,14 @@ input[type="button"], button, .button {
     @extend button.info;
 }
 
+.buttons {
+    margin-bottom: 15px;
+    
+    button, .button {
+        margin-bottom: 0;
+    }
+}
+
 .color-primary {
     color: $brand-primary;
 }
@@ -553,6 +561,10 @@ table {
         thead, tbody, tr, td, th {
             border: none;
         }
+
+        td {
+            padding: 5px;
+        }
     }
 
     &.colorless {
@@ -581,23 +593,21 @@ table {
 
     li {
         float: left;
+        border-radius: 2px;
+        background: #999;
+        font-size: 12px;
+        padding: 5px 10px;
+        text-decoration: none;
+        color: #fff;
+        cursor: pointer;
 
-        a {
-            display: block;
-            border-radius: 50px;
-            background: #999;
-            font-size: 12px;
-            padding: 5px 10px;
-            color: #fff;
-            text-decoration: none;
-        }
-
-        &.active a,
-        &.active:hover a {
+        &.active,
+        &.active:hover {
             background: $brand-primary;
+            cursor: default;
         }
 
-        &:hover a {
+        &:hover {
             background: $brand-primary-hover;
         }
     }

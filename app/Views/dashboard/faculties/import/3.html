@@ -16,16 +16,14 @@
                         <ul class="tabs">
                             {% set index = 0 %}
                             {% for name,rows in spreadsheet_contents %}
-                                <li v-on:click.prevent="wizActivateTab({{ index }})" v-bind:class="{'active': wizActiveTab == {{ index }}}">
-                                    <a href="#">{{ name }}</a>
-                                </li>
+                                <li v-on:click.prevent="activateTab({{ index }})" v-bind:class="{'active': activeTab == {{ index }}}">{{ name }}</li>
                                 {% set index = index + 1 %}
                             {% endfor %}
                         </ul>
 
                         {% set index = 0 %}
                         {% for name,rows in spreadsheet_contents %}
-                            <div class="sheet" v-show="wizActiveTab == {{ index }}">
+                            <div class="sheet" v-show="activeTab == {{ index }}">
                                 <table class="center-align">
                                     <thead>
                                         <tr>

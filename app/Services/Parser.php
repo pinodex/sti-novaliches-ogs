@@ -12,32 +12,41 @@
 namespace App\Services;
 
 use SpreadsheetReader;
-use App\Services\Helper;
 
 /**
- * Omega Sheet
- * 
- * Provides wrapper for nuovo/spreadsheet-reader
+ * Base class for spreadsheet parsers.
  */
-class OmegaSheet
+abstract class Parser
 {
     /**
      * @var SpreadsheetReader
      */
-    private $excel;
+    protected $spreadsheet;
 
     /**
      * @var array Sheets
      */
-    private $sheets = array();
+    protected $sheets = array();
 
     /**
      * @param string $filePath Excel file path
      */
-    public function __construct($filePath)
+    public function __construct(SpreadsheetReader $spreadsheet)
     {
-        $this->excel = new SpreadsheetReader($filePath);
-        $this->sheets = $this->excel->Sheets();
+        $this->spreadsheet = $spreadsheet;
+        $this->sheets = $spreadsheet->Sheets();
+    }
+
+    /**
+     * SpreadsheetReader parser factory
+     * 
+     * @param string $filePath Spreadsheet file path
+     * 
+     * @return Parser
+     */
+    public static function parse($filePath)
+    {
+        return new static(new SpreadsheetReader($filePath));
     }
 
     /**
@@ -51,6 +60,16 @@ class OmegaSheet
     }
 
     /**
+     * Change active sheet
+     * 
+     * @param int $index Sheet index
+     */
+    public function changeSheet($index)
+    {
+        $this->spreadsheet->ChangeSheet($index);
+    }
+
+    /**
      * Get sheet contents
      * 
      * @param int $index Sheet index
@@ -59,22 +78,7 @@ class OmegaSheet
      */
     public function getSheetContents($index)
     {
-        $output = array();
-        $this->excel->ChangeSheet($index);
-
-        foreach ($this->excel as $i => $row) {
-            if ($i > 0 && Helper::isStudentId($row[0])) {
-                $output[] = array(
-                    'id'          => $row[0],
-                    'last_name'   => $row[1],
-                    'first_name'  => $row[2],
-                    'middle_name' => $row[3],
-                    'course'      => $row[4]
-                );
-            }
-        }
-        
-        return $output;
+        return array();
     }
 
     /**
@@ -92,7 +96,7 @@ class OmegaSheet
      * 
      * @return array
      */
-    public function getSheetsContents($indices)
+    public function getSheetsContent($indices)
     {
         $output = array();
 

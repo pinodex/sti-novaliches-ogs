@@ -16,16 +16,14 @@
                         <ul class="tabs">
                             {% set index = 0 %}
                             {% for name,rows in spreadsheet_contents %}
-                                <li v-on:click.prevent="wizActivateTab({{ index }})" v-bind:class="{'active': wizActiveTab == {{ index }}}">
-                                    <a href="#">{{ name }}</a>
-                                </li>
+                                <li v-on:click="activateTab({{ index }})" v-bind:class="{'active': activeTab == {{ index }}}">{{ name }}</li>
                                 {% set index = index + 1 %}
                             {% endfor %}
                         </ul>
 
                         {% set index = 0 %}
                         {% for name,rows in spreadsheet_contents %}
-                            <div class="sheet" v-show="wizActiveTab == {{ index }}">
+                            <div class="sheet" v-show="activeTab == {{ index }}">
                                 <table class="center-align">
                                     <thead>
                                         <tr>
@@ -57,14 +55,14 @@
                                     </thead>
 
                                     <tbody>
-                                        {% for row in rows %}
+                                        {% for row in rows.students %}
                                             <tr>
                                                 <td>{{ row.student_id|format_student_id }}</td>
                                                 <td>{{ row.name }}</td>
-                                                <td class="{{ row.prelim|grade_class }}">{{ row.prelim|format_grade }}</td>
-                                                <td class="{{ row.midterm|grade_class }}">{{ row.midterm|format_grade }}</td>
-                                                <td class="{{ row.prefinal|grade_class }}">{{ row.prefinal|format_grade }}</td>
-                                                <td class="{{ row.final|grade_class }}">{{ row.final|format_grade }}</td>
+                                                <td class="{{ row.prelim_grade|grade_class }}">{{ row.prelim_grade|format_grade }}</td>
+                                                <td class="{{ row.midterm_grade|grade_class }}">{{ row.midterm_grade|format_grade }}</td>
+                                                <td class="{{ row.prefinal_grade|grade_class }}">{{ row.prefinal_grade|format_grade }}</td>
+                                                <td class="{{ row.final_grade|grade_class }}">{{ row.final_grade|format_grade }}</td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>

@@ -53,26 +53,6 @@ class StudentsRoute implements ControllerProviderInterface
             array('App\Controllers\Dashboard\StudentsController', 'delete')
         )->bind('dashboard.students.delete')->assert('id', '[\d+]{11}');
         
-        $controller->match('/import',
-            array('App\Controllers\Dashboard\StudentsController', 'import')
-        )->bind('dashboard.students.import');
-
-        $controller->match('/import/1',
-            array('App\Controllers\Dashboard\StudentsController', 'import1')
-        )->bind('dashboard.students.import.1');
-
-        $controller->match('/import/2',
-            array('App\Controllers\Dashboard\StudentsController', 'import2')
-        )->bind('dashboard.students.import.2');
-
-        $controller->match('/import/3',
-            array('App\Controllers\Dashboard\StudentsController', 'import3')
-        )->bind('dashboard.students.import.3');
-
-        $controller->match('/import/4',
-            array('App\Controllers\Dashboard\StudentsController', 'import4')
-        )->bind('dashboard.students.import.4');
-        
         return $controller;
     }
 }

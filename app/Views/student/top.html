@@ -54,7 +54,7 @@
                                         {% else %}
                                             <td>Unknown Student</td>
                                         {% endif %}
-                                        <td>{{ row[period]|default('N/A') }}</td>
+                                        <td>{{ row[period ~ '_grade'] }}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
