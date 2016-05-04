@@ -37,7 +37,7 @@ class FacultyController
     public function index(Request $request)
     {
         if ($page = $request->query->get('page')) {
-            Paginator::currentPageResolver(function() use($page) {
+            Paginator::currentPageResolver(function () use ($page) {
                 return $page;
             });
         }
