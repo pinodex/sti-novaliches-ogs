@@ -10,16 +10,17 @@
  */
 
 use Silex\Application;
+use App\Services\View;
+use App\Services\Auth;
+use App\Services\Session\FlashBag;
 use App\Routes;
 use App\Routes\Student;
 use App\Routes\Dashboard;
-use App\Services\Auth;
-use App\Services\Session\FlashBag;
 use Symfony\Component\HttpFoundation\Request;
 
 $app->mount('/', new Routes\MainRoute);
 
-$app->mount('/student',                 new Student\MainRoute);
+$app->mount('/student',                     new Student\MainRoute);
 
 $app->mount('/dashboard',                   new Dashboard\MainRoute);
 $app->mount('/dashboard/admins',            new Dashboard\AdminsRoute);
@@ -49,4 +50,12 @@ $app->before(function (Request $request, Application $app) {
     }
 });
 
-$app->error(function ())
+$app->error(function (\Exception $e, $code) use ($app) {
+    if ($app['debug']) {
+        return;
+    }
+
+    if ($code == 404) {
+        return View::render('_error/404');
+    }
+});
