@@ -25,10 +25,10 @@ $app->register(new Provider\TranslationServiceProvider(), array(
 
 require ROOT . 'config/app.php';
 
+ini_set('display_errors', 0);
+
+Debug\ExceptionHandler::register($app['debug']);
 Debug\ErrorHandler::register();
-Debug\ExceptionHandler::register(
-    $app['debug']
-);
 
 $app->register(new Providers\IlluminateDatabaseServiceProvider());
 $app->register(new Providers\TwigExtensionServiceProvider());

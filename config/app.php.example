@@ -17,11 +17,6 @@
 $app['debug'] = false;
 
 /*
- * Enforce https
- */
-$app['https'] = false;
-
-/*
  * Profiler options
  */
 $app['profiler.cache_dir'] = ROOT . 'cache/profiler';
