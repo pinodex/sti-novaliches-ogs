@@ -33,7 +33,7 @@ class DepartmentsController
      */
     public function index()
     {
-        $departments = Department::with('head', 'faculties')->get();
+        $departments = Department::with('head', 'faculty')->get();
 
         return View::render('dashboard/departments/index', array(
             'departments' => $departments->toArray()
@@ -138,12 +138,12 @@ class DepartmentsController
         ));
 
         $form = $form->getForm();
-        $faculties = $department->searchRelated('faculties', null, $request->query->get('name'));
+        $faculty = $department->searchRelated('faculty', null, $request->query->get('name'));
 
         return View::render('dashboard/departments/view', array(
             'department'    => $department->toArray(),
             'search_form'   => $form->createView(),
-            'result'        => $faculties->toArray()
+            'result'        => $faculty->toArray()
         ));
     }
 

@@ -30,21 +30,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Route controller for faculty import pages
  */
-class FacultiesImportController
+class FacultyImportController
 {
     /**
      * Faculty import redirector
      * 
-     * URL: /dashboard/faculties/import/
+     * URL: /dashboard/faculty/import/
      */
     public function index(Application $app) {
-        return $app->redirect($app->path('dashboard.faculties.import.1'));
+        return $app->redirect($app->path('dashboard.faculty.import.1'));
     }
 
     /**
      * Grade import wizard step 1
      * 
-     * URL: /dashboard/faculties/import/1
+     * URL: /dashboard/faculty/import/1
      */
     public function stepOne(Request $request, Application $app) {
         if ($uploadedFile = Session::get('fw_uploaded_file')) {
@@ -80,7 +80,7 @@ class FacultiesImportController
             if ($file->getError() != 0) {
                 FlashBag::add('messages', 'danger>>>' . $file->getErrorMessage());
                 
-                return $app->redirect($app->path('dashboard.faculties.import.1'));
+                return $app->redirect($app->path('dashboard.faculty.import.1'));
             }
             
             $extension = $form['file']->getData()->guessExtension();
@@ -90,10 +90,10 @@ class FacultiesImportController
             ));
             
             Session::set('fw_uploaded_file', $uploadedFile->getPathName());
-            return $app->redirect($app->path('dashboard.faculties.import.2'));
+            return $app->redirect($app->path('dashboard.faculty.import.2'));
         }
         
-        return View::render('dashboard/faculties/import/1', array(
+        return View::render('dashboard/faculty/import/1', array(
             'upload_form'   => $form->createView(),
             'current_step'  => 1
         ));
@@ -102,11 +102,11 @@ class FacultiesImportController
     /**
      * Grade import wizard step 2
      * 
-     * URL: /dashboard/faculties/import/2
+     * URL: /dashboard/faculty/import/2
      */
     public function stepTwo(Request $request, Application $app) {
         if (!$uploadedFile = Session::get('fw_uploaded_file')) {
-            return $app->redirect($app->path('dashboard.faculties.import.1'));
+            return $app->redirect($app->path('dashboard.faculty.import.1'));
         }
 
         $sheets = FacultySheet::parse($uploadedFile)->getSheets();
@@ -133,10 +133,10 @@ class FacultiesImportController
             }
 
             Session::set('fw_selected_sheets', $data);
-            return $app->redirect($app->path('dashboard.faculties.import.3'));
+            return $app->redirect($app->path('dashboard.faculty.import.3'));
         }
 
-        return View::render('dashboard/faculties/import/2', array(
+        return View::render('dashboard/faculty/import/2', array(
             'choose_form'   => $form->createView(),
             'current_step'  => 2
         ));
@@ -145,15 +145,15 @@ class FacultiesImportController
     /**
      * Grade import wizard step 3
      * 
-     * URL: /dashboard/faculties/import/3
+     * URL: /dashboard/faculty/import/3
      */
     public function stepThree(Request $request, Application $app) {
         if (!$uploadedFile = Session::get('fw_uploaded_file')) {
-            return $app->redirect($app->path('dashboard.faculties.import.1'));
+            return $app->redirect($app->path('dashboard.faculty.import.1'));
         }
 
         if (!$selectedSheets = Session::get('fw_selected_sheets')) {
-            return $app->redirect($app->path('dashboard.faculties.import.2'));
+            return $app->redirect($app->path('dashboard.faculty.import.2'));
         }
 
         /* Check if spreadsheet contents is cached in the session database
@@ -178,10 +178,10 @@ class FacultiesImportController
             FacultyImporter::import($contents);
             Session::set('fw_import_done', true);
             
-            return $app->redirect($app->path('dashboard.faculties.import.4'));
+            return $app->redirect($app->path('dashboard.faculty.import.4'));
         }
 
-        return View::render('dashboard/faculties/import/3', array(
+        return View::render('dashboard/faculty/import/3', array(
             'current_step'          => 3,
             'confirm_form'          => $form->createView(),
             'spreadsheet_contents'  => $contents
@@ -191,19 +191,19 @@ class FacultiesImportController
     /**
      * Grade import wizard step 4
      * 
-     * URL: /dashboard/faculties/import/4
+     * URL: /dashboard/faculty/import/4
      */
     public function stepFour(Application $app) {
         if (!$uploadedFile = Session::get('fw_uploaded_file')) {
-            return $app->redirect($app->path('dashboard.faculties.import.1'));
+            return $app->redirect($app->path('dashboard.faculty.import.1'));
         }
 
         if (!Session::get('fw_selected_sheets')) {
-            return $app->redirect($app->path('dashboard.faculties.import.2'));
+            return $app->redirect($app->path('dashboard.faculty.import.2'));
         }
 
         if (!Session::get('fw_import_done')) {
-            return $app->redirect($app->path('dashboard.faculties.import.3'));
+            return $app->redirect($app->path('dashboard.faculty.import.3'));
         }
 
         // cleanup
@@ -214,7 +214,7 @@ class FacultiesImportController
         
         @unlink($uploadedFile);
         
-        return View::render('dashboard/faculties/import/4', array(
+        return View::render('dashboard/faculty/import/4', array(
             'current_step' => 4
         ));
     }

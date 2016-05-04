@@ -26,14 +26,14 @@ $app->mount('/student',                 new Student\MainRoute);
 $app->mount('/dashboard',                   new Dashboard\MainRoute);
 $app->mount('/dashboard/admins',            new Dashboard\AdminsRoute);
 $app->mount('/dashboard/heads',             new Dashboard\HeadsRoute);
-$app->mount('/dashboard/faculties',         new Dashboard\FacultiesRoute);
+$app->mount('/dashboard/faculty',         new Dashboard\FacultyRoute);
 $app->mount('/dashboard/guidance',          new Dashboard\GuidanceRoute);
 $app->mount('/dashboard/departments',       new Dashboard\DepartmentsRoute);
 $app->mount('/dashboard/students',          new Dashboard\StudentsRoute);
 $app->mount('/dashboard/grades',            new Dashboard\GradesRoute);
 $app->mount('/dashboard/settings',          new Dashboard\SettingsRoute);
 
-$app->mount('/dashboard/faculties/import',  new Dashboard\FacultiesImportRoute);
+$app->mount('/dashboard/faculty/import',  new Dashboard\FacultyImportRoute);
 $app->mount('/dashboard/students/import',   new Dashboard\StudentsImportRoute);
 $app->mount('/dashboard/grades/import',     new Dashboard\GradesImportRoute);
 

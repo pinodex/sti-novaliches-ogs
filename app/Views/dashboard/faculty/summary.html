@@ -19,13 +19,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for faculty in faculties %}
+                        {% for faculty in faculty %}
                             <tr>
                                 <td>{{ faculty.name }}</td>
                                 <td>{{ faculty.status }}</td>
                                 <td>{{ faculty.number_of_fails }}</td>
                                 <td>{{ faculty.number_of_drops }}</td>
-                                <td><a href="{{ path('dashboard.faculties.view', {id: faculty.id}) }}">View</a></td>
+                                <td><a href="{{ path('dashboard.faculty.view', {id: faculty.id}) }}">View</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

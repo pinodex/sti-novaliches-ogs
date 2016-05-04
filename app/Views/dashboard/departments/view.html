@@ -71,7 +71,7 @@
             
             <div class="column-8">
                 <div class="panel">
-                    <div class="panel-heading">Faculties</div>
+                    <div class="panel-heading">Faculty</div>
                     <div class="panel-body">
                         {% if result.data is not empty %}
                             <select name="pages" v-on:change="changePaginationPage" v-model="paginationPage">
@@ -124,7 +124,7 @@
                                             <td>{{ faculty.number_of_fails }}</td>
                                             <td>{{ faculty.number_of_drops }}</td>
                                             <td>
-                                                <a href="{{ path('dashboard.faculties.view', {id: faculty.id}) }}">View</a>
+                                                <a href="{{ path('dashboard.faculty.view', {id: faculty.id}) }}">View</a>
                                             </td>
                                         </tr>
                                     {% endfor %}

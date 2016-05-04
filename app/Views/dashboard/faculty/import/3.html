@@ -7,7 +7,7 @@
         <h1><span class="icon-file_upload"></span> {{ page_title }}</h1>
 
         <div class="grid">
-            {% include '/dashboard/faculties/import/steps.html' %}
+            {% include '/dashboard/faculty/import/steps.html' %}
 
             <div class="column-8">
                 <div class="panel">
@@ -61,8 +61,10 @@
                         <form method="post" action="{{ app.request.getRequestUri }}">
                             {{ form_widget(confirm_form) }}
 
-                            <a href="{{ path('dashboard.faculties.import.2') }}" class="button neutral"><span class="icon-navigate_before"></span> Back</a>
-                            <button type="submit" class="success">Confirm and save changes <span class="icon-navigate_next"></span></button>
+                            <div class="buttons">
+                                <a href="{{ path('dashboard.faculty.import.2') }}" class="button neutral"><span class="icon-navigate_before"></span> Back</a>
+                                <button type="submit" class="success">Confirm and save changes <span class="icon-navigate_next"></span></button>
+                            </div>
                         </form>
                     </div>
                 </div>

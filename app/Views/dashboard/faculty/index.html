@@ -17,7 +17,7 @@
                 <div class="panel">
                     <div class="panel-heading"><span class="icon-search"></span> Search Faculty</div>
                     <div class="panel-body">
-                        <form method="get" action="{{ path('dashboard.faculties.search') }}">
+                        <form method="get" action="{{ path('dashboard.faculty.search') }}">
                             {{ form_widget(search_form) }}
 
                             <button type="submit"><span class="icon-search"></span> Search</button>
@@ -31,13 +31,13 @@
                         <div class="panel-body">
                             <ul class="list-unstyled">
                                 <li>
-                                    <a href="{{ path('dashboard.faculties.add') }}">Add new faculty account</a>
+                                    <a href="{{ path('dashboard.faculty.add') }}">Add new faculty account</a>
                                 </li>
                                 <li>
-                                    <a href="{{ path('dashboard.faculties.import') }}">Import faculty list</a>
+                                    <a href="{{ path('dashboard.faculty.import') }}">Import faculty list</a>
                                 </li>
                                 <li>
-                                    <a href="{{ path('dashboard.faculties.summary') }}">View summary</a>
+                                    <a href="{{ path('dashboard.faculty.summary') }}">View summary</a>
                                 </li>
                             </ul>
                         </div>
@@ -81,7 +81,7 @@
                                 <td>{{ row.department ? row.department.name : 'Unassigned' }}</td>
                                 <td>{{ row.last_login_at }}</td>
                                 <td>
-                                    <a href="{{ path('dashboard.faculties.view', {id: row.id}) }}">View</a>
+                                    <a href="{{ path('dashboard.faculty.view', {id: row.id}) }}">View</a>
                                 </td>
                             </tr>
                         {% endfor %}

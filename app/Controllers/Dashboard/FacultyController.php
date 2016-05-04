@@ -29,12 +29,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Route controller for faculty management pages
  */
-class FacultiesController
+class FacultyController
 {
     /**
      * Manage faculty accounts page
      * 
-     * URL: /dashboard/faculties/
+     * URL: /dashboard/faculty/
      */
     public function index(Request $request)
     {
@@ -57,7 +57,7 @@ class FacultiesController
         $form = $form->getForm();
         $result = Faculty::search(null, $request->query->get('name'));
 
-        return View::render('dashboard/faculties/index', array(
+        return View::render('dashboard/faculty/index', array(
             'search_form'   => $form->createView(),
             'result'        => $result->toArray()
         ));
@@ -66,27 +66,27 @@ class FacultiesController
     /**
      * Manage faculty summary accounts page
      * 
-     * URL: /dashboard/faculties/summary
+     * URL: /dashboard/faculty/summary
      */
     public function summary(Request $request)
     {
-        $faculties = Faculty::all();
+        $faculty = Faculty::all();
 
-        return View::render('dashboard/faculties/summary', array(
-            'faculties' => $faculties->toArray()
+        return View::render('dashboard/faculty/summary', array(
+            'faculty' => $faculty->toArray()
         ));
     }
 
     /**
      * View faculty account page
      * 
-     * URL: /dashboard/faculties/{id}
+     * URL: /dashboard/faculty/{id}
      */
     public function view(Request $request, Application $app, $id)
     {
         if (!$faculty = Faculty::with('department', 'submissionLogs')->find($id)) {
             FlashBag::add('messages', 'danger>>>Faculty account not found');
-            return $app->redirect($app->path('dashboard.faculties'));
+            return $app->redirect($app->path('dashboard.faculty'));
         }
 
         $user = Auth::user();
@@ -103,7 +103,7 @@ class FacultiesController
             }
         }
 
-        return View::render('dashboard/faculties/view', array(
+        return View::render('dashboard/faculty/view', array(
             'faculty'   => $faculty->toArray(),
             'logs'      => array_reverse($faculty->submissionLogs->toArray())
         ));
@@ -112,8 +112,8 @@ class FacultiesController
     /**
      * Edit faculty account page
      * 
-     * URL: /dashboard/faculties/add
-     * URL: /dashboard/faculties/{id}/edit
+     * URL: /dashboard/faculty/add
+     * URL: /dashboard/faculty/{id}/edit
      */
     public function edit(Request $request, Application $app, $id)
     {
@@ -122,7 +122,7 @@ class FacultiesController
 
         if ($faculty->id != $id) {
             FlashBag::add('messages', 'danger>>>Faculty account not found');
-            return $app->redirect($app->path('dashboard.faculties'));
+            return $app->redirect($app->path('dashboard.faculty'));
         }
 
         $id && $mode = 'edit';
@@ -183,10 +183,10 @@ class FacultiesController
 
             FlashBag::add('messages', 'success>>>Faculty account has been saved');
 
-            return $app->redirect($app->path('dashboard.faculties'));
+            return $app->redirect($app->path('dashboard.faculty'));
         }
 
-        return View::render('dashboard/faculties/' . $mode, array(
+        return View::render('dashboard/faculty/' . $mode, array(
             'form'      => $form->createView(),
             'faculty'   => $faculty->toArray()
         ));
@@ -195,14 +195,14 @@ class FacultiesController
     /**
      * Delete faculty account page
      * 
-     * URL: /dashboard/faculties/{id}/delete
+     * URL: /dashboard/faculty/{id}/delete
      */
     public function delete(Request $request, Application $app, $id)
     {
         if (!$faculty = Faculty::find($id)) {
             FlashBag::add('messages', 'danger>>>Faculty account not found');
 
-            return $app->redirect($app->path('dashboard.faculties'));
+            return $app->redirect($app->path('dashboard.faculty'));
         }
 
         $form = Form::create();
@@ -216,10 +216,10 @@ class FacultiesController
 
             FlashBag::add('messages', 'info>>>Faculty account has been deleted');
 
-            return $app->redirect($app->path('dashboard.faculties'));
+            return $app->redirect($app->path('dashboard.faculty'));
         }
 
-        return View::render('dashboard/faculties/delete', array(
+        return View::render('dashboard/faculty/delete', array(
             'form'      => $form->createView(),
             'faculty'   => $faculty->toArray()
         ));

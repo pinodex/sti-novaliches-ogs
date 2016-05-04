@@ -55,11 +55,11 @@ class Head extends Model
     }
 
     /**
-     * Get associated faculties
+     * Get associated faculty
      * 
      * @return \Illuminate\Database\Eloquent\Relations\Relation
      */
-    public function faculties()
+    public function faculty()
     {
         return $this->hasMany('App\Models\Faculty', 'department_id', 'department_id');
     }

@@ -43,7 +43,7 @@ class HeadProvider implements AuthProviderInterface
                 'settings'
             ),
             
-            'App\Controllers\Dashboard\FacultiesController' => array(
+            'App\Controllers\Dashboard\FacultyController' => array(
                 'view'
             ),
             

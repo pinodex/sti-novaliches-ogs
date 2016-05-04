@@ -44,11 +44,11 @@ class Department extends Model
     }
 
     /**
-     * Get department faculties
+     * Get department faculty
      * 
      * @return \Illuminate\Database\Eloquent\Relations\Relation
      */
-    public function faculties()
+    public function faculty()
     {
         return $this->hasMany('App\Models\Faculty');
     }

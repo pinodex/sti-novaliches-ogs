@@ -35,15 +35,17 @@ class AdminProvider implements AuthProviderInterface
     public function getAllowedControllers()
     {
         return array(
-            'App\Controllers\Dashboard\MainController',
             'App\Controllers\Dashboard\AdminsController',
-            'App\Controllers\Dashboard\HeadsController',
-            'App\Controllers\Dashboard\FacultiesController',
-            'App\Controllers\Dashboard\GuidanceController',
             'App\Controllers\Dashboard\DepartmentsController',
-            'App\Controllers\Dashboard\StudentsController',
+            'App\Controllers\Dashboard\FacultyController',
+            'App\Controllers\Dashboard\FacultyImportController',
             'App\Controllers\Dashboard\GradesController',
-            'App\Controllers\Dashboard\SettingsController'
+            'App\Controllers\Dashboard\GradesImportController',
+            'App\Controllers\Dashboard\GuidanceController',
+            'App\Controllers\Dashboard\HeadsController',
+            'App\Controllers\Dashboard\MainController',
+            'App\Controllers\Dashboard\SettingsController',
+            'App\Controllers\Dashboard\StudentsController',
         );
     }
 

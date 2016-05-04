@@ -663,3 +663,16 @@ table {
         }
     }
 }
+
+@keyframes rotate-animation {
+    0% { 
+        background: #4993CF;
+        transform: scale(0);
+    }
+
+    100% { 
+        background: #4993CF;
+        transform: scale(1.0);
+        opacity: 0;
+    }
+}

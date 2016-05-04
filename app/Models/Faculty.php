@@ -21,7 +21,7 @@ use App\Services\Settings;
 /**
  * Head model
  * 
- * Model class for faculties table
+ * Model class for faculty table
  */
 class Faculty extends Model
 {
@@ -66,7 +66,7 @@ class Faculty extends Model
     }
 
     /**
-     * Get associated faculties
+     * Get associated faculty
      * 
      * @return \Illuminate\Database\Eloquent\Relations\Relation
      */
