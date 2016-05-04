@@ -11,10 +11,6 @@
 
 namespace App\Services\Importer;
 
-use App\Models\Grade;
-use App\Models\Faculty;
-use App\Services\Parser;
-use App\Services\Helper;
 use Illuminate\Database\Capsule\Manager as DB;
 
 /**

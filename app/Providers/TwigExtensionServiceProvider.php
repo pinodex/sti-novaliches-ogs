@@ -16,7 +16,6 @@ use Silex\ServiceProviderInterface;
 use Twig_Environment;
 use Twig_SimpleFunction;
 use Twig_SimpleFilter;
-use App\Services\Helper;
 use App\Services\Auth;
 
 /**

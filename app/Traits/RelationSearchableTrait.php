@@ -12,6 +12,7 @@
 namespace App\Traits;
 
 use Illuminate\Database\Capsule\Manager as DB;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Gives a model method to search by id or name
@@ -45,7 +46,7 @@ trait RelationSearchableTrait
         }
 
         if ($name) {
-            $result->where(function ($query) use ($concats, $name) {
+            $result->where(function (Builder $query) use ($concats, $name) {
                 foreach ($concats as $concat) {
                     $query->orWhere(DB::raw($concat), 'LIKE', '%' . $name . '%');
                 }

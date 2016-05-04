@@ -15,10 +15,9 @@ use Silex\Application;
 use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;
-use App\Models\Admin;
 use App\Models\Department;
 use App\Services\Session\FlashBag;
-use App\Constraints as CustomAssert;
+use Illuminate\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -50,7 +49,7 @@ class DepartmentsController
         $user = Auth::user();
         $model = $user->getModel();
 
-        if ($user->getRole() != 'head' && $model->department == null) {
+        if ($user->getRole() != 'head' && $model->department === null) {
             return $app->abort(404);
         }
 
@@ -108,7 +107,7 @@ class DepartmentsController
         $model = $user->getModel();
 
         if ($user->getRole() == 'head' &&
-            $model->department != null &&
+            $model->department !== null &&
             $model->department->id != $id
         ) {
             return $app->redirect($app->path('dashboard.departments.self'));
@@ -201,7 +200,7 @@ class DepartmentsController
         $model = $user->getModel();
 
         if ($user->getRole() == 'head' &&
-            $model->department != null &&
+            $model->department !== null &&
             $model->department->id != $id
         ) {
             return $app->redirect($app->path('dashboard.departments.self'));

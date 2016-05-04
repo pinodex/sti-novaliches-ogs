@@ -65,7 +65,7 @@ class Student extends Model
     {
          $grades = Grade::where('student_id', $this->id)->get();
 
-         return $grades->map(function ($item) {
+         return $grades->map(function (Grade $item) {
             return $item->subject;
          })->toArray();
     }

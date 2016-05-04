@@ -12,7 +12,6 @@
 namespace App\Services\Parser;
 
 use App\Services\Parser;
-use App\Services\Helper;
 
 /**
  * Faculty Sheet parser

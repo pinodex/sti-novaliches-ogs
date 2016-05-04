@@ -13,13 +13,11 @@ namespace App\Controllers\Dashboard;
 
 use Silex\Application;
 use App\Models\Department;
-use App\Models\Section;
 use App\Models\Faculty;
 use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Session;
-use App\Services\FacultySheet;
 use App\Services\Session\FlashBag;
 use App\Constraints as CustomAssert;
 use Illuminate\Pagination\Paginator;
@@ -68,7 +66,7 @@ class FacultyController
      * 
      * URL: /dashboard/faculty/summary
      */
-    public function summary(Request $request)
+    public function summary()
     {
         $faculty = Faculty::all();
 
@@ -82,7 +80,7 @@ class FacultyController
      * 
      * URL: /dashboard/faculty/{id}
      */
-    public function view(Request $request, Application $app, $id)
+    public function view(Application $app, $id)
     {
         if (!$faculty = Faculty::with('department', 'submissionLogs')->find($id)) {
             FlashBag::add('messages', 'danger>>>Faculty account not found');

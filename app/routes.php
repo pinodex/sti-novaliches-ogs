@@ -13,8 +13,6 @@ use Silex\Application;
 use App\Routes;
 use App\Routes\Student;
 use App\Routes\Dashboard;
-use App\Routes\Faculty;
-use App\Routes\Admin;
 use App\Services\Auth;
 use App\Services\Session\FlashBag;
 use Symfony\Component\HttpFoundation\Request;

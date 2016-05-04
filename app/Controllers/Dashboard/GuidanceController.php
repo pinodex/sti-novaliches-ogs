@@ -12,7 +12,6 @@
 namespace App\Controllers\Dashboard;
 
 use Silex\Application;
-use App\Models\Department;
 use App\Models\Guidance;
 use App\Services\View;
 use App\Services\Form;

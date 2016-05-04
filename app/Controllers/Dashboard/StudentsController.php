@@ -13,8 +13,6 @@ namespace App\Controllers\Dashboard;
 
 use Silex\Application;
 use App\Models\Student;
-use App\Models\Faculty;
-use App\Models\Section;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Helper;
@@ -22,8 +20,7 @@ use App\Services\Session;
 use App\Services\Settings;
 use App\Services\Session\FlashBag;
 use App\Constraints as CustomAssert;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Validator\Constraints as Assert;
+use Illuminate\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

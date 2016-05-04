@@ -11,8 +11,6 @@
 
 namespace App\Traits;
 
-use App\Services\Hash;
-
 /**
  * Provides automatic name concatenation
  */

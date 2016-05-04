@@ -159,7 +159,7 @@ class Faculty extends Model
             $incompletes = 0;
 
             foreach ($grades as $grade) {
-                if ($grade->getAttribute($period) == null) {
+                if ($grade->getAttribute($period) === null) {
                     $incompletes++;
                 }
             }
@@ -208,7 +208,7 @@ class Faculty extends Model
         $period = strtolower(Settings::get('period', 'prelim')) . '_grade';
 
         foreach ($this->submittedGrades as $grade) {
-            if ($grade->getAttribute($period) != null && $grade->getAttribute($period) < 75) {
+            if ($grade->getAttribute($period) !== null && $grade->getAttribute($period) < 75) {
                 $count++;
             }
         }

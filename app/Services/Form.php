@@ -11,7 +11,6 @@
 
 namespace App\Services;
 
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Form as SymfonyForm;
 use Symfony\Component\Form\FormError;
 

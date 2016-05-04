@@ -11,6 +11,8 @@
 
 namespace App\Traits;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Gives a model method to get array of data for form choices
  */
@@ -25,11 +27,11 @@ trait ChoosableTrait
     {
         $models = self::get();
 
-        $keys = $models->map(function ($item) {
+        $keys = $models->map(function (Model $item) {
             return strval($item->id);
         })->toArray();
 
-        $values = $models->map(function ($item) {
+        $values = $models->map(function (Model $item) {
             return $item->getChoiceName();
         })->toArray();
 

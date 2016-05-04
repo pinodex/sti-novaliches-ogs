@@ -13,8 +13,6 @@ namespace App\Services\Importer;
 
 use App\Models\Faculty;
 use App\Models\Department;
-use App\Services\Parser;
-use App\Services\Helper;
 use App\Services\Hash;
 
 /**

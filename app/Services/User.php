@@ -37,13 +37,6 @@ class User
     private $provider;
 
     /**
-     * User name
-     * 
-     * @var string
-     */
-    private $name;
-
-    /**
      * Create User object from serialized data. Used for saved sessions
      * 
      * @param string $serialized Serialized object

@@ -11,8 +11,6 @@
 
 namespace App\Providers;
 
-use App\Services\User;
-
 /**
  * Interface for auth providers
  */
