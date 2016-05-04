@@ -46,9 +46,7 @@ $app['database.connection'] = array(
     'username'  => '',
     'password'  => '',
     'charset'   => 'utf8',
-    'collation' => 'utf8_unicode_ci',
-    'prefix'    => '',
-    'logging'   => true
+    'collation' => 'utf8_unicode_ci'
 );
 
 /*
