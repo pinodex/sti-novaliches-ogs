@@ -88,6 +88,14 @@
     <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-6">
+                                            <a href="../../App/Traits/ConcatenateNameTrait.html"><abbr title="App\Traits\ConcatenateNameTrait">ConcatenateNameTrait</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Provides automatic name concatenation
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
                                             <a href="../../App/Traits/SearchableTrait.html"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a>
                                     </div>
                 <div class="col-md-6">
@@ -115,6 +123,16 @@
             <h2>Methods</h2>
 
             <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getNameAttribute">getNameAttribute</a>()
+                                            <p>Get full name</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/ConcatenateNameTrait.html#method_getNameAttribute"><abbr title="App\Traits\ConcatenateNameTrait">ConcatenateNameTrait</abbr></a></small></div>
+            </div>
                     <div class="row">
                 <div class="col-md-2 type">
                     static&nbsp;
@@ -148,11 +166,11 @@
                     <div class="row">
                 <div class="col-md-2 type">
                     
-    string
+    boolean
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getName">getName</a>()
-                                            <p>Get user name</p>                </div>
+                    <a href="#method_getIsRequiredInfoFilledAttribute">getIsRequiredInfoFilledAttribute</a>()
+                                            <p>Check if required informations are filled</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -165,17 +183,6 @@
                                             <p>Update student grades</p>                </div>
                 <div class="col-md-2"></div>
             </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    static&nbsp;
-    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_import">import</a>(
-    array $data)
-                                            <p>Import data to database</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
             </div>
 
 
@@ -183,8 +190,36 @@
 
             <div id="method-details">
                     <div class="method-item">
+                    <h3 id="method_getNameAttribute">
+        <div class="location">in <a href="../../App/Traits/ConcatenateNameTrait.html#method_getNameAttribute"><abbr title="App\Traits\ConcatenateNameTrait">ConcatenateNameTrait</abbr></a> at line         line 24</div>
+        <code>                    
+    string
+    <strong>getNameAttribute</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get full name</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_search">
-        <div class="location">in <a href="../../App/Traits/SearchableTrait.html#method_search"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a> at line         line 29</div>
+        <div class="location">in <a href="../../App/Traits/SearchableTrait.html#method_search"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a> at line         line 30</div>
         <code>        static            
     
     <strong>search</strong>($id = null, $name = null)</code>
@@ -217,7 +252,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_grades">
-        <div class="location">at line         line 50</div>
+        <div class="location">at line         line 54</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>grades</strong>()</code>
@@ -245,7 +280,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_subjects">
-        <div class="location">at line         line 60</div>
+        <div class="location">at line         line 64</div>
         <code>                    
     array
     <strong>subjects</strong>()</code>
@@ -272,15 +307,15 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_getName">
-        <div class="location">at line         line 74</div>
+                    <h3 id="method_getIsRequiredInfoFilledAttribute">
+        <div class="location">at line         line 78</div>
         <code>                    
-    string
-    <strong>getName</strong>()</code>
+    boolean
+    <strong>getIsRequiredInfoFilledAttribute</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Get user name</p>                                </div>
+                                    <p>Check if required informations are filled</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -288,7 +323,7 @@
                     <table class="table table-condensed">
         <tr>
             <td>
-    string</td>
+    boolean</td>
             <td></td>
         </tr>
     </table>
@@ -301,7 +336,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_updateGrades">
-        <div class="location">at line         line 86</div>
+        <div class="location">at line         line 91</div>
         <code>                    
     boolean
     <strong>updateGrades</strong>($data)</code>
@@ -331,36 +366,6 @@
         </tr>
     </table>
 
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_import">
-        <div class="location">at line         line 139</div>
-        <code>        static            
-    
-    <strong>import</strong>(
-    array $data)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Import data to database</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>
-    array</td>
-                <td>$data</td>
-                <td>Array of students</td>
-            </tr>
-            </table>
-
-            
             
             
                     </div>

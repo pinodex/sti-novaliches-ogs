@@ -43,14 +43,12 @@ class FacultyImporter implements ImporterInterface
             foreach ($sheet as $data) {
                 $departmentId = null;
 
-                if (array_key_exists($data['department'], $mappings) &&
-                    $departments->has($mappings[$data['department']])) {
-                    
+                if (array_key_exists($data['department'], $mappings) && $departments->has($mappings[$data['department']])) {
                     $departmentId = $departments->get($mappings[$data['department']])[0]->id;
                 }
 
                 $input[] = array(
-                    'last_name' => $data['last_name'],
+                    'last_name'     => $data['last_name'],
                     'first_name'    => $data['first_name'],
                     'middle_name'   => $data['middle_name'],
                     'department_id' => $departmentId,

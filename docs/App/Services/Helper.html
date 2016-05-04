@@ -123,12 +123,23 @@
                     <div class="row">
                 <div class="col-md-2 type">
                     static&nbsp;
-    string|int
+    string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_formatGrade">formatGrade</a>(
+                    <a href="#method_getGradeClass">getGradeClass</a>(
     string $grade)
-                                            <p>Get display text for grade value</p>                </div>
+                                            <p>Get HTML class for grade value</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;
+    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_parseGrade">parseGrade</a>(
+    string $grade)
+                                            <p>Parse grade for database storage</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -137,9 +148,9 @@
     string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getGradeClass">getGradeClass</a>(
-    string $grade)
-                                            <p>Get HTML class for grade value</p>                </div>
+                    <a href="#method_formatGrade">formatGrade</a>(
+    int $grade)
+                                            <p>Format grade for view</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -278,48 +289,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_formatGrade">
-        <div class="location">at line         line 87</div>
-        <code>        static            
-    string|int
-    <strong>formatGrade</strong>(
-    string $grade)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Get display text for grade value</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>
-    string</td>
-                <td>$grade</td>
-                <td>Grade</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>
-    string|int</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_getGradeClass">
-        <div class="location">at line         line 111</div>
+        <div class="location">at line         line 87</div>
         <code>        static            
     string
     <strong>getGradeClass</strong>(
@@ -358,8 +329,88 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_parseGrade">
+        <div class="location">at line         line 107</div>
+        <code>        static            
+    int
+    <strong>parseGrade</strong>(
+    string $grade)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Parse grade for database storage</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+    string</td>
+                <td>$grade</td>
+                <td>Grade</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    int</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_formatGrade">
+        <div class="location">at line         line 131</div>
+        <code>        static            
+    string
+    <strong>formatGrade</strong>(
+    int $grade)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Format grade for view</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+    int</td>
+                <td>$grade</td>
+                <td>Grade</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_formatBytes">
-        <div class="location">at line         line 135</div>
+        <div class="location">at line         line 155</div>
         <code>        static            
     string
     <strong>formatBytes</strong>(

@@ -80,7 +80,7 @@
 </p>
 
             <div class="description">
-            <p>Head model</p>            <p>Model class for faculties table</p>        </div>
+            <p>Head model</p>            <p>Model class for faculty table</p>        </div>
     
             <h2>Traits</h2>
 
@@ -100,6 +100,14 @@
                                     </div>
                 <div class="col-md-6">
                     Provides password attribute mutation for hashing
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="../../App/Traits/ConcatenateNameTrait.html"><abbr title="App\Traits\ConcatenateNameTrait">ConcatenateNameTrait</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Provides automatic name concatenation
                 </div>
             </div>
                     <div class="row">
@@ -163,6 +171,16 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
+                    
+    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getNameAttribute">getNameAttribute</a>()
+                                            <p>Get full name</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/ConcatenateNameTrait.html#method_getNameAttribute"><abbr title="App\Traits\ConcatenateNameTrait">ConcatenateNameTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     static&nbsp;
     
                 </div>
@@ -188,7 +206,7 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_head">head</a>()
-                                            <p>Get associated faculties</p>                </div>
+                                            <p>Get associated faculty</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -217,8 +235,8 @@
     string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getNameAttribute">getNameAttribute</a>()
-                                            <p>Get full name</p>                </div>
+                    <a href="#method_getStatusAttribute">getStatusAttribute</a>()
+                                            <p>Get status attribute</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -227,8 +245,8 @@
     string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getStatusAttribute">getStatusAttribute</a>()
-                                            <p>Get status attribute</p>                </div>
+                    <a href="#method_getFirstGradeImportAtAttribute">getFirstGradeImportAtAttribute</a>()
+                                            <p>Get date of first grade import</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -289,17 +307,6 @@
                 <div class="col-md-8 type">
                     <a href="#method_addSubmissionLogEntry">addSubmissionLogEntry</a>()
                                             <p>Add submission log entry</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    static&nbsp;
-    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_import">import</a>(
-    array $data)
-                                            <p>Import data to database</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -459,8 +466,36 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_getNameAttribute">
+        <div class="location">in <a href="../../App/Traits/ConcatenateNameTrait.html#method_getNameAttribute"><abbr title="App\Traits\ConcatenateNameTrait">ConcatenateNameTrait</abbr></a> at line         line 24</div>
+        <code>                    
+    string
+    <strong>getNameAttribute</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get full name</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_search">
-        <div class="location">in <a href="../../App/Traits/SearchableTrait.html#method_search"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a> at line         line 29</div>
+        <div class="location">in <a href="../../App/Traits/SearchableTrait.html#method_search"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a> at line         line 30</div>
         <code>        static            
     
     <strong>search</strong>($id = null, $name = null)</code>
@@ -493,7 +528,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_department">
-        <div class="location">at line         line 61</div>
+        <div class="location">at line         line 63</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>department</strong>()</code>
@@ -521,14 +556,14 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_head">
-        <div class="location">at line         line 71</div>
+        <div class="location">at line         line 73</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>head</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Get associated faculties</p>                                </div>
+                                    <p>Get associated faculty</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -549,7 +584,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_submissionLogs">
-        <div class="location">at line         line 81</div>
+        <div class="location">at line         line 83</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>submissionLogs</strong>()</code>
@@ -577,7 +612,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_submittedGrades">
-        <div class="location">at line         line 91</div>
+        <div class="location">at line         line 93</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>submittedGrades</strong>()</code>
@@ -604,36 +639,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_getNameAttribute">
-        <div class="location">at line         line 101</div>
-        <code>                    
-    string
-    <strong>getNameAttribute</strong>()</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Get full name</p>                                </div>
-                <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>
-    string</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_getStatusAttribute">
-        <div class="location">at line         line 111</div>
+        <div class="location">at line         line 103</div>
         <code>                    
     string
     <strong>getStatusAttribute</strong>()</code>
@@ -660,8 +667,36 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_getFirstGradeImportAtAttribute">
+        <div class="location">at line         line 125</div>
+        <code>                    
+    string
+    <strong>getFirstGradeImportAtAttribute</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get date of first grade import</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_getIsNeverSubmittedAttribute">
-        <div class="location">at line         line 133</div>
+        <div class="location">at line         line 139</div>
         <code>                    
     string
     <strong>getIsNeverSubmittedAttribute</strong>()</code>
@@ -689,7 +724,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getIsIncompleteAttribute">
-        <div class="location">at line         line 143</div>
+        <div class="location">at line         line 149</div>
         <code>                    
     string
     <strong>getIsIncompleteAttribute</strong>()</code>
@@ -717,7 +752,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getIsSubmittedLateAttribute">
-        <div class="location">at line         line 176</div>
+        <div class="location">at line         line 182</div>
         <code>                    
     string
     <strong>getIsSubmittedLateAttribute</strong>()</code>
@@ -745,7 +780,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getNumberOfFailsAttribute">
-        <div class="location">at line         line 199</div>
+        <div class="location">at line         line 205</div>
         <code>                    
     string
     <strong>getNumberOfFailsAttribute</strong>()</code>
@@ -773,7 +808,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getNumberOfDropsAttribute">
-        <div class="location">at line         line 218</div>
+        <div class="location">at line         line 224</div>
         <code>                    
     string
     <strong>getNumberOfDropsAttribute</strong>()</code>
@@ -801,7 +836,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addSubmissionLogEntry">
-        <div class="location">at line         line 235</div>
+        <div class="location">at line         line 241</div>
         <code>                    
     
     <strong>addSubmissionLogEntry</strong>()</code>
@@ -810,36 +845,6 @@
                     <div class="method-description">
                                     <p>Add submission log entry</p>                                </div>
                 <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_import">
-        <div class="location">at line         line 248</div>
-        <code>        static            
-    
-    <strong>import</strong>(
-    array $data)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Import data to database</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>
-    array</td>
-                <td>$data</td>
-                <td></td>
-            </tr>
-            </table>
-
             
             
             
