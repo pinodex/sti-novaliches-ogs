@@ -1,6 +1,8 @@
 {% extends '/_layout/main-default.html' %}
 
-{% set page_title = 'Delete section' %}
+{% form_theme form '/_layout/form-default.html' %}
+
+{% set page_title = 'Edit guidance account' %}
 
 {% block content %}
     <div class="container">
@@ -8,12 +10,11 @@
 
         <div class="grid">
             <div class="column-4">
-                <p>Are you sure you want to delete <strong>{{ section.id }}</strong>?</p>
                 <form method="post" action="{{ app.request.getRequestUri }}">
                     {{ form_widget(form) }}
                     
-                    <a href="{{ path('dashboard.sections.edit', {id: section.id}) }}" class="button neutral">Cancel</a>
-                    <button type="submit" class="danger">Delete Section <span class="icon-navigate_next"></span></button>
+                    <button type="submit" class="success">Save <span class="icon-navigate_next"></span></button>
+                    <a href="{{ path('dashboard.guidance.delete', {id: guidance.id}) }}" class="button link">Delete Account</a>
                 </form>
             </div>
         </div>

@@ -12,11 +12,16 @@
 namespace App\Controllers\Dashboard;
 
 use Silex\Application;
+use App\Models\Grade;
 use App\Models\Setting;
+use App\Models\Department;
+use App\Models\FacultyGradeImportLog;
+use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Helper;
 use App\Services\Session\FlashBag;
+use App\Constraints as CustomAssert;
 use Illuminate\Support\Collection;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Filesystem\Filesystem;
@@ -166,7 +171,45 @@ class SettingsController
 
         return View::render('dashboard/settings/clear', array(
             'form'      => $form->createView(),
-            'target'    => $target,
+            'target'    => $target
+        ));
+    }
+
+    /**
+     * Database cleanup page
+     * 
+     * URL: /dashboard/settings/maintenance/database-cleanup
+     */
+    public function databaseCleanup(Request $request, Application $app)
+    {
+        $user = Auth::user()->getModel();
+        $form = Form::create();
+        
+        $form->add('_confirm_password', 'repeated', array(
+            'type'              => 'password',
+            'first_options'     => array('label' => 'Password'),
+            'second_options'    => array('label' => 'Repeat Password'),
+            'constraints'       => new CustomAssert\PasswordMatch(array(
+                'hash' => $user->password
+            ))
+        ));
+
+        $form = $form->getForm();
+        $form->handleRequest($request);
+        
+        if ($form->isValid()) {
+            Grade::truncate();
+            FacultyGradeImportLog::truncate();
+            Department::whereNotNull('name')->update(array(
+                'grade_submission_deadline' => null
+            ));
+
+            FlashBag::add('messages', 'info>>>Database cleanup completed');
+            return $app->redirect($app->path('dashboard.settings.maintenance'));
+        }
+
+        return View::render('dashboard/settings/database-cleanup', array(
+            'form'      => $form->createView(),
         ));
     }
 }

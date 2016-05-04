@@ -15,7 +15,7 @@ use App\Models\Student;
 use App\Services\User;
 
 /**
- * Student provider
+ * Student account provider
  * 
  * Provides authentication for student model
  */

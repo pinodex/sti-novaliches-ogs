@@ -21,6 +21,9 @@
                         <a href="{{ path('dashboard.faculties') }}">Faculty accounts</a>
                     </li>
                     <li>
+                        <a href="{{ path('dashboard.guidance') }}">Guidance accounts</a>
+                    </li>
+                    <li>
                         <a href="{{ path('dashboard.departments') }}">Departments</a>
                     </li>
                     <li>
@@ -48,12 +51,6 @@
                     <li>
                         <a href="{{ path('dashboard.students') }}">Student List</a>
                     </li>
-                    <li>
-                        <a href="{{ path('dashboard.sections') }}">Section List</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('dashboard.grades') }}">Grades</a>
-                    </li>
                 </ul>
             </li>
 
@@ -65,10 +62,17 @@
                         <a href="{{ path('dashboard.students') }}">Student List</a>
                     </li>
                     <li>
-                        <a href="{{ path('dashboard.sections') }}">Section List</a>
+                        <a href="{{ path('dashboard.grades.import') }}">Import Grades</a>
                     </li>
+                </ul>
+            </li>
+
+            <li v-show="{{ current_user.getRole() == 'guidance' ? 'true' : 'false' }}">
+                Guidance
+
+                <ul>
                     <li>
-                        <a href="{{ path('dashboard.grades') }}">Grades</a>
+                        <a href="{{ path('dashboard.students') }}">Student List</a>
                     </li>
                 </ul>
             </li>

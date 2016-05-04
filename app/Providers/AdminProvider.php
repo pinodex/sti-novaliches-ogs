@@ -16,7 +16,7 @@ use App\Services\User;
 use App\Models\Admin;
 
 /**
- * Admin provider
+ * Admin account provider
  * 
  * Provides authentication for admin model
  */
@@ -39,9 +39,9 @@ class AdminProvider implements AuthProviderInterface
             'App\Controllers\Dashboard\AdminsController',
             'App\Controllers\Dashboard\HeadsController',
             'App\Controllers\Dashboard\FacultiesController',
+            'App\Controllers\Dashboard\GuidanceController',
             'App\Controllers\Dashboard\DepartmentsController',
             'App\Controllers\Dashboard\StudentsController',
-            'App\Controllers\Dashboard\SectionsController',
             'App\Controllers\Dashboard\GradesController',
             'App\Controllers\Dashboard\SettingsController'
         );

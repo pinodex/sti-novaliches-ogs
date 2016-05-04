@@ -112,7 +112,7 @@ class MainController
         }
 
         if ($period && $subject) {
-            $result = Grade::getTopByTermAndSubject($period, $subject, $user->getModel()->id);
+            $result = Grade::getTopByTermAndSubject($period, $subject, $user->id);
         }
         
         return View::render('student/top', array(

@@ -30,19 +30,19 @@ class GradesImportRoute implements ControllerProviderInterface
         )->bind('dashboard.grades.import');
 
         $controller->match('/1',
-            array('App\Controllers\Dashboard\GradesImportController', 'import1')
+            array('App\Controllers\Dashboard\GradesImportController', 'stepOne')
         )->bind('dashboard.grades.import.1');
 
         $controller->match('/2',
-            array('App\Controllers\Dashboard\GradesImportController', 'import2')
+            array('App\Controllers\Dashboard\GradesImportController', 'stepTwo')
         )->bind('dashboard.grades.import.2');
 
         $controller->match('/3',
-            array('App\Controllers\Dashboard\GradesImportController', 'import3')
+            array('App\Controllers\Dashboard\GradesImportController', 'stepThree')
         )->bind('dashboard.grades.import.3');
 
         $controller->match('/4',
-            array('App\Controllers\Dashboard\GradesImportController', 'import4')
+            array('App\Controllers\Dashboard\GradesImportController', 'stepFour')
         )->bind('dashboard.grades.import.4');
         
         return $controller;

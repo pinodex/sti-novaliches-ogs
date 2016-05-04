@@ -1,0 +1,41 @@
+{% extends '/_layout/main-default.html' %}
+
+{% form_theme form '/_layout/form-default.html' %}
+
+{% set page_title = 'Database cleanup' %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ page_title }}</h1>
+
+        <div class="grid">
+            <div class="column-4">
+                <div class="alert alert-danger">
+                    <h3>Warning</h3>
+                    <p>This process is destructive and cannot be reversed.</p>
+                </div>
+
+                <p>This will perform the following action:</p>
+                
+                <ul>
+                    <li>Clear all student grades</li>
+                    <li>Reset all faculty import logs</li>
+                    <li>Reset all department submission deadline</li>
+                </ul>
+
+                <p>Anything not stated will be left untouched.</p>
+
+                <p>To proceed, please type your password <strong>twice</strong>:</p>
+
+                <form method="post" action="{{ app.request.getRequestUri }}">
+                    {{ form_widget(form) }}
+                    
+                    <a href="{{ path('dashboard.settings.maintenance') }}" class="button neutral">Cancel</a>
+                    <button type="submit" class="danger">Start cleanup <span class="icon-navigate_next"></span></button>
+                </form>
+
+                <p>Don&rsquo;t say I didn&rsquo;t warn you.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

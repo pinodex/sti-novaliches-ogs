@@ -58,7 +58,7 @@ class MainController
         $form->add('id', 'text', array(
             'attr' => array(
                 'autofocus'     => true,
-                'placeholder'   => 'Student/Faculty Number'
+                'placeholder'   => 'Student Number'
             )
         ));
         

@@ -36,10 +36,10 @@ class FacultyGradeImportLog extends Model
      */
     public function getDateAttribute($value)
     {
-        if (!$value) {
-            return 'N/A';
+        if ($value) {
+            return date('M d, Y h:i a', strtotime($value));
         }
 
-        return date('M d, Y h:i a', strtotime($value));
+        return 'N/A';
     }
 }

@@ -45,7 +45,7 @@ class StudentsImportController
      * 
      * URL: /dashboard/students/import/1
      */
-    public function firstStep(Request $request, Application $app) {
+    public function stepOne(Request $request, Application $app) {
         if ($uploadedFile = Session::get('sw_uploaded_file')) {
             @unlink($uploadedFile);
         }
@@ -106,7 +106,7 @@ class StudentsImportController
      * 
      * URL: /dashboard/students/import/2
      */
-    public function secondStep(Request $request, Application $app) {
+    public function stepTwo(Request $request, Application $app) {
         if (!$uploadedFile = Session::get('sw_uploaded_file')) {
             return $app->redirect($app->path('dashboard.students.import.1'));
         }
@@ -157,7 +157,7 @@ class StudentsImportController
      * 
      * URL: /dashboard/students/import/3
      */
-    public function thirdStep(Application $app) {
+    public function stepThree(Application $app) {
         if (!$uploadedFile = Session::get('sw_uploaded_file')) {
             return $app->redirect($app->path('dashboard.students.import.1'));
         }

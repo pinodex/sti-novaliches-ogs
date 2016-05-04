@@ -46,7 +46,7 @@ class FacultiesImportController
      * 
      * URL: /dashboard/faculties/import/1
      */
-    public function import1(Request $request, Application $app) {
+    public function stepOne(Request $request, Application $app) {
         if ($uploadedFile = Session::get('fw_uploaded_file')) {
             @unlink($uploadedFile);
         }
@@ -104,7 +104,7 @@ class FacultiesImportController
      * 
      * URL: /dashboard/faculties/import/2
      */
-    public function import2(Request $request, Application $app) {
+    public function stepTwo(Request $request, Application $app) {
         if (!$uploadedFile = Session::get('fw_uploaded_file')) {
             return $app->redirect($app->path('dashboard.faculties.import.1'));
         }
@@ -147,7 +147,7 @@ class FacultiesImportController
      * 
      * URL: /dashboard/faculties/import/3
      */
-    public function import3(Request $request, Application $app) {
+    public function stepThree(Request $request, Application $app) {
         if (!$uploadedFile = Session::get('fw_uploaded_file')) {
             return $app->redirect($app->path('dashboard.faculties.import.1'));
         }
@@ -193,7 +193,7 @@ class FacultiesImportController
      * 
      * URL: /dashboard/faculties/import/4
      */
-    public function import4(Application $app) {
+    public function stepFour(Application $app) {
         if (!$uploadedFile = Session::get('fw_uploaded_file')) {
             return $app->redirect($app->path('dashboard.faculties.import.1'));
         }

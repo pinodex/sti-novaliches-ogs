@@ -13,6 +13,8 @@ namespace App\Controllers\Dashboard;
 
 use Silex\Application;
 use App\Models\Student;
+use App\Models\Faculty;
+use App\Models\Section;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Helper;
@@ -61,20 +63,12 @@ class StudentsController
         $result = array();
         $form = $form->getForm();
 
-        $request->query->set('id', Helper::parseId(
-            $request->query->get('id')
-        ));
-
-        $result = Student::search(
-            $request->query->get('id'),
-            $request->query->get('name')
-        );
+        $request->query->set('id', Helper::parseId($request->query->get('id')));
+        $result = Student::search($request->query->get('id'), $request->query->get('name'));
 
         return View::render('dashboard/students/index', array(
             'search_form'   => $form->createView(),
-            'current_page'  => $result->currentPage(),
-            'last_page'     => $result->lastPage(),
-            'result'        => $result
+            'result'        => $result->toArray()
         ));
     }
 

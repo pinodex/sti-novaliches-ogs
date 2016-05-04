@@ -2,7 +2,7 @@
 
 {% form_theme search_form '/_layout/form-default.html' %}
 
-{% set page_title = 'Sections' %}
+{% set page_title = 'Guidance accounts' %}
 
 {% block content %}
     <div class="container">
@@ -15,9 +15,9 @@
         <div class="grid">
             <div class="column-4">
                 <div class="panel">
-                    <div class="panel-heading"><span class="icon-search"></span> Search Section</div>
+                    <div class="panel-heading"><span class="icon-search"></span> Search Guidance account</div>
                     <div class="panel-body">
-                        <form method="get" action="{{ path('dashboard.admins.search') }}">
+                        <form method="get" action="{{ path('dashboard.guidance.search') }}">
                             {{ form_widget(search_form) }}
 
                             <button type="submit"><span class="icon-search"></span> Search</button>
@@ -25,14 +25,12 @@
                     </div>
                 </div>
 
-                {% if current_user.getRole() == 'admin' %}
-                    <div class="panel">
-                        <div class="panel-heading">Actions</div>
-                        <div class="panel-body">
-                            <a href="{{ path('dashboard.sections.add') }}">Add new section</a>
-                        </div>
+                <div class="panel">
+                    <div class="panel-heading">Actions</div>
+                    <div class="panel-body">
+                        <a href="{{ path('dashboard.guidance.add') }}">Add new guidance account</a>
                     </div>
-                {% endif %}
+                </div>
             </div>
 
             <div class="column-8">
@@ -50,6 +48,10 @@
                                 <span class="short">N</span>
                             </th>
                             <th>
+                                <span class="long">Last Login</span>
+                                <span class="short">L</span>
+                            </th>
+                            <th>
                                 <span class="long">Actions</span>
                                 <span class="short">A</span>
                             </th>
@@ -59,9 +61,10 @@
                     <tbody>
                         {% for row in result.data %}
                             <tr>
-                                <td>{{ row.id }}</td>
+                                <td>{{ row.name }}</td>
+                                <td>{{ row.last_login_at }}</td>
                                 <td>
-                                    <a href="{{ path('dashboard.sections.edit', {id: row.id}) }}">Edit</a>
+                                    <a href="{{ path('dashboard.guidance.edit', {id: row.id}) }}">Edit</a>
                                 </td>
                             </tr>
                         {% endfor %}

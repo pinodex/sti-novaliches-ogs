@@ -14,9 +14,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HumanReadableDateTrait;
 use App\Traits\HashablePasswordTrait;
+use App\Traits\ConcatenateNameTrait;
 use App\Traits\SearchableTrait;
 use App\Services\Settings;
-use App\Services\Hash;
 
 /**
  * Head model
@@ -25,7 +25,7 @@ use App\Services\Hash;
  */
 class Faculty extends Model
 {
-    use HumanReadableDateTrait, HashablePasswordTrait, SearchableTrait;
+    use HumanReadableDateTrait, HashablePasswordTrait, ConcatenateNameTrait, SearchableTrait;
 
     protected $fillable = array(
         'username',
@@ -43,6 +43,7 @@ class Faculty extends Model
     protected $appends = array(
         'name',
         'status',
+        'first_grade_import_at',
         'is_never_submitted',
         'is_submitted_late',
         'is_incomplete',
@@ -95,16 +96,6 @@ class Faculty extends Model
     }
 
     /**
-     * Get full name
-     * 
-     * @return string
-     */
-    public function getNameAttribute()
-    {
-        return $this->last_name . ', ' . $this->first_name;
-    }
-
-    /**
      * Get status attribute
      * 
      * @return string
@@ -127,6 +118,20 @@ class Faculty extends Model
     }
 
     /**
+     * Get date of first grade import
+     * 
+     * @return string
+     */
+    public function getFirstGradeImportAtAttribute()
+    {
+        if ($first = $this->submissionLogs->first()) {
+            return $first->date;
+        }
+
+        return 'N/A';
+    }
+
+    /**
      * Get is_never_submitted attribute
      * 
      * @return string
@@ -144,7 +149,7 @@ class Faculty extends Model
     public function getIsIncompleteAttribute()
     {
         $isIncomplete = false;
-        $period = strtolower(Settings::get('period', 'prelim'));
+        $period = strtolower(Settings::get('period', 'prelim')) . '_grade';
 
         $sheets = $this->submittedGrades->groupBy(function (Grade $grade) {
             return $grade->subject . ' ' . $grade->section;
@@ -200,7 +205,7 @@ class Faculty extends Model
     public function getNumberOfFailsAttribute()
     {
         $count = 0;
-        $period = strtolower(Settings::get('period', 'prelim'));
+        $period = strtolower(Settings::get('period', 'prelim')) . '_grade';
 
         foreach ($this->submittedGrades as $grade) {
             if ($grade->getAttribute($period) != null && $grade->getAttribute($period) < 75) {
@@ -219,7 +224,7 @@ class Faculty extends Model
     public function getNumberOfDropsAttribute()
     {
         $count = 0;
-        $period = strtolower(Settings::get('period', 'prelim'));
+        $period = strtolower(Settings::get('period', 'prelim')) . '_grade';
 
         foreach ($this->submittedGrades as $grade) {
             if ($grade->getAttribute($period) == -1) {

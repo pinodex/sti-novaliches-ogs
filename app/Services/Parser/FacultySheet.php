@@ -35,10 +35,10 @@ class FacultySheet extends Parser
                 }
 
                 $output[] = array(
-                    'last_name' => $row[3],
-                    'first_name' => $row[4],
-                    'middle_name' => $row[5],
-                    'department' => $row[8]
+                    'last_name' => trim($row[3]),
+                    'first_name' => trim($row[4]),
+                    'middle_name' => trim($row[5]),
+                    'department' => trim($row[8])
                 );
             }
         }

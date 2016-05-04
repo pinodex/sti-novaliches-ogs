@@ -16,7 +16,7 @@ use App\Services\User;
 use App\Models\Faculty;
 
 /**
- * Faculty provider
+ * Faculty account provider
  * 
  * Provides authentication for faculty model
  */
@@ -41,19 +41,13 @@ class FacultyProvider implements AuthProviderInterface
                 'index',
                 'view'
             ),
-
-            'App\Controllers\Dashboard\SectionsController' => array(
-                'index'
-            ),
-
+            
             'App\Controllers\Dashboard\GradesController' => array(
-                'index',
                 'import',
-                'import1',
-                'import2',
-                'import3',
-                'import4',
-                'denied'
+                'stepOne',
+                'stepTwo',
+                'stepThree',
+                'stepFour',
             ),
         );
     }

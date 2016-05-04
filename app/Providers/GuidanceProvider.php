@@ -13,39 +13,29 @@ namespace App\Providers;
 
 use App\Services\Hash;
 use App\Services\User;
-use App\Models\Head;
+use App\Models\Guidance;
 
 /**
- * Head account provider
+ * Guidance account provider
  * 
- * Provides authentication for head model
+ * Provides authentication for guidance model
  */
-class HeadProvider implements AuthProviderInterface
+class GuidanceProvider implements AuthProviderInterface
 {
     public function getRole()
     {
-        return 'head';
+        return 'guidance';
     }
 
     public function getRedirectRoute()
     {
-        return 'dashboard.index';
+        return 'dashboard.students';
     }
 
     public function getAllowedControllers()
     {
         return array(
             'App\Controllers\Dashboard\MainController',
-
-            'App\Controllers\Dashboard\DepartmentsController' => array(
-                'self',
-                'view',
-                'settings'
-            ),
-            
-            'App\Controllers\Dashboard\FacultiesController' => array(
-                'view'
-            ),
             
             'App\Controllers\Dashboard\StudentsController' => array(
                 'index',
@@ -56,7 +46,7 @@ class HeadProvider implements AuthProviderInterface
     
     public function attempt($username, $password)
     {
-        if ($user = Head::where('username', $username)->first()) {
+        if ($user = Guidance::where('username', $username)->first()) {
             if (!Hash::check($password, $user->password)) {
                 return false;
             }

@@ -1030,6 +1030,9 @@ a.button, input.button[type="button"].link, .button.link {
 .alert.alert-neutral {
   background: gray;
 }
+.alert > h1, .alert > h2, .alert > h3, .alert > h4, .alert > h5, .alert > p {
+  margin: 0;
+}
 
 form > *:last-child {
   margin-bottom: 0;

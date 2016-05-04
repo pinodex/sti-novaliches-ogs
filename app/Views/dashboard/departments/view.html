@@ -68,13 +68,14 @@
                     </div>
                 </div>
             </div>
+            
             <div class="column-8">
                 <div class="panel">
                     <div class="panel-heading">Faculties</div>
                     <div class="panel-body">
-                        {% if faculties is not empty %}
+                        {% if result.data is not empty %}
                             <select name="pages" v-on:change="changePaginationPage" v-model="paginationPage">
-                                {% for i in 1..last_page %}
+                                {% for i in 1..result.last_page %}
                                     <option value="{{ i }}">Page {{ i }}</option>
                                 {% endfor %}
                             </select>
@@ -95,6 +96,18 @@
                                             <span class="short">S</span>
                                         </th>
                                         <th>
+                                            <span class="long">Status</span>
+                                            <span class="short">S</span>
+                                        </th>
+                                        <th>
+                                            <span class="long">Failed</span>
+                                            <span class="short">F</span>
+                                        </th>
+                                        <th>
+                                            <span class="long">Dropped</span>
+                                            <span class="short">D</span>
+                                        </th>
+                                        <th>
                                             <span class="long">Actions</span>
                                             <span class="short">A</span>
                                         </th>
@@ -102,11 +115,14 @@
                                 </thead>
 
                                 <tbody>
-                                    {% for faculty in faculties %}
+                                    {% for faculty in result.data %}
                                         <tr{{ faculty.is_submitted_late ? ' class="color-danger"' }}>
                                             <td>{{ faculty.name }}</td>
                                             <td>{{ faculty.last_login_at }}</td>
-                                            <td>{{ faculty.grade_submitted_at }}</td>
+                                            <td>{{ faculty.first_grade_import_at }}</td>
+                                            <td>{{ faculty.status }}</td>
+                                            <td>{{ faculty.number_of_fails }}</td>
+                                            <td>{{ faculty.number_of_drops }}</td>
                                             <td>
                                                 <a href="{{ path('dashboard.faculties.view', {id: faculty.id}) }}">View</a>
                                             </td>

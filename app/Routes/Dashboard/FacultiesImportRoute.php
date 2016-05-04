@@ -28,19 +28,19 @@ class FacultiesImportRoute implements ControllerProviderInterface
         )->bind('dashboard.faculties.import');
 
         $controller->match('/1',
-            array('App\Controllers\Dashboard\FacultiesImportController', 'import1')
+            array('App\Controllers\Dashboard\FacultiesImportController', 'stepOne')
         )->bind('dashboard.faculties.import.1');
 
         $controller->match('/$data2',
-            array('App\Controllers\Dashboard\FacultiesImportController', 'import2')
+            array('App\Controllers\Dashboard\FacultiesImportController', 'stepTwo')
         )->bind('dashboard.faculties.import.2');
 
         $controller->match('/$data3',
-            array('App\Controllers\Dashboard\FacultiesImportController', 'import3')
+            array('App\Controllers\Dashboard\FacultiesImportController', 'stepThree')
         )->bind('dashboard.faculties.import.3');
 
         $controller->match('/$data4',
-            array('App\Controllers\Dashboard\FacultiesImportController', 'import4')
+            array('App\Controllers\Dashboard\FacultiesImportController', 'stepFour')
         )->bind('dashboard.faculties.import.4');
 
         return $controller;

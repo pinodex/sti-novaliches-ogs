@@ -1,8 +1,6 @@
 {% extends '/_layout/main-default.html' %}
 
-{% form_theme form '/_layout/form-default.html' %}
-
-{% set page_title = 'Add section' %}
+{% set page_title = 'Delete guidance account' %}
 
 {% block content %}
     <div class="container">
@@ -10,10 +8,12 @@
 
         <div class="grid">
             <div class="column-4">
+                <p>Are you sure you want to delete <strong>{{ guidance.name }}</strong>?</p>
                 <form method="post" action="{{ app.request.getRequestUri }}">
                     {{ form_widget(form) }}
                     
-                    <button type="submit" class="success">Save <span class="icon-navigate_next"></span></button>
+                    <a href="{{ path('dashboard.guidance.edit', {id: guidance.id}) }}" class="button neutral">Cancel</a>
+                    <button type="submit" class="danger">Delete Account <span class="icon-navigate_next"></span></button>
                 </form>
             </div>
         </div>

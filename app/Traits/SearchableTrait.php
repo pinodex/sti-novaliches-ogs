@@ -28,11 +28,11 @@ trait SearchableTrait
      */
     public static function search($id = null, $name = null)
     {
-        $nameFormats = array(
-            DB::raw("CONCAT(last_name, ' ', first_name, ' ', middle_name)"),
-            DB::raw("CONCAT(last_name, ', ', first_name, ' ', middle_name)"),
-            DB::raw("CONCAT(first_name, ' ', middle_name, ' ', last_name)"),
-            DB::raw("CONCAT(first_name, ' ', last_name)")
+        $concats = array(
+            "CONCAT(last_name, ' ', first_name, ' ', middle_name)",
+            "CONCAT(last_name, ', ', first_name, ' ', middle_name)",
+            "CONCAT(first_name, ' ', middle_name, ' ', last_name)",
+            "CONCAT(first_name, ' ', last_name)"
         );
 
         $result = self::orderBy('last_name', 'ASC')->orderBy('first_name', 'ASC')->orderBy('middle_name', 'ASC');
@@ -46,10 +46,11 @@ trait SearchableTrait
         }
 
         if ($name) {
-            $result->where($nameFormats[0], 'LIKE', '%' . $name . '%')
-                ->orWhere($nameFormats[1], 'LIKE', '%' . $name . '%')
-                ->orWhere($nameFormats[2], 'LIKE', '%' . $name . '%')
-                ->orWhere($nameFormats[3], 'LIKE', '%' . $name . '%');
+            $result->where(function ($query) use ($concats, $name) {
+                foreach ($concats as $concat) {
+                    $query->orWhere(DB::raw($concat), 'LIKE', '%' . $name . '%');
+                }
+            });
         }
 
         return $result->paginate(50);

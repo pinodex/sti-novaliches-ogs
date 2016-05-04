@@ -33,6 +33,18 @@
                                     <td>Last login</td>
                                     <td>{{ faculty.last_login_at }}</td>
                                 </tr>
+                                <tr>
+                                    <td>Status</td>
+                                    <td>{{ faculty.status }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Failed</td>
+                                    <td>{{ faculty.number_of_fails }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Dropped</td>
+                                    <td>{{ faculty.number_of_drops }}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -57,17 +69,18 @@
                     <div class="panel-heading">Grade submission logs</div>
                     <div class="panel-body">
                         {% if logs is empty %}
-                            <p>No records found</p>
+                            <div class="alert alert-info">No records found.</div>
+                        {% else %}
+                            <table>
+                                <tbody>
+                                    {% for log in logs %}
+                                        <tr>
+                                            <td>{{ log.date }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                         {% endif %}
-                        <table>
-                            <tbody>
-                                {% for log in logs %}
-                                    <tr>
-                                        <td>{{ log.date }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>

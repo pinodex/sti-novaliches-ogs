@@ -16,14 +16,15 @@ use App\Traits\HumanReadableDateTrait;
 use App\Traits\HashablePasswordTrait;
 use App\Traits\ConcatenateNameTrait;
 use App\Traits\SearchableTrait;
+use App\Services\Settings;
 use App\Services\Hash;
 
 /**
  * Head model
  * 
- * Model class for heads table
+ * Model class for guidances table
  */
-class Head extends Model
+class Guidance extends Model
 {
     use HumanReadableDateTrait, HashablePasswordTrait, ConcatenateNameTrait, SearchableTrait;
 
@@ -33,36 +34,11 @@ class Head extends Model
         'last_name',
         'first_name',
         'middle_name',
-        'department_id'
     );
 
     protected $hidden = array(
         'password'
     );
-
-    private static $searchWithRelations = array(
-        'department'
-    );
-
-    /**
-     * Get department
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\Relation
-     */
-    public function department()
-    {
-        return $this->belongsTo('App\Models\Department');
-    }
-
-    /**
-     * Get associated faculties
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\Relation
-     */
-    public function faculties()
-    {
-        return $this->hasMany('App\Models\Faculty', 'department_id', 'department_id');
-    }
 
     protected $appends = array(
         'name'

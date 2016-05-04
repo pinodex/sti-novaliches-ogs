@@ -84,28 +84,28 @@ class FacultiesController
      */
     public function view(Request $request, Application $app, $id)
     {
-        if (!$faculty = Faculty::with('department')->find($id)) {
+        if (!$faculty = Faculty::with('department', 'submissionLogs')->find($id)) {
             FlashBag::add('messages', 'danger>>>Faculty account not found');
             return $app->redirect($app->path('dashboard.faculties'));
         }
 
         $user = Auth::user();
+        $model = $user->getModel();
 
         if ($user->getRole() == 'head') {
             // Deny if the faculty and head does not belong to the same department
-            // 
-            if (!$faculty->department || $faculty->department->id != $user->getModel()->department->id) {
+            if (!$faculty->department || $faculty->department->id != $model->department->id) {
                 FlashBag::add('messages', 'danger>>>This faculty is not in your department');
 
                 return $app->redirect($app->path('dashboard.departments.view', array(
-                    'id' => $user->getModel()->department->id
+                    'id' => $model->department->id
                 )));
             }
         }
 
         return View::render('dashboard/faculties/view', array(
             'faculty'   => $faculty->toArray(),
-            'logs'      => $faculty->submissionLogs->toArray()
+            'logs'      => array_reverse($faculty->submissionLogs->toArray())
         ));
     }
 

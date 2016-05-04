@@ -30,15 +30,15 @@ class StudentsImportRoute implements ControllerProviderInterface
         )->bind('dashboard.students.import');
 
         $controller->match('/1',
-            array('App\Controllers\Dashboard\StudentsImportController', 'firstStep')
+            array('App\Controllers\Dashboard\StudentsImportController', 'stepOne')
         )->bind('dashboard.students.import.1');
 
         $controller->match('/2',
-            array('App\Controllers\Dashboard\StudentsImportController', 'secondStep')
+            array('App\Controllers\Dashboard\StudentsImportController', 'stepTwo')
         )->bind('dashboard.students.import.2');
 
         $controller->match('/3',
-            array('App\Controllers\Dashboard\StudentsImportController', 'thirdStep')
+            array('App\Controllers\Dashboard\StudentsImportController', 'stepThree')
         )->bind('dashboard.students.import.3');
         
         return $controller;

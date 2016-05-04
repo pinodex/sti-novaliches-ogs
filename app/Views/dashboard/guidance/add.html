@@ -2,7 +2,7 @@
 
 {% form_theme form '/_layout/form-default.html' %}
 
-{% set page_title = 'Edit department' %}
+{% set page_title = 'Add guidance account' %}
 
 {% block content %}
     <div class="container">
@@ -14,9 +14,6 @@
                     {{ form_widget(form) }}
                     
                     <button type="submit" class="success">Save <span class="icon-navigate_next"></span></button>
-                    {% if current_user.getRole() == 'admin' %}
-                        <a href="{{ path('dashboard.departments.delete', {id: department.id}) }}" class="button link">Delete Department</a>
-                    {% endif %}
                 </form>
             </div>
         </div>

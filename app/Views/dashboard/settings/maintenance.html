@@ -30,6 +30,9 @@
             <li>
                 <a href="{{ path('dashboard.settings.maintenance.clear', {target: 'storage'}) }}">Clear temporary storage directory</a>
             </li>
+            <li>
+                <a href="{{ path('dashboard.settings.maintenance.databaseCleanup') }}">Cleanup database for new period</a>
+            </li>
         </ul>
     </div>
 {% endblock %}

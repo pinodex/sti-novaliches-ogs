@@ -12,6 +12,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\ConcatenateNameTrait;
 use App\Traits\SearchableTrait;
 
 /**
@@ -21,7 +22,7 @@ use App\Traits\SearchableTrait;
  */
 class Student extends Model
 {
-    use SearchableTrait;
+    use ConcatenateNameTrait, SearchableTrait;
     
     public $incrementing = false;
 
@@ -67,16 +68,6 @@ class Student extends Model
          return $grades->map(function ($item) {
             return $item->subject;
          })->toArray();
-    }
-
-    /**
-     * Get user name
-     * 
-     * @return string
-     */
-    public function getName()
-    {
-        return ucwords($this->last_name . ', ' . $this->first_name);
     }
 
     /**

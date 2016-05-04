@@ -14,6 +14,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HumanReadableDateTrait;
 use App\Traits\HashablePasswordTrait;
+use App\Traits\ConcatenateNameTrait;
 use App\Traits\SearchableTrait;
 
 /**
@@ -23,7 +24,7 @@ use App\Traits\SearchableTrait;
  */
 class Admin extends Model
 {
-    use HumanReadableDateTrait, HashablePasswordTrait, SearchableTrait;
+    use HumanReadableDateTrait, HashablePasswordTrait, ConcatenateNameTrait, SearchableTrait;
     
     protected $fillable = array(
         'username',
@@ -40,14 +41,4 @@ class Admin extends Model
     protected $appends = array(
         'name'
     );
-
-    /**
-     * Get full name
-     * 
-     * @return string
-     */
-    public function getNameAttribute()
-    {
-        return $this->last_name . ', ' . $this->first_name;
-    }
 }

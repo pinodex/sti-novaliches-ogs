@@ -34,6 +34,10 @@ class SettingsRoute implements ControllerProviderInterface
         $controller->match('/maintenance/clear',
             array('App\Controllers\Dashboard\SettingsController', 'clear')
         )->bind('dashboard.settings.maintenance.clear');
+
+        $controller->match('/maintenance/database-cleanup',
+            array('App\Controllers\Dashboard\SettingsController', 'databaseCleanup')
+        )->bind('dashboard.settings.maintenance.databaseCleanup');
         
         return $controller;
     }

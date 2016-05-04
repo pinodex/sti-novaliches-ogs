@@ -6,7 +6,7 @@
     <div class="container">
         <div class="grid">
             <div class="column-12">
-                <h1>Departments</h1>
+                <h1>{{ page_title }}</h1>
             </div>
         </div>
 
@@ -15,7 +15,14 @@
                 <div class="panel">
                     <div class="panel-heading">Actions</div>
                     <div class="panel-body">
-                        <a href="{{ path('dashboard.departments.add') }}">Add department</a>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="{{ path('dashboard.departments.add') }}">Add department</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('dashboard.departments.globalDeadline') }}">Set submission deadline globally</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

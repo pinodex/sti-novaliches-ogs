@@ -48,14 +48,53 @@ class DepartmentsController
     public function self(Application $app)
     {
         $user = Auth::user();
+        $model = $user->getModel();
 
-        if ($user->getRole() != 'head' && $user->getModel()->department == null) {
+        if ($user->getRole() != 'head' && $model->department == null) {
             return $app->abort(404);
         }
 
         return $app->redirect($app->path('dashboard.departments.view', array(
-            'id' => $user->getModel()->department->id
+            'id' => $model->department->id
         )));
+    }
+
+    /**
+     * Global deadline setting page
+     * 
+     * URL: /dashboard/departments/global-deadline
+     */
+    public function globalDeadline(Request $request, Application $app)
+    {
+        $form = Form::create();
+
+        $form->add('grade_submission_deadline', 'datetime', array(
+            'required'      => false,
+            'html5'         => true,
+            'input'         => 'string',
+            'date_widget'   => 'single_text',
+            'time_widget'   => 'single_text'
+        ));
+
+        $form = $form->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $data = $form->getData();
+            
+            if (empty($data['grade_submission_deadline'])) {
+                $data['grade_submission_deadline'] = null;
+            }
+
+            Department::whereNotNull('name')->update($data);
+            FlashBag::add('messages', 'success>>>Global deadline settings has been saved');
+            
+            return $app->redirect($app->path('dashboard.departments'));
+        }
+
+        return View::render('dashboard/departments/global-deadline', array(
+            'form'          => $form->createView()
+        ));
     }
 
     /**
@@ -66,10 +105,11 @@ class DepartmentsController
     public function view(Request $request, Application $app, $id)
     {
         $user = Auth::user();
+        $model = $user->getModel();
 
         if ($user->getRole() == 'head' &&
-            $user->getModel()->department != null &&
-            $user->getModel()->department->id != $id
+            $model->department != null &&
+            $model->department->id != $id
         ) {
             return $app->redirect($app->path('dashboard.departments.self'));
         }
@@ -103,9 +143,7 @@ class DepartmentsController
         return View::render('dashboard/departments/view', array(
             'department'    => $department->toArray(),
             'search_form'   => $form->createView(),
-            'current_page'  => $faculties->currentPage(),
-            'last_page'     => $faculties->lastPage(),
-            'faculties'     => $faculties
+            'result'        => $faculties->toArray()
         ));
     }
 
@@ -160,10 +198,11 @@ class DepartmentsController
     public function settings(Request $request, Application $app, $id)
     {
         $user = Auth::user();
+        $model = $user->getModel();
 
         if ($user->getRole() == 'head' &&
-            $user->getModel()->department != null &&
-            $user->getModel()->department->id != $id
+            $model->department != null &&
+            $model->department->id != $id
         ) {
             return $app->redirect($app->path('dashboard.departments.self'));
         }
@@ -179,10 +218,10 @@ class DepartmentsController
 
         $form->add('grade_submission_deadline', 'datetime', array(
             'required'      => false,
+            'html5'         => true,
             'input'         => 'string',
             'date_widget'   => 'single_text',
             'time_widget'   => 'single_text',
-            'html5'         => true,
             'data'          => $department->getOriginal('grade_submission_deadline')
         ));
 
