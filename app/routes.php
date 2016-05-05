@@ -17,6 +17,7 @@ use App\Routes;
 use App\Routes\Student;
 use App\Routes\Dashboard;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 $app->mount('/', new Routes\MainRoute);
 
@@ -48,6 +49,12 @@ $app->before(function (Request $request, Application $app) {
             'next' => urlencode($request->getRequestUri())
         )));
     }
+});
+
+$app->after(function (Request $request, Response $response) {
+    $response->headers->add(array(
+        'X-Frame-Options'   => 'SAMEORIGIN'
+    ));
 });
 
 $app->error(function (\Exception $e, $code) use ($app) {
