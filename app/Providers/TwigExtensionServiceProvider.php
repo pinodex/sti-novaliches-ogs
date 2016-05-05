@@ -52,7 +52,6 @@ class TwigExtensionServiceProvider implements ServiceProviderInterface
     {
         $app->extend('twig', function (Twig_Environment $twig, Application $app) {
             $twig->addGlobal('current_user', Auth::user());
-            $twig->addGlobal('active_nav', 'home');
 
             return $twig;
         });

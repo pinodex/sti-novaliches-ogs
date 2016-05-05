@@ -7,75 +7,83 @@
         <h1>Dashboard</h1>
 
         <ul>
-            <li v-show="{{ current_user.getRole() == 'admin' ? 'true' : 'false' }}">
-                Administration
+            {% if current_user.getRole() == 'admin' %}
+                <li>
+                    Administration
 
-                <ul>
-                    <li>
-                        <a href="{{ path('dashboard.admins') }}">Site admins</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('dashboard.heads') }}">Head accounts</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('dashboard.faculty') }}">Faculty accounts</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('dashboard.guidance') }}">Guidance accounts</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('dashboard.departments') }}">Departments</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('dashboard.students') }}">Students</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('dashboard.grades') }}">Grades</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('dashboard.settings') }}">School Status Settings</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('dashboard.settings.maintenance') }}">Maintenance</a>
-                    </li>
-                </ul>
-            </li>
+                    <ul>
+                        <li>
+                            <a href="{{ path('dashboard.admins') }}">Site admins</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('dashboard.heads') }}">Head accounts</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('dashboard.faculty') }}">Faculty accounts</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('dashboard.guidance') }}">Guidance accounts</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('dashboard.departments') }}">Departments</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('dashboard.students') }}">Students</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('dashboard.grades') }}">Grades</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('dashboard.settings') }}">School Status Settings</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('dashboard.settings.maintenance') }}">Maintenance</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
 
-            <li v-show="{{ current_user.getRole() == 'head' ? 'true' : 'false' }}">
-                Department Head
+            {% if current_user.getRole() == 'head' %}
+                <li>
+                    Department Head
 
-                <ul>
-                    <li>
-                        <a href="{{ path('dashboard.departments.self') }}">My Department</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('dashboard.students') }}">Student List</a>
-                    </li>
-                </ul>
-            </li>
+                    <ul>
+                        <li>
+                            <a href="{{ path('dashboard.departments.self') }}">My Department</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('dashboard.students') }}">Student List</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
 
-            <li v-show="{{ current_user.getRole() == 'faculty' ? 'true' : 'false' }}">
-                Department Faculty
+            {% if current_user.getRole() == 'faculty' %}
+                <li>
+                    Department Faculty
 
-                <ul>
-                    <li>
-                        <a href="{{ path('dashboard.students') }}">Student List</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('dashboard.grades.import') }}">Import Grades</a>
-                    </li>
-                </ul>
-            </li>
+                    <ul>
+                        <li>
+                            <a href="{{ path('dashboard.students') }}">Student List</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('dashboard.grades.import') }}">Import Grades</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
 
-            <li v-show="{{ current_user.getRole() == 'guidance' ? 'true' : 'false' }}">
-                Guidance
+            {% if current_user.getRole() == 'guidance' %}
+                <li>
+                    Guidance
 
-                <ul>
-                    <li>
-                        <a href="{{ path('dashboard.students') }}">Student List</a>
-                    </li>
-                </ul>
-            </li>
+                    <ul>
+                        <li>
+                            <a href="{{ path('dashboard.students') }}">Student List</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
         </ul>
     </div>
 {% endblock %}
