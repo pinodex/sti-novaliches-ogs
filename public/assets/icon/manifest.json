@@ -1,5 +1,5 @@
 {
-	"name": "STI Nova Online Grades",
+	"name": "STI Novaliches",
 	"icons": [
 		{
 			"src": "\/assets\/icon\/android-chrome-36x36.png",
@@ -38,6 +38,5 @@
 			"density": 4
 		}
 	],
-	"start_url": "http:\/\/stinovaliches.net",
 	"display": "standalone"
 }
