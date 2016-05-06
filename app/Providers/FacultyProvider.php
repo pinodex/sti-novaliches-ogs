@@ -42,8 +42,8 @@ class FacultyProvider implements AuthProviderInterface
                 'view'
             ),
             
-            'App\Controllers\Dashboard\GradesController' => array(
-                'import',
+            'App\Controllers\Dashboard\GradesImportController' => array(
+                'index',
                 'stepOne',
                 'stepTwo',
                 'stepThree',
