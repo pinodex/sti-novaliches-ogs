@@ -13,13 +13,13 @@ namespace App\Controllers\Dashboard;
 
 use Silex\Application;
 use App\Models\Grade;
-use App\Models\Setting;
 use App\Models\Department;
 use App\Models\FacultyGradeImportLog;
 use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Helper;
+use App\Services\Settings;
 use App\Services\Session\FlashBag;
 use App\Constraints as CustomAssert;
 use Illuminate\Support\Collection;
@@ -39,10 +39,10 @@ class SettingsController
      */
     public function index(Request $request, Application $app)
     {
-        $settings = Setting::all()->keyBy('id');
-        $currentYear = date('Y');
-        
-        $form = Form::create();
+        $currentYear = date('Y'); 
+
+        $settings = Settings::getAll();
+        $form = Form::create($settings);
         
         /*
             Generate academic year changes.
@@ -54,6 +54,11 @@ class SettingsController
             return $year . ' - ' . ($year + 1);
         })->toArray();
 
+        $semesters = array(
+            'FIRST'     => '1st semester',
+            'SECOND'    => '2nd semester'
+        );
+
         $periods = array(
             'PRELIM',
             'MIDTERM',
@@ -61,36 +66,47 @@ class SettingsController
             'FINAL'
         );
 
+        $dateOptions = array(
+            'required'      => false,
+            'html5'         => true,
+            'input'         => 'string',
+            'date_widget'   => 'single_text',
+            'time_widget'   => 'single_text'
+        );
+
         $form->add('academic_year', 'choice', array(
-            'choices'   => array_combine($years, $years),
-            'data'      => $settings->has('academic_year') ? 
-                            $settings->get('academic_year')->value : null
+            'choices' => array_combine($years, $years)
+        ));
+
+        $form->add('semester', 'choice', array(
+            'choices' => $semesters
         ));
 
         $form->add('period', 'choice', array(
-            'choices'   => array_combine($periods, $periods),
-            'data'      => $settings->has('period') ? 
-                            $settings->get('period')->value : null
+            'choices' => array_combine($periods, $periods)
         ));
+
+        $form->add('prelim_grade_deadline', 'datetime', array_merge($dateOptions, array(
+                'label' => 'Preliminary grade submission deadline'
+        )));
+
+        $form->add('midterm_grade_deadline', 'datetime', array_merge($dateOptions, array(
+                'label' => 'Midterm grade submission deadline'
+        )));
+
+        $form->add('prefinal_grade_deadline', 'datetime', array_merge($dateOptions, array(
+                'label' => 'Pre-final grade submission deadline'
+        )));
+
+        $form->add('final_grade_deadline', 'datetime', array_merge($dateOptions, array(
+                'label' => 'Final grade submission deadline'
+        )));
 
         $form = $form->getForm();
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            foreach ($form->getData() as $key => $value) {
-                if ($settings->has($key)) {
-                    $settings->get($key)->value = $value;
-                    $settings->get($key)->save();
-
-                    continue;
-                }
-
-                Setting::create(array(
-                    'id'    => $key,
-                    'value' => $value
-                ));
-            }
-
+            Settings::setArray($form->getData());
             FlashBag::add('messages', 'success>>>Settings has been updated');
 
             return $app->redirect($app->path('dashboard.settings'));
@@ -198,10 +214,6 @@ class SettingsController
         
         if ($form->isValid()) {
             Grade::truncate();
-            FacultyGradeImportLog::truncate();
-            Department::whereNotNull('name')->update(array(
-                'grade_submission_deadline' => null
-            ));
 
             FlashBag::add('messages', 'info>>>Database cleanup completed');
             return $app->redirect($app->path('dashboard.settings.maintenance'));

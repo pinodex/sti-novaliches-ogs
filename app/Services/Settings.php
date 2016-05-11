@@ -36,12 +36,28 @@ class Settings
     }
 
     /**
+     * Get all setting values
+     * 
+     * @return array
+     */
+    public static function getAll()
+    {
+        $settings = array();
+
+        SettingModel::all()->map(function (SettingModel $setting) use (&$settings) {
+            $settings[$setting->id] = $setting->value;
+        });
+
+        return $settings;
+    }
+
+    /**
      * Set setting value
      * 
      * @param string $id Setting entry identifer
      * @param string $value Setting entry value
      */
-    public function set($id, $value)
+    public static function set($id, $value)
     {
         $setting = SettingModel::find($id);
 
@@ -51,5 +67,28 @@ class Settings
 
         $setting->value = $value;
         $setting->save();
+    }
+
+    /**
+     * Set setting values
+     * 
+     * @param array $data Values
+     */
+    public static function setArray($data) {
+        foreach ($data as $id => $value) {
+            static::set($id, $value);
+        }
+    }
+
+    /**
+     * Get current deadline
+     * 
+     * @return string
+     */
+    public static function getCurrentDeadline()
+    {
+        $settingKey = strtolower(static::get('period', 'prelim')) . '_grade_deadline';
+        
+        return static::get($settingKey, null);
     }
 }

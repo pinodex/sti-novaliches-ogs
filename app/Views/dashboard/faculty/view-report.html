@@ -1,6 +1,6 @@
 {% extends '/_layout/main-default.html' %}
 
-{% set page_title = 'View faculty' %}
+{% set page_title = 'View faculty report' %}
 
 {% block content %}
     <div class="container">
@@ -38,10 +38,6 @@
                                     <td>{{ faculty.status }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Remarks</td>
-                                    <td>{{ faculty.is_valid ? 'OK' : 'Invalid' }}</td>
-                                </tr>
-                                <tr>
                                     <td>Failed</td>
                                     <td>{{ faculty.number_of_fails }}</td>
                                 </tr>
@@ -53,42 +49,42 @@
                         </table>
                     </div>
                 </div>
-
-                
-                <div class="panel">
-                    <div class="panel-heading">Actions</div>
-                        <div class="panel-body">
-                        <ul class="list-unstyled">
-                             <li>
-                                <a href="{{ path('dashboard.faculty.viewReport', {id: faculty.id}) }}">View report</a>
-                            </li>
-                            {% if current_user.getRole() == 'admin' %}
-                                <li>
-                                    <a href="{{ path('dashboard.faculty.edit', {id: faculty.id}) }}">Edit Faculty</a>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </div>
             </div>
 
             <div class="column-8">
                 <div class="panel">
-                    <div class="panel-heading">Grade submission logs</div>
+                    <div class="panel-heading">Section report</div>
                     <div class="panel-body">
-                        {% if logs is empty %}
-                            <div class="alert alert-info">No records found.</div>
-                        {% else %}
-                            <table>
-                                <tbody>
-                                    {% for log in logs %}
-                                        <tr>
-                                            <td>{{ log.date }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        {% endif %}
+                        <ul class="tabs" data-activated-tab="{{ active_period }}">
+                            <li v-on:click="activateTab(0)" v-bind:class="{'active': activeTab == 0}">Prelim</li>
+                            <li v-on:click="activateTab(1)" v-bind:class="{'active': activeTab == 1}">Midterm</li>
+                            <li v-on:click="activateTab(2)" v-bind:class="{'active': activeTab == 2}">Prefinal</li>
+                            <li v-on:click="activateTab(3)" v-bind:class="{'active': activeTab == 3}">Final</li>
+                        </ul>
+
+                        <table class="center-align">
+                            <thead>
+                                <tr>
+                                    <th>Section</th>
+                                    <th>No. of students</th>
+                                    <th>Without grades</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for section in sections %}
+                                    <tr>
+                                        <td>{{ section.id }}</td>
+                                        <td>{{ section.student_count }}</td>
+                                        <td>
+                                            <span v-show="activeTab == 0">{{ section.student_without_grades_count.prelim }}</span>
+                                            <span v-show="activeTab == 1">{{ section.student_without_grades_count.midterm }}</span>
+                                            <span v-show="activeTab == 2">{{ section.student_without_grades_count.prefinal }}</span>
+                                            <span v-show="activeTab == 3">{{ section.student_without_grades_count.final }}</span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

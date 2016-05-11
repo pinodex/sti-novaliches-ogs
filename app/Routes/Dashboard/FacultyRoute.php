@@ -43,6 +43,10 @@ class FacultyRoute implements ControllerProviderInterface
             array('App\Controllers\Dashboard\FacultyController', 'view')
         )->bind('dashboard.faculty.view')->assert('id', '\d+');
 
+        $controller->match('/{id}/report',
+            array('App\Controllers\Dashboard\FacultyController', 'viewReport')
+        )->bind('dashboard.faculty.viewReport')->assert('id', '\d+');
+
         $controller->match('/{id}/edit',
             array('App\Controllers\Dashboard\FacultyController', 'edit')
         )->bind('dashboard.faculty.edit')->assert('id', '\d+');

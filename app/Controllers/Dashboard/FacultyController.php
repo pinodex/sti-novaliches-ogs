@@ -12,12 +12,14 @@
 namespace App\Controllers\Dashboard;
 
 use Silex\Application;
-use App\Models\Department;
+use App\Models\Grade;
 use App\Models\Faculty;
+use App\Models\Department;
 use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Session;
+use App\Services\Settings;
 use App\Services\Session\FlashBag;
 use App\Constraints as CustomAssert;
 use Illuminate\Pagination\Paginator;
@@ -69,9 +71,13 @@ class FacultyController
     public function summary()
     {
         $faculty = Faculty::all();
+        $period = strtolower(Settings::get('period', 'prelim'));
+        $periodIndex = array_flip(array('prelim', 'midterm', 'prefinal', 'final'))[$period];
 
         return View::render('dashboard/faculty/summary', array(
-            'faculty' => $faculty->toArray()
+            'faculty'       => $faculty,
+            'period'        => $period,
+            'active_period' => $periodIndex
         ));
     }
 
@@ -104,6 +110,82 @@ class FacultyController
         return View::render('dashboard/faculty/view', array(
             'faculty'   => $faculty->toArray(),
             'logs'      => array_reverse($faculty->submissionLogs->toArray())
+        ));
+    }
+
+    /**
+     * View faculty report page
+     * 
+     * URL: /dashboard/faculty/{id}/report
+     */
+    public function viewReport(Application $app, $id)
+    {
+        if (!$faculty = Faculty::with('department', 'submittedGrades')->find($id)) {
+            FlashBag::add('messages', 'danger>>>Faculty account not found');
+            return $app->redirect($app->path('dashboard.faculty'));
+        }
+
+        $user = Auth::user();
+        $model = $user->getModel();
+
+        $period = strtolower(Settings::get('period', 'prelim'));
+        $periodIndex = array_flip(array('prelim', 'midterm', 'prefinal', 'final'))[$period];
+
+        if ($user->getRole() == 'head') {
+            // Deny if the faculty and head does not belong to the same department
+            if (!$faculty->department || $faculty->department->id != $model->department->id) {
+                FlashBag::add('messages', 'danger>>>This faculty is not in your department');
+
+                return $app->redirect($app->path('dashboard.departments.view', array(
+                    'id' => $model->department->id
+                )));
+            }
+        }
+
+        $sections = array();
+
+        $gradeGroups = $faculty->submittedGrades->groupBy(function (Grade $grade) {
+            return $grade->subject . ' ' . $grade->section;
+        });
+
+        foreach ($gradeGroups as $id => $grades) {
+            $withoutGradesCount = array(
+                'prelim'    => 0,
+                'midterm'   => 0,
+                'prefinal'  => 0,
+                'final'     => 0
+            );
+
+            foreach ($grades as $grade) {
+                if ($grade->getOriginal('prelim_grade') === null) {
+                    $withoutGradesCount['prelim']++;
+                }
+
+                if ($grade->getOriginal('midterm_grade') === null) {
+                    $withoutGradesCount['midterm']++;
+                }
+
+                if ($grade->getOriginal('prefinal_grade') === null) {
+                    $withoutGradesCount['prefinal']++;
+                }
+
+                if ($grade->getOriginal('final_grade') === null) {
+                    $withoutGradesCount['final']++;
+                }
+            }
+
+            $sections[] = array(
+                'id'                            => $id,
+                'student_count'                 => count($grades),
+                'student_without_grades_count'  => $withoutGradesCount
+            );
+        }
+
+        return View::render('dashboard/faculty/view-report', array(
+            'faculty'       => $faculty->toArray(),
+            'sections'      => $sections,
+            'period'        => $period,
+            'active_period' => $periodIndex
         ));
     }
 

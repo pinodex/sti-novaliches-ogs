@@ -455,6 +455,10 @@ body {
   }
 }
 
+*[v-show] {
+  display: none;
+}
+
 .container {
   padding-left: 15px;
   padding-right: 15px;
@@ -767,12 +771,19 @@ textarea.form-control:focus {
 
 input[type="text"],
 input[type="password"],
+input[type="date"],
+input[type="time"],
 textarea,
 select {
   padding: 10px;
   border: 1px solid #ccc;
   outline: none;
   width: 100%;
+}
+
+input[type="date"],
+input[type="time"] {
+  width: auto;
 }
 
 select {
@@ -1026,6 +1037,13 @@ label {
   font-size: 12px;
 }
 
+.form-inline input:first-child {
+  border-right: none;
+}
+.form-inline input:last-child {
+  border-left: none;
+}
+
 .form-group {
   margin-bottom: 15px;
 }
@@ -1224,18 +1242,6 @@ table.center-align td {
 }
 .wizard-steps li .text {
   padding-left: 10px;
-}
-
-@keyframes rotate-animation {
-  0% {
-    background: #4993CF;
-    transform: scale(0);
-  }
-  100% {
-    background: #4993CF;
-    transform: scale(1);
-    opacity: 0;
-  }
 }
 
 /*# sourceMappingURL=main.css.map */

@@ -8,24 +8,48 @@
             <div class="column-12">
                 <h1>{{ page_title }}</h1>
 
+                <ul class="tabs" data-activated-tab="{{ active_period }}">
+                    <li v-on:click="activateTab(0)" v-bind:class="{'active': activeTab == 0}">Prelim</li>
+                    <li v-on:click="activateTab(1)" v-bind:class="{'active': activeTab == 1}">Midterm</li>
+                    <li v-on:click="activateTab(2)" v-bind:class="{'active': activeTab == 2}">Prefinal</li>
+                    <li v-on:click="activateTab(3)" v-bind:class="{'active': activeTab == 3}">Final</li>
+                </ul>
+
                 <table class="center-align">
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>Status</th>
+                            <th>Remarks</th>
                             <th>Failed</th>
                             <th>Dropped</th>
-                            <th>View</th>
+                            <th>Report</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for faculty in faculty %}
                             <tr>
                                 <td>{{ faculty.name }}</td>
-                                <td>{{ faculty.status }}</td>
-                                <td>{{ faculty.number_of_fails }}</td>
-                                <td>{{ faculty.number_of_drops }}</td>
-                                <td><a href="{{ path('dashboard.faculty.view', {id: faculty.id}) }}">View</a></td>
+                                <td>
+                                    <span v-show="activeTab == 0">{{ faculty.getStatusAttribute('prelim') }}</span>
+                                    <span v-show="activeTab == 1">{{ faculty.getStatusAttribute('midterm') }}</span>
+                                    <span v-show="activeTab == 2">{{ faculty.getStatusAttribute('prefinal') }}</span>
+                                    <span v-show="activeTab == 3">{{ faculty.getStatusAttribute('final') }}</span>
+                                </td>
+                                <td>{{ faculty.is_valid ? 'OK' : 'Invalid' }}</td>
+                                <td>
+                                    <span v-show="activeTab == 0">{{ faculty.getNumberOfFailsAttribute('prelim') }}</span>
+                                    <span v-show="activeTab == 1">{{ faculty.getNumberOfFailsAttribute('midterm') }}</span>
+                                    <span v-show="activeTab == 2">{{ faculty.getNumberOfFailsAttribute('prefinal') }}</span>
+                                    <span v-show="activeTab == 3">{{ faculty.getNumberOfFailsAttribute('final') }}</span>
+                                </td>
+                                <td>
+                                    <span v-show="activeTab == 0">{{ faculty.getNumberOfDropsAttribute('prelim') }}</span>
+                                    <span v-show="activeTab == 1">{{ faculty.getNumberOfDropsAttribute('midterm') }}</span>
+                                    <span v-show="activeTab == 2">{{ faculty.getNumberOfDropsAttribute('prefinal') }}</span>
+                                    <span v-show="activeTab == 3">{{ faculty.getNumberOfDropsAttribute('final') }}</span>
+                                </td>
+                                <td><a href="{{ path('dashboard.faculty.viewReport', {id: faculty.id}) }}">View Report</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

@@ -47,6 +47,7 @@ class Faculty extends Model
         'is_never_submitted',
         'is_submitted_late',
         'is_incomplete',
+        'is_valid',
         'number_of_fails',
         'number_of_drops'
     );
@@ -100,17 +101,17 @@ class Faculty extends Model
      * 
      * @return string
      */
-    public function getStatusAttribute()
+    public function getStatusAttribute($period = null)
     {
-        if ($this->is_incomplete) {
+        if ($this->getIsIncompleteAttribute($period)) {
             return 'Incomplete';
         }
 
-        if ($this->is_never_submitted) {
+        if ($this->getIsNeverSubmittedAttribute($period)) {
             return 'Never submitted';
         }
 
-        if ($this->is_submitted_late) {
+        if ($this->getIsSubmittedLateAttribute($period)) {
             return 'Submitted late';
         }
 
@@ -122,9 +123,11 @@ class Faculty extends Model
      * 
      * @return string
      */
-    public function getFirstGradeImportAtAttribute()
+    public function getFirstGradeImportAtAttribute($period = null)
     {
-        if ($first = $this->submissionLogs->first()) {
+        if ($first = $this->submissionLogs()->getQuery()
+            ->where('period', $period ?: Settings::get('period'))->first()) {
+            
             return $first->date;
         }
 
@@ -136,9 +139,10 @@ class Faculty extends Model
      * 
      * @return string
      */
-    public function getIsNeverSubmittedAttribute()
+    public function getIsNeverSubmittedAttribute($period = null)
     {
-        return $this->submissionLogs->count() == 0;
+        return $this->submissionLogs()->getQuery()
+            ->where('period', $period ?: Settings::get('period'))->count() == 0;
     }
 
     /**
@@ -146,10 +150,10 @@ class Faculty extends Model
      * 
      * @return string
      */
-    public function getIsIncompleteAttribute()
+    public function getIsIncompleteAttribute($period = null)
     {
         $isIncomplete = false;
-        $period = strtolower(Settings::get('period', 'prelim')) . '_grade';
+        $period = strtolower($period ?: Settings::get('period', 'prelim')) . '_grade';
 
         $sheets = $this->submittedGrades->groupBy(function (Grade $grade) {
             return $grade->subject . ' ' . $grade->section;
@@ -159,7 +163,7 @@ class Faculty extends Model
             $incompletes = 0;
 
             foreach ($grades as $grade) {
-                if ($grade->getAttribute($period) === null) {
+                if ($grade->getOriginal($period) === null) {
                     $incompletes++;
                 }
             }
@@ -175,23 +179,77 @@ class Faculty extends Model
     }
 
     /**
+     * Get is_invalid attribute
+     * 
+     * @return boolean
+     */
+    public function getIsValidAttribute()
+    {
+        $isValid = true;
+
+        $gradeGroups = $this->submittedGrades->groupBy(function (Grade $grade) {
+            return $grade->subject . ' ' . $grade->section;
+        });
+
+        foreach ($gradeGroups as $id => $grades) {
+            $totalCount = count($grades);
+            $withoutGradesCount = array(
+                'prelim'    => 0,
+                'midterm'   => 0,
+                'prefinal'  => 0,
+                'final'     => 0
+            );
+
+            foreach ($grades as $grade) {
+                if ($grade->getOriginal('prelim_grade') === null) {
+                    $withoutGradesCount['prelim']++;
+                }
+
+                if ($grade->getOriginal('midterm_grade') === null) {
+                    $withoutGradesCount['midterm']++;
+                }
+
+                if ($grade->getOriginal('prefinal_grade') === null) {
+                    $withoutGradesCount['prefinal']++;
+                }
+
+                if ($grade->getOriginal('final_grade') === null) {
+                    $withoutGradesCount['final']++;
+                }
+            }
+
+
+
+            if (($withoutGradesCount['prelim'] != $totalCount && round($withoutGradesCount['prelim'] / $totalCount) >= 0.5) ||
+                ($withoutGradesCount['midterm'] != $totalCount && round($withoutGradesCount['midterm'] / $totalCount) >= 0.5) ||
+                ($withoutGradesCount['prefinal'] != $totalCount && round($withoutGradesCount['prefinal'] / $totalCount) >= 0.5) ||
+                ($withoutGradesCount['final'] != $totalCount && round($withoutGradesCount['final'] / $totalCount) >= 0.5)) {
+
+                $isValid = false;
+            }
+        }
+
+        return $isValid;
+    }
+
+    /**
      * Get is_submitted_late attribute
      * 
      * @return string
      */
-    public function getIsSubmittedLateAttribute()
+    public function getIsSubmittedLateAttribute($period = null)
     {
-        $logs = $this->submissionLogs;
+        $firstLog = $this->submissionLogs()->getQuery()
+            ->where('period', $period ?: Settings::get('period'))->take(1)->first();
 
-        if ($logs->count()) {
-            $deadline = $this->department->getOriginal('grade_submission_deadline');
-            $submissionDate = $logs->first()->date;
+        if ($firstLog) {
+            $deadline = Settings::getCurrentDeadline();
 
-            if (!$deadline || !$submissionDate) {
+            if (!$deadline || $deadline == 'N/A') {
                 return false;
             }
 
-            return strtotime($deadline) < strtotime($submissionDate);
+            return strtotime($deadline) < strtotime($firstLog->getOriginal('date'));
         }
 
         return false;
@@ -202,13 +260,13 @@ class Faculty extends Model
      * 
      * @return string
      */
-    public function getNumberOfFailsAttribute()
+    public function getNumberOfFailsAttribute($period = null)
     {
         $count = 0;
-        $period = strtolower(Settings::get('period', 'prelim')) . '_grade';
+        $period = strtolower($period ?: Settings::get('period', 'prelim')) . '_grade';
 
         foreach ($this->submittedGrades as $grade) {
-            if ($grade->getAttribute($period) !== null && $grade->getAttribute($period) < 75) {
+            if ($grade->getOriginal($period) !== null && $grade->getOriginal($period) < 75) {
                 $count++;
             }
         }
@@ -219,15 +277,17 @@ class Faculty extends Model
     /**
      * Get number_of_drops attribute
      * 
+     * @param string $period Period
+     * 
      * @return string
      */
-    public function getNumberOfDropsAttribute()
+    public function getNumberOfDropsAttribute($period = null)
     {
         $count = 0;
-        $period = strtolower(Settings::get('period', 'prelim')) . '_grade';
+        $period = strtolower($period ?: Settings::get('period', 'prelim')) . '_grade';
 
         foreach ($this->submittedGrades as $grade) {
-            if ($grade->getAttribute($period) == -1) {
+            if ($grade->getOriginal($period) == -1) {
                 $count++;
             }
         }
@@ -242,6 +302,7 @@ class Faculty extends Model
     {
         FacultyGradeImportLog::create(array(
             'faculty_id'    => $this->id,
+            'period'        => Settings::get('period', 'PRELIM'),
             'date'          => date('Y-m-d H:i:s')
         ));
     }

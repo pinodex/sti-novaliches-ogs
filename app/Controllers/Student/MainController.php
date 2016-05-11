@@ -136,16 +136,16 @@ class MainController
         $form->add('mobile_number', 'text', array(
             'label' => 'Mobile number *',
             'constraints' => new Assert\Regex(array(
-                'pattern'   => '/(0|63|\+63)[\d+]{10}/',
-                'message'   => 'Please enter a valid mobile number',
+                'pattern'   => '/^((0|63|\+63)([\d]{10}))$/',
+                'message'   => 'Please enter a valid mobile number. Eg. 09161234567',
                 'match'     => true
             ))
         ));
 
         $form->add('landline', 'text', array(
             'constraints' => new Assert\Regex(array(
-                'pattern'   => '/([\d+]{3}[\d+]{4})|([\d+]{3}-[\d+]{4})/',
-                'message'   => 'Please enter a valid landline number',
+                'pattern'   => '/^(([\d]{9})|([\d]{7}))$/',
+                'message'   => 'Please enter a valid landline number. Eg. 8001234',
                 'match'     => true
             )),
 
@@ -168,7 +168,7 @@ class MainController
         $form->add('guardian_contact_number', 'text', array(
             'label' => 'Guardian\'s/Parent\'s contact no. *',
             'constraints' => new Assert\Regex(array(
-                'pattern'   => '/([\d+]{3}[\d+]{4})|([\d+]{3}-[\d+]{4})|((0|63|\+63)[\d+]{10})/',
+                'pattern'   => '/^(([\d]{9})|([\d]{7})|((0|63|\+63)([\d]{10})))$/',
                 'message'   => 'Please enter a valid mobile number or landline',
                 'match'     => true
             ))

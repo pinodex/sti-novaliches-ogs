@@ -35,10 +35,6 @@ class DepartmentsRoute implements ControllerProviderInterface
             array('App\Controllers\Dashboard\DepartmentsController', 'self')
         )->bind('dashboard.departments.self');
 
-        $controller->match('/global-deadline',
-            array('App\Controllers\Dashboard\DepartmentsController', 'globalDeadline')
-        )->bind('dashboard.departments.globalDeadline');
-
         $controller->match('/{id}',
             array('App\Controllers\Dashboard\DepartmentsController', 'view')
         )->bind('dashboard.departments.view');

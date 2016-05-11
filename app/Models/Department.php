@@ -29,8 +29,7 @@ class Department extends Model
 
     protected $fillable = array(
         'name',
-        'head',
-        'grade_submission_deadline'
+        'head'
     );
 
     /**
@@ -61,21 +60,5 @@ class Department extends Model
     public function getChoiceName()
     {
         return $this->name;
-    }
-
-    /**
-     * Format grade_submission_deadline attribute
-     * 
-     * @param string $value Input date
-     * 
-     * @return string
-     */
-    public function getGradeSubmissionDeadlineAttribute($value)
-    {
-        if (!$value) {
-            return 'N/A';
-        }
-
-        return date('M d, Y h:i a', strtotime($value));
     }
 }

@@ -24,10 +24,6 @@
                                         <td>Last login</td>
                                         <td>{{ department.head ? department.head.last_login_at : 'N/A' }}</td>
                                     </tr>
-                                    <tr>
-                                        <td>Submission deadline</td>
-                                        <td>{{ department.grade_submission_deadline }}</td>
-                                    </tr>
                                 </tbody>
                             </table>
                             {% if current_user.getRole() == 'admin' %}

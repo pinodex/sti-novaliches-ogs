@@ -59,44 +59,6 @@ class DepartmentsController
     }
 
     /**
-     * Global deadline setting page
-     * 
-     * URL: /dashboard/departments/global-deadline
-     */
-    public function globalDeadline(Request $request, Application $app)
-    {
-        $form = Form::create();
-
-        $form->add('grade_submission_deadline', 'datetime', array(
-            'required'      => false,
-            'html5'         => true,
-            'input'         => 'string',
-            'date_widget'   => 'single_text',
-            'time_widget'   => 'single_text'
-        ));
-
-        $form = $form->getForm();
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $data = $form->getData();
-            
-            if (empty($data['grade_submission_deadline'])) {
-                $data['grade_submission_deadline'] = null;
-            }
-
-            Department::whereNotNull('name')->update($data);
-            FlashBag::add('messages', 'success>>>Global deadline settings has been saved');
-            
-            return $app->redirect($app->path('dashboard.departments'));
-        }
-
-        return View::render('dashboard/departments/global-deadline', array(
-            'form'          => $form->createView()
-        ));
-    }
-
-    /**
      * Admin department view page
      * 
      * URL: /dashboard/departments/{id}
@@ -215,24 +177,11 @@ class DepartmentsController
 
         $form = Form::create();
 
-        $form->add('grade_submission_deadline', 'datetime', array(
-            'required'      => false,
-            'html5'         => true,
-            'input'         => 'string',
-            'date_widget'   => 'single_text',
-            'time_widget'   => 'single_text',
-            'data'          => $department->getOriginal('grade_submission_deadline')
-        ));
-
         $form = $form->getForm();
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $data = $form->getData();
-            
-            if (empty($data['grade_submission_deadline'])) {
-                $data['grade_submission_deadline'] = null;
-            }
 
             $department->fill($data);
             $department->save();
