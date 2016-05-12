@@ -87,19 +87,19 @@ class SettingsController
         ));
 
         $form->add('prelim_grade_deadline', 'datetime', array_merge($dateOptions, array(
-                'label' => 'Preliminary grade submission deadline'
+            'label' => 'Preliminary grade submission deadline'
         )));
 
         $form->add('midterm_grade_deadline', 'datetime', array_merge($dateOptions, array(
-                'label' => 'Midterm grade submission deadline'
+            'label' => 'Midterm grade submission deadline'
         )));
 
         $form->add('prefinal_grade_deadline', 'datetime', array_merge($dateOptions, array(
-                'label' => 'Pre-final grade submission deadline'
+            'label' => 'Pre-final grade submission deadline'
         )));
 
         $form->add('final_grade_deadline', 'datetime', array_merge($dateOptions, array(
-                'label' => 'Final grade submission deadline'
+            'label' => 'Final grade submission deadline'
         )));
 
         $form = $form->getForm();

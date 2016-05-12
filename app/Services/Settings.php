@@ -63,6 +63,7 @@ class Settings
 
         if (!$setting) {
             $setting = new SettingModel();
+            $setting->id = $id;
         }
 
         $setting->value = $value;
