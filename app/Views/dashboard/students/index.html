@@ -40,7 +40,7 @@
 
             <div class="column-8">
                 {% if result.data is empty %}
-                    <div class="alert alert-neutral">No results found</div>
+                    <div class="alert alert-neutral">No records found</div>
                 {% else %}
                     <select name="pages" v-on:change="changePaginationPage" v-model="paginationPage">
                         {% for i in 1..result.last_page %}

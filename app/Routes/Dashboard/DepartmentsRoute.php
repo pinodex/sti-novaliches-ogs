@@ -47,10 +47,6 @@ class DepartmentsRoute implements ControllerProviderInterface
             array('App\Controllers\Dashboard\DepartmentsController', 'edit')
         )->bind('dashboard.departments.edit');
 
-        $controller->match('/{id}/settings',
-            array('App\Controllers\Dashboard\DepartmentsController', 'settings')
-        )->bind('dashboard.departments.settings');
-
         $controller->match('/{id}/delete',
             array('App\Controllers\Dashboard\DepartmentsController', 'delete')
         )->bind('dashboard.departments.delete');

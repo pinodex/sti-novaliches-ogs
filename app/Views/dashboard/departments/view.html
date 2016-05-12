@@ -50,21 +50,18 @@
                     </div>
                 </div>
 
-                <div class="panel">
-                    <div class="panel-heading">Actions</div>
-                    <div class="panel-body">
-                        <ul class="list-unstyled">
-                            {% if current_user.getRole() == 'admin' %}
+                {% if current_user.getRole() == 'admin' %}
+                    <div class="panel">
+                        <div class="panel-heading">Actions</div>
+                        <div class="panel-body">
+                            <ul class="list-unstyled">
                                 <li>
                                     <a href="{{ path('dashboard.departments.edit', {id: department.id}) }}">Edit department</a>
                                 </li>
-                            {% endif %}
-                            <li>
-                                <a href="{{ path('dashboard.departments.settings', {id: department.id}) }}">Edit settings</a>
-                            </li>
-                        </ul>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
             </div>
             
             <div class="column-8">

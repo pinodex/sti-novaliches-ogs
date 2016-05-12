@@ -152,54 +152,6 @@ class DepartmentsController
     }
 
     /**
-     * Admin departments page edit
-     * 
-     * URL: /dashboard/departments/{id}/settings
-     */
-    public function settings(Request $request, Application $app, $id)
-    {
-        $user = Auth::user();
-        $model = $user->getModel();
-
-        if ($user->getRole() == 'head' &&
-            $model->department !== null &&
-            $model->department->id != $id
-        ) {
-            return $app->redirect($app->path('dashboard.departments.self'));
-        }
-
-        $department = Department::find($id);
-
-        if (!$department->id) {
-            FlashBag::add('messages', 'danger>>>Department not found');
-            return $app->redirect($app->path('dashboard.departments'));
-        }
-
-        $form = Form::create();
-
-        $form = $form->getForm();
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $data = $form->getData();
-
-            $department->fill($data);
-            $department->save();
-
-            FlashBag::add('messages', 'success>>>Department has been saved');
-            
-            return $app->redirect($app->path('dashboard.departments.view', array(
-                'id' => $department->id
-            )));
-        }
-
-        return View::render('dashboard/departments/edit', array(
-            'department'    => $department,
-            'form'          => $form->createView()
-        ));
-    }
-
-    /**
      * Delete department page
      * 
      * URL: /dashboard/departments/{id}/delete

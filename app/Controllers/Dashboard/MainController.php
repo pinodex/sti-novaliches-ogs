@@ -34,7 +34,22 @@ class MainController
      */
     public function index(Application $app)
     {
-        return View::render('/dashboard/index');
+        $vars = array();
+
+        if (Auth::user()->getRole() == 'faculty') {
+            $faculty = Auth::user()->getModel();
+
+            $vars['faculty'] = $faculty->toArray();
+            $vars['department'] = $faculty->department;
+            $vars['statuses'] = array(
+                $faculty->getStatusAttribute('prelim'),
+                $faculty->getStatusAttribute('midterm'),
+                $faculty->getStatusAttribute('prefinal'),
+                $faculty->getStatusAttribute('final')
+            );
+        }
+
+        return View::render('/dashboard/index', $vars);
     }
 
     /**

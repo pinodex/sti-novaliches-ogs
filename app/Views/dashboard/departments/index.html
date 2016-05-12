@@ -25,41 +25,45 @@
             </div>
 
             <div class="column-8">
-                <table class="center-align">
-                    <thead>
-                        <tr>
-                            <th>
-                                <span class="long">Name</span>
-                                <span class="short">N</span>
-                            </th>
-                            <th>
-                                <span class="long">Head</span>
-                                <span class="short">H</span>
-                            </th>
-                            <th>
-                                <span class="long">Faculty</span>
-                                <span class="short">F</span>
-                            </th>
-                            <th>
-                                <span class="long">Actions</span>
-                                <span class="short">A</span>
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {% for department in departments %}
+                {% if departments is empty %}
+                    <div class="alert alert-neutral">No records found</div>
+                {% else %}
+                    <table class="center-align">
+                        <thead>
                             <tr>
-                                <td>{{ department.name }}</td>
-                                <td>{{ department.head ? department.head.name : 'N/A' }}</td>
-                                <td>{{ department.faculty|length }}</td>
-                                <td>
-                                    <a href="{{ path('dashboard.departments.view', {id: department.id}) }}">View</a>
-                                </td>
+                                <th>
+                                    <span class="long">Name</span>
+                                    <span class="short">N</span>
+                                </th>
+                                <th>
+                                    <span class="long">Head</span>
+                                    <span class="short">H</span>
+                                </th>
+                                <th>
+                                    <span class="long">Faculty</span>
+                                    <span class="short">F</span>
+                                </th>
+                                <th>
+                                    <span class="long">Actions</span>
+                                    <span class="short">A</span>
+                                </th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+
+                        <tbody>
+                            {% for department in departments %}
+                                <tr>
+                                    <td>{{ department.name }}</td>
+                                    <td>{{ department.head ? department.head.name : 'N/A' }}</td>
+                                    <td>{{ department.faculty|length }}</td>
+                                    <td>
+                                        <a href="{{ path('dashboard.departments.view', {id: department.id}) }}">View</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
             </div>
         </div>
     </div>

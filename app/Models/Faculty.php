@@ -103,12 +103,12 @@ class Faculty extends Model
      */
     public function getStatusAttribute($period = null)
     {
-        if ($this->getIsIncompleteAttribute($period)) {
-            return 'Incomplete';
-        }
-
         if ($this->getIsNeverSubmittedAttribute($period)) {
             return 'Never submitted';
+        }
+
+        if ($this->getIsIncompleteAttribute($period)) {
+            return 'Incomplete';
         }
 
         if ($this->getIsSubmittedLateAttribute($period)) {
@@ -239,11 +239,11 @@ class Faculty extends Model
      */
     public function getIsSubmittedLateAttribute($period = null)
     {
-        $firstLog = $this->submissionLogs()->getQuery()
-            ->where('period', $period ?: Settings::get('period'))->take(1)->first();
+        $period = $period ?: Settings::get('period');
+        $firstLog = $this->submissionLogs()->getQuery()->where('period', $period)->take(1)->first();
 
         if ($firstLog) {
-            $deadline = Settings::getCurrentDeadline();
+            $deadline = Settings::getCurrentDeadline($period);
 
             if (!$deadline || $deadline == 'N/A') {
                 return false;

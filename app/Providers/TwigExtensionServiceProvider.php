@@ -17,6 +17,7 @@ use Twig_Environment;
 use Twig_SimpleFunction;
 use Twig_SimpleFilter;
 use App\Services\Auth;
+use App\Services\Settings;
 
 /**
  * Twig extensions
@@ -30,6 +31,10 @@ class TwigExtensionServiceProvider implements ServiceProviderInterface
         $app->extend('twig', function (Twig_Environment $twig, Application $app) {
             $twig->addFunction(new \Twig_SimpleFunction('flashbag', function ($name) use ($app) {
                 return $app['flashbag']->get($name);
+            }));
+
+            $twig->addFunction(new \Twig_SimpleFunction('settings', function ($id, $default = null) use ($app) {
+                return Settings::get($id, $default);
             }));
 
             $twig->addFilter(new Twig_SimpleFilter('format_student_id', array(

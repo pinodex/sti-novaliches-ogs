@@ -49,7 +49,7 @@
                                     <span v-show="activeTab == 2">{{ faculty.getNumberOfDropsAttribute('prefinal') }}</span>
                                     <span v-show="activeTab == 3">{{ faculty.getNumberOfDropsAttribute('final') }}</span>
                                 </td>
-                                <td><a href="{{ path('dashboard.faculty.viewReport', {id: faculty.id}) }}">View Report</a></td>
+                                <td><a href="{{ path('dashboard.faculty.view', {id: faculty.id}) }}">View</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

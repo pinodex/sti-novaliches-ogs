@@ -107,42 +107,9 @@ class FacultyController
             }
         }
 
-        return View::render('dashboard/faculty/view', array(
-            'faculty'   => $faculty->toArray(),
-            'logs'      => array_reverse($faculty->submissionLogs->toArray())
-        ));
-    }
-
-    /**
-     * View faculty report page
-     * 
-     * URL: /dashboard/faculty/{id}/report
-     */
-    public function viewReport(Application $app, $id)
-    {
-        if (!$faculty = Faculty::with('department', 'submittedGrades')->find($id)) {
-            FlashBag::add('messages', 'danger>>>Faculty account not found');
-            return $app->redirect($app->path('dashboard.faculty'));
-        }
-
-        $user = Auth::user();
-        $model = $user->getModel();
-
+        $sections = array();
         $period = strtolower(Settings::get('period', 'prelim'));
         $periodIndex = array_flip(array('prelim', 'midterm', 'prefinal', 'final'))[$period];
-
-        if ($user->getRole() == 'head') {
-            // Deny if the faculty and head does not belong to the same department
-            if (!$faculty->department || $faculty->department->id != $model->department->id) {
-                FlashBag::add('messages', 'danger>>>This faculty is not in your department');
-
-                return $app->redirect($app->path('dashboard.departments.view', array(
-                    'id' => $model->department->id
-                )));
-            }
-        }
-
-        $sections = array();
 
         $gradeGroups = $faculty->submittedGrades->groupBy(function (Grade $grade) {
             return $grade->subject . ' ' . $grade->section;
@@ -181,11 +148,18 @@ class FacultyController
             );
         }
 
-        return View::render('dashboard/faculty/view-report', array(
+        return View::render('dashboard/faculty/view', array(
             'faculty'       => $faculty->toArray(),
+            'logs'          => array_reverse($faculty->submissionLogs->toArray()),
             'sections'      => $sections,
             'period'        => $period,
-            'active_period' => $periodIndex
+            'active_period' => $periodIndex,
+            'statuses'      => array(
+                $faculty->getStatusAttribute('prelim'),
+                $faculty->getStatusAttribute('midterm'),
+                $faculty->getStatusAttribute('prefinal'),
+                $faculty->getStatusAttribute('final')
+            )
         ));
     }
 

@@ -19,6 +19,11 @@ use App\Models\Setting as SettingModel;
 class Settings
 {
     /**
+     * @var array Setting values
+     */
+    private static $values;
+
+    /**
      * Get setting value
      * 
      * @param string $id Setting entry identifer
@@ -28,8 +33,12 @@ class Settings
      */
     public static function get($id, $default = null)
     {
-        if ($setting = SettingModel::find($id)) {
-            return $setting->value;
+        if (!self::$values) {
+            static::getAll();
+        }
+
+        if (array_key_exists($id, self::$values)) {
+            return self::$values[$id];
         }
 
         return $default;
@@ -42,13 +51,17 @@ class Settings
      */
     public static function getAll()
     {
-        $settings = array();
+        if (self::$values) {
+            return self::$values;
+        }
+
+        self::$values = array();
 
         SettingModel::all()->map(function (SettingModel $setting) use (&$settings) {
-            $settings[$setting->id] = $setting->value;
+            self::$values[$setting->id] = $setting->value;
         });
 
-        return $settings;
+        return self::$values;
     }
 
     /**
@@ -68,6 +81,8 @@ class Settings
 
         $setting->value = $value;
         $setting->save();
+
+        self::$values[$id] = $value;
     }
 
     /**
@@ -86,9 +101,9 @@ class Settings
      * 
      * @return string
      */
-    public static function getCurrentDeadline()
+    public static function getCurrentDeadline($period = null)
     {
-        $settingKey = strtolower(static::get('period', 'prelim')) . '_grade_deadline';
+        $settingKey = strtolower($period ?: static::get('period', 'prelim')) . '_grade_deadline';
         
         return static::get($settingKey, null);
     }

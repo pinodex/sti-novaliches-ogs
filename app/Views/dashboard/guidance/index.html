@@ -34,42 +34,46 @@
             </div>
 
             <div class="column-8">
-                <select name="pages" v-on:change="changePaginationPage" v-model="paginationPage">
-                    {% for i in 1..result.last_page %}
-                        <option value="{{ i }}">Page {{ i }}</option>
-                    {% endfor %}
-                </select>
-
-                <table class="center-align">
-                    <thead>
-                        <tr>
-                            <th>
-                                <span class="long">Name</span>
-                                <span class="short">N</span>
-                            </th>
-                            <th>
-                                <span class="long">Last Login</span>
-                                <span class="short">L</span>
-                            </th>
-                            <th>
-                                <span class="long">Actions</span>
-                                <span class="short">A</span>
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {% for row in result.data %}
-                            <tr>
-                                <td>{{ row.name }}</td>
-                                <td>{{ row.last_login_at }}</td>
-                                <td>
-                                    <a href="{{ path('dashboard.guidance.edit', {id: row.id}) }}">Edit</a>
-                                </td>
-                            </tr>
+                {% if result.data is empty %}
+                    <div class="alert alert-neutral">No records found</div>
+                {% else %}
+                    <select name="pages" v-on:change="changePaginationPage" v-model="paginationPage">
+                        {% for i in 1..result.last_page %}
+                            <option value="{{ i }}">Page {{ i }}</option>
                         {% endfor %}
-                    </tbody>
-                </table>
+                    </select>
+
+                    <table class="center-align">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="long">Name</span>
+                                    <span class="short">N</span>
+                                </th>
+                                <th>
+                                    <span class="long">Last Login</span>
+                                    <span class="short">L</span>
+                                </th>
+                                <th>
+                                    <span class="long">Actions</span>
+                                    <span class="short">A</span>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for row in result.data %}
+                                <tr>
+                                    <td>{{ row.name }}</td>
+                                    <td>{{ row.last_login_at }}</td>
+                                    <td>
+                                        <a href="{{ path('dashboard.guidance.edit', {id: row.id}) }}">Edit</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
             </div>
         </div>
     </div>

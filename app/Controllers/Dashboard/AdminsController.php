@@ -13,6 +13,7 @@ namespace App\Controllers\Dashboard;
 
 use Silex\Application;
 use App\Models\Admin;
+use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\FlashBag;
@@ -152,6 +153,11 @@ class AdminsController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            if (Auth::user()->getRole() == 'admin' && Auth::user()->getModel()->id == $admin->id) {
+                FlashBag::add('messages', 'danger>>>You are not allowed to commit suicide');
+                return $app->redirect($app->path('dashboard.admins'));
+            }
+            
             $admin->delete();
 
             FlashBag::add('messages', 'info>>>Admin account has been deleted');

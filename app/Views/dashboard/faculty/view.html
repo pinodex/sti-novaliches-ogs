@@ -34,10 +34,6 @@
                                     <td>{{ faculty.last_login_at }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Status</td>
-                                    <td>{{ faculty.status }}</td>
-                                </tr>
-                                <tr>
                                     <td>Remarks</td>
                                     <td>{{ faculty.is_valid ? 'Valid' : 'Invalid' }}</td>
                                 </tr>
@@ -51,28 +47,87 @@
                                 </tr>
                             </tbody>
                         </table>
+
+                        <h3>Submission status:</h3>
+
+                        <table class="borderless colorless">
+                            <tbody>
+                                <tr>
+                                    <td>Prelim</td>
+                                    <td>{{ statuses[0] }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Midterm</td>
+                                    <td>{{ statuses[1] }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Pre-final</td>
+                                    <td>{{ statuses[2] }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Final</td>
+                                    <td>{{ statuses[3] }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
                 
+                {% if current_user.getRole() == 'admin' %}
                 <div class="panel">
                     <div class="panel-heading">Actions</div>
                         <div class="panel-body">
-                        <ul class="list-unstyled">
-                             <li>
-                                <a href="{{ path('dashboard.faculty.viewReport', {id: faculty.id}) }}">View report</a>
+                        <ul class="list-unstyled">        
+                            <li>
+                                <a href="{{ path('dashboard.faculty.edit', {id: faculty.id}) }}">Edit Faculty</a>
                             </li>
-                            {% if current_user.getRole() == 'admin' %}
-                                <li>
-                                    <a href="{{ path('dashboard.faculty.edit', {id: faculty.id}) }}">Edit Faculty</a>
-                                </li>
-                            {% endif %}
                         </ul>
                     </div>
                 </div>
+                {% endif %}
             </div>
 
             <div class="column-8">
+                <div class="panel">
+                    <div class="panel-heading">Section report</div>
+                    <div class="panel-body">
+                        {% if sections is empty %}
+                            <div class="alert alert-neutral">No records found</div>
+                        {% else %}
+                            <ul class="tabs" data-activated-tab="{{ active_period }}">
+                                <li v-on:click="activateTab(0)" v-bind:class="{'active': activeTab == 0}">Prelim</li>
+                                <li v-on:click="activateTab(1)" v-bind:class="{'active': activeTab == 1}">Midterm</li>
+                                <li v-on:click="activateTab(2)" v-bind:class="{'active': activeTab == 2}">Prefinal</li>
+                                <li v-on:click="activateTab(3)" v-bind:class="{'active': activeTab == 3}">Final</li>
+                            </ul>
+
+                            <table class="center-align">
+                                <thead>
+                                    <tr>
+                                        <th>Section</th>
+                                        <th>No. of students</th>
+                                        <th>Without grades</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for section in sections %}
+                                        <tr>
+                                            <td>{{ section.id }}</td>
+                                            <td>{{ section.student_count }}</td>
+                                            <td>
+                                                <span v-show="activeTab == 0">{{ section.student_without_grades_count.prelim }}</span>
+                                                <span v-show="activeTab == 1">{{ section.student_without_grades_count.midterm }}</span>
+                                                <span v-show="activeTab == 2">{{ section.student_without_grades_count.prefinal }}</span>
+                                                <span v-show="activeTab == 3">{{ section.student_without_grades_count.final }}</span>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    </div>
+                </div>
+
                 <div class="panel">
                     <div class="panel-heading">Grade submission logs</div>
                     <div class="panel-body">
@@ -80,10 +135,9 @@
                             <div class="alert alert-info">No records found.</div>
                         {% else %}
                             <table>
-                                <tbody>
                                     {% for log in logs %}
                                         <tr>
-                                            <td>{{ log.date }}</td>
+                                            <td>{{ log.date }} for {{ log.period|capitalize }} grades</td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
