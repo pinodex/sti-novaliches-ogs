@@ -6,84 +6,130 @@
     <div class="container">
         <h1>Dashboard</h1>
 
-        <ul>
-            {% if current_user.getRole() == 'admin' %}
-                <li>
-                    Administration
+        {% if current_user.getRole() == 'admin' %}
+            <div class="dashboard-menu">
+                <div class="grid">
+                    <div class="column-4">
+                        <a class="dashboard-item" href="{{ path('dashboard.admins') }}">
+                            <span class="icon-user"></span>
+                            <p>Site admins</p>
+                        </a>
+                    </div>
 
-                    <ul>
-                        <li>
-                            <a href="{{ path('dashboard.admins') }}">Site admins</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('dashboard.heads') }}">Head accounts</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('dashboard.faculty') }}">Faculty accounts</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('dashboard.guidance') }}">Guidance accounts</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('dashboard.departments') }}">Departments</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('dashboard.students') }}">Students</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('dashboard.grades') }}">Grades</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('dashboard.settings') }}">School Status Settings</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('dashboard.settings.maintenance') }}">Maintenance</a>
-                        </li>
-                    </ul>
-                </li>
-            {% endif %}
+                    <div class="column-4">
+                        <a class="dashboard-item" href="{{ path('dashboard.heads') }}">
+                            <span class="icon-head"></span>
+                            <p>Head accounts</p>
+                        </a>
+                    </div>
 
-            {% if current_user.getRole() == 'head' %}
-                <li>
-                    Department Head
+                    <div class="column-4">
+                        <a class="dashboard-item" href="{{ path('dashboard.faculty') }}">
+                            <span class="icon-faculty"></span>
+                            <p>Faculty accounts</p>
+                        </a>
+                    </div>
+                </div>
 
-                    <ul>
-                        <li>
-                            <a href="{{ path('dashboard.departments.self') }}">My Department</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('dashboard.students') }}">Student List</a>
-                        </li>
-                    </ul>
-                </li>
-            {% endif %}
+                <div class="grid">
+                    <div class="column-4">
+                        <a class="dashboard-item" href="{{ path('dashboard.guidance') }}">
+                            <span class="icon-guidance"></span>
+                            <p>Guidance accounts</p>
+                        </a>
+                    </div>
 
-            {% if current_user.getRole() == 'faculty' %}
-                <li>
-                    Department Faculty
+                    <div class="column-4">
+                        <a class="dashboard-item" href="{{ path('dashboard.departments') }}">
+                            <span class="icon-departments"></span>
+                            <p>Departments</p>
+                        </a>
+                    </div>
 
-                    <ul>
-                        <li>
-                            <a href="{{ path('dashboard.students') }}">Student List</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('dashboard.grades.import') }}">Import Grades</a>
-                        </li>
-                    </ul>
-                </li>
-            {% endif %}
+                    <div class="column-4">
+                        <a class="dashboard-item" href="{{ path('dashboard.students') }}">
+                            <span class="icon-students"></span>
+                            <p>Students</p>
+                        </a>
+                    </div>
+                </div>
 
-            {% if current_user.getRole() == 'guidance' %}
-                <li>
-                    Guidance
+                <div class="grid">
+                    <div class="column-4">
+                        <a class="dashboard-item" href="{{ path('dashboard.grades') }}">
+                            <span class="icon-grades"></span>
+                            <p>Grades</p>
+                        </a>
+                    </div>
 
-                    <ul>
-                        <li>
-                            <a href="{{ path('dashboard.students') }}">Student List</a>
-                        </li>
-                    </ul>
-                </li>
-            {% endif %}
-        </ul>
+                    <div class="column-4">
+                        <a class="dashboard-item" href="{{ path('dashboard.settings') }}">
+                            <span class="icon-wrench"></span>
+                            <p>Settings</p>
+                        </a>
+                    </div>
+
+                    <div class="column-4">
+                        <a class="dashboard-item" href="{{ path('dashboard.settings.maintenance') }}">
+                            <span class="icon-maintenance"></span>
+                            <p>Maintenance</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if current_user.getRole() == 'head' %}
+            <div class="dashboard-menu">
+                <div class="grid">
+                    <div class="column-6">
+                        <a class="dashboard-item" href="{{ path('dashboard.departments') }}">
+                            <span class="icon-departments"></span>
+                            <p>My Department</p>
+                        </a>
+                    </div>
+
+                    <div class="column-6">
+                        <a class="dashboard-item" href="{{ path('dashboard.students') }}">
+                            <span class="icon-students"></span>
+                            <p>Students</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if current_user.getRole() == 'faculty' %}
+            <div class="dashboard-menu">
+                <div class="grid">
+                    <div class="column-6">
+                        <a class="dashboard-item" href="{{ path('dashboard.students') }}">
+                            <span class="icon-students"></span>
+                            <p>My Students</p>
+                        </a>
+                    </div>
+
+                    <div class="column-6">
+                        <a class="dashboard-item" href="{{ path('dashboard.grades.import') }}">
+                            <span class="icon-file_upload"></span>
+                            <p>Import Grades</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if current_user.getRole() == 'guidance' %}
+            <div class="dashboard-menu">
+                <div class="grid">
+                    <div class="column-6">
+                        <a class="dashboard-item" href="{{ path('dashboard.students') }}">
+                            <span class="icon-students"></span>
+                            <p>Student List</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

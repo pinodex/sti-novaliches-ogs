@@ -27,12 +27,6 @@
                         <div class="panel-body">
                             <ul class="list-unstyled">
                                 <li>
-                                    <a href="#">View grade summary</a>
-                                </li>
-                                <li>
-                                    <a href="#">View attendance summary</a>
-                                </li>
-                                <li>
                                     <a href="{{ path('dashboard.students.import') }}">Import Master List</a>
                                 </li>
                                 <li>
@@ -45,47 +39,51 @@
             </div>
 
             <div class="column-8">
-                <select name="pages" v-on:change="changePaginationPage" v-model="paginationPage">
-                    {% for i in 1..result.last_page %}
-                        <option value="{{ i }}">Page {{ i }}</option>
-                    {% endfor %}
-                </select>
-
-                <table class="center-align">
-                    <thead>
-                        <tr>
-                            <th>
-                                <span class="long">Student #</span>
-                                <span class="short">#</span>
-                            </th>
-                            <th>
-                                <span class="long">Name</span>
-                                <span class="short">N</span>
-                            </th>
-                            <th>
-                                <span class="long">Course</span>
-                                <span class="short">C</span>
-                            </th>
-                            <th>
-                                <span class="long">Actions</span>
-                                <span class="short">A</span>
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {% for row in result.data %}
-                            <tr>
-                                <td>{{ row.id|format_student_id }}</td>
-                                <td>{{ row.last_name ~ ', ' ~ row.first_name ~ ' ' ~ row.middle_name }}</td>
-                                <td>{{ row.course }}</td>
-                                <td>
-                                    <a href="{{ path('dashboard.students.view', {id: row.id}) }}">View</a>
-                                </td>
-                            </tr>
+                {% if result.data is empty %}
+                    <div class="alert alert-neutral">No results found</div>
+                {% else %}
+                    <select name="pages" v-on:change="changePaginationPage" v-model="paginationPage">
+                        {% for i in 1..result.last_page %}
+                            <option value="{{ i }}">Page {{ i }}</option>
                         {% endfor %}
-                    </tbody>
-                </table>
+                    </select>
+
+                    <table class="center-align">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="long">Student #</span>
+                                    <span class="short">#</span>
+                                </th>
+                                <th>
+                                    <span class="long">Name</span>
+                                    <span class="short">N</span>
+                                </th>
+                                <th>
+                                    <span class="long">Course</span>
+                                    <span class="short">C</span>
+                                </th>
+                                <th>
+                                    <span class="long">Actions</span>
+                                    <span class="short">A</span>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for row in result.data %}
+                                <tr>
+                                    <td>{{ row.id|format_student_id }}</td>
+                                    <td>{{ row.last_name ~ ', ' ~ row.first_name ~ ' ' ~ row.middle_name }}</td>
+                                    <td>{{ row.course }}</td>
+                                    <td>
+                                        <a href="{{ path('dashboard.students.view', {id: row.id}) }}">View</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
             </div>
         </div>
     </div>

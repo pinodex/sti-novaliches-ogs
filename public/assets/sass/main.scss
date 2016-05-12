@@ -504,6 +504,37 @@ label {
     }
 }
 
+.dashboard-menu {
+    .grid + .grid {
+        margin-top: 15px;
+    }
+
+    a.dashboard-item {
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        border: 1px solid #ccc;
+        padding: 15px;
+        color: #000;
+        transition: all 100ms ease-in;
+
+        span[class^="icon-"] {
+            font-size: 48px;
+        }
+
+        p {
+            margin: 0;
+            margin-top: 10px;
+        }
+
+        &:hover {
+            background: #006db7;
+            border-color: #006db7;
+            color: #fff;
+        }
+    }
+}
+
 .align-right {
     text-align: right;
 }

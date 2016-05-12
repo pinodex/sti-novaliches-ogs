@@ -12,6 +12,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\FilteredSearchableTrait;
 use App\Traits\ConcatenateNameTrait;
 use App\Traits\SearchableTrait;
 
@@ -22,7 +23,7 @@ use App\Traits\SearchableTrait;
  */
 class Student extends Model
 {
-    use ConcatenateNameTrait, SearchableTrait;
+    use ConcatenateNameTrait, SearchableTrait, FilteredSearchableTrait;
     
     public $incrementing = false;
 

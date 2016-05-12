@@ -36,7 +36,7 @@
                                     <span v-show="activeTab == 2">{{ faculty.getStatusAttribute('prefinal') }}</span>
                                     <span v-show="activeTab == 3">{{ faculty.getStatusAttribute('final') }}</span>
                                 </td>
-                                <td>{{ faculty.is_valid ? 'OK' : 'Invalid' }}</td>
+                                <td>{{ faculty.is_valid ? 'Valid' : 'Invalid' }}</td>
                                 <td>
                                     <span v-show="activeTab == 0">{{ faculty.getNumberOfFailsAttribute('prelim') }}</span>
                                     <span v-show="activeTab == 1">{{ faculty.getNumberOfFailsAttribute('midterm') }}</span>
