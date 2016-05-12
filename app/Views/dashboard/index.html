@@ -211,29 +211,21 @@
                         <p>Deadline of submission of grades:</p>
                         
                         <ul class="list-unstyled">
-                            {% if settings('prelim_grade_deadline') %}
-                                <li>
-                                    <strong>Prelim:</strong> {{ settings('prelim_grade_deadline')|date('M d, Y h:i A') }}
-                                </li>
-                            {% endif %}
+                            <li>
+                                <strong>Prelim:</strong> {{ settings('prelim_grade_deadline') ? settings('prelim_grade_deadline')|date('M d, Y h:i A') : 'N/A' }}
+                            </li>
 
-                            {% if settings('midterm_grade_deadline') %}
-                                <li>
-                                    <strong>Midterm:</strong> {{ settings('midterm_grade_deadline')|date('M d, Y h:i A') }}
-                                </li>
-                            {% endif %}
+                            <li>
+                                <strong>Midterm:</strong> {{ settings('midterm_grade_deadline') ? settings('midterm_grade_deadline')|date('M d, Y h:i A') : 'N/A' }}
+                            </li>
 
-                            {% if settings('prefinal_grade_deadline') %}
-                                <li>
-                                    <strong>Pre-final:</strong> {{ settings('prefinal_grade_deadline')|date('M d, Y h:i A') }}
-                                </li>
-                            {% endif %}
+                            <li>
+                                <strong>Pre-final:</strong> {{ settings('prefinal_grade_deadline') ? settings('prefinal_grade_deadline')|date('M d, Y h:i A') : 'N/A' }}
+                            </li>
 
-                            {% if settings('final_grade_deadline') %}
-                                <li>
-                                    <strong>Final:</strong> {{ settings('final_grade_deadline')|date('M d, Y h:i A') }}
-                                </li>
-                            {% endif %}
+                            <li>
+                                <strong>Final:</strong> {{ settings('final_grade_deadline') ? settings('final_grade_deadline')|date('M d, Y h:i A') : 'N/A' }}
+                            </li>
                         </ul>
 
                         {% if settings('semester') and settings('period') and settings('academic_year') %}
