@@ -1,7 +1,4 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-CREATE TABLE IF NOT EXISTS `admins` (
+CREATE TABLE `admins` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
@@ -12,16 +9,15 @@ CREATE TABLE IF NOT EXISTS `admins` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `last_login_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `departments` (
+CREATE TABLE `departments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `grade_submission_deadline` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `faculties` (
+CREATE TABLE `faculties` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `department_id` int(11) DEFAULT NULL,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -33,16 +29,17 @@ CREATE TABLE IF NOT EXISTS `faculties` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `last_login_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `faculty_grade_import_logs` (
+CREATE TABLE `faculty_grade_import_logs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `faculty_id` int(11) NOT NULL,
+  `period` enum('PRELIM','MIDTERM','PREFINAL','FINAL') COLLATE utf8_unicode_ci DEFAULT NULL,
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `grades` (
+CREATE TABLE `grades` (
   `student_id` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
   `importer_id` int(11) DEFAULT NULL,
   `subject` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -62,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `grades` (
   PRIMARY KEY (`student_id`,`subject`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `guidances` (
+CREATE TABLE `guidances` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
@@ -73,9 +70,9 @@ CREATE TABLE IF NOT EXISTS `guidances` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `last_login_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `heads` (
+CREATE TABLE `heads` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `department_id` int(11) DEFAULT NULL,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -87,22 +84,22 @@ CREATE TABLE IF NOT EXISTS `heads` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `last_login_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `sessions` (
+CREATE TABLE `sessions` (
   `id` varbinary(128) NOT NULL,
   `data` mediumblob NOT NULL,
   `expiry` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `settings` (
+CREATE TABLE `settings` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `students` (
+CREATE TABLE `students` (
   `id` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
   `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -121,4 +118,5 @@ CREATE TABLE IF NOT EXISTS `students` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `admins` VALUES (NULL, 'admin', '$2y$10$fZiXHlJ3I8WyXk8WqhFn0eAvzaKRWXUoO8Oxd/hKUDZxFW5oQPxKG', 'Admin', 'STI', 'Novaliches', NULL, NULL, NULL);
+INSERT INTO `admins` VALUES
+(NULL, 'admin', '$2y$10$fZiXHlJ3I8WyXk8WqhFn0eAvzaKRWXUoO8Oxd/hKUDZxFW5oQPxKG', 'Admin', 'STI', 'Novaliches', NULL, NULL, NULL);
