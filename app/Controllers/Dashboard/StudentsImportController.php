@@ -113,7 +113,7 @@ class StudentsImportController
             set_time_limit(0);
             
             $contents = StudentSheet::parse($uploadedFile)->getSheetContents(0);
-            Session::set('gw_contents', $contents);
+            Session::set('sw_contents', $contents);
         }
 
         $form = Form::create();
@@ -164,7 +164,6 @@ class StudentsImportController
 
         // cleanup
         Session::remove('sw_uploaded_file');
-        Session::remove('sw_selected_sheets');
         Session::remove('sw_import_done');
         Session::remove('sw_contents');
 

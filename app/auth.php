@@ -29,5 +29,6 @@ $app['auth.protected_controllers'] = array(
     'App\Controllers\Dashboard\MainController',
     'App\Controllers\Dashboard\SettingsController',
     'App\Controllers\Dashboard\StudentsController',
+    'App\Controllers\Dashboard\StudentsImportController',
     'App\Controllers\Student\MainController'
 );
