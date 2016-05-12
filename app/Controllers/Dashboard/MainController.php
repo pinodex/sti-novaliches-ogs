@@ -15,7 +15,7 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Constraints as CustomAssert;
-use App\Services\Session\FlashBag;
+use App\Services\FlashBag;
 use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;

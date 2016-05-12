@@ -16,7 +16,7 @@ use App\Models\Department;
 use App\Models\Head;
 use App\Services\View;
 use App\Services\Form;
-use App\Services\Session\FlashBag;
+use App\Services\FlashBag;
 use App\Constraints as CustomAssert;
 use Illuminate\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;

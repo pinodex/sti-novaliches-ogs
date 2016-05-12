@@ -20,7 +20,7 @@ use App\Services\View;
 use App\Services\Form;
 use App\Services\Helper;
 use App\Services\Settings;
-use App\Services\Session\FlashBag;
+use App\Services\FlashBag;
 use App\Constraints as CustomAssert;
 use Illuminate\Support\Collection;
 use Symfony\Component\Finder\Finder;
@@ -165,6 +165,9 @@ class SettingsController
         $dirs = new Finder();
         $dirs->directories()->in(ROOT . $target);
 
+        $files = new Finder();
+        $files->files()->in(ROOT . $target);
+
         $form = Form::create();
         $form->add('_confirm', 'hidden');
 
@@ -173,9 +176,9 @@ class SettingsController
         
         if ($form->isValid()) {
             try {
+                $fs->remove($files);
                 $fs->remove($dirs);
             } catch (\Exception $e) {
-                dd($e);
                 FlashBag::add('messages', 'danger>>>Error: ' . $e->getMessage());
                 return $app->redirect($app->path('dashboard.settings.maintenance'));
             }

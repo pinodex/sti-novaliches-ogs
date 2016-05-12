@@ -16,7 +16,7 @@ use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;
 use App\Models\Department;
-use App\Services\Session\FlashBag;
+use App\Services\FlashBag;
 use Illuminate\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 

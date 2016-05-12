@@ -16,7 +16,7 @@ use App\Models\Student;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Session;
-use App\Services\Session\FlashBag;
+use App\Services\FlashBag;
 use App\Services\Parser\StudentSheet;
 use App\Services\Importer\StudentImporter;
 use Symfony\Component\Filesystem\Filesystem;

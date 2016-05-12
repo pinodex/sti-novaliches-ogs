@@ -9,9 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Services\Session;
-
-use App\Services\Service;
+namespace App\Services;
 
 /**
  * Static class wrapper for session flashbag

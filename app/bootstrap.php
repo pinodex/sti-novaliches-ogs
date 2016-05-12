@@ -4,6 +4,7 @@ namespace App;
 
 use Silex\Provider;
 use Symfony\Component\Debug;
+use Symfony\Component\HttpFoundation;
 use App\Services\Service;
 use App\Providers;
 use App\Services;
@@ -44,11 +45,12 @@ if ($app['debug']) {
  */
 $app['database'];
 
-$app['session.storage.handler'] = $app->share(function () use ($app) {
-    return new Services\Session\EloquentSessionHandler(
-        $app['session.storage.handler.options']
+$app['session.storage.handler'] = function () use ($app) {
+    return new HttpFoundation\Session\Storage\Handler\PdoSessionHandler(
+        $app['database']->connection()->getPdo(), array(),
+        $app['session.storage.options']
     );
-});
+};
 
 $app['flashbag'] = $app->share(function () use ($app) {
     return $app['session']->getFlashBag();

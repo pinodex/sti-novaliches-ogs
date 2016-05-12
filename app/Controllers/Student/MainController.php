@@ -16,7 +16,7 @@ use App\Services\Auth;
 use App\Services\Form;
 use App\Services\View;
 use App\Services\Settings;
-use App\Services\Session\FlashBag;
+use App\Services\FlashBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Models\Grade;

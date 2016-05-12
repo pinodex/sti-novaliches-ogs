@@ -16,7 +16,7 @@ use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Session;
-use App\Services\Session\FlashBag;
+use App\Services\FlashBag;
 use App\Services\Parser\GradingSheet;
 use App\Services\Importer\GradeImporter;
 use Symfony\Component\HttpFoundation\Request;

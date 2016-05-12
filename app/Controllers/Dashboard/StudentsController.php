@@ -20,7 +20,7 @@ use App\Services\Form;
 use App\Services\Helper;
 use App\Services\Session;
 use App\Services\Settings;
-use App\Services\Session\FlashBag;
+use App\Services\FlashBag;
 use App\Constraints as CustomAssert;
 use Illuminate\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;

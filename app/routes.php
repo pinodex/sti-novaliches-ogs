@@ -12,7 +12,7 @@
 use Silex\Application;
 use App\Services\View;
 use App\Services\Auth;
-use App\Services\Session\FlashBag;
+use App\Services\FlashBag;
 use App\Routes;
 use App\Routes\Student;
 use App\Routes\Dashboard;

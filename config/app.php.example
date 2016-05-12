@@ -56,12 +56,3 @@ $app['session.storage.options'] = array(
     'cookie_lifetime'   => 3600,
     'lifetime'          => 3600
 );
-
-/*
- * Session storage handler options
- *
- * Options used by the IlluminateDatabaseSessionHandler
- */
-$app['session.storage.handler.options'] = array(
-    'table' => 'sessions'
-);
