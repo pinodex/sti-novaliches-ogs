@@ -1,11 +1,19 @@
-INSTALLATION INSTRUCTIONS
+-- REQUIREMENTS --
+
+- PHP >=5.4
+- php-zip extension
+- php-mbstring extension
+- php-xml extension
+- MySQL >=5.5
+
+-- INSTRUCTIONS --
 
 1. This software uses Composer as a dependency manager. If you are unfamiliar
    of it, it is like NuGet for Microsoft development platform. Before running
    the software, be sure to install the dependencies first [3].
 
 2. Install Composer package manager. Instructions are provided at
-https://getcomposer.org/doc/00-intro.md
+   https://getcomposer.org/doc/00-intro.md
 
 3. Open the command line interface, change directory to the root directory of
    this software and run the following command:
@@ -28,6 +36,14 @@ https://getcomposer.org/doc/00-intro.md
    credentials are:
     Username: admin
     Password: stinova123
+
+-- POST INSTALL INSTRUCTIONS --
+
+1. Make sure that the cache/ and storage/ directories are writable by the
+   web server or PHP FastCGI.
+
+2. Increase post_max_size and upload_max_filesize in PHP configuration.
+   Something like 32M.
 
 ===============================================================================
 
