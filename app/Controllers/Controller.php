@@ -36,6 +36,13 @@ class Controller
         $this->user = Auth::user();
     }
 
+    /**
+     * Is user role equals to $role parameter given
+     * 
+     * @param string $role User role
+     * 
+     * @return boolean
+     */
     protected function isRole($role)
     {
         if ($this->isNotLoggedIn()) {
@@ -45,11 +52,21 @@ class Controller
         return $this->user->getRole() == $role;
     }
 
+    /**
+     * Check if user is logged in
+     * 
+     * @return boolean
+     */
     protected function isLoggedIn()
     {
         return $this->user !== null;
     }
 
+    /**
+     * Check if user is not logged in
+     * 
+     * @return boolean
+     */
     protected function isNotLoggedIn()
     {
         return $this->user === null;

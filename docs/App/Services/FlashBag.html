@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>App\Providers\TwigExtensionServiceProvider | API</title>
+    <title>App\Services\FlashBag | API</title>
 
             <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:App_Providers_TwigExtensionServiceProvider" data-root-path="../../">
+    <body id="class" data-name="class:App_Services_FlashBag" data-root-path="../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -64,51 +64,62 @@
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
                                                             <li><a href="../../App.html">App</a></li>
-                                        <li><a href="../../App/Providers.html">Providers</a></li>
+                                        <li><a href="../../App/Services.html">Services</a></li>
     
-                <li>TwigExtensionServiceProvider</li>
+                <li>FlashBag</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
-        <h1>TwigExtensionServiceProvider</h1>
+        <h1>FlashBag</h1>
     </div>
 
     <p>    class
-    <strong>TwigExtensionServiceProvider</strong>        implements
-        <abbr title="Silex\ServiceProviderInterface">ServiceProviderInterface</abbr>
+    <strong>FlashBag</strong>        extends <a href="../../App/Services/Service.html"><abbr title="App\Services\Service">Service</abbr></a>
 </p>
 
             <div class="description">
-            <p>Twig extensions</p>            <p>Used to inject extensions to Twig</p>        </div>
+            <p>Static class wrapper for session flashbag</p>                    </div>
     
     
     
+            <h2>Properties</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td class="type" id="property_app">
+                    static                    protected                                        
+    <abbr title="App\Services\Silex\Application">Application</abbr>
+                </td>
+                <td>$app</td>
+                <td class="last"></td>
+                <td><small>from&nbsp;<a href="../../App/Services/Service.html#property_app"><abbr title="App\Services\Service">Service</abbr></a></small></td>
+            </tr>
+            </table>
+
     
             <h2>Methods</h2>
 
             <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    static&nbsp;
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_register">register</a>(
+                    <a href="#method_setApplication">setApplication</a>(
     <abbr title="Silex\Application">Application</abbr> $app)
-                                            <p class="no-description">No description</p>
-                                    </div>
-                <div class="col-md-2"></div>
+                                            <p>Set application container</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../App/Services/Service.html#method_setApplication"><abbr title="App\Services\Service">Service</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    static&nbsp;
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_boot">boot</a>(
-    <abbr title="Silex\Application">Application</abbr> $app)
+                    <a href="#method___callStatic">__callStatic</a>($name, $args)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -120,14 +131,16 @@
 
             <div id="method-details">
                     <div class="method-item">
-                    <h3 id="method_register">
-        <div class="location">at line         line 29</div>
-        <code>                    
+                    <h3 id="method_setApplication">
+        <div class="location">in <a href="../../App/Services/Service.html#method_setApplication"><abbr title="App\Services\Service">Service</abbr></a> at line         line 33</div>
+        <code>        static            
     
-    <strong>register</strong>(
+    <strong>setApplication</strong>(
     <abbr title="Silex\Application">Application</abbr> $app)</code>
     </h3>
     <div class="details">
+                    <div class="method-description">
+                                    <p>Set application container</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -136,7 +149,7 @@
                 <td>
     <abbr title="Silex\Application">Application</abbr></td>
                 <td>$app</td>
-                <td></td>
+                <td>Application</td>
             </tr>
             </table>
 
@@ -148,12 +161,11 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_boot">
-        <div class="location">at line         line 56</div>
-        <code>                    
+                    <h3 id="method___callStatic">
+        <div class="location">at line         line 19</div>
+        <code>        static            
     
-    <strong>boot</strong>(
-    <abbr title="Silex\Application">Application</abbr> $app)</code>
+    <strong>__callStatic</strong>($name, $args)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -161,9 +173,13 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    <abbr title="Silex\Application">Application</abbr></td>
-                <td>$app</td>
+                <td></td>
+                <td>$name</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$args</td>
                 <td></td>
             </tr>
             </table>

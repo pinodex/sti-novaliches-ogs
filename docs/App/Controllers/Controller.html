@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>App\Services\Settings | API</title>
+    <title>App\Controllers\Controller | API</title>
 
             <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:App_Services_Settings" data-root-path="../../">
+    <body id="class" data-name="class:App_Controllers_Controller" data-root-path="../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -64,23 +64,23 @@
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
                                                             <li><a href="../../App.html">App</a></li>
-                                        <li><a href="../../App/Services.html">Services</a></li>
+                                        <li><a href="../../App/Controllers.html">Controllers</a></li>
     
-                <li>Settings</li>
+                <li>Controller</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
-        <h1>Settings</h1>
+        <h1>Controller</h1>
     </div>
 
     <p>    class
-    <strong>Settings</strong>
+    <strong>Controller</strong>
 </p>
 
             <div class="description">
-            <p>Provides settings service</p>                    </div>
+            <p>Base controller</p>                    </div>
     
     
     
@@ -88,11 +88,20 @@
 
             <table class="table table-condensed">
                     <tr>
-                <td class="type" id="property_values">
-                    static                                        private                    
-    array
+                <td class="type" id="property_user">
+                                        protected                                        
+    <a href="../../App/Services/User.html"><abbr title="App\Services\User">User</abbr></a>
                 </td>
-                <td>$values</td>
+                <td>$user</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_userModel">
+                                        protected                                        
+    <abbr title="Illuminate\Database\Eloquent\Model">Model</abbr>
+                </td>
+                <td>$userModel</td>
                 <td class="last"></td>
                 <td></td>
             </tr>
@@ -104,57 +113,43 @@
             <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;
-    string
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_get">get</a>(
-    string $id, 
-    mixed $default = null)
-                                            <p>Get setting value</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    static&nbsp;
-    array
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getAll">getAll</a>()
-                                            <p>Get all setting values</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    static&nbsp;
+                    
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_set">set</a>(
-    string $id, 
-    string $value)
-                                            <p>Set setting value</p>                </div>
+                    <a href="#method___construct">__construct</a>()
+                                            <p>Constructs base controller class</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;
-    
+                    
+    boolean
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setArray">setArray</a>(
-    array $data)
-                                            <p>Set setting values</p>                </div>
+                    <a href="#method_isRole">isRole</a>(
+    string $role)
+                                            <p>Is user role equals to $role parameter given</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;
-    string
+                    
+    boolean
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getCurrentDeadline">getCurrentDeadline</a>($period = null)
-                                            <p>Get current deadline</p>                </div>
+                    <a href="#method_isLoggedIn">isLoggedIn</a>()
+                                            <p>Check if user is logged in</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    boolean
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isNotLoggedIn">isNotLoggedIn</a>()
+                                            <p>Check if user is not logged in</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -164,17 +159,34 @@
 
             <div id="method-details">
                     <div class="method-item">
-                    <h3 id="method_get">
+                    <h3 id="method___construct">
         <div class="location">at line         line 34</div>
-        <code>        static            
-    string
-    <strong>get</strong>(
-    string $id, 
-    mixed $default = null)</code>
+        <code>                    
+    
+    <strong>__construct</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Get setting value</p>                                </div>
+                                    <p>Constructs base controller class</p>                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isRole">
+        <div class="location">at line         line 46</div>
+        <code>            protected        
+    boolean
+    <strong>isRole</strong>(
+    string $role)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Is user role equals to $role parameter given</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -182,14 +194,8 @@
                     <tr>
                 <td>
     string</td>
-                <td>$id</td>
-                <td>Setting entry identifer</td>
-            </tr>
-                    <tr>
-                <td>
-    mixed</td>
-                <td>$default</td>
-                <td>Default value if entry was not found</td>
+                <td>$role</td>
+                <td>User role</td>
             </tr>
             </table>
 
@@ -199,7 +205,7 @@
                     <table class="table table-condensed">
         <tr>
             <td>
-    string</td>
+    boolean</td>
             <td></td>
         </tr>
     </table>
@@ -211,15 +217,15 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_getAll">
-        <div class="location">at line         line 52</div>
-        <code>        static            
-    array
-    <strong>getAll</strong>()</code>
+                    <h3 id="method_isLoggedIn">
+        <div class="location">at line         line 60</div>
+        <code>            protected        
+    boolean
+    <strong>isLoggedIn</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Get all setting values</p>                                </div>
+                                    <p>Check if user is logged in</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -227,7 +233,7 @@
                     <table class="table table-condensed">
         <tr>
             <td>
-    array</td>
+    boolean</td>
             <td></td>
         </tr>
     </table>
@@ -239,100 +245,23 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_set">
-        <div class="location">at line         line 73</div>
-        <code>        static            
-    
-    <strong>set</strong>(
-    string $id, 
-    string $value)</code>
+                    <h3 id="method_isNotLoggedIn">
+        <div class="location">at line         line 70</div>
+        <code>            protected        
+    boolean
+    <strong>isNotLoggedIn</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Set setting value</p>                                </div>
+                                    <p>Check if user is not logged in</p>                                </div>
                 <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>
-    string</td>
-                <td>$id</td>
-                <td>Setting entry identifer</td>
-            </tr>
-                    <tr>
-                <td>
-    string</td>
-                <td>$value</td>
-                <td>Setting entry value</td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_setArray">
-        <div class="location">at line         line 93</div>
-        <code>        static            
-    
-    <strong>setArray</strong>(
-    array $data)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Set setting values</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>
-    array</td>
-                <td>$data</td>
-                <td>Values</td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_getCurrentDeadline">
-        <div class="location">at line         line 104</div>
-        <code>        static            
-    string
-    <strong>getCurrentDeadline</strong>($period = null)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Get current deadline</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$period</td>
-                <td></td>
-            </tr>
-            </table>
-
             
                             <h4>Return Value</h4>
 
                     <table class="table table-condensed">
         <tr>
             <td>
-    string</td>
+    boolean</td>
             <td></td>
         </tr>
     </table>
