@@ -12,7 +12,6 @@
 namespace App\Controllers\Student;
 
 use Silex\Application;
-use App\Services\Auth;
 use App\Services\Form;
 use App\Services\View;
 use App\Services\Settings;

@@ -15,7 +15,6 @@ use Silex\Application;
 use App\Models\Grade;
 use App\Models\Faculty;
 use App\Models\Department;
-use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Session;

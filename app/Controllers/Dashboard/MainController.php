@@ -17,7 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Constraints as CustomAssert;
 use App\Controllers\Controller;
 use App\Services\FlashBag;
-use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;
 

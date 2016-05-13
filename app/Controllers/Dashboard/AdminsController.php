@@ -13,7 +13,6 @@ namespace App\Controllers\Dashboard;
 
 use Silex\Application;
 use App\Models\Admin;
-use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\FlashBag;
