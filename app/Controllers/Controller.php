@@ -11,7 +11,6 @@
 
 namespace App\Controllers;
 
-use Silex\Application;
 use App\Services\Auth;
 
 /**

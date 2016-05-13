@@ -131,7 +131,7 @@ class Faculty extends Model
     /**
      * Get is_never_submitted attribute
      * 
-     * @return string
+     * @return boolean
      */
     public function getIsNeverSubmittedAttribute($period = null)
     {
@@ -142,7 +142,7 @@ class Faculty extends Model
     /**
      * Get is_incomplete attribute
      * 
-     * @return string
+     * @return boolean
      */
     public function getIsIncompleteAttribute($period = null)
     {
@@ -227,7 +227,7 @@ class Faculty extends Model
     /**
      * Get is_submitted_late attribute
      * 
-     * @return string
+     * @return boolean
      */
     public function getIsSubmittedLateAttribute($period = null)
     {
@@ -250,7 +250,7 @@ class Faculty extends Model
     /**
      * Get number_of_fails attribute
      * 
-     * @return string
+     * @return integer
      */
     public function getNumberOfFailsAttribute($period = null)
     {
@@ -271,7 +271,7 @@ class Faculty extends Model
      * 
      * @param string $period Period
      * 
-     * @return string
+     * @return integer
      */
     public function getNumberOfDropsAttribute($period = null)
     {

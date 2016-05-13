@@ -33,7 +33,7 @@ class TwigExtensionServiceProvider implements ServiceProviderInterface
                 return $app['flashbag']->get($name);
             }));
 
-            $twig->addFunction(new \Twig_SimpleFunction('settings', function ($id, $default = null) use ($app) {
+            $twig->addFunction(new \Twig_SimpleFunction('settings', function ($id, $default = null) {
                 return Settings::get($id, $default);
             }));
 

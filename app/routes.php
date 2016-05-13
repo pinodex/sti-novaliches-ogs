@@ -18,7 +18,6 @@ use App\Services\Auth;
 use App\Services\FlashBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Database\Capsule\Manager as DB;
 
 
 $app->mount('/', new Routes\MainRoute);

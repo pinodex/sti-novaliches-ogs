@@ -13,8 +13,6 @@ namespace App\Controllers\Dashboard;
 
 use Silex\Application;
 use App\Models\Grade;
-use App\Models\Department;
-use App\Models\FacultyGradeImportLog;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Helper;
