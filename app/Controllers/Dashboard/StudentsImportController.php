@@ -19,13 +19,14 @@ use App\Services\Session;
 use App\Services\FlashBag;
 use App\Services\Parser\StudentSheet;
 use App\Services\Importer\StudentImporter;
+use App\Controllers\Controller;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Route controller for student import pages
  */
-class StudentsImportController
+class StudentsImportController extends Controller
 {
     /**
      * Student import wizard index

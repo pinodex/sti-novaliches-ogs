@@ -15,6 +15,7 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Constraints as CustomAssert;
+use App\Controllers\Controller;
 use App\Services\FlashBag;
 use App\Services\Auth;
 use App\Services\View;
@@ -25,7 +26,7 @@ use App\Services\Form;
  * 
  * Route controller for dashboard pages.
  */
-class MainController
+class MainController extends Controller
 {
     /**
      * Dashboard index
@@ -36,16 +37,33 @@ class MainController
     {
         $vars = array();
 
-        if (Auth::user()->getRole() == 'faculty') {
-            $faculty = Auth::user()->getModel();
+        if ($this->isRole('faculty')) {
+            $faculty = $this->user->getModel();
 
             $vars['faculty'] = $faculty->toArray();
             $vars['department'] = $faculty->department;
+            
             $vars['statuses'] = array(
                 $faculty->getStatusAttribute('prelim'),
                 $faculty->getStatusAttribute('midterm'),
                 $faculty->getStatusAttribute('prefinal'),
                 $faculty->getStatusAttribute('final')
+            );
+
+            $vars['stats'] = array(
+                'failed' => array(
+                    'prelim'    => $faculty->getNumberOfFailsAttribute('prelim'),
+                    'midterm'   => $faculty->getNumberOfFailsAttribute('midterm'),
+                    'prefinal'  => $faculty->getNumberOfFailsAttribute('prefinal'),
+                    'final'     => $faculty->getNumberOfFailsAttribute('final')
+                ),
+
+                'dropped' => array(
+                    'prelim'    => $faculty->getNumberOfDropsAttribute('prelim'),
+                    'midterm'   => $faculty->getNumberOfDropsAttribute('midterm'),
+                    'prefinal'  => $faculty->getNumberOfDropsAttribute('prefinal'),
+                    'final'     => $faculty->getNumberOfDropsAttribute('final'),
+                )
             );
         }
 
@@ -59,12 +77,11 @@ class MainController
      */
     public function account(Request $request, Application $app)
     {
-        $user = Auth::user()->getModel();
         $form = Form::create();
 
         $form->add('current_password', 'password', array(
             'constraints' => new CustomAssert\PasswordMatch(array(
-                'hash' => $user->password
+                'hash' => $this->user->getModel()->password
             ))
         ));
 
@@ -83,8 +100,8 @@ class MainController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $user->fill($form->getData());
-            $user->save();
+            $this->user->getModel()->fill($form->getData());
+            $this->user->getModel()->save();
 
             FlashBag::add('messages', 'success>>>Your account settings has been updated');
             return $app->redirect($app->path('dashboard.index'));

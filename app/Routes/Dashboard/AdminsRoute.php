@@ -13,6 +13,7 @@ namespace App\Routes\Dashboard;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use App\Controllers\Dashboard\AdminsController;
 
 /**
  * Handles route for /dashboard/administrators/ mount
@@ -21,28 +22,19 @@ class AdminsRoute implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        $controller = $app['controllers_factory'];
+        $factory = $app['controllers_factory'];
+        $controller = new AdminsController();
         
-        $controller->get('/',
-            array('App\Controllers\Dashboard\AdminsController', 'index')
-        )->bind('dashboard.admins');
+        $factory->get('/', array($controller, 'index'))->bind('dashboard.admins');
 
-        $controller->get('/search',
-            array('App\Controllers\Dashboard\AdminsController', 'index')
-        )->bind('dashboard.admins.search');
+        $factory->get('/search', array($controller, 'index'))->bind('dashboard.admins.search');
 
-        $controller->match('/add',
-            array('App\Controllers\Dashboard\AdminsController', 'edit')
-        )->bind('dashboard.admins.add')->value('id', null);
+        $factory->match('/add', array($controller, 'edit'))->bind('dashboard.admins.add')->value('id', null);
 
-        $controller->match('/{id}/edit',
-            array('App\Controllers\Dashboard\AdminsController', 'edit')
-        )->bind('dashboard.admins.edit');
+        $factory->match('/{id}/edit', array($controller, 'edit'))->bind('dashboard.admins.edit');
 
-        $controller->match('/{id}/delete',
-            array('App\Controllers\Dashboard\AdminsController', 'delete')
-        )->bind('dashboard.admins.delete');
+        $factory->match('/{id}/delete', array($controller, 'delete'))->bind('dashboard.admins.delete');
         
-        return $controller;
+        return $factory;
     }
 }

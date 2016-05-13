@@ -13,6 +13,7 @@ namespace App\Routes\Student;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use App\Controllers\Student\MainController;
 
 /**
  * Student route
@@ -23,20 +24,16 @@ class MainRoute implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        $controller = $app['controllers_factory'];
+        $factory = $app['controllers_factory'];
+        $controller = new MainController();
         
-        $controller->get('/',
-            array('App\Controllers\Student\MainController', 'index')
-        )->bind('student.index');
+        $factory->get('/', array($controller, 'index'))->bind('student.index');
 
-        $controller->match('/account',
-            array('App\Controllers\Student\MainController', 'account')
-        )->bind('student.account');
+        $factory->match('/account', array($controller, 'account'))->bind('student.account');
 
-        $controller->match('/top/{period}/{subject}',
-            array('App\Controllers\Student\MainController', 'top')
-        )->bind('student.top')->value('period', null)->value('subject', null);
+        $factory->match('/top/{period}/{subject}', array($controller, 'top'))->bind('student.top')
+            ->value('period', null)->value('subject', null);
         
-        return $controller;
+        return $factory;
     }
 }

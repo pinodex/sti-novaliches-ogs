@@ -17,6 +17,7 @@ use App\Models\Head;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\FlashBag;
+use App\Controllers\Controller;
 use App\Constraints as CustomAssert;
 use Illuminate\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Route controller for head management pages
  */
-class HeadsController
+class HeadsController extends Controller
 {
     /**
      * Manage head accounts page

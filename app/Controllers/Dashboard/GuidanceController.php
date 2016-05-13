@@ -16,6 +16,7 @@ use App\Models\Guidance;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\FlashBag;
+use App\Controllers\Controller;
 use App\Constraints as CustomAssert;
 use Illuminate\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Route controller for guidance management pages
  */
-class GuidanceController
+class GuidanceController extends Controller
 {
     /**
      * Manage guidance accounts page

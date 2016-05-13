@@ -13,6 +13,7 @@ namespace App\Routes\Dashboard;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use App\Controllers\Dashboard\GuidanceController;
 
 /**
  * Handles route for /dashboard/guidance/ mount
@@ -21,28 +22,19 @@ class GuidanceRoute implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        $controller = $app['controllers_factory'];
+        $factory = $app['controllers_factory'];
+        $controller = new GuidanceController();
 
-        $controller->get('/',
-            array('App\Controllers\Dashboard\GuidanceController', 'index')
-        )->bind('dashboard.guidance');
+        $factory->get('/', array($controller, 'index'))->bind('dashboard.guidance');
 
-        $controller->get('/search',
-            array('App\Controllers\Dashboard\GuidanceController', 'index')
-        )->bind('dashboard.guidance.search');
+        $factory->get('/search', array($controller, 'index'))->bind('dashboard.guidance.search');
 
-        $controller->match('/add',
-            array('App\Controllers\Dashboard\GuidanceController', 'edit')
-        )->bind('dashboard.guidance.add')->value('id', null);
+        $factory->match('/add', array($controller, 'edit'))->bind('dashboard.guidance.add')->value('id', null);
 
-        $controller->match('/{id}/edit',
-            array('App\Controllers\Dashboard\GuidanceController', 'edit')
-        )->bind('dashboard.guidance.edit');
+        $factory->match('/{id}/edit', array($controller, 'edit'))->bind('dashboard.guidance.edit');
 
-        $controller->match('/{id}/delete',
-            array('App\Controllers\Dashboard\GuidanceController', 'delete')
-        )->bind('dashboard.guidance.delete');
+        $factory->match('/{id}/delete', array($controller, 'delete'))->bind('dashboard.guidance.delete');
 
-        return $controller;
+        return $factory;
     }
 }

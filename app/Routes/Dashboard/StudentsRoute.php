@@ -13,6 +13,7 @@ namespace App\Routes\Dashboard;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use App\Controllers\Dashboard\StudentsController;
 
 /**
  * Main route
@@ -23,36 +24,23 @@ class StudentsRoute implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        $controller = $app['controllers_factory'];
+        $factory = $app['controllers_factory'];
+        $controller = new StudentsController();
 
-        $controller->get('/',
-            array('App\Controllers\Dashboard\StudentsController', 'index')
-        )->bind('dashboard.students');
+        $factory->get('/', array($controller, 'index'))->bind('dashboard.students');
 
-        $controller->get('/search',
-            array('App\Controllers\Dashboard\StudentsController', 'index')
-        )->bind('dashboard.students.search');
+        $factory->get('/search', array($controller, 'index'))->bind('dashboard.students.search');
 
-        $controller->match('/add',
-            array('App\Controllers\Dashboard\StudentsController', 'edit')
-        )->bind('dashboard.students.add')->value('id', null);
+        $factory->match('/add', array($controller, 'edit'))->bind('dashboard.students.add')->value('id', null);
 
-        $controller->get('/{id}',
-            array('App\Controllers\Dashboard\StudentsController', 'view')
-        )->bind('dashboard.students.view')->assert('id', '[\d+]{11}');
+        $factory->get('/{id}', array($controller, 'view'))->bind('dashboard.students.view')->assert('id', '[\d+]{11}');
 
-        $controller->match('/{id}/edit',
-            array('App\Controllers\Dashboard\StudentsController', 'edit')
-        )->bind('dashboard.students.edit')->assert('id', '[\d+]{11}');
+        $factory->match('/{id}/edit', array($controller, 'edit'))->bind('dashboard.students.edit')->assert('id', '[\d+]{11}');
 
-        $controller->match('/{id}/edit/grades',
-            array('App\Controllers\Dashboard\StudentsController', 'editGrades')
-        )->bind('dashboard.students.edit.grades')->assert('id', '[\d+]{11}');
+        $factory->match('/{id}/edit/grades', array($controller, 'editGrades'))->bind('dashboard.students.edit.grades')->assert('id', '[\d+]{11}');
 
-        $controller->match('/{id}/delete',
-            array('App\Controllers\Dashboard\StudentsController', 'delete')
-        )->bind('dashboard.students.delete')->assert('id', '[\d+]{11}');
+        $factory->match('/{id}/delete', array($controller, 'delete'))->bind('dashboard.students.delete')->assert('id', '[\d+]{11}');
         
-        return $controller;
+        return $factory;
     }
 }

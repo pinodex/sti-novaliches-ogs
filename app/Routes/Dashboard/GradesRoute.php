@@ -13,6 +13,7 @@ namespace App\Routes\Dashboard;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use App\Controllers\Dashboard\GradesController;
 
 /**
  * Main route
@@ -23,12 +24,11 @@ class GradesRoute implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        $controller = $app['controllers_factory'];
+        $factory = $app['controllers_factory'];
+        $controller = new GradesController();
 
-        $controller->get('/',
-            array('App\Controllers\Dashboard\GradesController', 'index')
-        )->bind('dashboard.grades');
+        $factory->get('/', array($controller, 'index'))->bind('dashboard.grades');
         
-        return $controller;
+        return $factory;
     }
 }

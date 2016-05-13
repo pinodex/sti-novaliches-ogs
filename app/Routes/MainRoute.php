@@ -13,6 +13,7 @@ namespace App\Routes;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use App\Controllers\MainController;
 
 /**
  * Main route
@@ -23,20 +24,15 @@ class MainRoute implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        $controller = $app['controllers_factory'];
+        $factory = $app['controllers_factory'];
+        $controller = new MainController();
         
-        $controller->get('/',
-            array('App\Controllers\MainController', 'index')
-        )->bind('site.index');
-
-        $controller->match('/login',
-            array('App\Controllers\MainController', 'login')
-        )->bind('site.login');
-
-        $controller->get('/logout',
-            array('App\Controllers\MainController', 'logout')
-        )->bind('site.logout');
+        $factory->get('/', array($controller, 'index'))->bind('site.index');
         
-        return $controller;
+        $factory->match('/login', array($controller, 'login'))->bind('site.login');
+
+        $factory->get('/logout', array($controller, 'logout'))->bind('site.logout');
+        
+        return $factory;
     }
 }

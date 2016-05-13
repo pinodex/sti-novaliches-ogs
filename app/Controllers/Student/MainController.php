@@ -17,6 +17,7 @@ use App\Services\Form;
 use App\Services\View;
 use App\Services\Settings;
 use App\Services\FlashBag;
+use App\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Models\Grade;
@@ -26,7 +27,7 @@ use App\Models\Grade;
  * 
  * Route controllers for /student/*
  */
-class MainController
+class MainController extends Controller
 {
     /**
      * Student page index
@@ -35,7 +36,7 @@ class MainController
      */
     public function index(Application $app)
     {
-        $user = Auth::user()->getModel();
+        $user = $this->user->getModel();
 
         if (!$user->is_required_info_filled) {
             return $app->redirect($app->path('student.account'));
@@ -63,7 +64,7 @@ class MainController
             return $app->abort(404);
         }
 
-        $user = Auth::user()->getModel();
+        $user = $this->user->getModel();
 
         if (!$user->is_required_info_filled) {
             return $app->redirect($app->path('student.account'));
@@ -130,7 +131,7 @@ class MainController
      */
     public function account(Request $request, Application $app)
     {
-        $user = Auth::user()->getModel();
+        $user = $this->user->getModel();
         $form = Form::create($user->toArray());
 
         $form->add('mobile_number', 'text', array(

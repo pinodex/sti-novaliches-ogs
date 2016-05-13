@@ -13,6 +13,7 @@ namespace App\Routes\Dashboard;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use App\Controllers\Dashboard\DepartmentsController;
 
 /**
  * Handles route for /dashboard/departments/ mount
@@ -21,36 +22,23 @@ class DepartmentsRoute implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        $controller = $app['controllers_factory'];
+        $factory = $app['controllers_factory'];
+        $controller = new DepartmentsController();
         
-        $controller->get('/',
-            array('App\Controllers\Dashboard\DepartmentsController', 'index')
-        )->bind('dashboard.departments');
+        $factory->get('/', array($controller, 'index'))->bind('dashboard.departments');
 
-        $controller->match('/add',
-            array('App\Controllers\Dashboard\DepartmentsController', 'edit')
-        )->bind('dashboard.departments.add')->value('id', null);
+        $factory->match('/add', array($controller, 'edit'))->bind('dashboard.departments.add')->value('id', null);
 
-        $controller->match('/self',
-            array('App\Controllers\Dashboard\DepartmentsController', 'self')
-        )->bind('dashboard.departments.self');
+        $factory->match('/self', array($controller, 'self'))->bind('dashboard.departments.self');
 
-        $controller->match('/{id}',
-            array('App\Controllers\Dashboard\DepartmentsController', 'view')
-        )->bind('dashboard.departments.view');
+        $factory->match('/{id}', array($controller, 'view'))->bind('dashboard.departments.view');
 
-        $controller->match('/{id}/search',
-            array('App\Controllers\Dashboard\DepartmentsController', 'view')
-        )->bind('dashboard.departments.view.search');
+        $factory->match('/{id}/search', array($controller, 'view'))->bind('dashboard.departments.view.search');
 
-        $controller->match('/{id}/edit',
-            array('App\Controllers\Dashboard\DepartmentsController', 'edit')
-        )->bind('dashboard.departments.edit');
+        $factory->match('/{id}/edit', array($controller, 'edit'))->bind('dashboard.departments.edit');
 
-        $controller->match('/{id}/delete',
-            array('App\Controllers\Dashboard\DepartmentsController', 'delete')
-        )->bind('dashboard.departments.delete');
+        $factory->match('/{id}/delete', array($controller, 'delete'))->bind('dashboard.departments.delete');
         
-        return $controller;
+        return $factory;
     }
 }

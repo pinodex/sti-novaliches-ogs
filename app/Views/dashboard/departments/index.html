@@ -40,10 +40,6 @@
                                     <span class="short">H</span>
                                 </th>
                                 <th>
-                                    <span class="long">Faculty</span>
-                                    <span class="short">F</span>
-                                </th>
-                                <th>
                                     <span class="long">Actions</span>
                                     <span class="short">A</span>
                                 </th>
@@ -55,7 +51,6 @@
                                 <tr>
                                     <td>{{ department.name }}</td>
                                     <td>{{ department.head ? department.head.name : 'N/A' }}</td>
-                                    <td>{{ department.faculty|length }}</td>
                                     <td>
                                         <a href="{{ path('dashboard.departments.view', {id: department.id}) }}">View</a>
                                     </td>

@@ -13,6 +13,7 @@ namespace App\Routes\Dashboard;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use App\Controllers\Dashboard\FacultyImportController;
 
 /**
  * Handles route for /dashboard/faculty/ mount
@@ -21,28 +22,19 @@ class FacultyImportRoute implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        $controller = $app['controllers_factory'];
+        $factory = $app['controllers_factory'];
+        $controller = new FacultyImportController();
 
-        $controller->match('/',
-            array('App\Controllers\Dashboard\FacultyImportController', 'index')
-        )->bind('dashboard.faculty.import');
+        $factory->match('/', array($controller, 'index'))->bind('dashboard.faculty.import');
 
-        $controller->match('/1',
-            array('App\Controllers\Dashboard\FacultyImportController', 'stepOne')
-        )->bind('dashboard.faculty.import.1');
+        $factory->match('/1', array($controller, 'stepOne'))->bind('dashboard.faculty.import.1');
 
-        $controller->match('/2',
-            array('App\Controllers\Dashboard\FacultyImportController', 'stepTwo')
-        )->bind('dashboard.faculty.import.2');
+        $factory->match('/2', array($controller, 'stepTwo'))->bind('dashboard.faculty.import.2');
 
-        $controller->match('/3',
-            array('App\Controllers\Dashboard\FacultyImportController', 'stepThree')
-        )->bind('dashboard.faculty.import.3');
+        $factory->match('/3', array($controller, 'stepThree'))->bind('dashboard.faculty.import.3');
 
-        $controller->match('/4',
-            array('App\Controllers\Dashboard\FacultyImportController', 'stepFour')
-        )->bind('dashboard.faculty.import.4');
+        $factory->match('/4', array($controller, 'stepFour'))->bind('dashboard.faculty.import.4');
 
-        return $controller;
+        return $factory;
     }
 }

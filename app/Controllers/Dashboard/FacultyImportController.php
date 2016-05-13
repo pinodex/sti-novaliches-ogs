@@ -18,13 +18,14 @@ use App\Services\Session;
 use App\Services\FlashBag;
 use App\Services\Parser\FacultySheet;
 use App\Services\Importer\FacultyImporter;
+use App\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Route controller for faculty import pages
  */
-class FacultyImportController
+class FacultyImportController extends Controller
 {
     /**
      * Faculty import redirector

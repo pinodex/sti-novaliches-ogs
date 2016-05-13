@@ -13,6 +13,7 @@ namespace App\Routes\Dashboard;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use App\Controllers\Dashboard\SettingsController;
 
 /**
  * Handles route for /dashboard/settings/ mount
@@ -21,24 +22,17 @@ class SettingsRoute implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        $controller = $app['controllers_factory'];
+        $factory = $app['controllers_factory'];
+        $controller = new SettingsController();
         
-        $controller->match('/',
-            array('App\Controllers\Dashboard\SettingsController', 'index')
-        )->bind('dashboard.settings');
+        $factory->match('/', array($controller, 'index'))->bind('dashboard.settings');
 
-        $controller->match('/maintenance',
-            array('App\Controllers\Dashboard\SettingsController', 'maintenance')
-        )->bind('dashboard.settings.maintenance');
+        $factory->match('/maintenance', array($controller, 'maintenance'))->bind('dashboard.settings.maintenance');
 
-        $controller->match('/maintenance/clear',
-            array('App\Controllers\Dashboard\SettingsController', 'clear')
-        )->bind('dashboard.settings.maintenance.clear');
+        $factory->match('/maintenance/clear', array($controller, 'clear'))->bind('dashboard.settings.maintenance.clear');
 
-        $controller->match('/maintenance/database-cleanup',
-            array('App\Controllers\Dashboard\SettingsController', 'databaseCleanup')
-        )->bind('dashboard.settings.maintenance.databaseCleanup');
+        $factory->match('/maintenance/database-cleanup', array($controller, 'databaseCleanup'))->bind('dashboard.settings.maintenance.databaseCleanup');
         
-        return $controller;
+        return $factory;
     }
 }

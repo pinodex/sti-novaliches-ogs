@@ -13,6 +13,7 @@ namespace App\Routes\Dashboard;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use App\Controllers\Dashboard\MainController;
 
 /**
  * Main route
@@ -23,16 +24,13 @@ class MainRoute implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        $controller = $app['controllers_factory'];
+        $factory = $app['controllers_factory'];
+        $controller = new MainController();
         
-        $controller->get('/',
-            array('App\Controllers\Dashboard\MainController', 'index')
-        )->bind('dashboard.index');
+        $factory->get('/', array($controller, 'index'))->bind('dashboard.index');
 
-        $controller->match('/account',
-            array('App\Controllers\Dashboard\MainController', 'account')
-        )->bind('dashboard.account');
+        $factory->match('/account', array($controller, 'account'))->bind('dashboard.account');
         
-        return $controller;
+        return $factory;
     }
 }

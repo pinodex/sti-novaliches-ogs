@@ -12,18 +12,18 @@
 namespace App\Controllers\Dashboard;
 
 use Silex\Application;
-use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;
 use App\Models\Department;
 use App\Services\FlashBag;
+use App\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Route controller for departmentistrator management pages
  */
-class DepartmentsController
+class DepartmentsController extends Controller
 {
     /**
      * Admin departments page index
@@ -32,7 +32,7 @@ class DepartmentsController
      */
     public function index()
     {
-        $departments = Department::with('head', 'faculty')->get();
+        $departments = Department::with('head')->get();
 
         return View::render('dashboard/departments/index', array(
             'departments' => $departments->toArray()
@@ -46,15 +46,12 @@ class DepartmentsController
      */
     public function self(Application $app)
     {
-        $user = Auth::user();
-        $model = $user->getModel();
-
-        if ($user->getRole() != 'head' && $model->department === null) {
+        if ($this->isRole('head') && $this->user->getModel()->department === null) {
             return $app->abort(404);
         }
 
         return $app->redirect($app->path('dashboard.departments.view', array(
-            'id' => $model->department->id
+            'id' => $this->user->getModel()->department->id
         )));
     }
 
@@ -65,12 +62,9 @@ class DepartmentsController
      */
     public function view(Request $request, Application $app, $id)
     {
-        $user = Auth::user();
-        $model = $user->getModel();
-
-        if ($user->getRole() == 'head' &&
-            $model->department !== null &&
-            $model->department->id != $id
+        if ($this->isRole('head') &&
+            $this->user->getModel()->department !== null &&
+            $this->user->getModel()->department->id != $id
         ) {
             return $app->redirect($app->path('dashboard.departments.self'));
         }

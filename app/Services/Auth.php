@@ -54,7 +54,8 @@ class Auth extends Service
 
         if ($sessionUser = Session::get('user')) {
             try {
-                return User::createFromSerializedData($sessionUser);
+                self::$user = User::createFromSerializedData($sessionUser);
+                return self::$user;
             } catch (\Exception $e) {
                 Session::remove('user');
             }
@@ -72,6 +73,10 @@ class Auth extends Service
     {
         $controllerClass = $controller[0];
         $controllerAction = $controller[1];
+
+        if (is_object($controllerClass)) {
+            $controllerClass = get_class($controllerClass);
+        }
 
         if ($user = self::user()) {
             $provider = $user->getProvider();

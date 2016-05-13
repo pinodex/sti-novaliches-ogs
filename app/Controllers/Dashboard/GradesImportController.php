@@ -12,20 +12,20 @@
 namespace App\Controllers\Dashboard;
 
 use Silex\Application;
-use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Session;
 use App\Services\FlashBag;
 use App\Services\Parser\GradingSheet;
 use App\Services\Importer\GradeImporter;
+use App\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Route controller for grade pages
  */
-class GradesImportController
+class GradesImportController extends Controller
 {
     /**
      * Grade import wizard redirector
@@ -195,8 +195,8 @@ class GradesImportController
         if ($form->isValid()) {
             $importer = null;
 
-            if (Auth::user()->getRole() == 'faculty') {
-                $importer = Auth::user()->getModel();
+            if ($this->isRole('faculty')) {
+                $importer = $this->user->getModel();
                 $importer->addSubmissionLogEntry();
             }
             

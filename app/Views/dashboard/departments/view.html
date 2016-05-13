@@ -87,22 +87,6 @@
                                             <span class="short">L</span>
                                         </th>
                                         <th>
-                                            <span class="long">Last Grade Submisstion</span>
-                                            <span class="short">S</span>
-                                        </th>
-                                        <th>
-                                            <span class="long">Status</span>
-                                            <span class="short">S</span>
-                                        </th>
-                                        <th>
-                                            <span class="long">Failed</span>
-                                            <span class="short">F</span>
-                                        </th>
-                                        <th>
-                                            <span class="long">Dropped</span>
-                                            <span class="short">D</span>
-                                        </th>
-                                        <th>
                                             <span class="long">Actions</span>
                                             <span class="short">A</span>
                                         </th>
@@ -111,13 +95,9 @@
 
                                 <tbody>
                                     {% for faculty in result.data %}
-                                        <tr{{ faculty.is_submitted_late ? ' class="color-danger"' }}>
+                                        <tr>
                                             <td>{{ faculty.name }}</td>
                                             <td>{{ faculty.last_login_at }}</td>
-                                            <td>{{ faculty.first_grade_import_at }}</td>
-                                            <td>{{ faculty.status }}</td>
-                                            <td>{{ faculty.number_of_fails }}</td>
-                                            <td>{{ faculty.number_of_drops }}</td>
                                             <td>
                                                 <a href="{{ path('dashboard.faculty.view', {id: faculty.id}) }}">View</a>
                                             </td>

@@ -15,12 +15,12 @@ use Silex\Application;
 use App\Models\Grade;
 use App\Models\Department;
 use App\Models\FacultyGradeImportLog;
-use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Helper;
 use App\Services\Settings;
 use App\Services\FlashBag;
+use App\Controllers\Controller;
 use App\Constraints as CustomAssert;
 use Illuminate\Support\Collection;
 use Symfony\Component\Finder\Finder;
@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Route controller for settings pages
  */
-class SettingsController
+class SettingsController extends Controller
 {
     /**
      * Manage settings page
@@ -200,7 +200,6 @@ class SettingsController
      */
     public function databaseCleanup(Request $request, Application $app)
     {
-        $user = Auth::user()->getModel();
         $form = Form::create();
         
         $form->add('_confirm_password', 'repeated', array(
@@ -208,7 +207,7 @@ class SettingsController
             'first_options'     => array('label' => 'Password'),
             'second_options'    => array('label' => 'Repeat Password'),
             'constraints'       => new CustomAssert\PasswordMatch(array(
-                'hash' => $user->password
+                'hash' => $this->user->getModel()->password
             ))
         ));
 

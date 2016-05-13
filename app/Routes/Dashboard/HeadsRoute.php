@@ -13,6 +13,7 @@ namespace App\Routes\Dashboard;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use App\Controllers\Dashboard\HeadsController;
 
 /**
  * Handles route for /dashboard/heads/ mount
@@ -21,28 +22,19 @@ class HeadsRoute implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        $controller = $app['controllers_factory'];
+        $factory = $app['controllers_factory'];
+        $controller = new HeadsController();
         
-        $controller->get('/',
-            array('App\Controllers\Dashboard\HeadsController', 'index')
-        )->bind('dashboard.heads');
+        $factory->get('/', array($controller, 'index'))->bind('dashboard.heads');
 
-        $controller->get('/search',
-            array('App\Controllers\Dashboard\HeadsController', 'index')
-        )->bind('dashboard.heads.search');
+        $factory->get('/search', array($controller, 'index'))->bind('dashboard.heads.search');
 
-        $controller->match('/add',
-            array('App\Controllers\Dashboard\HeadsController', 'edit')
-        )->bind('dashboard.heads.add')->value('id', null);
+        $factory->match('/add', array($controller, 'edit'))->bind('dashboard.heads.add')->value('id', null);
 
-        $controller->match('/{id}/edit',
-            array('App\Controllers\Dashboard\HeadsController', 'edit')
-        )->bind('dashboard.heads.edit');
+        $factory->match('/{id}/edit', array($controller, 'edit'))->bind('dashboard.heads.edit');
 
-        $controller->match('/{id}/delete',
-            array('App\Controllers\Dashboard\HeadsController', 'delete')
-        )->bind('dashboard.heads.delete');
+        $factory->match('/{id}/delete', array($controller, 'delete'))->bind('dashboard.heads.delete');
         
-        return $controller;
+        return $factory;
     }
 }

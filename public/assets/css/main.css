@@ -1251,6 +1251,9 @@ table.colorless tr:nth-child(even) {
 table.center-align td {
   text-align: center;
 }
+table.small {
+  font-size: 12px;
+}
 
 .tabs {
   list-style: none;

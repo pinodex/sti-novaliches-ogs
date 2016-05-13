@@ -43,13 +43,7 @@ class Faculty extends Model
     protected $appends = array(
         'name',
         'status',
-        'first_grade_import_at',
-        'is_never_submitted',
-        'is_submitted_late',
-        'is_incomplete',
-        'is_valid',
-        'number_of_fails',
-        'number_of_drops'
+        'is_valid'
     );
 
     private static $searchWithRelations = array(
@@ -217,8 +211,6 @@ class Faculty extends Model
                     $withoutGradesCount['final']++;
                 }
             }
-
-
 
             if (($withoutGradesCount['prelim'] != $totalCount && round($withoutGradesCount['prelim'] / $totalCount) >= 0.5) ||
                 ($withoutGradesCount['midterm'] != $totalCount && round($withoutGradesCount['midterm'] / $totalCount) >= 0.5) ||

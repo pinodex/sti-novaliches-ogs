@@ -14,13 +14,13 @@ namespace App\Controllers\Dashboard;
 use Silex\Application;
 use App\Models\Grade;
 use App\Models\Student;
-use App\Services\Auth;
 use App\Services\View;
 use App\Services\Form;
 use App\Services\Helper;
 use App\Services\Session;
 use App\Services\Settings;
 use App\Services\FlashBag;
+use App\Controllers\Controller;
 use App\Constraints as CustomAssert;
 use Illuminate\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +29,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Route controller for administrator students pages
  */
-class StudentsController
+class StudentsController extends Controller
 {
     /**
      * Student page index
@@ -65,11 +65,11 @@ class StudentsController
 
         $request->query->set('id', Helper::parseId($request->query->get('id')));
 
-        if (Auth::user()->getRole() == 'faculty') {
+        if ($this->isRole('faculty')) {
             $result = Student::filteredSearch(
                 $request->query->get('id'),
                 $request->query->get('name'),
-                Auth::user()->getModel()->id
+                $this->user->getModel()->id
             );
         } else {
             $result = Student::search($request->query->get('id'), $request->query->get('name'));
@@ -93,12 +93,10 @@ class StudentsController
             return $app->redirect($app->path('dashboard.students'));
         }
 
-        $currentUser = Auth::user();
-
-        if ($currentUser->getRole() == 'faculty') {
+        if ($this->isRole('faculty')) {
             $gradesFromImporter = Grade::where(array(
                 'student_id' => $student->id,
-                'importer_id' => $currentUser->getModel()->id
+                'importer_id' => $this->user->getModel()->id
             ));
 
 

@@ -21,6 +21,7 @@ use App\Services\Form;
 use App\Services\Session;
 use App\Services\Settings;
 use App\Services\FlashBag;
+use App\Controllers\Controller;
 use App\Constraints as CustomAssert;
 use Illuminate\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Route controller for faculty management pages
  */
-class FacultyController
+class FacultyController extends Controller
 {
     /**
      * Manage faculty accounts page
@@ -93,12 +94,9 @@ class FacultyController
             return $app->redirect($app->path('dashboard.faculty'));
         }
 
-        $user = Auth::user();
-        $model = $user->getModel();
-
-        if ($user->getRole() == 'head') {
+        if ($this->isRole('head')) {
             // Deny if the faculty and head does not belong to the same department
-            if (!$faculty->department || $faculty->department->id != $model->department->id) {
+            if (!$faculty->department || $faculty->department->id != $user->getModel()->department->id) {
                 FlashBag::add('messages', 'danger>>>This faculty is not in your department');
 
                 return $app->redirect($app->path('dashboard.departments.view', array(
@@ -150,15 +148,32 @@ class FacultyController
 
         return View::render('dashboard/faculty/view', array(
             'faculty'       => $faculty->toArray(),
-            'logs'          => array_reverse($faculty->submissionLogs->toArray()),
             'sections'      => $sections,
-            'period'        => $period,
             'active_period' => $periodIndex,
-            'statuses'      => array(
+            'period'        => $period,
+            'logs'          => array_reverse($faculty->submissionLogs->toArray()),
+
+            'statuses' => array(
                 $faculty->getStatusAttribute('prelim'),
                 $faculty->getStatusAttribute('midterm'),
                 $faculty->getStatusAttribute('prefinal'),
                 $faculty->getStatusAttribute('final')
+            ),
+
+            'stats' => array(
+                'failed' => array(
+                    'prelim'    => $faculty->getNumberOfFailsAttribute('prelim'),
+                    'midterm'   => $faculty->getNumberOfFailsAttribute('midterm'),
+                    'prefinal'  => $faculty->getNumberOfFailsAttribute('prefinal'),
+                    'final'     => $faculty->getNumberOfFailsAttribute('final')
+                ),
+
+                'dropped' => array(
+                    'prelim'    => $faculty->getNumberOfDropsAttribute('prelim'),
+                    'midterm'   => $faculty->getNumberOfDropsAttribute('midterm'),
+                    'prefinal'  => $faculty->getNumberOfDropsAttribute('prefinal'),
+                    'final'     => $faculty->getNumberOfDropsAttribute('final'),
+                )
             )
         ));
     }

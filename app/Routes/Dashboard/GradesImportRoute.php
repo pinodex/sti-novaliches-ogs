@@ -13,6 +13,7 @@ namespace App\Routes\Dashboard;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use App\Controllers\Dashboard\GradesImportController;
 
 /**
  * Main route
@@ -23,28 +24,19 @@ class GradesImportRoute implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        $controller = $app['controllers_factory'];
+        $factory = $app['controllers_factory'];
+        $controller = new GradesImportController();
 
-        $controller->get('/',
-            array('App\Controllers\Dashboard\GradesImportController', 'index')
-        )->bind('dashboard.grades.import');
+        $factory->get('/', array($controller, 'index'))->bind('dashboard.grades.import');
 
-        $controller->match('/1',
-            array('App\Controllers\Dashboard\GradesImportController', 'stepOne')
-        )->bind('dashboard.grades.import.1');
+        $factory->match('/1', array($controller, 'stepOne'))->bind('dashboard.grades.import.1');
 
-        $controller->match('/2',
-            array('App\Controllers\Dashboard\GradesImportController', 'stepTwo')
-        )->bind('dashboard.grades.import.2');
+        $factory->match('/2', array($controller, 'stepTwo'))->bind('dashboard.grades.import.2');
 
-        $controller->match('/3',
-            array('App\Controllers\Dashboard\GradesImportController', 'stepThree')
-        )->bind('dashboard.grades.import.3');
+        $factory->match('/3', array($controller, 'stepThree'))->bind('dashboard.grades.import.3');
 
-        $controller->match('/4',
-            array('App\Controllers\Dashboard\GradesImportController', 'stepFour')
-        )->bind('dashboard.grades.import.4');
+        $factory->match('/4', array($controller, 'stepFour'))->bind('dashboard.grades.import.4');
         
-        return $controller;
+        return $factory;
     }
 }

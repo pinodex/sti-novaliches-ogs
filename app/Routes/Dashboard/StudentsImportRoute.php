@@ -13,6 +13,7 @@ namespace App\Routes\Dashboard;
 
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use App\Controllers\Dashboard\StudentsImportController;
 
 /**
  * Main route
@@ -23,24 +24,17 @@ class StudentsImportRoute implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        $controller = $app['controllers_factory'];
+        $factory = $app['controllers_factory'];
+        $controller = new StudentsImportController();
 
-        $controller->match('/',
-            array('App\Controllers\Dashboard\StudentsImportController', 'index')
-        )->bind('dashboard.students.import');
+        $factory->match('/', array($controller, 'index'))->bind('dashboard.students.import');
 
-        $controller->match('/1',
-            array('App\Controllers\Dashboard\StudentsImportController', 'stepOne')
-        )->bind('dashboard.students.import.1');
+        $factory->match('/1', array($controller, 'stepOne'))->bind('dashboard.students.import.1');
 
-        $controller->match('/2',
-            array('App\Controllers\Dashboard\StudentsImportController', 'stepTwo')
-        )->bind('dashboard.students.import.2');
+        $factory->match('/2', array($controller, 'stepTwo'))->bind('dashboard.students.import.2');
 
-        $controller->match('/3',
-            array('App\Controllers\Dashboard\StudentsImportController', 'stepThree')
-        )->bind('dashboard.students.import.3');
+        $factory->match('/3', array($controller, 'stepThree'))->bind('dashboard.students.import.3');
         
-        return $controller;
+        return $factory;
     }
 }

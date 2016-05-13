@@ -24,7 +24,7 @@ use App\Services\View;
  * Route controller for main pages.
  * Includes the root index and the login/logout routes
  */
-class MainController
+class MainController extends Controller
 {
     /**
      * Site root index
@@ -35,8 +35,8 @@ class MainController
     {
         $destination = 'site.login';
         
-        if ($user = Auth::user()) {
-            $destination = $user->getProvider()->getRedirectRoute();
+        if ($this->user) {
+            $destination = $this->user->getProvider()->getRedirectRoute();
         }
 
         return $app->redirect($app->path($destination));
@@ -49,7 +49,7 @@ class MainController
      */
     public function login(Request $request, Application $app)
     {
-        if (!Auth::guest()) {
+        if ($this->isLoggedIn()) {
             return $app->redirect($app->path('site.index'));
         }
 
@@ -133,8 +133,8 @@ class MainController
     {
         $destination = 'site.login';
         
-        if ($user = Auth::user()) {
-            $role = $user->getProvider()->getRole();
+        if ($this->user) {
+            $role = $this->user->getProvider()->getRole();
 
             switch ($role) {
                 case 'admin':

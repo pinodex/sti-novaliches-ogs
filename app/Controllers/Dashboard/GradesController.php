@@ -12,11 +12,12 @@
 namespace App\Controllers\Dashboard;
 
 use App\Services\View;
+use App\Controllers\Controller;
 
 /**
  * Route controller for grade pages
  */
-class GradesController
+class GradesController extends Controller
 {
     /**
      * Grades page index
