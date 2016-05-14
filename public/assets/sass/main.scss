@@ -638,6 +638,10 @@ table {
 
     &.small {
         font-size: 12px;
+
+        td, th {
+            padding: 3px;
+        }
     }
 }
 

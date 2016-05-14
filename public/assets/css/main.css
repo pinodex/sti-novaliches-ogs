@@ -1254,6 +1254,9 @@ table.center-align td {
 table.small {
   font-size: 12px;
 }
+table.small td, table.small th {
+  padding: 3px;
+}
 
 .tabs {
   list-style: none;
