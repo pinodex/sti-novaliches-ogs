@@ -58,12 +58,12 @@
 
                         <p><em>Importing to database may take several seconds depending on the amount of records to be imported. Please don't close this window/tab while importing.</em></p>
 
-                        <form method="post" action="{{ app.request.getRequestUri }}">
+                        <form method="post" action="{{ app.request.getRequestUri }}" v-on:submit="disableAction = true">
                             {{ form_widget(confirm_form) }}
 
                             <div class="buttons">
-                                <a href="{{ path('dashboard.faculty.import.2') }}" class="button neutral"><span class="icon-navigate_before"></span> Back</a>
-                                <button type="submit" class="success">Confirm and save changes <span class="icon-navigate_next"></span></button>
+                                <a href="{{ path('dashboard.faculty.import.2') }}" class="button neutral" v-bind:disabled="disableAction"><span class="icon-navigate_before"></span> Back</a>
+                                <button type="submit" class="success" v-bind:disabled="disableAction">Confirm and save changes <span class="icon-navigate_next"></span></button>
                             </div>
                         </form>
                     </div>

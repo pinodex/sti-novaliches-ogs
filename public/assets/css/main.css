@@ -854,14 +854,14 @@ input[type="button"] *.primary, button *.primary, .button *.primary {
   background: #428bca;
   color: #fff;
 }
-input[type="button"] *.primary:hover, button *.primary:hover, .button *.primary:hover {
+input[type="button"] *.primary:not([disabled]):hover, button *.primary:not([disabled]):hover, .button *.primary:not([disabled]):hover {
   background: #3071a9;
 }
 input[type="button"].success, button.success, .button.success {
   background: #5cb85c;
   color: #fff;
 }
-input[type="button"].success:hover, button.success:hover, .button.success:hover {
+input[type="button"].success:not([disabled]):hover, button.success:not([disabled]):hover, .button.success:not([disabled]):hover {
   background: #449d44;
 }
 input[type="button"].success.active, button.success.active, .button.success.active {
@@ -871,7 +871,7 @@ input[type="button"].warning, button.warning, .button.warning {
   background: #f0ad4e;
   color: #fff;
 }
-input[type="button"].warning:hover, button.warning:hover, .button.warning:hover {
+input[type="button"].warning:not([disabled]):hover, button.warning:not([disabled]):hover, .button.warning:not([disabled]):hover {
   background: #ec971f;
 }
 input[type="button"].warning.active, button.warning.active, .button.warning.active {
@@ -881,7 +881,7 @@ input[type="button"].danger, button.danger, .button.danger {
   background: #d9534f;
   color: #fff;
 }
-input[type="button"].danger:hover, button.danger:hover, .button.danger:hover {
+input[type="button"].danger:not([disabled]):hover, button.danger:not([disabled]):hover, .button.danger:not([disabled]):hover {
   background: #c9302c;
 }
 input[type="button"].danger.active, button.danger.active, .button.danger.active {
@@ -891,7 +891,7 @@ input[type="button"].info, button.info, input[type="button"], button, .button, .
   background: #5bc0de;
   color: #fff;
 }
-input[type="button"].info:hover, button.info:hover, input[type="button"]:hover, button:hover, .button:hover, .button.info:hover {
+input[type="button"].info:not([disabled]):hover, button.info:not([disabled]):hover, input[type="button"]:not([disabled]):hover, button:not([disabled]):hover, .button:not([disabled]):hover, .button.info:not([disabled]):hover {
   background: #31b0d5;
 }
 input[type="button"].info.active, button.info.active, input.active[type="button"], button.active, .active.button, .button.info.active {
@@ -901,7 +901,7 @@ input[type="button"].neutral, button.neutral, .button.neutral {
   background: gray;
   color: #fff;
 }
-input[type="button"].neutral:hover, button.neutral:hover, .button.neutral:hover {
+input[type="button"].neutral:not([disabled]):hover, button.neutral:not([disabled]):hover, .button.neutral:not([disabled]):hover {
   background: #4d4d4d;
 }
 input[type="button"].neutral.active, button.neutral.active, .button.neutral.active {
@@ -909,6 +909,14 @@ input[type="button"].neutral.active, button.neutral.active, .button.neutral.acti
 }
 input[type="button"].link, button.link, .button.link {
   background: transparent;
+}
+input[type="button"][disabled], button[disabled], .button[disabled] {
+  opacity: 0.75;
+}
+
+a.button[disabled], .button[disabled].link {
+  pointer-events: none;
+  cursor: default;
 }
 
 .buttons {

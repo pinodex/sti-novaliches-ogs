@@ -148,7 +148,7 @@ input[type="button"], button, .button {
         background: $brand-primary;
         color: #fff;
 
-        &:hover {
+        &:not([disabled]):hover {
             background: $brand-primary-hover;
         }
     }
@@ -157,7 +157,7 @@ input[type="button"], button, .button {
         background: $brand-success;
         color: #fff;
 
-        &:hover {
+        &:not([disabled]):hover {
             background: $brand-success-hover;
         }
 
@@ -170,7 +170,7 @@ input[type="button"], button, .button {
         background: $brand-warning;
         color: #fff;
 
-        &:hover {
+        &:not([disabled]):hover {
             background: $brand-warning-hover;
         }
 
@@ -183,7 +183,7 @@ input[type="button"], button, .button {
         background: $brand-danger;
         color: #fff;
 
-        &:hover {
+        &:not([disabled]):hover {
             background: $brand-danger-hover;
         }
 
@@ -196,7 +196,7 @@ input[type="button"], button, .button {
         background: $brand-info;
         color: #fff;
 
-        &:hover {
+        &:not([disabled]):hover {
             background: $brand-info-hover;
         }
 
@@ -209,7 +209,7 @@ input[type="button"], button, .button {
         background: $black-50;
         color: #fff;
 
-        &:hover {
+        &:not([disabled]):hover {
             background: $black-70;
         }
 
@@ -224,7 +224,16 @@ input[type="button"], button, .button {
         @extend a;
     }
 
+    &[disabled] {
+        opacity: 0.75;
+    }
+
     @extend button.info;
+}
+
+a.button[disabled] {
+    pointer-events: none;
+    cursor: default;
 }
 
 .buttons {

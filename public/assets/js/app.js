@@ -59,6 +59,7 @@
         isNavActive: false,
         isLoginBoxShowed: true,
         isHelpBoxShowed: false,
+        disableAction: false,
         paginationPage: 1,
         activeTab: 0
     };
