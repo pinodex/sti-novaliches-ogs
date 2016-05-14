@@ -94,7 +94,7 @@ class FacultyController extends Controller
 
         if ($this->isRole('head')) {
             // Deny if the faculty and head does not belong to the same department
-            if (!$faculty->department || $faculty->department->id != $user->getModel()->department->id) {
+            if (!$faculty->department || $faculty->department->id != $this->user->getModel()->department->id) {
                 FlashBag::add('messages', 'danger>>>This faculty is not in your department');
 
                 return $app->redirect($app->path('dashboard.departments.view', array(
