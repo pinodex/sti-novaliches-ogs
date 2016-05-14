@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the online grades system for STI College Novaliches
+ *
+ * (c) Raphael Marco <raphaelmarco@outlook.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App;
 
 use Silex\Provider;
@@ -10,6 +19,14 @@ use App\Providers;
 use App\Services;
 
 $app = new App();
+
+require ROOT . 'config/app.php';
+
+ini_set('display_errors', 0);
+date_default_timezone_set('Asia/Manila');
+
+Debug\ExceptionHandler::register($app['debug']);
+Debug\ErrorHandler::register();
 
 $app->register(new Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__ . '/Views'
@@ -23,13 +40,6 @@ $app->register(new Provider\ValidatorServiceProvider());
 $app->register(new Provider\TranslationServiceProvider(), array(
     'translator.messages' => array()
 ));
-
-require ROOT . 'config/app.php';
-
-ini_set('display_errors', 0);
-
-Debug\ExceptionHandler::register($app['debug']);
-Debug\ErrorHandler::register();
 
 $app->register(new Providers\IlluminateDatabaseServiceProvider());
 $app->register(new Providers\TwigExtensionServiceProvider());
