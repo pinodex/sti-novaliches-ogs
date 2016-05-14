@@ -47,7 +47,8 @@ class DepartmentsController extends Controller
     public function self(Application $app)
     {
         if ($this->isRole('head') && $this->user->getModel()->department === null) {
-            return $app->abort(404);
+            FlashBag::add('messages', 'danger>>>You are not yet assigned to any department');
+            return $app->redirect($app->path('dashboard.departments'));
         }
 
         return $app->redirect($app->path('dashboard.departments.view', array(
@@ -62,6 +63,11 @@ class DepartmentsController extends Controller
      */
     public function view(Request $request, Application $app, $id)
     {
+        if ($this->isRole('head') && $this->user->getModel()->department === null) {
+            FlashBag::add('messages', 'danger>>>You are not yet assigned to any department');
+            return $app->redirect($app->path('dashboard.departments'));
+        }
+
         if ($this->isRole('head') &&
             $this->user->getModel()->department !== null &&
             $this->user->getModel()->department->id != $id
