@@ -29,7 +29,10 @@ Debug\ExceptionHandler::register($app['debug']);
 Debug\ErrorHandler::register();
 
 $app->register(new Provider\TwigServiceProvider(), array(
-    'twig.path' => __DIR__ . '/Views'
+    'twig.path'     => __DIR__ . '/Views',
+    'twig.options'  => array(
+        'debug' => $app['debug']
+    )
 ));
 
 $app->register(new Provider\FormServiceProvider());
