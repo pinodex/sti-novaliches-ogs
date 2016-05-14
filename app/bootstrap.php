@@ -20,6 +20,15 @@ use App\Services;
 
 $app = new App();
 
+$app->register(new Provider\TwigServiceProvider());
+$app->register(new Provider\FormServiceProvider());
+$app->register(new Provider\SessionServiceProvider());
+$app->register(new Provider\ValidatorServiceProvider());
+$app->register(new Provider\UrlGeneratorServiceProvider());
+$app->register(new Provider\TranslationServiceProvider(), array(
+    'translator.messages' => array()
+));
+
 require ROOT . 'config/app.php';
 
 ini_set('display_errors', 0);
@@ -28,21 +37,7 @@ date_default_timezone_set('Asia/Manila');
 Debug\ExceptionHandler::register($app['debug']);
 Debug\ErrorHandler::register();
 
-$app->register(new Provider\TwigServiceProvider(), array(
-    'twig.path'     => __DIR__ . '/Views',
-    'twig.options'  => array(
-        'debug' => $app['debug']
-    )
-));
-
-$app->register(new Provider\FormServiceProvider());
-$app->register(new Provider\SessionServiceProvider());
-$app->register(new Provider\UrlGeneratorServiceProvider());
-$app->register(new Provider\ValidatorServiceProvider());
-
-$app->register(new Provider\TranslationServiceProvider(), array(
-    'translator.messages' => array()
-));
+$app['twig.path'] = __DIR__ . '/Views';
 
 $app->register(new Providers\IlluminateDatabaseServiceProvider());
 $app->register(new Providers\TwigExtensionServiceProvider());
