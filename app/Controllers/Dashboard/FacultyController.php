@@ -97,9 +97,7 @@ class FacultyController extends Controller
             if (!$faculty->department || $faculty->department->id != $this->user->getModel()->department->id) {
                 FlashBag::add('messages', 'danger>>>This faculty is not in your department');
 
-                return $app->redirect($app->path('dashboard.departments.view', array(
-                    'id' => $model->department->id
-                )));
+                return $app->redirect($app->path('dashboard.departments.self'));
             }
         }
 
