@@ -17,6 +17,11 @@
 $app['debug'] = false;
 
 /*
+ * Application cache directory
+ */
+$app['application.cache_dir'] = ROOT . 'cache/application';
+
+/*
  * Profiler options
  */
 $app['profiler.cache_dir'] = ROOT . 'cache/profiler';
