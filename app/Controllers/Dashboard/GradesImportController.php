@@ -83,7 +83,7 @@ class GradesImportController extends Controller
             
             $extension = $form['file']->getData()->guessExtension();
             
-            $uploadedFile = $form['file']->getData()->move(ROOT . 'storage', sprintf('%s-%s.%s',
+            $uploadedFile = $form['file']->getData()->move($app['bases']['storage'], sprintf('%s-%s.%s',
                 date('Y-m-d-H-i-s'), uniqid(), $extension
             ));
             

@@ -120,13 +120,13 @@ class SettingsController extends Controller
      * 
      * URL: /dashboard/settings/maintenance
      */
-    public function maintenance()
+    public function maintenance(Application $app)
     {
         $cache = new Finder();
-        $cache->files()->in(ROOT . 'cache');
+        $cache->files()->in($app['bases']['cache']);
 
         $storage = new Finder();
-        $storage->files()->in(ROOT . 'storage');
+        $storage->files()->in($app['bases']['storage']);
 
         $cacheSize = 0;
         $storageSize = 0;
@@ -161,10 +161,10 @@ class SettingsController extends Controller
         $fs = new Filesystem();
 
         $dirs = new Finder();
-        $dirs->directories()->in(ROOT . $target);
+        $dirs->directories()->in($app['bases'][$target]);
 
         $files = new Finder();
-        $files->files()->in(ROOT . $target);
+        $files->files()->in($app['bases'][$target]);
 
         $form = Form::create();
         $form->add('_confirm', 'hidden');

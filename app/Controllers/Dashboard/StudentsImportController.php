@@ -79,7 +79,7 @@ class StudentsImportController extends Controller
 
             $extension = $form['file']->getData()->guessExtension();
             
-            $name = ROOT . 'storage/' . sprintf('%s-%s.%s',
+            $name = $app['bases']['storage'] . '/' . sprintf('%s-%s.%s',
                 date('Y-m-d-H-i-s'), uniqid(), $extension
             );
 

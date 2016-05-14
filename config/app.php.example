@@ -17,6 +17,14 @@
 $app['debug'] = false;
 
 /*
+ * Base dirs
+ */
+$app['bases'] = array(
+    'cache'     => sys_get_temp_dir() . '/snogs-cache',
+    'storage'   => ROOT . 'storage'
+);
+
+/*
  * Application cache directory
  */
 $app['application.cache_dir'] = sys_get_temp_dir() . '/snogs-cache/application';
