@@ -30,16 +30,6 @@ use Symfony\Component\HttpFoundation\Request;
 class StudentsImportController extends Controller
 {
     /**
-     * @var \App\Components\Cache Cache component instance
-     */
-    private $cache;
-
-    public function __construct()
-    {
-        $this->cache = Cache::newInstance();
-    }
-
-    /**
      * Student import wizard index
      * 
      * URL: /dashboard/students/import
@@ -63,7 +53,7 @@ class StudentsImportController extends Controller
         Session::remove('sw_selected_sheets');
         Session::remove('sw_import_done');
 
-        $this->cache->remove('omega_sheet');
+        Cache::getInstance()->remove('omega_sheet');
 
         $form = Form::create();
         $fs = new Filesystem();
@@ -122,11 +112,11 @@ class StudentsImportController extends Controller
 
         /* Check if spreadsheet contents is cached in the session database
            Used remove the need to load the spreadsheet file again, thus saving time */
-        if (!$contents = $this->cache->get('omega_sheet')) {
+        if (!$contents = Cache::getInstance()->get('omega_sheet')) {
             set_time_limit(0);
             
             $contents = StudentSheet::parse($uploadedFile)->getSheetContents(0);
-            $this->cache->put('omega_sheet', $contents);
+            Cache::getInstance()->put('omega_sheet', $contents);
         }
 
         $form = Form::create();
@@ -179,7 +169,7 @@ class StudentsImportController extends Controller
         Session::remove('sw_uploaded_file');
         Session::remove('sw_import_done');
 
-        $this->cache->remove('omega_sheet');
+        Cache::getInstance()->remove('omega_sheet');
 
         @unlink($uploadedFile);
 

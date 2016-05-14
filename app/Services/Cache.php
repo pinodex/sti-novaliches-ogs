@@ -19,12 +19,24 @@ use App\Components\Cache as BasicCache;
 class Cache extends Service
 {
     /**
+     * @var \App\Components\Cache Cache instance
+     */
+    private static $instance;
+
+    /**
      * Get new instance of \App\Components\Cache component
      * 
      * @return \App\Components\Cache
      */
-    public static function newInstance()
+    public static function getInstance()
     {
-        return new BasicCache(self::$app['application.cache_dir'], self::$app['session']->getId());
+        if (static::$instance === null) {
+            static::$instance = new BasicCache(
+                self::$app['application.cache_dir'],
+                self::$app['session']->getId()
+            );
+        }
+        
+        return static::$instance;
     }
 }

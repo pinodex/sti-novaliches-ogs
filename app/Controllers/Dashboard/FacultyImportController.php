@@ -29,16 +29,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class FacultyImportController extends Controller
 {
     /**
-     * @var \App\Components\Cache Cache component instance
-     */
-    private $cache;
-
-    public function __construct()
-    {
-        $this->cache = Cache::newInstance();
-    }
-
-    /**
      * Faculty import redirector
      * 
      * URL: /dashboard/faculty/import/
@@ -62,7 +52,7 @@ class FacultyImportController extends Controller
         Session::remove('fw_selected_sheets');
         Session::remove('fw_import_done');
 
-        $this->cache->remove('faculty_sheet');
+        Cache::getInstance()->remove('faculty_sheet');
 
         $form = Form::create();
 
@@ -135,7 +125,7 @@ class FacultyImportController extends Controller
             if ($previousData = Session::get('fw_selected_sheets')) {
                 // Check if there are changes to sheet selection before busting the cache
                 if ($previousData != $data) {
-                    $this->cache->remove('faculty_sheet');
+                    Cache::getInstance()->remove('faculty_sheet');
                 }
             }
 
@@ -165,11 +155,11 @@ class FacultyImportController extends Controller
 
         /* Check if spreadsheet contents is cached in the session database
            Used remove the need to load the spreadsheet file again, thus saving time */
-        if (!$contents = $this->cache->get('faculty_sheet')) {
+        if (!$contents = Cache::getInstance()->get('faculty_sheet')) {
             set_time_limit(0);
             
             $contents = FacultySheet::parse($uploadedFile)->getSheetsContent($selectedSheets);
-            $this->cache->put('faculty_sheet', $contents);
+            Cache::getInstance()->put('faculty_sheet', $contents);
         }
 
         $form = Form::create();
@@ -218,7 +208,7 @@ class FacultyImportController extends Controller
         Session::remove('fw_selected_sheets');
         Session::remove('fw_import_done');
 
-        $this->cache->remove('faculty_sheet');
+        Cache::getInstance()->remove('faculty_sheet');
         
         @unlink($uploadedFile);
         
