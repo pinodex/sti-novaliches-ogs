@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>App\Services\Importer\StudentImporter | API</title>
+    <title>App\Components\Importer\GradeImporter | API</title>
 
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:App_Services_Importer_StudentImporter" data-root-path="../../../">
+    <body id="class" data-name="class:App_Components_Importer_GradeImporter" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -64,25 +64,25 @@
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
                                                             <li><a href="../../../App.html">App</a></li>
-                                        <li><a href="../../../App/Services.html">Services</a></li>
-                                        <li><a href="../../../App/Services/Importer.html">Importer</a></li>
+                                        <li><a href="../../../App/Components.html">Components</a></li>
+                                        <li><a href="../../../App/Components/Importer.html">Importer</a></li>
     
-                <li>StudentImporter</li>
+                <li>GradeImporter</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
-        <h1>StudentImporter</h1>
+        <h1>GradeImporter</h1>
     </div>
 
     <p>    class
-    <strong>StudentImporter</strong>        implements
-        <a href="../../../App/Services/Importer/ImporterInterface.html"><abbr title="App\Services\Importer\ImporterInterface">ImporterInterface</abbr></a>
+    <strong>GradeImporter</strong>        implements
+        <a href="../../../App/Components/Importer/ImporterInterface.html"><abbr title="App\Components\Importer\ImporterInterface">ImporterInterface</abbr></a>
 </p>
 
             <div class="description">
-            <p>Student Sheet importer</p>                    </div>
+            <p>Grading Sheet importer</p>                    </div>
     
     
     
@@ -96,7 +96,9 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_import">import</a>($data)
+                    <a href="#method_import">import</a>(
+    array $sheets, 
+    <a href="../../../App/Models/Faculty.html"><abbr title="App\Models\Faculty">Faculty</abbr></a> $importedBy = null)
                                             <p>Import sheets</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -108,10 +110,12 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_import">
-        <div class="location">at line         line 21</div>
+        <div class="location">at line         line 27</div>
         <code>        static            
     
-    <strong>import</strong>($data)</code>
+    <strong>import</strong>(
+    array $sheets, 
+    <a href="../../../App/Models/Faculty.html"><abbr title="App\Models\Faculty">Faculty</abbr></a> $importedBy = null)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -121,8 +125,15 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
-                <td>$data</td>
+                <td>
+    array</td>
+                <td>$sheets</td>
+                <td>Sheets to import</td>
+            </tr>
+                    <tr>
+                <td>
+    <a href="../../../App/Models/Faculty.html"><abbr title="App\Models\Faculty">Faculty</abbr></a></td>
+                <td>$importedBy</td>
                 <td></td>
             </tr>
             </table>
