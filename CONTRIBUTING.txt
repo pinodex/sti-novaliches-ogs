@@ -71,6 +71,8 @@ This software uses MVC (model-view-controller) pattern.
  * Traits - contains class methods that are used in many classes
  * Views - contains HTML template files for view rendering
 
+Please follow the pattern as close as possible.
+
 -- REMARKS --
 
 This may be a lot, but it helps the code to be cleaner and easier to maintain.

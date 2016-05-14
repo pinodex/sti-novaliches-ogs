@@ -15,11 +15,12 @@ use Silex\Application;
 use App\Models\Student;
 use App\Services\View;
 use App\Services\Form;
+use App\Services\Cache;
 use App\Services\Session;
 use App\Services\FlashBag;
-use App\Services\Parser\StudentSheet;
-use App\Services\Importer\StudentImporter;
 use App\Controllers\Controller;
+use App\Components\Parser\StudentSheet;
+use App\Components\Importer\StudentImporter;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -28,6 +29,16 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class StudentsImportController extends Controller
 {
+    /**
+     * @var \App\Components\Cache Cache component instance
+     */
+    private $cache;
+
+    public function __construct()
+    {
+        $this->cache = Cache::newInstance();
+    }
+
     /**
      * Student import wizard index
      * 
@@ -51,7 +62,8 @@ class StudentsImportController extends Controller
         Session::remove('sw_uploaded_file');
         Session::remove('sw_selected_sheets');
         Session::remove('sw_import_done');
-        Session::remove('sw_contents');
+
+        $this->cache->remove('omega_sheet');
 
         $form = Form::create();
         $fs = new Filesystem();
@@ -110,11 +122,11 @@ class StudentsImportController extends Controller
 
         /* Check if spreadsheet contents is cached in the session database
            Used remove the need to load the spreadsheet file again, thus saving time */
-        if (!$contents = Session::get('sw_contents')) {
+        if (!$contents = $this->cache->get('omega_sheet')) {
             set_time_limit(0);
             
             $contents = StudentSheet::parse($uploadedFile)->getSheetContents(0);
-            Session::set('sw_contents', $contents);
+            $this->cache->put('omega_sheet', $contents);
         }
 
         $form = Form::create();
@@ -166,7 +178,8 @@ class StudentsImportController extends Controller
         // cleanup
         Session::remove('sw_uploaded_file');
         Session::remove('sw_import_done');
-        Session::remove('sw_contents');
+
+        $this->cache->remove('omega_sheet');
 
         @unlink($uploadedFile);
 

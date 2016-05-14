@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Services\Importer;
+namespace App\Components\Importer;
 
 use App\Models\Grade;
 use App\Models\Faculty;

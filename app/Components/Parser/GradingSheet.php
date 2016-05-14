@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Services\Parser;
+namespace App\Components\Parser;
 
-use App\Services\Parser;
+use App\Components\Parser;
 use App\Services\Helper;
 
 /**

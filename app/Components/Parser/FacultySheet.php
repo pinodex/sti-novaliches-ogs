@@ -9,15 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Services\Parser;
+namespace App\Components\Parser;
 
-use App\Services\Parser;
-use App\Services\Helper;
+use App\Components\Parser;
 
 /**
- * Student Sheet parser
+ * Faculty Sheet parser
  */
-class StudentSheet extends Parser
+class FacultySheet extends Parser
 {
     public function getSheetContents($index)
     {
@@ -25,13 +24,20 @@ class StudentSheet extends Parser
         $this->changeSheet($index);
 
         foreach ($this->spreadsheet as $i => $row) {
-            if ($i > 0 && Helper::isStudentId($row[0])) {
+            if ($i >= 4) {
+                if (empty($row[3]) &&
+                    empty($row[4]) &&
+                    empty($row[5]) &&
+                    empty($row[8])) {
+
+                    continue;
+                }
+
                 $output[] = array(
-                    'id'            => $row[0],
-                    'last_name'     => $row[1],
-                    'first_name'    => $row[2],
-                    'middle_name'   => $row[3],
-                    'course'        => $row[4]
+                    'last_name' => trim($row[3]),
+                    'first_name' => trim($row[4]),
+                    'middle_name' => trim($row[5]),
+                    'department' => trim($row[8])
                 );
             }
         }

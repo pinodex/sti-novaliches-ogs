@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Services;
+namespace App\Components;
 
 use SpreadsheetReader;
 

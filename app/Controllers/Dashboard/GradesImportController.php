@@ -14,11 +14,12 @@ namespace App\Controllers\Dashboard;
 use Silex\Application;
 use App\Services\View;
 use App\Services\Form;
+use App\Services\Cache;
 use App\Services\Session;
 use App\Services\FlashBag;
-use App\Services\Parser\GradingSheet;
-use App\Services\Importer\GradeImporter;
 use App\Controllers\Controller;
+use App\Components\Parser\GradingSheet;
+use App\Components\Importer\GradeImporter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -27,6 +28,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class GradesImportController extends Controller
 {
+    /**
+     * @var \App\Components\Cache Cache component instance
+     */
+    private $cache;
+
+    public function __construct()
+    {
+        $this->cache = Cache::newInstance();
+    }
+
     /**
      * Grade import wizard redirector
      * 
@@ -50,7 +61,8 @@ class GradesImportController extends Controller
         Session::remove('gw_uploaded_file');
         Session::remove('gw_selected_sheets');
         Session::remove('gw_import_done');
-        Session::remove('gw_contents');
+
+        $this->cache->remove('grading_sheet');
 
         $form = Form::create();
 
@@ -146,7 +158,7 @@ class GradesImportController extends Controller
             if ($previousData = Session::get('gw_selected_sheets')) {
                 // Check if there are changes to sheet selection before busting the cache
                 if ($previousData != $data) {
-                    Session::remove('gw_contents');
+                    $this->cache->remove('grading_sheet');
                 }
             }
 
@@ -176,11 +188,11 @@ class GradesImportController extends Controller
 
         /* Check if spreadsheet contents is cached in the session database
            Used remove the need to load the spreadsheet file again, thus saving time */
-        if (!$contents = Session::get('gw_contents')) {
+        if (!$contents = $this->cache->get('grading_sheet')) {
             set_time_limit(0);
             
             $contents = GradingSheet::parse($uploadedFile)->getSheetsContent($selectedSheets);
-            Session::set('gw_contents', $contents);
+            $this->cache->put('grading_sheet', $contents);
         }
 
         $form = Form::create();
@@ -235,7 +247,8 @@ class GradesImportController extends Controller
         Session::remove('gw_uploaded_file');
         Session::remove('gw_selected_sheets');
         Session::remove('gw_import_done');
-        Session::remove('gw_contents');
+
+        $this->cache->remove('grading_sheet');
         
         @unlink($uploadedFile);
         

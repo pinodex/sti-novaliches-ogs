@@ -14,11 +14,12 @@ namespace App\Controllers\Dashboard;
 use Silex\Application;
 use App\Services\View;
 use App\Services\Form;
+use App\Services\Cache;
 use App\Services\Session;
 use App\Services\FlashBag;
-use App\Services\Parser\FacultySheet;
-use App\Services\Importer\FacultyImporter;
 use App\Controllers\Controller;
+use App\Components\Parser\FacultySheet;
+use App\Components\Importer\FacultyImporter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -27,6 +28,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class FacultyImportController extends Controller
 {
+    /**
+     * @var \App\Components\Cache Cache component instance
+     */
+    private $cache;
+
+    public function __construct()
+    {
+        $this->cache = Cache::newInstance();
+    }
+
     /**
      * Faculty import redirector
      * 
@@ -50,7 +61,8 @@ class FacultyImportController extends Controller
         Session::remove('fw_uploaded_file');
         Session::remove('fw_selected_sheets');
         Session::remove('fw_import_done');
-        Session::remove('fw_contents');
+
+        $this->cache->remove('faculty_sheet');
 
         $form = Form::create();
 
@@ -123,7 +135,7 @@ class FacultyImportController extends Controller
             if ($previousData = Session::get('fw_selected_sheets')) {
                 // Check if there are changes to sheet selection before busting the cache
                 if ($previousData != $data) {
-                    Session::remove('fw_contents');
+                    $this->cache->remove('faculty_sheet');
                 }
             }
 
@@ -153,11 +165,11 @@ class FacultyImportController extends Controller
 
         /* Check if spreadsheet contents is cached in the session database
            Used remove the need to load the spreadsheet file again, thus saving time */
-        if (!$contents = Session::get('fw_contents')) {
+        if (!$contents = $this->cache->get('faculty_sheet')) {
             set_time_limit(0);
             
             $contents = FacultySheet::parse($uploadedFile)->getSheetsContent($selectedSheets);
-            Session::set('fw_contents', $contents);
+            $this->cache->put('faculty_sheet', $contents);
         }
 
         $form = Form::create();
@@ -205,7 +217,8 @@ class FacultyImportController extends Controller
         Session::remove('fw_uploaded_file');
         Session::remove('fw_selected_sheets');
         Session::remove('fw_import_done');
-        Session::remove('fw_contents');
+
+        $this->cache->remove('faculty_sheet');
         
         @unlink($uploadedFile);
         
