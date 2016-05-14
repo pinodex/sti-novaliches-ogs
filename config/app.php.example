@@ -19,18 +19,18 @@ $app['debug'] = false;
 /*
  * Application cache directory
  */
-$app['application.cache_dir'] = ROOT . 'cache/application';
+$app['application.cache_dir'] = sys_get_temp_dir() . '/snogs-cache/application';
 
 /*
  * Profiler options
  */
-$app['profiler.cache_dir'] = ROOT . 'cache/profiler';
+$app['profiler.cache_dir'] = sys_get_temp_dir() . '/snogs-cache/profiler';
 
 /*
  * Twig options
  */
 $app['twig.options'] = array(
-    'cache' => ROOT . 'cache/twig'
+    'cache' => sys_get_temp_dir() . '/snogs-cache/twig'
 );
 
 /*
