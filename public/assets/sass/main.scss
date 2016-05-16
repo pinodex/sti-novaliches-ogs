@@ -231,7 +231,7 @@ input[type="button"], button, .button {
     @extend button.info;
 }
 
-a.button[disabled] {
+a.button[disabled]:not(.link) {
     pointer-events: none;
     cursor: default;
 }

@@ -914,7 +914,7 @@ input[type="button"][disabled], button[disabled], .button[disabled] {
   opacity: 0.75;
 }
 
-a.button[disabled], .button[disabled].link {
+a.button[disabled]:not(.link), .button[disabled].link:not(.link) {
   pointer-events: none;
   cursor: default;
 }
