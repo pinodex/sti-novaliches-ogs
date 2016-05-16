@@ -139,6 +139,10 @@ class DepartmentsController extends Controller
             $department->save();
 
             FlashBag::add('messages', 'success>>>Department has been saved');
+
+            if ($mode == 'add') {
+                return $app->redirect($app->path('dashboard.departments'));
+            }
             
             return $app->redirect($app->path('dashboard.departments.view', array(
                 'id' => $department->id
