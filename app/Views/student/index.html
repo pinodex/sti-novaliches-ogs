@@ -88,10 +88,6 @@
                                     <span class="long">Pre-final</span>
                                     <span class="short">3</span>
                                 </th>
-                                <th>
-                                    <span class="long">Final</span>
-                                    <span class="short">4</span>
-                                </th>
                             </tr>
                         </thead>
 
@@ -102,7 +98,6 @@
                                     <td class="{{ grade.prelim_grade|grade_class }}">{{ grade.prelim_grade }}</td>
                                     <td class="{{ grade.midterm_grade|grade_class }}">{{ grade.midterm_grade }}</td>
                                     <td class="{{ grade.prefinal_grade|grade_class }}">{{ grade.prefinal_grade }}</td>
-                                    <td class="{{ grade.final_grade|grade_class }}">{{ grade.final_grade }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>

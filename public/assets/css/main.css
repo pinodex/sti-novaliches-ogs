@@ -1230,6 +1230,9 @@ table thead th .long {
 table tbody tr:nth-child(even) {
   background: #eee;
 }
+table tbody td {
+  vertical-align: top;
+}
 table tbody td.none {
   color: #999;
 }

@@ -601,6 +601,8 @@ table {
         }
 
         td {
+            vertical-align: top;
+            
             &.none {
                 color: #999;
             }

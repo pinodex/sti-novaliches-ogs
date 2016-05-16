@@ -182,11 +182,12 @@ class Grade extends Model
         $section = $section->toArray()['section'];
         $period = $period . '_grade';
 
-        return self::with('student')->where(array(
-            'section' => $section,
-            'subject' => $subject
-        ))->whereNotNull($period)->orderBy($period, 'DESC')->take(5)->get(array(
-            $period, 'student_id'
-        ))->toArray();
+        return self::with('student')
+            ->where(array('section' => $section, 'subject' => $subject))
+            ->whereNotNull($period)
+            ->orderBy($period, 'DESC')
+            ->take(5)
+            ->get(array($period, 'student_id'))
+            ->toArray();
     }
 }
