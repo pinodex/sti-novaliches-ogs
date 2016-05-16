@@ -849,12 +849,14 @@ input[type="button"], button, .button {
   padding: 10px 15px;
   margin-bottom: 15px;
   cursor: pointer;
+  background: #5bc0de;
+  color: #fff;
 }
-input[type="button"] *.primary, button *.primary, .button *.primary {
+input[type="button"].primary, button.primary, .button.primary {
   background: #428bca;
   color: #fff;
 }
-input[type="button"] *.primary:not([disabled]):hover, button *.primary:not([disabled]):hover, .button *.primary:not([disabled]):hover {
+input[type="button"].primary:not([disabled]):hover, button.primary:not([disabled]):hover, .button.primary:not([disabled]):hover {
   background: #3071a9;
 }
 input[type="button"].success, button.success, .button.success {
@@ -887,14 +889,14 @@ input[type="button"].danger:not([disabled]):hover, button.danger:not([disabled])
 input[type="button"].danger.active, button.danger.active, .button.danger.active {
   background: #c9302c;
 }
-input[type="button"].info, button.info, input[type="button"], button, .button, .button.info {
+input[type="button"].info, button.info, .button.info {
   background: #5bc0de;
   color: #fff;
 }
-input[type="button"].info:not([disabled]):hover, button.info:not([disabled]):hover, input[type="button"]:not([disabled]):hover, button:not([disabled]):hover, .button:not([disabled]):hover, .button.info:not([disabled]):hover {
+input[type="button"].info:not([disabled]):hover, button.info:not([disabled]):hover, .button.info:not([disabled]):hover {
   background: #31b0d5;
 }
-input[type="button"].info.active, button.info.active, input.active[type="button"], button.active, .active.button, .button.info.active {
+input[type="button"].info.active, button.info.active, .button.info.active {
   background: #31b0d5;
 }
 input[type="button"].neutral, button.neutral, .button.neutral {
@@ -912,6 +914,9 @@ input[type="button"].link, button.link, .button.link {
 }
 input[type="button"][disabled], button[disabled], .button[disabled] {
   opacity: 0.75;
+}
+input[type="button"].active, button.active, .button.active {
+  background: #31b0d5;
 }
 
 a.button[disabled]:not(.link), .button[disabled].link:not(.link) {

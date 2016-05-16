@@ -144,7 +144,10 @@ input[type="button"], button, .button {
     margin-bottom: 15px;
     cursor: pointer;
 
-    *.primary {
+    background: $brand-info;
+    color: #fff;
+
+    &.primary {
         background: $brand-primary;
         color: #fff;
 
@@ -228,7 +231,9 @@ input[type="button"], button, .button {
         opacity: 0.75;
     }
 
-    @extend button.info;
+    &.active {
+        background: $brand-info-hover;
+    }
 }
 
 a.button[disabled]:not(.link) {
