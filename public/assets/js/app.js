@@ -96,6 +96,10 @@
 
         activateTab: function(index) {
             this.activeTab = index;
+        },
+
+        printDocument: function() {
+            window.print();
         }
     };
 
@@ -106,24 +110,40 @@
     });
 
     var currentPage = getQueryVar('page');
+    var tabSwitcher = document.querySelector('[data-activated-tab]');
+    var mediumEditable = document.querySelector('.medium-editable');
 
     if (currentPage) {
         app.$set('paginationPage', currentPage);
     }
 
-    var tabSwitcher = document.querySelector('[data-activated-tab]');
-
     if (tabSwitcher) {
         app.activateTab(tabSwitcher.getAttribute('data-activated-tab'));
     }
 
-    /*
-    History.Adapter.bind(window, 'statechange', function() {
-        var state = History.getState();
-
-
-    });
-    */
+    if (mediumEditable) {
+        new MediumEditor(mediumEditable, {
+            imageDragging: false,
+            toolbar: {
+                buttons: [
+                    'h1',
+                    'h2',
+                    'bold',
+                    'italic',
+                    'underline',
+                    'justifyLeft',
+                    'justifyCenter',
+                    'justifyRight',
+                    'justifyFull',
+                    'orderedlist',
+                    'unorderedlist',
+                    'indent',
+                    'outdent',
+                    'removeFormat'
+                ]
+            }
+        });
+    }
    
     window.app = app;
 }());

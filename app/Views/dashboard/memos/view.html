@@ -1,0 +1,23 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'View memo' %}
+
+{% block content %}
+    <div class="container">
+        <div class="grid">
+            <div class="column-offset-2 column-8">
+                <img src="/assets/img/logo-print.png" alt="Logo" class="print-visible" />
+
+                <h2>{{ memo.subject }}</h2>
+
+                <div class="memo-content">
+                    {{ memo.content|raw }}
+                </div>
+
+                <div class="print-invisible">
+                    <button class="neutral" v-on:click="printDocument()">Print document</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

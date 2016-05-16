@@ -19,11 +19,15 @@
     <meta property="og:url" content="{{ app.request.uri }}" />
     <meta property="og:description" content="View your grades online." />
     <meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() }}/assets/img/og-image.png" />
-    {% if app.debug %}
-        <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
-    {% else %}
-        <link rel="stylesheet" type="text/css" href="/assets/css/main.min.css" />
-    {% endif %}
+    
+{% if app.debug %}
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/medium-editor.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/medium-theme.css" />
+{% else %}
+    <link rel="stylesheet" type="text/css" href="/assets/css/compiled.css" />
+{% endif %}
+
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
     <link rel="apple-touch-icon" sizes="57x57" href="/assets/icon/apple-touch-icon-57x57.png" />
     <link rel="apple-touch-icon" sizes="60x60" href="/assets/icon/apple-touch-icon-60x60.png" />
@@ -48,7 +52,7 @@
     <title>{{ page_title }} - STI College Novaliches</title>
 </head>
 <body class="{{ body_class | default('') }}" id="app">
-    <div class="top-bar{{ current_user is null ? ' not-logged-in' }}">
+    <div class="top-bar{{ current_user is null ? ' not-logged-in' }} print-invisible">
         <div class="container">
             <button class="nav-toggle" v-on:click="toggleNav()">
                 <span class="icon-menu"></span>
@@ -106,11 +110,15 @@
         {% block content %}{% endblock %}
     </div>
 
-    {% if app.debug %}
-        <script src="/assets/js/vue.js"></script>
-        <script src="/assets/js/app.js"></script>
-    {% else %}
-        <script src="/assets/js/compiled.js"></script>
-    {% endif %}
+{% if use_medium_editor is defined %}
+    <script src="/assets/js/medium-editor.min.js"></script>
+{% endif %}
+
+{% if app.debug %}
+    <script src="/assets/js/vue.js"></script>
+    <script src="/assets/js/app.js"></script>
+{% else %}
+    <script src="/assets/js/compiled.js"></script>
+{% endif %}
 </body>
 </html>

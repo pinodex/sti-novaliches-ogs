@@ -33,6 +33,10 @@ body {
             padding-top: 120px;
         }
     }
+
+    @media print {
+        padding: 0;
+    }
 }
 
 *[v-show] {
@@ -106,7 +110,8 @@ h1 {
 
 input,
 select,
-textarea {
+textarea,
+div[contenteditable="true"] {
     box-sizing: border-box;
     margin-bottom: 15px;
 
@@ -115,6 +120,7 @@ textarea {
     }
 }
 
+div[contenteditable="true"],
 input[type="text"],
 input[type="password"],
 input[type="date"],
@@ -283,7 +289,7 @@ a.button {
     left: 0;
     top: 0;
     right: 0;
-    z-index: 999;
+    z-index: 9999;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 
     .container {
@@ -392,6 +398,15 @@ a.button {
         height: 50px;
         margin: 0;
     }
+
+    @media print {
+        background: none;
+        box-shadow: none;
+
+        nav, .nav-toggle {
+            display: none;
+        }   
+    }
 }
 
 .alert {
@@ -455,8 +470,12 @@ label {
 .form-group {
     margin-bottom: 15px;
 
+    label {
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+
     input, select {
-        margin-top: 5px;
         margin-bottom: 0;
     }
 
@@ -659,6 +678,14 @@ table {
             padding: 3px;
         }
     }
+
+    &.simple {
+        @extend table.colorless, table.borderless;
+
+        td {
+            padding: 0;
+        }
+    }
 }
 
 .tabs {
@@ -738,5 +765,19 @@ table {
         .text {
             padding-left: 10px;
         }
+    }
+}
+
+.print-visible {
+    display: none !important;
+}
+
+@media print {
+    .print-invisible {
+        display: none !important;
+    }
+
+    .print-visible {
+        display: block !important;
     }
 }

@@ -506,6 +506,11 @@ body {
     padding-top: 120px;
   }
 }
+@media print {
+  body {
+    padding: 0;
+  }
+}
 
 *[v-show] {
   display: none;
@@ -809,7 +814,8 @@ h1 {
 
 input,
 select,
-textarea {
+textarea,
+div[contenteditable="true"] {
   box-sizing: border-box;
   margin-bottom: 15px;
 }
@@ -817,10 +823,13 @@ input:focus, input.form-control:focus,
 select:focus,
 select.form-control:focus,
 textarea:focus,
-textarea.form-control:focus {
+textarea.form-control:focus,
+div[contenteditable="true"]:focus,
+div[contenteditable="true"].form-control:focus {
   box-shadow: none;
 }
 
+div[contenteditable="true"],
 input[type="text"],
 input[type="password"],
 input[type="date"],
@@ -965,7 +974,7 @@ a.button, input.button[type="button"].link, .button.link {
   left: 0;
   top: 0;
   right: 0;
-  z-index: 999;
+  z-index: 9999;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 }
 .top-bar .container {
@@ -1063,6 +1072,15 @@ a.button, input.button[type="button"].link, .button.link {
     margin: 0;
   }
 }
+@media print {
+  .top-bar {
+    background: none;
+    box-shadow: none;
+  }
+  .top-bar nav, .top-bar .nav-toggle {
+    display: none;
+  }
+}
 
 .alert {
   padding: 15px;
@@ -1112,8 +1130,11 @@ label {
 .form-group {
   margin-bottom: 15px;
 }
+.form-group label {
+  display: inline-block;
+  margin-bottom: 5px;
+}
 .form-group input, .form-group select {
-  margin-top: 5px;
   margin-bottom: 0;
 }
 .form-group.has-error .form-control:focus {
@@ -1252,16 +1273,16 @@ table th + td {
 table th, table td {
   padding: 10px;
 }
-table.borderless {
+table.borderless, table.simple {
   border: none;
 }
-table.borderless thead, table.borderless tbody, table.borderless tr, table.borderless td, table.borderless th {
+table.borderless thead, table.simple thead, table.borderless tbody, table.simple tbody, table.borderless tr, table.simple tr, table.borderless td, table.simple td, table.borderless th, table.simple th {
   border: none;
 }
-table.borderless td {
+table.borderless td, table.simple td {
   padding: 5px;
 }
-table.colorless tr:nth-child(even) {
+table.colorless tr:nth-child(even), table.simple tr:nth-child(even) {
   background: none;
 }
 table.center-align td {
@@ -1272,6 +1293,9 @@ table.small {
 }
 table.small td, table.small th {
   padding: 3px;
+}
+table.simple td {
+  padding: 0;
 }
 
 .tabs {
@@ -1341,6 +1365,20 @@ table.small td, table.small th {
 }
 .wizard-steps li .text {
   padding-left: 10px;
+}
+
+.print-visible {
+  display: none !important;
+}
+
+@media print {
+  .print-invisible {
+    display: none !important;
+  }
+
+  .print-visible {
+    display: block !important;
+  }
 }
 
 /*# sourceMappingURL=main.css.map */

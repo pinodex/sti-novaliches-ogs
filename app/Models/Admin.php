@@ -16,6 +16,7 @@ use App\Traits\HumanReadableDateTrait;
 use App\Traits\HashablePasswordTrait;
 use App\Traits\ConcatenateNameTrait;
 use App\Traits\SearchableTrait;
+use App\Traits\ChoosableTrait;
 
 /**
  * Admin model
@@ -24,7 +25,11 @@ use App\Traits\SearchableTrait;
  */
 class Admin extends Model
 {
-    use HumanReadableDateTrait, HashablePasswordTrait, ConcatenateNameTrait, SearchableTrait;
+    use HumanReadableDateTrait,
+        HashablePasswordTrait,
+        ConcatenateNameTrait,
+        SearchableTrait,
+        ChoosableTrait;
     
     protected $fillable = array(
         'username',
@@ -41,4 +46,14 @@ class Admin extends Model
     protected $appends = array(
         'name'
     );
+
+    /**
+     * Get name for choice display. Used by FormModelChoicesTrait
+     * 
+     * return string
+     */
+    public function getChoiceName()
+    {
+        return $this->name;
+    }
 }

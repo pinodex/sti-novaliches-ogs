@@ -55,7 +55,17 @@ module.exports = function(grunt){
                 banner: '/*! (c) 2016 Raphael Marco */\n',
             },
 
+            css: {
+                src: 'public/assets/css/*.min.css',
+                dest: 'public/assets/css/compiled.css'
+            },
+
             js: {
+                /*
+                    Explicitly selecting files unlike the CSS part as we also got the
+                    medium-editor.min.js file which weighs about 95kb but is only used
+                    in one page. It will be only loaded when needed.
+                 */
                 src: [
                     'public/assets/js/vue.min.js',
                     'public/assets/js/app.min.js'
