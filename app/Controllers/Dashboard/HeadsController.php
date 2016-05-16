@@ -46,7 +46,6 @@ class HeadsController extends Controller
         ));
         
         $form->add('name', 'text', array(
-            'label'     => 'Name',
             'required'  => false,
             'data'      => $request->query->get('name')
         ));
