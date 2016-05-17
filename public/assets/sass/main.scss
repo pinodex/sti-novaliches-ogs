@@ -230,6 +230,11 @@ input[type="button"], button, .button {
 
     &.link {
         background: transparent;
+
+        &:not([disabled]):hover {
+            background: transparent;
+        }
+
         @extend a;
     }
 

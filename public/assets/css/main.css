@@ -925,6 +925,9 @@ input[type="button"].neutral.active, button.neutral.active, .button.neutral.acti
 input[type="button"].link, button.link, .button.link {
   background: transparent;
 }
+input[type="button"].link:not([disabled]):hover, button.link:not([disabled]):hover, .button.link:not([disabled]):hover {
+  background: transparent;
+}
 input[type="button"][disabled], button[disabled], .button[disabled] {
   opacity: 0.75;
 }
