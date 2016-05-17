@@ -15,12 +15,12 @@
                 <div class="panel">
                     <div class="panel-heading">Choose sheets to import</div>
                     <div class="panel-body">
-                        <form method="post" action="{{ app.request.getRequestUri }}" v-on:submit="disableAction = true">
+                        <form method="post" action="{{ app.request.getRequestUri }}" @submit="disableAction = true">
                             {{ form_widget(choose_form) }}
 
                             <div class="buttons">
-                                <a href="{{ path('dashboard.faculty.import.1') }}" class="button neutral" v-bind:disabled="disableAction"><span class="icon-navigate_before"></span> Back</a>
-                                <button type="submit" class="success" v-bind:disabled="disableAction">Next <span class="icon-navigate_next"></span></button>
+                                <a href="{{ path('dashboard.faculty.import.1') }}" class="button neutral" :disabled="disableAction"><span class="icon-navigate_before"></span> Back</a>
+                                <button type="submit" class="success" :disabled="disableAction">Next <span class="icon-navigate_next"></span></button>
                             </div>
                         </form>
                     </div>

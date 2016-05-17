@@ -54,7 +54,7 @@
 <body class="{{ body_class | default('') }}" id="app">
     <div class="top-bar{{ current_user is null ? ' not-logged-in' }} print-invisible">
         <div class="container">
-            <button class="nav-toggle" v-on:click="toggleNav()">
+            <button class="nav-toggle" @click="toggleNav()">
                 <span class="icon-menu"></span>
             </button>
             
@@ -62,7 +62,7 @@
                 <img src="/assets/img/logo-horizontal.png" alt="Logo" />
             </div>
 
-            <nav v-bind:class="{'active': isNavActive}">
+            <nav :class="{'active': isNavActive}">
                 {% if current_user is not null %}
                     <ul class="left">
                         {% if current_user.getRole() != 'student' %}

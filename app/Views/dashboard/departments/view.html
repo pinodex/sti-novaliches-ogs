@@ -69,7 +69,7 @@
                     <div class="panel-heading">Faculty</div>
                     <div class="panel-body">
                         {% if result.data is not empty %}
-                            <select name="pages" v-on:change="changePaginationPage" v-model="paginationPage">
+                            <select name="pages" @change="changePaginationPage" v-model="paginationPage">
                                 {% for i in 1..result.last_page %}
                                     <option value="{{ i }}">Page {{ i }}</option>
                                 {% endfor %}

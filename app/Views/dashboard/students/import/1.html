@@ -15,10 +15,10 @@
                 <div class="panel">
                     <div class="panel-heading">Upload CSV file</div>
                     <div class="panel-body">
-                        <form method="post" action="{{ app.request.getRequestUri }}" enctype="multipart/form-data" v-on:submit="disableAction = true">
+                        <form method="post" action="{{ app.request.getRequestUri }}" enctype="multipart/form-data" @submit="disableAction = true">
                             {{ form_widget(upload_form) }}
 
-                            <button type="submit" class="success" v-bind:disabled="disableAction">Next <span class="icon-navigate_next"></span></button>
+                            <button type="submit" class="success" :disabled="disableAction">Next <span class="icon-navigate_next"></span></button>
                         </form>
                     </div>
                 </div>
