@@ -2,6 +2,10 @@
 
 {% form_theme search_form '/_layout/form-default.html' %}
 
+{% if composer_form is defined %}
+    {% form_theme compose_form '/_layout/form-default.html' %}
+{% endif %}
+
 {% set page_title = 'Memos' %}
 
 {% block content %}
@@ -20,6 +24,19 @@
                         </form>
                     </div>
                 </div>
+
+                {% if current_user.getRole() == 'admin' %}
+                    <div class="panel">
+                        <div class="panel-heading">Create memo</div>
+                        <div class="panel-body">
+                            <form method="get" action="{{ path('dashboard.memos.send') }}">
+                                {{ form_widget(compose_form) }}
+
+                                <button type="submit">Compose</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
 
             <div class="column-8">

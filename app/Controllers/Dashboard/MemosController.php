@@ -41,32 +41,48 @@ class MemosController extends Controller
             });
         }
 
-        $form = Form::create(null, array(
+        $vars = array();
+        $facultyChoices = Faculty::getFormChoices();
+
+        $searchForm = Form::create(null, array(
             'csrf_protection' => false
         ));
         
-        $form->add('subject', 'text', array(
+        $searchForm->add('subject', 'text', array(
             'required'  => false,
             'data'      => $request->query->get('subject')
         ));
 
         if (!$this->isRole('faculty')) {
-            $form->add('admin', 'choice', array(
+            $searchForm->add('admin', 'choice', array(
                 'label'     => 'By admin',
                 'required'  => false,
                 'data'      => $request->query->get('admin'),
                 'choices'   => Admin::getFormChoices()
             ));
 
-            $form->add('faculty', 'choice', array(
+            $searchForm->add('faculty', 'choice', array(
                 'label'     => 'To faculty',
                 'required'  => false,
                 'data'      => $request->query->get('faculty'),
-                'choices'   => Faculty::getFormChoices()
+                'choices'   => $facultyChoices
             ));
         }
 
-        $form = $form->getForm();
+        $vars['search_form'] = $searchForm->getForm()->createView();
+
+        if ($this->isRole('admin')) {
+            $composeForm = Form::create(null, array(
+                'csrf_protection' => false
+            ));
+
+            $composeForm->add('recipient', 'choice', array(
+                'choices'       => $facultyChoices,
+                'placeholder'   => 'Select recipient'
+            ));
+
+            $vars['compose_form'] = $composeForm->getForm()->createView();
+        }
         
         $subject = $request->query->get('subject');
         $adminId = $request->query->get('admin');
@@ -77,12 +93,9 @@ class MemosController extends Controller
             $facultyId = $this->user->getModel()->id;
         }
 
-        $result = Memo::search($subject, $adminId, $facultyId);
+        $vars['result'] = Memo::search($subject, $adminId, $facultyId)->toArray();
 
-        return View::render('dashboard/memos/index', array(
-            'search_form'   => $form->createView(),
-            'result'        => $result->toArray()
-        ));
+        return View::render('dashboard/memos/index', $vars);
     }
 
     /**
@@ -158,7 +171,7 @@ class MemosController extends Controller
             return $app->redirect($app->path('dashboard.memos'));
         }
 
-        if ($this->isRole('faculty')) {
+        if ($this->isRole('faculty') && $memo->opened_at === null) {
             $memo->opened_at = date('Y-m-d H:i:s');
             $memo->save();
         }
