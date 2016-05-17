@@ -131,8 +131,10 @@
 
                             <div class="column-4">
                                 <a class="dashboard-item{{ unread_memo_count > 0 ? ' has-notification' : '' }}" href="{{ path('dashboard.memos') }}">
+                                    {% if unread_memo_count > 0 %}
+                                        <span class="notification-count">{{ unread_memo_count }}</span>
+                                    {% endif %}
                                     <span class="icon-memos"></span>
-                                    <span class="notification-count">{{ unread_memo_count }}</span>
                                     <p>Memos</p>
                                 </a>
                             </div>
