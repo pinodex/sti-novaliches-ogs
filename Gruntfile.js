@@ -35,7 +35,7 @@ module.exports = function(grunt){
                     cwd:    'public/assets/css',
                     dest:   'public/assets/css',
                     ext:    '.min.css',
-                    src:    ['*.css', '!*.min.css']
+                    src:    ['*.css', '!compiled.css', '!*.min.css']
                 }]
             }
         },
