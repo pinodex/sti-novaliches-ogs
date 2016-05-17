@@ -516,7 +516,7 @@ body {
   }
 }
 
-*[v-show] {
+modal, [v-show] {
   display: none;
 }
 
@@ -1432,10 +1432,6 @@ table.simple td {
   background: rgba(0, 0, 0, 0.75);
   transition: opacity .3s ease;
   display: table;
-}
-
-.modal-mask-hidden {
-  display: none;
 }
 
 .modal-wrapper {

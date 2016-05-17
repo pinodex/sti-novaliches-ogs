@@ -126,7 +126,6 @@
     var currentPage = getQueryVar('page');
     var tabSwitcher = document.querySelector('[data-activated-tab]');
     var mediumEditable = document.querySelector('.medium-editable');
-    var modelMasks = document.querySelectorAll('.modal-mask');
 
     if (currentPage) {
         app.$set('paginationPage', currentPage);
@@ -159,10 +158,4 @@
             }
         });
     }
-
-    window.onload = function() {
-        for (var i = 0; i < modelMasks.length; i++) {
-            modelMasks[i].className = modelMasks[i].className.replace('modal-mask-hidden', '');
-        };
-    };
 }());
