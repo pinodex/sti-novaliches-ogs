@@ -40,6 +40,7 @@ class MainController extends Controller
             $faculty = $this->user->getModel();
 
             $vars['faculty'] = $faculty->toArray();
+            $vars['unread_memo_count'] = $faculty->getUnreadMemoCount();
             $vars['department'] = $faculty->department;
             
             $vars['statuses'] = array(

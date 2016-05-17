@@ -240,6 +240,10 @@ input[type="button"], button, .button {
     &.active {
         background: $brand-info-hover;
     }
+
+    &:not([disabled]):hover {
+        background: $brand-info-hover;
+    }
 }
 
 a.button[disabled]:not(.link) {
@@ -537,6 +541,20 @@ label {
     }
 }
 
+.box {
+    border: 1px solid #ccc;
+    padding: 15px;
+
+    h1:first-child,
+    h2:first-child,
+    h3:first-child,
+    h4:first-child,
+    h5:first-child,
+    h6:first-child {
+        margin: 0;
+    }
+}
+
 .dashboard-menu {
     .grid + .grid {
         margin-top: 15px;
@@ -555,6 +573,20 @@ label {
             font-size: 48px;
         }
 
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            height: 24px;
+            width: 24px;
+            color: #fff;
+            border-radius: 100%;
+            background: $brand-danger-hover;
+            line-height: 1.7;
+            font-weight: bold;
+            text-align: center;
+        }
+
         p {
             margin: 0;
             margin-top: 10px;
@@ -564,6 +596,14 @@ label {
             background: #006db7;
             border-color: #006db7;
             color: #fff;
+        }
+
+        &.has-notification {
+            position: relative;
+        }
+
+        &.has-notification:not(:hover) {
+            animation: 1s alert ease-in-out infinite;
         }
     }
 }
@@ -622,6 +662,10 @@ table {
     tbody {
         tr:nth-child(even) {
             background: #eee;
+        }
+
+        tr.emphasize {
+            font-weight: bold;
         }
 
         td {
@@ -779,5 +823,36 @@ table {
 
     .print-visible {
         display: block !important;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        background: rgba(92, 184, 92, 0);
+    }
+
+    50% {
+        background: rgba(92, 184, 92, 0.5);
+    }
+
+    100% {
+        background: rgba(92, 184, 92, 0);
+    }
+}
+
+@keyframes alert {
+    0% {
+        background: #fff;
+        border-color: #ccc;
+    }
+
+    50% {
+        background: #5cb85c;
+        border-color: #5cb85c;
+    }
+
+    100% {
+        background: #fff;
+        border-color: #ccc;
     }
 }

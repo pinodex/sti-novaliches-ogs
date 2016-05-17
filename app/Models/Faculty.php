@@ -76,6 +76,16 @@ class Faculty extends Model
     }
 
     /**
+     * Get associated memos
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\Relation
+     */
+    public function memos()
+    {
+        return $this->hasMany('App\Models\Memo');
+    }
+
+    /**
      * Get associated submission log
      * 
      * @return \Illuminate\Database\Eloquent\Relations\Relation
@@ -93,6 +103,16 @@ class Faculty extends Model
     public function submittedGrades()
     {
         return $this->hasMany('App\Models\Grade', 'importer_id');
+    }
+
+    /**
+     * Get unread memo count by faculty
+     * 
+     * @return int
+     */
+    public function getUnreadMemoCount()
+    {
+        return $this->memos()->getQuery()->whereNull('opened_at')->count();
     }
 
     /**

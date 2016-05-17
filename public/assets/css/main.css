@@ -382,8 +382,8 @@ table {
 
 @font-face {
   font-family: 'icomoon';
-  src: url("../fonts/icomoon.eot?ysonuf");
-  src: url("../fonts/icomoon.eot?ysonuf#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?ysonuf") format("truetype"), url("../fonts/icomoon.woff?ysonuf") format("woff"), url("../fonts/icomoon.svg?ysonuf#icomoon") format("svg");
+  src: url("../fonts/icomoon.eot?9ye6vp");
+  src: url("../fonts/icomoon.eot?9ye6vp#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?9ye6vp") format("truetype"), url("../fonts/icomoon.woff?9ye6vp") format("woff"), url("../fonts/icomoon.svg?9ye6vp#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -401,8 +401,24 @@ table {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-students:before {
+  content: "\f1ae";
+}
+
+.icon-grades:before {
+  content: "\f080";
+}
+
 .icon-wrench:before {
-  content: "\e900";
+  content: "\f0ad";
+}
+
+.icon-faculty:before {
+  content: "\f0c0";
+}
+
+.icon-memos:before {
+  content: "\f249";
 }
 
 .icon-maintenance:before {
@@ -413,12 +429,8 @@ table {
   content: "\e85e";
 }
 
-.icon-departments:before {
-  content: "\e871";
-}
-
-.icon-faculty:before {
-  content: "\e8a3";
+.icon-done:before {
+  content: "\e5ca";
 }
 
 .icon-navigate_before:before {
@@ -429,8 +441,8 @@ table {
   content: "\e409";
 }
 
-.icon-done:before {
-  content: "\e876";
+.icon-departments:before {
+  content: "\e871";
 }
 
 .icon-file_upload:before {
@@ -439,6 +451,10 @@ table {
 
 .icon-folder_shared:before {
   content: "\e2c9";
+}
+
+.icon-guidance:before {
+  content: "\e7fb";
 }
 
 .icon-help:before {
@@ -475,18 +491,6 @@ table {
 
 .icon-key:before {
   content: "\e0da";
-}
-
-.icon-grades:before {
-  content: "\f080";
-}
-
-.icon-guidance:before {
-  content: "\f0c0";
-}
-
-.icon-students:before {
-  content: "\f263";
 }
 
 html, body {
@@ -927,6 +931,9 @@ input[type="button"][disabled], button[disabled], .button[disabled] {
 input[type="button"].active, button.active, .button.active {
   background: #31b0d5;
 }
+input[type="button"]:not([disabled]):hover, button:not([disabled]):hover, .button:not([disabled]):hover {
+  background: #31b0d5;
+}
 
 a.button[disabled]:not(.link), .button[disabled].link:not(.link) {
   pointer-events: none;
@@ -1185,6 +1192,19 @@ label {
   margin-bottom: 0;
 }
 
+.box {
+  border: 1px solid #ccc;
+  padding: 15px;
+}
+.box h1:first-child,
+.box h2:first-child,
+.box h3:first-child,
+.box h4:first-child,
+.box h5:first-child,
+.box h6:first-child {
+  margin: 0;
+}
+
 .dashboard-menu .grid + .grid {
   margin-top: 15px;
 }
@@ -1200,6 +1220,19 @@ label {
 .dashboard-menu a.dashboard-item span[class^="icon-"], .dashboard-menu input.dashboard-item[type="button"].link span[class^="icon-"], .dashboard-menu button.dashboard-item.link span[class^="icon-"], .dashboard-menu .dashboard-item.button.link span[class^="icon-"] {
   font-size: 48px;
 }
+.dashboard-menu a.dashboard-item .notification-count, .dashboard-menu input.dashboard-item[type="button"].link .notification-count, .dashboard-menu button.dashboard-item.link .notification-count, .dashboard-menu .dashboard-item.button.link .notification-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  height: 24px;
+  width: 24px;
+  color: #fff;
+  border-radius: 100%;
+  background: #c9302c;
+  line-height: 1.7;
+  font-weight: bold;
+  text-align: center;
+}
 .dashboard-menu a.dashboard-item p, .dashboard-menu input.dashboard-item[type="button"].link p, .dashboard-menu button.dashboard-item.link p, .dashboard-menu .dashboard-item.button.link p {
   margin: 0;
   margin-top: 10px;
@@ -1208,6 +1241,12 @@ label {
   background: #006db7;
   border-color: #006db7;
   color: #fff;
+}
+.dashboard-menu a.dashboard-item.has-notification, .dashboard-menu input.dashboard-item.has-notification[type="button"].link, .dashboard-menu button.dashboard-item.has-notification.link, .dashboard-menu .dashboard-item.has-notification.button.link {
+  position: relative;
+}
+.dashboard-menu a.dashboard-item.has-notification:not(:hover), .dashboard-menu input.dashboard-item.has-notification[type="button"].link:not(:hover), .dashboard-menu button.dashboard-item.has-notification.link:not(:hover), .dashboard-menu .dashboard-item.has-notification.button.link:not(:hover) {
+  animation: 1s alert ease-in-out infinite;
 }
 
 .align-right {
@@ -1255,6 +1294,9 @@ table thead th .long {
 }
 table tbody tr:nth-child(even) {
   background: #eee;
+}
+table tbody tr.emphasize {
+  font-weight: bold;
 }
 table tbody td {
   vertical-align: top;
@@ -1378,6 +1420,31 @@ table.simple td {
 
   .print-visible {
     display: block !important;
+  }
+}
+@keyframes pulse {
+  0% {
+    background: rgba(92, 184, 92, 0);
+  }
+  50% {
+    background: rgba(92, 184, 92, 0.5);
+  }
+  100% {
+    background: rgba(92, 184, 92, 0);
+  }
+}
+@keyframes alert {
+  0% {
+    background: #fff;
+    border-color: #ccc;
+  }
+  50% {
+    background: #5cb85c;
+    border-color: #5cb85c;
+  }
+  100% {
+    background: #fff;
+    border-color: #ccc;
   }
 }
 

@@ -25,7 +25,7 @@ trait SearchableTrait
      * @param string|int $id    ID query
      * @param string     $name  Name query
      * 
-     * @param array
+     * @param \Illuminate\Pagination\LengthAwarePaginator
      */
     public static function search($id = null, $name = null)
     {

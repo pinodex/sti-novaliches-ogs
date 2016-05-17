@@ -50,33 +50,34 @@ class MemosController extends Controller
             'data'      => $request->query->get('subject')
         ));
 
-        $form->add('admin', 'choice', array(
-            'label'     => 'By admin',
-            'required'  => false,
-            'data'      => $request->query->get('admin'),
-            'choices'   => Admin::getFormChoices()
-        ));
+        if (!$this->isRole('faculty')) {
+            $form->add('admin', 'choice', array(
+                'label'     => 'By admin',
+                'required'  => false,
+                'data'      => $request->query->get('admin'),
+                'choices'   => Admin::getFormChoices()
+            ));
 
-        $form->add('faculty', 'choice', array(
-            'label'     => 'To faculty',
-            'required'  => false,
-            'data'      => $request->query->get('faculty'),
-            'choices'   => Faculty::getFormChoices()
-        ));
+            $form->add('faculty', 'choice', array(
+                'label'     => 'To faculty',
+                'required'  => false,
+                'data'      => $request->query->get('faculty'),
+                'choices'   => Faculty::getFormChoices()
+            ));
+        }
 
         $form = $form->getForm();
         
-        $result = Memo::with('faculty', 'admin')->where(function (Builder $query) use ($request) {
-            $query->where('subject', 'LIKE', '%' . $request->query->get('subject') . '%');
+        $subject = $request->query->get('subject');
+        $adminId = $request->query->get('admin');
+        $facultyId = $request->query->get('faculty');
+        
+        if ($this->isRole('faculty')) {
+            $adminId = null;
+            $facultyId = $this->user->getModel()->id;
+        }
 
-            if ($adminId = $request->query->get('admin')) {
-                $query->where('admin_id', $admin);
-            }
-
-            if ($facultyId = $request->query->get('faculty')) {
-                $query->where('faculty_id', $facultyId);
-            }
-        })->orderBy('id', 'DESC')->paginate();
+        $result = Memo::search($subject, $adminId, $facultyId);
 
         return View::render('dashboard/memos/index', array(
             'search_form'   => $form->createView(),
@@ -89,7 +90,7 @@ class MemosController extends Controller
      * 
      * URL: /dashboard/memos/add
      */
-    public function add(Request $request, Application $app)
+    public function send(Request $request, Application $app)
     {
         if (!$recipient = $request->query->get('recipient')) {
             FlashBag::add('messages', 'danger>>>No valid recipient');
@@ -133,7 +134,7 @@ class MemosController extends Controller
             return $app->redirect($app->path('dashboard.memos'));
         }
 
-        return View::render('dashboard/memos/add', array(
+        return View::render('dashboard/memos/send', array(
             'form'              => $form->createView(),
             'recipient_name'    => $faculty->name,
             'use_medium_editor' => true
@@ -155,6 +156,11 @@ class MemosController extends Controller
         if ($this->isRole('faculty') && $this->user->getModel()->id != $memo->faculty->id) {
             FlashBag::add('messages', 'danger>>>You don\'t have permission to view this memo');
             return $app->redirect($app->path('dashboard.memos'));
+        }
+
+        if ($this->isRole('faculty')) {
+            $memo->opened_at = date('Y-m-d H:i:s');
+            $memo->save();
         }
 
         return View::render('dashboard/memos/view', array(

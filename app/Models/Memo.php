@@ -28,6 +28,10 @@ class Memo extends Model
         'content'
     );
 
+    protected $appends = array(
+        'is_unread'
+    );
+
     /**
      * Get admin associated with the memo
      * 
@@ -46,5 +50,43 @@ class Memo extends Model
     public function faculty()
     {
         return $this->belongsTo('App\Models\Faculty');
+    }
+
+    /**
+     * Getter for is_unread
+     * 
+     * @return boolean
+     */
+    public function getIsUnreadAttribute()
+    {
+        return $this->opened_at === null;
+    }
+
+    /**
+     * Search memo
+     * 
+     * @param string $subject Memo subject
+     * @param int $adminId Admin associated with memo
+     * @param int $facultyId Faculty associated with memo
+     * 
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public static function search($subject = null, $adminId = null, $facultyId = null)
+    {
+        $memos = static::with('faculty', 'admin');
+
+        if ($subject) {
+            $memos->where('subject', 'LIKE', '%' . $subject . '%');
+        }
+
+        if ($adminId) {
+            $memos->where('admin_id', $adminId);
+        }
+
+        if ($facultyId) {
+            $memos->where('faculty_id', $facultyId);
+        }
+
+        return $memos->orderBy('id', 'DESC')->paginate();
     }
 }

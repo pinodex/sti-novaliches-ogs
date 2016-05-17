@@ -49,6 +49,11 @@ class FacultyProvider implements AuthProviderInterface
                 'stepThree',
                 'stepFour',
             ),
+
+            'App\Controllers\Dashboard\MemosController' => array(
+                'index',
+                'view'
+            )
         );
     }
     

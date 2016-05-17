@@ -56,4 +56,14 @@ class Admin extends Model
     {
         return $this->name;
     }
+
+    /**
+     * Get associated memos
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\Relation
+     */
+    public function memos()
+    {
+        return $this->hasMany('App\Models\Memo');
+    }
 }

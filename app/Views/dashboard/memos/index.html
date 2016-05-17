@@ -20,13 +20,6 @@
                         </form>
                     </div>
                 </div>
-
-                <div class="panel">
-                    <div class="panel-heading">Actions</div>
-                    <div class="panel-body">
-                        <a href="{{ path('dashboard.memos.add') }}">Add new memo</a>
-                    </div>
-                </div>
             </div>
 
             <div class="column-8">
@@ -42,18 +35,22 @@
                     <table class="center-align">
                         <thead>
                             <tr>
-                                <th>
-                                    <span class="long">Recipient</span>
-                                    <span class="short">R</span>
-                                </th>
+                                {% if current_user.getRole() != 'faculty' %}
+                                    <th>
+                                        <span class="long">Recipient</span>
+                                        <span class="short">R</span>
+                                    </th>
+                                {% endif %}
                                 <th>
                                     <span class="long">Subject</span>
                                     <span class="short">S</span>
                                 </th>
-                                <th>
-                                    <span class="long">Sender</span>
-                                    <span class="short">S</span>
-                                </th>
+                                {% if current_user.getRole() != 'faculty' %}
+                                    <th>
+                                        <span class="long">Sender</span>
+                                        <span class="short">S</span>
+                                    </th>
+                                {% endif %}
                                 <th>
                                     <span class="long">Actions</span>
                                     <span class="short">A</span>
@@ -63,10 +60,17 @@
 
                         <tbody>
                             {% for row in result.data %}
-                                <tr>
-                                    <td>{{ row.faculty.name }}</td>
+                                <tr{{ row.is_unread ? ' class="emphasize"' : '' }}>
+                                    {% if current_user.getRole() != 'faculty' %}
+                                        <td>{{ row.faculty.name }}</td>
+                                    {% endif %}
+
                                     <td>{{ row.subject }}</td>
-                                    <td>{{ row.admin_id ? row.admin.name : 'N/A' }}</td>
+
+                                    {% if current_user.getRole() != 'faculty' %}
+                                        <td>{{ row.admin_id ? row.admin.name : 'N/A' }}</td>
+                                    {% endif %}
+                                    
                                     <td>
                                         <a href="{{ path('dashboard.memos.view', {id: row.id}) }}">View</a>
                                     </td>

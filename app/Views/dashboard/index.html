@@ -67,12 +67,21 @@
                             </div>
 
                             <div class="column-4">
+                                <a class="dashboard-item" href="{{ path('dashboard.memos') }}">
+                                    <span class="icon-memos"></span>
+                                    <p>Memos</p>
+                                </a>
+                            </div>
+
+                            <div class="column-4">
                                 <a class="dashboard-item" href="{{ path('dashboard.settings') }}">
                                     <span class="icon-wrench"></span>
                                     <p>Settings</p>
                                 </a>
                             </div>
+                        </div>
 
+                        <div class="grid">
                             <div class="column-4">
                                 <a class="dashboard-item" href="{{ path('dashboard.settings.maintenance') }}">
                                     <span class="icon-maintenance"></span>
@@ -106,17 +115,25 @@
                 {% if current_user.getRole() == 'faculty' %}
                     <div class="dashboard-menu">
                         <div class="grid">
-                            <div class="column-6">
+                            <div class="column-4">
                                 <a class="dashboard-item" href="{{ path('dashboard.students') }}">
                                     <span class="icon-students"></span>
                                     <p>My Students</p>
                                 </a>
                             </div>
 
-                            <div class="column-6">
+                            <div class="column-4">
                                 <a class="dashboard-item" href="{{ path('dashboard.grades.import') }}">
                                     <span class="icon-file_upload"></span>
                                     <p>Import Grades</p>
+                                </a>
+                            </div>
+
+                            <div class="column-4">
+                                <a class="dashboard-item{{ unread_memo_count > 0 ? ' has-notification' : '' }}" href="{{ path('dashboard.memos') }}">
+                                    <span class="icon-memos"></span>
+                                    <span class="notification-count">{{ unread_memo_count }}</span>
+                                    <p>Memos</p>
                                 </a>
                             </div>
                         </div>
