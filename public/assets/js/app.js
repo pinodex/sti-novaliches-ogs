@@ -160,9 +160,9 @@
         });
     }
 
-    for (var i = 0; i < modelMasks.length; i++) {
-        modelMasks[i].className = modelMasks[i].className.replace('modal-mask-hidden', '');
+    window.onload = function() {
+        for (var i = 0; i < modelMasks.length; i++) {
+            modelMasks[i].className = modelMasks[i].className.replace('modal-mask-hidden', '');
+        };
     };
-   
-    window.app = app;
 }());
