@@ -1434,6 +1434,10 @@ table.simple td {
   display: table;
 }
 
+.modal-mask-hidden {
+  display: none;
+}
+
 .modal-wrapper {
   display: table-cell;
   vertical-align: middle;
