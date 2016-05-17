@@ -68,7 +68,7 @@
     };
 
     var appMethods = {
-        toggleNav: function () {
+        toggleNav: function() {
             this.isNavActive = !this.isNavActive;
         },
 
@@ -108,12 +108,25 @@
 
     Vue.component('modal', {
         template: '#modal-template',
+        
         props: {
             show: {
                 type: Boolean,
                 required: true,
                 twoWay: true    
             }
+        },
+
+        methods: {
+            escapeClose: function(e) {
+                if (this.show && e.keyCode == 27) {
+                    this.show = false;
+                }
+            }
+        },
+
+        ready: function() {
+            document.addEventListener('keydown', this.escapeClose);
         }
     })
 
