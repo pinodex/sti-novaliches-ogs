@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>App\Controllers\Dashboard\GradesImportController | API</title>
+    <title>App\Controllers\Dashboard\MemosController | API</title>
 
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:App_Controllers_Dashboard_GradesImportController" data-root-path="../../../">
+    <body id="class" data-name="class:App_Controllers_Dashboard_MemosController" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -67,21 +67,21 @@
                                         <li><a href="../../../App/Controllers.html">Controllers</a></li>
                                         <li><a href="../../../App/Controllers/Dashboard.html">Dashboard</a></li>
     
-                <li>GradesImportController</li>
+                <li>MemosController</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
-        <h1>GradesImportController</h1>
+        <h1>MemosController</h1>
     </div>
 
     <p>    class
-    <strong>GradesImportController</strong>        extends <a href="../../../App/Controllers/Controller.html"><abbr title="App\Controllers\Controller">Controller</abbr></a>
+    <strong>MemosController</strong>        extends <a href="../../../App/Controllers/Controller.html"><abbr title="App\Controllers\Controller">Controller</abbr></a>
 </p>
 
             <div class="description">
-            <p>Route controller for grade pages</p>                    </div>
+            <p>Route controller for memos management pages</p>                    </div>
     
     
     
@@ -171,8 +171,8 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_index">index</a>(
-    <abbr title="Silex\Application">Application</abbr> $app)
-                                            <p>Grade import wizard redirector</p>                </div>
+    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request)
+                                            <p>Memos index page</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -181,10 +181,10 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_stepOne">stepOne</a>(
+                    <a href="#method_send">send</a>(
     <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
     <abbr title="Silex\Application">Application</abbr> $app)
-                                            <p>Grade import wizard step 1</p>                </div>
+                                            <p>Memo add page</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -193,33 +193,10 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_stepTwo">stepTwo</a>(
+                    <a href="#method_view">view</a>(
     <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
-    <abbr title="Silex\Application">Application</abbr> $app)
-                                            <p>Grade import wizard step 2</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_stepThree">stepThree</a>(
-    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
-    <abbr title="Silex\Application">Application</abbr> $app)
-                                            <p>Grade import wizard step 3</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_stepFour">stepFour</a>(
-    <abbr title="Silex\Application">Application</abbr> $app)
-                                            <p>Grade import wizard step 4</p>                </div>
+    <abbr title="Silex\Application">Application</abbr> $app, $id)
+                                            <p>Memo add page</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -379,19 +356,19 @@
         <code>                    
     
     <strong>index</strong>(
-    <abbr title="Silex\Application">Application</abbr> $app)</code>
+    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Grade import wizard redirector</p>                    <p>URL: /dashboard/grades/import</p>            </div>
+                                    <p>Memos index page</p>                    <p>URL: /dashboard/memos/</p>            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
                 <td>
-    <abbr title="Silex\Application">Application</abbr></td>
-                <td>$app</td>
+    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr></td>
+                <td>$request</td>
                 <td></td>
             </tr>
             </table>
@@ -404,17 +381,17 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_stepOne">
-        <div class="location">at line         line 45</div>
+                    <h3 id="method_send">
+        <div class="location">at line         line 106</div>
         <code>                    
     
-    <strong>stepOne</strong>(
+    <strong>send</strong>(
     <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
     <abbr title="Silex\Application">Application</abbr> $app)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Grade import wizard step 1</p>                    <p>URL: /dashboard/grades/import/1</p>            </div>
+                                    <p>Memo add page</p>                    <p>URL: /dashboard/memos/add</p>            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -441,17 +418,17 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_stepTwo">
-        <div class="location">at line         line 117</div>
+                    <h3 id="method_view">
+        <div class="location">at line         line 162</div>
         <code>                    
     
-    <strong>stepTwo</strong>(
+    <strong>view</strong>(
     <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
-    <abbr title="Silex\Application">Application</abbr> $app)</code>
+    <abbr title="Silex\Application">Application</abbr> $app, $id)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Grade import wizard step 2</p>                    <p>URL: /dashboard/grades/import/2</p>            </div>
+                                    <p>Memo add page</p>                    <p>URL: /dashboard/memos/{id}</p>            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -468,71 +445,9 @@
                 <td>$app</td>
                 <td></td>
             </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_stepThree">
-        <div class="location">at line         line 170</div>
-        <code>                    
-    
-    <strong>stepThree</strong>(
-    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
-    <abbr title="Silex\Application">Application</abbr> $app)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Grade import wizard step 3</p>                    <p>URL: /dashboard/grades/import/3</p>            </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
                     <tr>
-                <td>
-    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr></td>
-                <td>$request</td>
                 <td></td>
-            </tr>
-                    <tr>
-                <td>
-    <abbr title="Silex\Application">Application</abbr></td>
-                <td>$app</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_stepFour">
-        <div class="location">at line         line 223</div>
-        <code>                    
-    
-    <strong>stepFour</strong>(
-    <abbr title="Silex\Application">Application</abbr> $app)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Grade import wizard step 4</p>                    <p>URL: /dashboard/grades/import/4</p>            </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>
-    <abbr title="Silex\Application">Application</abbr></td>
-                <td>$app</td>
+                <td>$id</td>
                 <td></td>
             </tr>
             </table>

@@ -118,6 +118,14 @@
                     Gives a model method to search by id or name
                 </div>
             </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="../../App/Traits/ChoosableTrait.html"><abbr title="App\Traits\ChoosableTrait">ChoosableTrait</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Gives a model method to get array of data for form choices
+                </div>
+            </div>
             </div>
     
     
@@ -242,6 +250,16 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
+                    static&nbsp;
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFormChoices">getFormChoices</a>()
+                                            <p>Get department list for form choices</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/ChoosableTrait.html#method_getFormChoices"><abbr title="App\Traits\ChoosableTrait">ChoosableTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
                 </div>
@@ -266,6 +284,16 @@
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
                 </div>
                 <div class="col-md-8 type">
+                    <a href="#method_memos">memos</a>()
+                                            <p>Get associated memos</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_submissionLogs">submissionLogs</a>()
                                             <p>Get associated submission log</p>                </div>
                 <div class="col-md-2"></div>
@@ -278,6 +306,16 @@
                 <div class="col-md-8 type">
                     <a href="#method_submittedGrades">submittedGrades</a>()
                                             <p>Get submitted grades</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getUnreadMemoCount">getUnreadMemoCount</a>()
+                                            <p>Get unread memo count by faculty</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -359,6 +397,16 @@
                     <a href="#method_getNumberOfDropsAttribute">getNumberOfDropsAttribute</a>(
     string $period = null)
                                             <p>Get number<em>of</em>drops attribute</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getChoiceName">getChoiceName</a>()
+                                            <p>Get name for choice display. Used by FormModelChoicesTrait</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -627,8 +675,26 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_getFormChoices">
+        <div class="location">in <a href="../../App/Traits/ChoosableTrait.html#method_getFormChoices"><abbr title="App\Traits\ChoosableTrait">ChoosableTrait</abbr></a> at line         line 26</div>
+        <code>        static            
+    
+    <strong>getFormChoices</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get department list for form choices</p>                    <p>return array</p>            </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_department">
-        <div class="location">at line         line 58</div>
+        <div class="location">at line         line 63</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>department</strong>()</code>
@@ -656,7 +722,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_head">
-        <div class="location">at line         line 68</div>
+        <div class="location">at line         line 73</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>head</strong>()</code>
@@ -683,8 +749,36 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_memos">
+        <div class="location">at line         line 83</div>
+        <code>                    
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
+    <strong>memos</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get associated memos</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_submissionLogs">
-        <div class="location">at line         line 78</div>
+        <div class="location">at line         line 93</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>submissionLogs</strong>()</code>
@@ -712,7 +806,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_submittedGrades">
-        <div class="location">at line         line 88</div>
+        <div class="location">at line         line 103</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>submittedGrades</strong>()</code>
@@ -739,8 +833,36 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_getUnreadMemoCount">
+        <div class="location">at line         line 113</div>
+        <code>                    
+    int
+    <strong>getUnreadMemoCount</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get unread memo count by faculty</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    int</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_getStatusAttribute">
-        <div class="location">at line         line 98</div>
+        <div class="location">at line         line 123</div>
         <code>                    
     string
     <strong>getStatusAttribute</strong>($period = null)</code>
@@ -778,7 +900,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getFirstGradeImportAtAttribute">
-        <div class="location">at line         line 120</div>
+        <div class="location">at line         line 145</div>
         <code>                    
     string
     <strong>getFirstGradeImportAtAttribute</strong>($period = null)</code>
@@ -816,7 +938,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getIsNeverSubmittedAttribute">
-        <div class="location">at line         line 136</div>
+        <div class="location">at line         line 161</div>
         <code>                    
     boolean
     <strong>getIsNeverSubmittedAttribute</strong>($period = null)</code>
@@ -854,7 +976,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getIsIncompleteAttribute">
-        <div class="location">at line         line 147</div>
+        <div class="location">at line         line 172</div>
         <code>                    
     boolean
     <strong>getIsIncompleteAttribute</strong>($period = null)</code>
@@ -892,7 +1014,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getIsValidAttribute">
-        <div class="location">at line         line 180</div>
+        <div class="location">at line         line 205</div>
         <code>                    
     boolean
     <strong>getIsValidAttribute</strong>()</code>
@@ -920,7 +1042,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getIsSubmittedLateAttribute">
-        <div class="location">at line         line 232</div>
+        <div class="location">at line         line 257</div>
         <code>                    
     boolean
     <strong>getIsSubmittedLateAttribute</strong>($period = null)</code>
@@ -958,7 +1080,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getNumberOfFailsAttribute">
-        <div class="location">at line         line 255</div>
+        <div class="location">at line         line 280</div>
         <code>                    
     integer
     <strong>getNumberOfFailsAttribute</strong>($period = null)</code>
@@ -996,7 +1118,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getNumberOfDropsAttribute">
-        <div class="location">at line         line 276</div>
+        <div class="location">at line         line 301</div>
         <code>                    
     integer
     <strong>getNumberOfDropsAttribute</strong>(
@@ -1035,8 +1157,26 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_getChoiceName">
+        <div class="location">at line         line 320</div>
+        <code>                    
+    
+    <strong>getChoiceName</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get name for choice display. Used by FormModelChoicesTrait</p>                    <p>return string</p>            </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_addSubmissionLogEntry">
-        <div class="location">at line         line 293</div>
+        <div class="location">at line         line 328</div>
         <code>                    
     
     <strong>addSubmissionLogEntry</strong>()</code>
