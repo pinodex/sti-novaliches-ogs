@@ -57,11 +57,14 @@
 
     var appData = {
         isNavActive: false,
-        isLoginBoxShowed: true,
-        isHelpBoxShowed: false,
         disableAction: false,
         paginationPage: 1,
-        activeTab: 0
+        activeTab: 0,
+        
+        modals: {
+            confirm: false,
+            helpBox: false
+        }
     };
 
     var appMethods = {
@@ -102,6 +105,17 @@
             window.print();
         }
     };
+
+    Vue.component('modal', {
+        template: '#modal-template',
+        props: {
+            show: {
+                type: Boolean,
+                required: true,
+                twoWay: true    
+            }
+        }
+    })
 
     var app = new Vue({
         el: '#app',

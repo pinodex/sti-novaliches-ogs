@@ -174,7 +174,7 @@ class DepartmentsController extends Controller
         $form = $form->getForm();
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isValid() || $this->isTokenValid('departments.delete', $request)) {
             $department->delete();
 
             FlashBag::add('messages', 'info>>>Department has been deleted');

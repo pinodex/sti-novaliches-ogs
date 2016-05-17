@@ -151,7 +151,7 @@ class AdminsController extends Controller
         $form = $form->getForm();
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isValid() || $this->isTokenValid('admins.delete', $request)) {
             if ($this->isRole('admin') && $this->user->getModel()->id == $admin->id) {
                 FlashBag::add('messages', 'danger>>>You are not allowed to commit suicide');
                 return $app->redirect($app->path('dashboard.admins'));

@@ -7,7 +7,7 @@
 
 {% block content %}
     <div class="container">
-        <div class="grid" v-show="isLoginBoxShowed" transition="fade">
+        <div class="grid">
             <div class="column-4 column-offset-4">
                 <h1><span class="icon-lock"></span> Login</h1>
 
@@ -30,26 +30,23 @@
                     </div>
 
                     <div class="align-right">
-                        <button type="button" class="link" v-on:click="showHelpBox()">Help</button>
+                        <button type="button" class="link" @click="modals.helpBox = true">Help</button>
                         <button type="submit">Login <span class="icon-arrow_forward"></span></button>
                     </div>
                 </form>
             </div>
         </div>
-
-        <div class="grid" v-show="isHelpBoxShowed" transition="fade">
-            <div class="column-4 column-offset-4">
-                <h1><span class="icon-help"></span> Help</h1>
-                <h3>Instructions</h3>
-            
-                <ol>
-                    <li>Enter student number. Both hyphenated <em>(021-2016-1234)</em> and non-hyphenated <em>(02120161234)</em> formats are accepted.</li>
-                    <li>Enter your middle name as the password. If it doesn't work, try entering your middle initial.</li>
-                    <li>If you are still unable to login, you may visit the Academic Head Office and look for Mr. Noriel Domondon</li>
-                </ol>
-            
-                <button type="button" class="link" v-on:click="showLoginBox()">Back to login</button>
-            </div>
-        </div>
     </div>
+
+    <modal :show.sync="modals.helpBox">
+        <h3 slot="header">Login instructions</h3>
+        
+        <div slot="body">
+            <ol>
+                <li>Enter student number. Both hyphenated <em>(021-2016-1234)</em> and non-hyphenated <em>(02120161234)</em> formats are accepted.</li>
+                <li>Enter your middle name as the password. If it doesn't work, try entering your middle initial.</li>
+                <li>If you are still unable to login, you may visit the Academic Head Office and look for Mr. Noriel Domondon</li>
+            </ol>
+        </div>
+    </modal>
 {% endblock %}

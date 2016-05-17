@@ -152,7 +152,7 @@ class GuidanceController extends Controller
         $form = $form->getForm();
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isValid() || $this->isTokenValid('guidance.delete', $request)) {
             $guidance->delete();
 
             FlashBag::add('messages', 'info>>>Guidance account has been deleted');

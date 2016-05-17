@@ -27,4 +27,12 @@
             </div>
         </div>
     </div>
+
+    <modal :show.sync="{{ current_user.getModel().is_required_info_filled ? 'false' : 'true' }}">
+        <h3 slot="header">Hi {{ current_user.getModel().name | title }}!</h3>
+        
+        <div slot="body">
+            <p>Please complete your student information first before continuing.</p>
+        </div>
+    </modal>
 {% endblock %}

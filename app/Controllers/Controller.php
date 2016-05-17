@@ -12,6 +12,7 @@
 namespace App\Controllers;
 
 use App\Services\Auth;
+use App\Services\Csrf;
 
 /**
  * Base controller
@@ -70,5 +71,10 @@ class Controller
     protected function isNotLoggedIn()
     {
         return $this->user === null;
+    }
+
+    protected function isTokenValid($identifier, $request)
+    {
+        return Csrf::isValid($identifier, $request->request->get('_token'));
     }
 }

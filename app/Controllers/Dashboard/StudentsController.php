@@ -287,7 +287,7 @@ class StudentsController extends Controller
         $form = $form->getForm();
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isValid() || $this->isTokenValid('students.delete', $request)) {
             $student->delete();
 
             FlashBag::add('messages', 'info>>>Student has been deleted');

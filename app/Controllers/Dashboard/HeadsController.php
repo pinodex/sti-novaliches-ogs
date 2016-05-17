@@ -171,7 +171,7 @@ class HeadsController extends Controller
         $form = $form->getForm();
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isValid() || $this->isTokenValid('heads.delete', $request)) {
             $head->delete();
 
             FlashBag::add('messages', 'info>>>Head account has been deleted');

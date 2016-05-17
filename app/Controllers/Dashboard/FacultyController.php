@@ -275,7 +275,7 @@ class FacultyController extends Controller
         $form = $form->getForm();
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isValid() || $this->isTokenValid('faculty.delete', $request)) {
             $faculty->delete();
 
             FlashBag::add('messages', 'info>>>Faculty account has been deleted');
