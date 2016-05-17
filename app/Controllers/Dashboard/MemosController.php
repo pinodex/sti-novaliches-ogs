@@ -126,7 +126,7 @@ class MemosController extends Controller
                 'class' => 'medium-editable'
             ),
 
-            'data' => View::render('_templates/faculty-memo')
+            'data' => file_get_contents($app['twig.path'] . '/_templates/faculty-memo.html')
         ));
 
         $form = $form->getForm();
