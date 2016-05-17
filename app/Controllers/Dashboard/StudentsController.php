@@ -161,12 +161,13 @@ class StudentsController extends Controller
         $form->add('course', 'text');
 
         $form->add('mobile_number', 'text', array(
-            'label' => 'Mobile number *',
             'constraints' => new Assert\Regex(array(
                 'pattern'   => '/(0|63|\+63)[\d+]{10}/',
                 'message'   => 'Please enter a valid mobile number',
                 'match'     => true
-            ))
+            )),
+
+            'required' => false
         ));
 
         $form->add('landline', 'text', array(
@@ -180,25 +181,29 @@ class StudentsController extends Controller
         ));
 
         $form->add('email_address', 'text', array(
-            'label'       => 'Email address *',
-            'constraints' => new Assert\Email()
+            'constraints' => new Assert\Email(),
+            'required' => false
         ));
 
         $form->add('address', 'textarea', array(
-            'label' => 'Address *'
+            'label' => 'Address',
+            'required' => false
         ));
 
         $form->add('guardian_name', 'text', array(
-            'label' => 'Name of guardian/parent *'
+            'label' => 'Name of guardian/parent',
+            'required' => false
         ));
 
         $form->add('guardian_contact_number', 'text', array(
-            'label' => 'Guardian\'s/Parent\'s contact no. *',
+            'label' => 'Guardian\'s/Parent\'s contact no.',
             'constraints' => new Assert\Regex(array(
                 'pattern'   => '/([\d+]{3}[\d+]{4})|([\d+]{3}-[\d+]{4})|((0|63|\+63)[\d+]{10})/',
                 'message'   => 'Please enter a valid mobile number or landline',
                 'match'     => true
-            ))
+            )),
+
+            'required' => false
         ));
 
         $form = $form->getForm();
