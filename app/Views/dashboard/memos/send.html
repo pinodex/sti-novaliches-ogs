@@ -11,8 +11,8 @@
         <div class="grid">
             <div class="column-offset-2 column-8">
                 <div class="form-group">
-                    <label class="control-label required" for="recipient">Recipient</label>
-                    <input type="text" id="subject" name="recipient" required="required" class="form-control" value="{{ recipient_name }}" readonly />
+                    <label>Recipient</label>
+                    <p style="margin-top: 0;">{{ recipient_name }}</p>
                 </div>
 
                 <form method="post" action="{{ app.request.getRequestUri }}">
