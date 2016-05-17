@@ -55,7 +55,10 @@ $app->before(function (Request $request, Application $app) {
 
 $app->after(function (Request $request, Response $response) {
     $response->headers->add(array(
-        'X-Frame-Options'   => 'SAMEORIGIN'
+        'X-Frame-Options'   => 'SAMEORIGIN',
+        'Cache-Control'     => 'no-cache, no-store, max-age=0, must-revalidate',
+        'Pragma'            => 'no-cache',
+        'Expires'           => 'Thu, 9 Sept 1999 09:00:00 GMT'
     ));
 });
 
