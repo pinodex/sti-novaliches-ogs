@@ -28,4 +28,24 @@ class View extends Service
     {
         return self::$app['twig']->render($templateName . '.html', $vars);
     }
+
+    /**
+     * Simple rendering of view without Twig
+     * 
+     * @param string $templateName Template name
+     * @param array $vars Template variables
+     * 
+     * @return string
+     */
+    public static function simpleRender($templateName, $vars = array())
+    {
+        foreach ($vars as $key => $value) {
+            $vars['{{ ' . $key . ' }}'] = $value;
+            unset($vars[$key]);
+        }
+
+        $path = self::$app['twig.path'] . '/' . $templateName . '.html';
+
+        return strtr(file_get_contents($path), $vars);
+    }
 }
