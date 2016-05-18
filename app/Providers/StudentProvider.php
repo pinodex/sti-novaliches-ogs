@@ -13,6 +13,7 @@ namespace App\Providers;
 
 use App\Models\Student;
 use App\Services\User;
+use App\Services\Helper;
 
 /**
  * Student account provider
@@ -41,12 +42,15 @@ class StudentProvider implements AuthProviderInterface
 
     public function attempt($username, $password)
     {
-        $user = Student::where(array(
-            'id'            => self::parseId($username),
-            'middle_name'   => strtoupper($password)
-        ))->first();
+        $user = Student::find($username);
 
-        if ($user) {
+        if (!$user) {
+            return false;
+        }
+
+        if ($user->middle_name == strtoupper($password) ||
+            Helper::convertAccents($user->middle_name) == strtoupper($password)) {
+
             return new User($this, $user);
         }
 
