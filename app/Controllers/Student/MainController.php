@@ -14,6 +14,7 @@ namespace App\Controllers\Student;
 use Silex\Application;
 use App\Services\Form;
 use App\Services\View;
+use App\Services\Helper;
 use App\Services\Settings;
 use App\Services\FlashBag;
 use App\Controllers\Controller;
@@ -131,7 +132,13 @@ class MainController extends Controller
     public function account(Request $request, Application $app)
     {
         $user = $this->user->getModel();
-        $form = Form::create($user->toArray());
+        $formData = $user->toArray();
+
+        if ($formData['email_address'] === null) {
+            $formData['email_address'] = Helper::toSchoolEmail($user->first_name, $user->last_name);
+        }
+
+        $form = Form::create($formData);
 
         $form->add('mobile_number', 'text', array(
             'label' => 'Mobile number *',
@@ -153,8 +160,14 @@ class MainController extends Controller
         ));
 
         $form->add('email_address', 'text', array(
-            'label'       => 'Email address *',
-            'constraints' => new Assert\Email()
+            'label'         => 'Email address *',
+            'constraints'   => array(
+                new Assert\Email(),
+                new Assert\Regex(array(
+                    'pattern'   => '/\@novaliches\.sti\.edu$/',
+                    'message'   => 'You must use your @novaliches.sti.edu email'
+                ))
+            )
         ));
 
         $form->add('address', 'textarea', array(
@@ -186,7 +199,8 @@ class MainController extends Controller
         }
 
         return View::render('student/account', array(
-            'settings_form' => $form->createView()
+            'settings_form'     => $form->createView(),
+            'display_prompt'    => $user->is_required_info_filled === false && $request->getMethod() == 'GET'
         ));
     }
 }
