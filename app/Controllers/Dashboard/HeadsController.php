@@ -130,7 +130,7 @@ class HeadsController extends Controller
         if ($form->isValid()) {
             $data = $form->getData();
 
-            if ($data['department_id'] == '0') {
+            if ($data['department_id'] == 0) {
                 $data['department_id'] = null;
             }
 

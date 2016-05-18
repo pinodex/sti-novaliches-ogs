@@ -48,16 +48,6 @@ class Admin extends Model
     );
 
     /**
-     * Get name for choice display. Used by FormModelChoicesTrait
-     * 
-     * return string
-     */
-    public function getChoiceName()
-    {
-        return $this->name;
-    }
-
-    /**
      * Get associated memos
      * 
      * @return \Illuminate\Database\Eloquent\Relations\Relation

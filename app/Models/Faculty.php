@@ -313,16 +313,6 @@ class Faculty extends Model
     }
 
     /**
-     * Get name for choice display. Used by FormModelChoicesTrait
-     * 
-     * return string
-     */
-    public function getChoiceName()
-    {
-        return $this->name;
-    }
-
-    /**
      * Add submission log entry
      */
     public function addSubmissionLogEntry()

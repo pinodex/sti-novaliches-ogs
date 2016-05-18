@@ -16,6 +16,7 @@ use App\Traits\HumanReadableDateTrait;
 use App\Traits\HashablePasswordTrait;
 use App\Traits\ConcatenateNameTrait;
 use App\Traits\SearchableTrait;
+use App\Traits\ChoosableTrait;
 use App\Services\Hash;
 
 /**
@@ -25,7 +26,11 @@ use App\Services\Hash;
  */
 class Head extends Model
 {
-    use HumanReadableDateTrait, HashablePasswordTrait, ConcatenateNameTrait, SearchableTrait;
+    use HumanReadableDateTrait,
+        HashablePasswordTrait,
+        ConcatenateNameTrait,
+        SearchableTrait,
+        ChoosableTrait;
 
     protected $fillable = array(
         'username',

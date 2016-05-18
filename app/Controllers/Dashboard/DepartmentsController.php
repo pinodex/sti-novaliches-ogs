@@ -14,6 +14,7 @@ namespace App\Controllers\Dashboard;
 use Silex\Application;
 use App\Services\View;
 use App\Services\Form;
+use App\Models\Head;
 use App\Models\Department;
 use App\Services\FlashBag;
 use App\Controllers\Controller;
@@ -127,16 +128,37 @@ class DepartmentsController extends Controller
         $id && $mode = 'edit';
         $form = Form::create($department->toArray());
 
+        $heads = Head::getFormChoices();
+        $heads['0'] = 'No assignment';
+
         $form->add('name', 'text', array(
             'label' => 'Department Name'
+        ));
+
+        $form->add('head', 'choice', array(
+            'choices'   => $heads,
+            'data'      => $department->head ? $department->head->id : 0
         ));
 
         $form = $form->getForm();
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $department->fill($form->getData());
+            $data = $form->getData();
+
+            $department->name = $data['name'];
             $department->save();
+
+            if ($data['head'] != 0) {
+                $head = Head::find($data['head']);
+                
+                $head->department_id = $department->id;
+                $head->save();
+            } else {
+                $head = Head::where('department_id', $department->id)->update(array(
+                    'department_id' => null
+                ));
+            }
 
             FlashBag::add('messages', 'success>>>Department has been saved');
 

@@ -37,4 +37,14 @@ trait ChoosableTrait
 
         return array_combine($keys, $values);
     }
+
+    /**
+     * Get name for choice display.
+     * 
+     * return string
+     */
+    public function getChoiceName()
+    {
+        return $this->name;
+    }
 }

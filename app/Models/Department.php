@@ -51,14 +51,4 @@ class Department extends Model
     {
         return $this->hasMany('App\Models\Faculty');
     }
-
-    /**
-     * Get name for choice display. Used by FormModelChoicesTrait
-     * 
-     * return string
-     */
-    public function getChoiceName()
-    {
-        return $this->name;
-    }
 }
