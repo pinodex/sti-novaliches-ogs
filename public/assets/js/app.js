@@ -60,6 +60,12 @@
         disableAction: false,
         paginationPage: 1,
         activeTab: 0,
+
+        summaryTabs: {
+            period: 'prelim',
+            status: 'all',
+            remark: 'all'
+        },
         
         modals: {
             confirm: false,

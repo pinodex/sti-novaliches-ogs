@@ -7,14 +7,43 @@
         <h1>{{ page_title }}</h1>
         
         <div class="grid">
-            <div class="column-12">
-                <ul class="tabs" data-activated-tab="{{ active_period }}">
-                    <li @click="activateTab(0)" :class="{'active': activeTab == 0}">Prelim</li>
-                    <li @click="activateTab(1)" :class="{'active': activeTab == 1}">Midterm</li>
-                    <li @click="activateTab(2)" :class="{'active': activeTab == 2}">Prefinal</li>
-                    <li @click="activateTab(3)" :class="{'active': activeTab == 3}">Final</li>
-                </ul>
+            <div class="column-3 print-invisible">
+                <div class="panel">
+                    <div class="panel-heading">Filter result</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="control-label" for="period">Period</label>
+                            <select v-model="summaryTabs.period" id="period">
+                                <option value="prelim">Prelim</option>
+                                <option value="midterm">Midterm</option>
+                                <option value="prefinal">Prefinal</option>
+                                <option value="final">Final</option>
+                            </select>
+                        </div>
 
+                        <div class="form-group">
+                            <label class="control-label" for="status">Status</label>
+                            <select v-model="summaryTabs.status" id="status">
+                                <option value="all">All</option>
+                                <option value="Submitted">Submitted</option>
+                                <option value="Submitted late">Submitted late</option>
+                                <option value="Never submitted">Never submitted</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="remark">Remarks</label>
+                            <select v-model="summaryTabs.remark" id="remark">
+                                <option value="all">All</option>
+                                <option value="1">Valid</option>
+                                <option value="0">Invalid</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column-9">
                 <table class="center-align">
                     <thead>
                         <tr>
@@ -23,37 +52,26 @@
                             <th>Remarks</th>
                             <th>Failed</th>
                             <th>Dropped</th>
-                            <th>Report</th>
+                            <th class="print-invisible">Report</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {% for faculty in faculty %}
-                            <tr>
-                                <td>{{ faculty.name }}</td>
-                                <td>
-                                    <span v-show="activeTab == 0">{{ faculty.getStatusAttribute('prelim') }}</span>
-                                    <span v-show="activeTab == 1">{{ faculty.getStatusAttribute('midterm') }}</span>
-                                    <span v-show="activeTab == 2">{{ faculty.getStatusAttribute('prefinal') }}</span>
-                                    <span v-show="activeTab == 3">{{ faculty.getStatusAttribute('final') }}</span>
-                                </td>
-                                <td>{{ faculty.is_valid ? 'Valid' : 'Invalid' }}</td>
-                                <td>
-                                    <span v-show="activeTab == 0">{{ faculty.getNumberOfFailsAttribute('prelim') }}</span>
-                                    <span v-show="activeTab == 1">{{ faculty.getNumberOfFailsAttribute('midterm') }}</span>
-                                    <span v-show="activeTab == 2">{{ faculty.getNumberOfFailsAttribute('prefinal') }}</span>
-                                    <span v-show="activeTab == 3">{{ faculty.getNumberOfFailsAttribute('final') }}</span>
-                                </td>
-                                <td>
-                                    <span v-show="activeTab == 0">{{ faculty.getNumberOfDropsAttribute('prelim') }}</span>
-                                    <span v-show="activeTab == 1">{{ faculty.getNumberOfDropsAttribute('midterm') }}</span>
-                                    <span v-show="activeTab == 2">{{ faculty.getNumberOfDropsAttribute('prefinal') }}</span>
-                                    <span v-show="activeTab == 3">{{ faculty.getNumberOfDropsAttribute('final') }}</span>
-                                </td>
-                                <td><a href="{{ path('dashboard.faculty.view', {id: faculty.id}) }}">View</a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
+                    {% for i, period in ['prelim', 'midterm', 'prefinal', 'final'] %}
+                        <tbody v-show="summaryTabs.period == '{{ period }}'">
+                            {% for faculty in faculty %}
+                                <tr v-show="(summaryTabs.status == 'all' || summaryTabs.status == '{{ faculty.getStatusAttribute(period) }}') && (summaryTabs.remark == 'all' || summaryTabs.remark == {{ faculty.is_valid }})">
+                                    <td>{{ faculty.name }}</td>
+                                    <td>{{ faculty.getStatusAttribute(period) }}</td>
+                                    <td>{{ faculty.is_valid ? 'Valid' : 'Invalid' }}</td>
+                                    <td>{{ faculty.getNumberOfFailsAttribute(period) }}</td>
+                                    <td>{{ faculty.getNumberOfDropsAttribute(period) }}</td>
+                                    <td class="print-invisible"><a href="{{ path('dashboard.faculty.view', {id: faculty.id}) }}">View</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    {% endfor %}
                 </table>
+
+                <button @click="printDocument()">Print Document</button>
             </div>
         </div>
     </div>
