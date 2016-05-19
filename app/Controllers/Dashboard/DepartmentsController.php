@@ -64,23 +64,17 @@ class DepartmentsController extends Controller
      */
     public function view(Request $request, Application $app, $id)
     {
-        if ($this->isRole('head') && $this->user->getModel()->department === null) {
-            FlashBag::add('messages', 'danger>>>You are not yet assigned to any department');
-            return $app->redirect($app->path('dashboard.index'));
-        }
-
-        if ($this->isRole('head') &&
-            $this->user->getModel()->department !== null &&
-            $this->user->getModel()->department->id != $id
-        ) {
-            return $app->redirect($app->path('dashboard.departments.self'));
-        }
-
         $department = Department::with('head')->find($id);
 
         if (!$department) {
-            FlashBag::add('messages', 'danger>>>Department not found');
-            return $app->redirect($app->path('dashboard.departments'));
+            $app->abort(404);
+        }
+
+        if ($this->isRole('head') && $this->user->getModel()->department === null || (
+            $this->user->getModel()->department !== null &&
+            $this->user->getModel()->department->id != $id
+        )) {
+            $app->abort(403);
         }
 
         if ($page = $request->query->get('page')) {
@@ -121,8 +115,7 @@ class DepartmentsController extends Controller
         $department = Department::findOrNew($id);
 
         if ($department->id != $id) {
-            FlashBag::add('messages', 'danger>>>Department not found');
-            return $app->redirect($app->path('dashboard.departments'));
+            $app->abort(404);
         }
 
         $id && $mode = 'edit';
@@ -185,9 +178,7 @@ class DepartmentsController extends Controller
     public function delete(Request $request, Application $app, $id)
     {
         if (!$department = Department::find($id)) {
-            FlashBag::add('messages', 'danger>>>Department not found');
-
-            return $app->redirect($app->path('dashboard.departments'));
+            $app->abort(404);
         }
 
         $form = Form::create();

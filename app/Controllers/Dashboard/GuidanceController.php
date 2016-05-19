@@ -71,8 +71,7 @@ class GuidanceController extends Controller
         $guidance = Guidance::findOrNew($id);
 
         if ($guidance->id != $id) {
-            FlashBag::add('messages', 'danger>>>Guidance account not found');
-            return $app->redirect($app->path('dashboard.guidance'));
+            $app->abort(404);
         }
 
         $id && $mode = 'edit';
@@ -141,9 +140,7 @@ class GuidanceController extends Controller
     public function delete(Request $request, Application $app, $id)
     {
         if (!$guidance = Guidance::find($id)) {
-            FlashBag::add('messages', 'danger>>>Guidance account not found');
-
-            return $app->redirect($app->path('dashboard.guidance'));
+            $app->abort(404);
         }
 
         $form = Form::create();

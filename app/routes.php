@@ -70,4 +70,8 @@ $app->error(function (\Exception $e, $code) use ($app) {
     if ($code == 404) {
         return View::render('_error/404');
     }
+
+    if ($code == 403) {
+        return View::render('_error/403');
+    }
 });

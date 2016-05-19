@@ -60,20 +60,20 @@ class MainController extends Controller
      */
     public function top(Request $request, Application $app, $period, $subject)
     {
-        if ($period && !in_array($period, array('prelim', 'midterm', 'prefinal', 'final'))) {
-            return $app->abort(404);
-        }
-
         $user = $this->user->getModel();
 
         if (!$user->is_required_info_filled) {
             return $app->redirect($app->path('student.account'));
         }
+        
+        if ($period && !in_array($period, array('prelim', 'midterm', 'prefinal', 'final'))) {
+            $app->abort(404);
+        }
 
         $subjects = $user->subjects();
 
         if ($subject && !in_array($subject, $subjects)) {
-            return $app->abort(404);
+            $app->abort(404);
         }
 
         $subjectChoices = array();

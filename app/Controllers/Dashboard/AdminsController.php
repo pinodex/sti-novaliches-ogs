@@ -70,8 +70,7 @@ class AdminsController extends Controller
         $admin = Admin::findOrNew($id);
 
         if ($admin->id != $id) {
-            FlashBag::add('messages', 'danger>>>Admin account not found');
-            return $app->redirect($app->path('dashboard.admins'));
+            $app->abort(404);
         }
 
         $id && $mode = 'edit';
@@ -140,9 +139,7 @@ class AdminsController extends Controller
     public function delete(Request $request, Application $app, $id)
     {
         if (!$admin = Admin::find($id)) {
-            FlashBag::add('messages', 'danger>>>Admin account not found');
-
-            return $app->redirect($app->path('dashboard.admins'));
+            $app->abort(404);
         }
 
         $form = Form::create();

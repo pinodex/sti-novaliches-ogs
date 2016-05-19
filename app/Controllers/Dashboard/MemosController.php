@@ -166,13 +166,11 @@ class MemosController extends Controller
     public function view(Request $request, Application $app, $id)
     {
         if (!$memo = Memo::with('admin', 'faculty')->find($id)) {
-            FlashBag::add('messages', 'danger>>>Cannot find memo');
-            return $app->redirect($app->path('dashboard.memos'));
+            $app->abort(404);
         }
 
         if ($this->isRole('faculty') && $this->user->getModel()->id != $memo->faculty->id) {
-            FlashBag::add('messages', 'danger>>>You don\'t have permission to view this memo');
-            return $app->redirect($app->path('dashboard.memos'));
+            $app->abort(403);
         }
 
         if ($this->isRole('faculty') && $memo->opened_at === null) {

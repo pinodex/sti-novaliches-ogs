@@ -87,17 +87,14 @@ class FacultyController extends Controller
     public function view(Application $app, $id)
     {
         if (!$faculty = Faculty::with('department', 'submissionLogs')->find($id)) {
-            FlashBag::add('messages', 'danger>>>Faculty account not found');
-            return $app->redirect($app->path('dashboard.faculty'));
+            $app->abort(404);
         }
 
-        if ($this->isRole('head')) {
-            // Deny if the faculty and head does not belong to the same department
-            if (!$faculty->department || $faculty->department->id != $this->user->getModel()->department->id) {
-                FlashBag::add('messages', 'danger>>>This faculty is not in your department');
-
-                return $app->redirect($app->path('dashboard.departments.self'));
-            }
+        // Deny if the faculty and head does not belong to the same department
+        if ($this->isRole('head') && (!$faculty->department ||
+            $faculty->department->id != $this->user->getModel()->department->id)
+        ) {
+            $app->abort(403);
         }
 
         $sections = array();
@@ -185,8 +182,7 @@ class FacultyController extends Controller
         $faculty = Faculty::findOrNew($id);
 
         if ($faculty->id != $id) {
-            FlashBag::add('messages', 'danger>>>Faculty account not found');
-            return $app->redirect($app->path('dashboard.faculty'));
+            $app->abort(404);
         }
 
         $id && $mode = 'edit';
@@ -264,9 +260,7 @@ class FacultyController extends Controller
     public function delete(Request $request, Application $app, $id)
     {
         if (!$faculty = Faculty::find($id)) {
-            FlashBag::add('messages', 'danger>>>Faculty account not found');
-
-            return $app->redirect($app->path('dashboard.faculty'));
+            $app->abort(404);
         }
 
         $form = Form::create();

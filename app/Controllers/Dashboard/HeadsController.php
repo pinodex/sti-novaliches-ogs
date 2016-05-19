@@ -71,8 +71,7 @@ class HeadsController extends Controller
         $head = Head::findOrNew($id);
 
         if ($head->id != $id) {
-            FlashBag::add('messages', 'danger>>>Head account not found');
-            return $app->redirect($app->path('dashboard.heads'));
+            $app->abort(404);
         }
 
         $id && $mode = 'edit';
@@ -160,9 +159,7 @@ class HeadsController extends Controller
     public function delete(Request $request, Application $app, $id)
     {
         if (!$head = Head::find($id)) {
-            FlashBag::add('messages', 'danger>>>Head account not found');
-
-            return $app->redirect($app->path('dashboard.heads'));
+            $app->abort(404);
         }
 
         $form = Form::create();

@@ -88,8 +88,7 @@ class StudentsController extends Controller
     public function view(Application $app, $id)
     {
         if (!$student = Student::with('grades')->find($id)) {
-            FlashBag::add('messages', 'danger>>>Student not found');
-            return $app->redirect($app->path('dashboard.students'));
+            $app->abort(404);
         }
 
         if ($this->isRole('faculty')) {
@@ -100,8 +99,7 @@ class StudentsController extends Controller
 
 
             if ($gradesFromImporter->count() == 0) {
-                FlashBag::add('messages', 'danger>>>You are not allowed to perform this action');
-                return $app->redirect($app->path('dashboard.students'));
+                $app->abort(403);
             }
         }
 
@@ -129,8 +127,7 @@ class StudentsController extends Controller
         $student = Student::findOrNew($id);
 
         if ($student->id != $id) {
-            FlashBag::add('messages', 'danger>>>Student not found');
-            return $app->redirect($app->path('dashboard.students'));
+            $app->abort(404);
         }
 
         $id && $mode = 'edit';
@@ -281,9 +278,7 @@ class StudentsController extends Controller
     public function delete(Request $request, Application $app, $id)
     {
         if (!$student = Student::find($id)) {
-            FlashBag::add('messages', 'danger>>>Student not found');
-
-            return $app->redirect($app->path('dashboard.students'));
+            $app->abort(404);
         }
 
         $form = Form::create();
