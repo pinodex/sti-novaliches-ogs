@@ -12,11 +12,13 @@
 namespace App\Controllers;
 
 use Silex\Application;
-use Symfony\Component\HttpFoundation\Request;
 use App\Services\Auth;
 use App\Services\Csrf;
 use App\Services\Form;
 use App\Services\View;
+use App\Services\FlashBag;
+use App\Exceptions\AuthException;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Main controller
@@ -73,24 +75,27 @@ class MainController extends Controller
 
         Form::handleFlashErrors('login_form', $form);
 
+        $isAccountLocked = false;
+
         if ($form->isValid()) {
             $data = $form->getData();
 
-            $user = Auth::attempt(
-                $data['id'],
-                $data['password']
-            );
+            try {
+                $user = Auth::attempt($data['id'], $data['password']);
+            } catch (AuthException $e) {
+                Form::flashError('login_form', $e->getMessage());
 
-            if (!$user) {
-                Form::flashError('login_form', 'Invalid ID and/or password');
-
-                $urlParams = array();
+                if ($e->getCode() == AuthException::ACCOUNT_LOCKED) {
+                    FlashBag::add('account_locked', true);
+                }
 
                 if ($next = $request->query->get('next')) {
-                    $urlParams['next'] = $next;
+                    return $app->redirect($app->path('site.login', array(
+                        'next' => $next
+                    )));
                 }
-                
-                return $app->redirect($app->path('site.login', $urlParams));
+
+                return $app->redirect($app->path('site.login'));
             }
 
             Auth::login($user);

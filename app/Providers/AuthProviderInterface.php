@@ -40,7 +40,9 @@ interface AuthProviderInterface
     /**
      * Attempt to login
      * 
-     * @return boolean|\App\Services\User
+     * @throws \App\Exceptions\AuthException When there's an error with login
+     * 
+     * @return \App\Services\User
      */
     public function attempt($username, $password);
 }

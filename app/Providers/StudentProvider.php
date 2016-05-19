@@ -14,6 +14,7 @@ namespace App\Providers;
 use App\Models\Student;
 use App\Services\User;
 use App\Services\Helper;
+use App\Exceptions\AuthException;
 
 /**
  * Student account provider
@@ -45,7 +46,12 @@ class StudentProvider implements AuthProviderInterface
         $user = Student::find(static::parseId($username));
 
         if (!$user) {
-            return false;
+            throw new AuthException('Invalid student number and/or password', AuthException::USER_NOT_FOUND);
+        }
+
+        // As a security measure, don't allow access to students with no middle name
+        if (empty($user->middle_name) || $user->middle_name == '.') {
+            throw new AuthException('Your account is temporarily locked.', AuthException::ACCOUNT_LOCKED);
         }
 
         if (strtoupper($password) == $user->middle_name  ||
@@ -54,7 +60,7 @@ class StudentProvider implements AuthProviderInterface
             return new User($this, $user);
         }
 
-        return false;
+        throw new AuthException('Invalid student number and/or password', AuthException::INVALID_PASSWORD);
     }
 
     private static function parseId($id)

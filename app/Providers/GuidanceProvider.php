@@ -14,6 +14,7 @@ namespace App\Providers;
 use App\Services\Hash;
 use App\Services\User;
 use App\Models\Guidance;
+use App\Exceptions\AuthException;
 
 /**
  * Guidance account provider
@@ -46,22 +47,22 @@ class GuidanceProvider implements AuthProviderInterface
     
     public function attempt($username, $password)
     {
-        if ($user = Guidance::where('username', $username)->first()) {
-            if (!Hash::check($password, $user->password)) {
-                return false;
-            }
-
-            $user->last_login_at = date('Y-m-d H:i:s');
-
-            if (Hash::needsRehash($user->password)) {
-                $user->password = Hash::make($password);
-            }
-            
-            $user->save();
-
-            return new User($this, $user);
+        if (!$user = Guidance::where('username', $username)->first()) {
+            throw new AuthException('Invalid student number and/or password', AuthException::USER_NOT_FOUND);
         }
 
-        return false;
+        if (!Hash::check($password, $user->password)) {
+            throw new AuthException('Invalid student number and/or password', AuthException::INVALID_PASSWORD);
+        }
+
+        $user->last_login_at = date('Y-m-d H:i:s');
+
+        if (Hash::needsRehash($user->password)) {
+            $user->password = Hash::make($password);
+        }
+            
+        $user->save();
+
+        return new User($this, $user);
     }
 }

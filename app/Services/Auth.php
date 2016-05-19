@@ -11,6 +11,8 @@
 
 namespace App\Services;
 
+use App\Exceptions\AuthException;
+
 /**
  * Provides auth service
  */
@@ -26,18 +28,31 @@ class Auth extends Service
      *
      * @param string $username Username
      * @param string $password Password
+     * 
+     * @throws \App\Exceptions\AuthException When there's an error with login
      *
      * @return \App\Services\User
      */
     public static function attempt($username, $password)
     {
-        foreach (self::$app['auth.providers'] as $provider) {
-            $user = (new $provider)->attempt($username, $password);
+        $lastException = null;
 
-            if ($user) {
-                self::$user = $user;
-                return $user;
+        foreach (self::$app['auth.providers'] as $provider) {
+            try {
+                self::$user = (new $provider)->attempt($username, $password);
+                
+                return self::$user;
+            } catch (AuthException $exception) {
+                if ($exception->getCode() != AuthException::USER_NOT_FOUND) {
+                    throw $exception;
+                }
+
+                $lastException = $exception;
             }
+        }
+
+        if ($lastException) {
+            throw $lastException;
         }
     }
 
