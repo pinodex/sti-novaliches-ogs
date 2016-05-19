@@ -42,14 +42,14 @@ class StudentProvider implements AuthProviderInterface
 
     public function attempt($username, $password)
     {
-        $user = Student::find($username);
+        $user = Student::find(static::parseId($username));
 
         if (!$user) {
             return false;
         }
 
-        if ($user->middle_name == strtoupper($password) ||
-            Helper::convertAccents($user->middle_name) == strtoupper($password)) {
+        if (strtoupper($password) == $user->middle_name  ||
+            strtoupper($password) == Helper::convertAccents($user->middle_name)) {
 
             return new User($this, $user);
         }
@@ -70,7 +70,7 @@ class StudentProvider implements AuthProviderInterface
          *  - 02120150330
          */
 
-        if (preg_match('/([\d+]{3}-[\d+]{4}-[\d+]{4})|([\d+]{3})([\d+]{4})([\d+]{4})/', $id)) {
+        if (preg_match('/^([\d+]{3}-[\d+]{4}-[\d+]{4})|([\d+]{3})([\d+]{4})([\d+]{4})$/', $id)) {
             return str_replace('-', '', $id);
         }
 
