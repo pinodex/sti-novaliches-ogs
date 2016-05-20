@@ -2,20 +2,20 @@
 
 {% form_theme search_form '/_layout/form-default.html' %}
 
-{% set page_title = 'Sections' %}
+{% set page_title = 'View section' %}
 
 {% block content %}
     <div class="container">
-        <h1>{{ page_title }}</h1>
+        <h1>Section {{ section }}</h1>
 
         <div class="grid">
             <div class="column-4">
                 <div class="panel">
-                    <div class="panel-heading"><span class="icon-search"></span> Search Section</div>
+                    <div class="panel-heading"><span class="icon-search"></span> Search Student from {{ section }}</div>
                     <div class="panel-body">
-                        <form method="get" action="{{ path('dashboard.sections.search') }}">
+                        <div class="alert alert-info">Fill any of the fields below</div>
+                        <form method="get" action="{{ path('dashboard.sections.view', {section: section}) }}">
                             {{ form_widget(search_form) }}
-
                             <button type="submit"><span class="icon-search"></span> Search</button>
                         </form>
                     </div>
@@ -36,12 +36,16 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <span class="long">Section</span>
-                                    <span class="short">S</span>
+                                    <span class="long">Student #</span>
+                                    <span class="short">#</span>
                                 </th>
                                 <th>
-                                    <span class="long">Students</span>
-                                    <span class="short">S</span>
+                                    <span class="long">Name</span>
+                                    <span class="short">N</span>
+                                </th>
+                                <th>
+                                    <span class="long">Course</span>
+                                    <span class="short">C</span>
                                 </th>
                                 <th>
                                     <span class="long">Actions</span>
@@ -51,12 +55,13 @@
                         </thead>
 
                         <tbody>
-                            {% for section, students in result.data %}
+                            {% for row in result.data %}
                                 <tr>
-                                    <td>{{ section }}</td>
-                                    <td>{{ students|length }}</td>
+                                    <td>{{ row.id|format_student_id }}</td>
+                                    <td>{{ row.last_name ~ ', ' ~ row.first_name ~ ' ' ~ row.middle_name }}</td>
+                                    <td>{{ row.course }}</td>
                                     <td>
-                                        <a href="{{ path('dashboard.sections.view', {section: section}) }}">View</a>
+                                        <a href="{{ path('dashboard.students.view', {id: row.id}) }}">View</a>
                                     </td>
                                 </tr>
                             {% endfor %}

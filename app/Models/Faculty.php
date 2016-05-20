@@ -51,10 +51,6 @@ class Faculty extends Model
         'is_valid'
     );
 
-    private static $searchWithRelations = array(
-        'department'
-    );
-
     /**
      * Get department
      * 

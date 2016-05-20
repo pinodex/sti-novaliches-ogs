@@ -87,6 +87,6 @@ class Memo extends Model
             $memos->where('faculty_id', $facultyId);
         }
 
-        return $memos->orderBy('id', 'DESC')->paginate();
+        return $memos->orderBy('id', 'DESC')->paginate(50);
     }
 }

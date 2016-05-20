@@ -51,7 +51,10 @@ class HeadsController extends Controller
         ));
 
         $form = $form->getForm();
-        $result = Head::search(null, $request->query->get('name'));
+        
+        $result = Head::search(array(
+            array('name', 'LIKE', '%' . $request->query->get('name') . '%')
+        ), array('department'));
 
         return View::render('dashboard/heads/index', array(
             'search_form'   => $form->createView(),

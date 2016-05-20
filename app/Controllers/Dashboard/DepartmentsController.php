@@ -15,6 +15,7 @@ use Silex\Application;
 use App\Services\View;
 use App\Services\Form;
 use App\Models\Head;
+use App\Models\Faculty;
 use App\Models\Department;
 use App\Services\FlashBag;
 use App\Controllers\Controller;
@@ -94,7 +95,11 @@ class DepartmentsController extends Controller
         ));
 
         $form = $form->getForm();
-        $faculty = $department->searchRelated('faculty', null, $request->query->get('name'));
+        
+        $faculty = Faculty::search(array(
+            array('department_id', '=', $department->id),
+            array('name', 'LIKE', '%' . $request->query->get('name') . '%')
+        ));
 
         return View::render('dashboard/departments/view', array(
             'department'    => $department->toArray(),

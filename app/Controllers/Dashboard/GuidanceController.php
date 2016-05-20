@@ -51,7 +51,10 @@ class GuidanceController extends Controller
         ));
 
         $form = $form->getForm();
-        $result = Guidance::search(null, $request->query->get('name'));
+        
+        $result = Guidance::search(array(
+            array('name', 'LIKE', '%' . $request->query->get('name') . '%')
+        ));
 
         return View::render('dashboard/guidance/index', array(
             'search_form'   => $form->createView(),

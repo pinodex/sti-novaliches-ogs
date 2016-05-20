@@ -50,7 +50,10 @@ class AdminsController extends Controller
         ));
 
         $form = $form->getForm();
-        $result = Admin::search(null, $request->query->get('name'));
+        
+        $result = Admin::search(array(
+            array('name', 'LIKE', '%' . $request->query->get('name') . '%')
+        ));
 
         return View::render('dashboard/admins/index', array(
             'search_form'   => $form->createView(),

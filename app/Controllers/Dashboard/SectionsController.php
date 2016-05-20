@@ -93,4 +93,61 @@ class SectionsController extends Controller
 
         return View::render('dashboard/sections/index', $vars);
     }
+
+    /**
+     * Sections index page
+     * 
+     * URL: /dashboard/sections/{section}
+     */
+    public function view(Request $request, Application $app, $section)
+    {
+        $gradeQuery = Grade::where('section', $section);
+
+        if ($gradeQuery->count() == 0) {
+            $app->abort(404);
+        }
+
+        $vars = array(
+            'section' => $section
+        );
+
+        $studentIds = array();
+
+        $form = Form::create(null, array(
+            'csrf_protection' => false
+        ));
+        
+        $form->add('id', 'text', array(
+            'label'     => 'Search by number',
+            'required'  => false,
+            'data'      => $request->query->get('id')
+        ));
+        
+        $form->add('name', 'text', array(
+            'label'     => 'Search by name',
+            'required'  => false,
+            'data'      => $request->query->get('name')
+        ));
+
+        $gradeQuery->get()->each(function (Grade $grade) use (&$studentIds) {
+            $studentIds[] = $grade->student_id;
+        });
+
+        $query = array(
+            array('id', $studentIds)
+        );
+
+        if ($id = $request->query->get('id')) {
+            $query[] = array('id', 'LIKE', $id);
+        }
+
+        if ($name = $request->query->get('name')) {
+            $query[] = array('name', 'LIKE', '%' . $name . '%');
+        }
+
+        $vars['search_form'] = $form->getForm()->createView();
+        $vars['result'] = Student::search($query)->toArray();
+
+        return View::render('dashboard/sections/view', $vars);
+    }
 }

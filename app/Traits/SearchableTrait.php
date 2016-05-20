@@ -20,40 +20,55 @@ use Illuminate\Database\Eloquent\Builder;
 trait SearchableTrait
 {
     /**
+     * @var array Name concatenation variants
+     */
+    private static $nameConcats = array(
+        "CONCAT(last_name, ' ', first_name, ' ', middle_name)",
+        "CONCAT(last_name, ', ', first_name, ' ', middle_name)",
+        "CONCAT(first_name, ' ', middle_name, ' ', last_name)",
+        "CONCAT(first_name, ' ', last_name)"
+    );
+
+    /**
      * Search
      * 
-     * @param string|int $id    ID query
-     * @param string     $name  Name query
+     * @param array $queries Search queries
+     * @param array $relations Relations to include to search
      * 
-     * @param \Illuminate\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public static function search($id = null, $name = null)
+    public static function search($queries, $relations = null, $builderHook = null)
     {
-        $concats = array(
-            "CONCAT(last_name, ' ', first_name, ' ', middle_name)",
-            "CONCAT(last_name, ', ', first_name, ' ', middle_name)",
-            "CONCAT(first_name, ' ', middle_name, ' ', last_name)",
-            "CONCAT(first_name, ' ', last_name)"
-        );
+        $model = static::orderBy(DB::raw(self::$nameConcats[0]), 'ASC');
 
-        $result = self::orderBy('last_name', 'ASC')->orderBy('first_name', 'ASC')->orderBy('middle_name', 'ASC');
-
-        if (property_exists(get_called_class(), 'searchWithRelations')) {
-            $result->with(self::$searchWithRelations);
+        if ($relations && count($relations) > 0) {
+            call_user_func_array(array($model, 'with'), $relations);
         }
 
-        if ($id) {
-            $result->where('id', 'LIKE', '%' . $id . '%');
+        if ($builderHook) {
+            $builderHook($model);
         }
 
-        if ($name) {
-            $result->where(function (Builder $query) use ($concats, $name) {
-                foreach ($concats as $concat) {
-                    $query->orWhere(DB::raw($concat), 'LIKE', '%' . $name . '%');
-                }
-            });
+        foreach ($queries as $query) {
+            if ($query[0] == 'name') {
+                $model->where(function (Builder $builder) use ($query) {
+                    foreach (self::$nameConcats as $concat) {
+                        $builder->orWhere(DB::raw($concat), $query[1], $query[2]);
+                    }
+                });
+
+                continue;
+            }
+
+            if (is_array($query[1])) {
+                $model->whereIn($query[0], $query[1]);
+
+                continue;
+            }
+
+            $model->where($query[0], $query[1], $query[2]);
         }
 
-        return $result->paginate(50);
+        return $model->paginate(50);
     }
 }

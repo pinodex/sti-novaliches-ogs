@@ -13,7 +13,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Capsule\Manager as DB;
-use App\Traits\RelationSearchableTrait;
 use App\Traits\ChoosableTrait;
 
 /**
@@ -23,7 +22,7 @@ use App\Traits\ChoosableTrait;
  */
 class Department extends Model
 {
-    use RelationSearchableTrait, ChoosableTrait;
+    use ChoosableTrait;
 
     public $timestamps = false;
 

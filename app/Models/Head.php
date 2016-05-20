@@ -45,10 +45,6 @@ class Head extends Model
         'password'
     );
 
-    private static $searchWithRelations = array(
-        'department'
-    );
-
     /**
      * Get department
      * 

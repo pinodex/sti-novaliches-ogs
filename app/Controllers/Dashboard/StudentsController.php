@@ -22,6 +22,7 @@ use App\Services\FlashBag;
 use App\Controllers\Controller;
 use App\Constraints as CustomAssert;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -59,20 +60,30 @@ class StudentsController extends Controller
             'data'      => $request->query->get('name')
         ));
 
-        $result = array();
         $form = $form->getForm();
+        
+        $result = array();
+        $query = array();
+        $builderHook = null;
 
         $request->query->set('id', Helper::parseId($request->query->get('id')));
 
-        if ($this->isRole('faculty')) {
-            $result = Student::filteredSearch(
-                $request->query->get('id'),
-                $request->query->get('name'),
-                $this->user->getModel()->id
-            );
-        } else {
-            $result = Student::search($request->query->get('id'), $request->query->get('name'));
+        if ($id = $request->query->get('id')) {
+            $query[] = array('id', 'LIKE', $id);
         }
+
+        if ($name = $request->query->get('name')) {
+            $query[] = array('name', 'LIKE', '%' . $name . '%');
+        }
+
+        if ($this->isRole('faculty')) {
+            $builderHook = function (Builder $builder) {
+                $builder->leftJoin('grades', 'students.id', '=', 'grades.student_id');
+                $builder->where('importer_id', $this->user->getModel()->id);
+            };
+        }
+
+        $result = Student::search($query, null, $builderHook);
 
         return View::render('dashboard/students/index', array(
             'search_form'   => $form->createView(),

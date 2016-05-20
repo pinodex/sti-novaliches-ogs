@@ -53,7 +53,10 @@ class FacultyController extends Controller
         ));
 
         $form = $form->getForm();
-        $result = Faculty::search(null, $request->query->get('name'));
+        
+        $result = Faculty::search(array(
+            array('name', 'LIKE', '%' . $request->query->get('name') . '%')
+        ), array('department'));
 
         return View::render('dashboard/faculty/index', array(
             'search_form'   => $form->createView(),
