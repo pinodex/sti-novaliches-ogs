@@ -41,24 +41,22 @@ class SectionsController extends Controller
             });
         }
 
-        $vars = array();
+        $context = array();
 
-        $form = Form::create(null, array(
+        $form = Form::create($request->query->all(), array(
             'csrf_protection' => false
         ));
         
         $form->add('section', 'text', array(
-            'required'  => false,
-            'data'      => $request->query->get('section')
+            'required'  => false
         ));
 
         $form->add('faculty', 'choice', array(
             'required'  => false,
-            'data'      => $request->query->get('faculty'),
             'choices'   => Faculty::getFormChoices()
         ));
 
-        $vars['search_form'] = $form->getForm()->createView();
+        $context['search_form'] = $form->getForm()->createView();
 
         $grades = Grade::orderBy('section', 'ASC');
 
@@ -85,13 +83,13 @@ class SectionsController extends Controller
             $studentIds[] = $studentId;
         });
 
-        $vars['result'] = (new LengthAwarePaginator(
+        $context['result'] = (new LengthAwarePaginator(
             array_slice($sections, (50 * ($page - 1)), 50), count($sections), 50
         ))->toArray();
 
-        $vars['students'] = Grade::whereIn('student_id', $studentIds)->get()->keyBy('student_id');
+        $context['students'] = Grade::whereIn('student_id', $studentIds)->get()->keyBy('student_id');
 
-        return View::render('dashboard/sections/index', $vars);
+        return View::render('dashboard/sections/index', $context);
     }
 
     /**
@@ -107,7 +105,7 @@ class SectionsController extends Controller
             $app->abort(404);
         }
 
-        $vars = array(
+        $context = array(
             'section' => $section
         );
 
@@ -145,9 +143,9 @@ class SectionsController extends Controller
             $query[] = array('name', 'LIKE', '%' . $name . '%');
         }
 
-        $vars['search_form'] = $form->getForm()->createView();
-        $vars['result'] = Student::search($query)->toArray();
+        $context['search_form'] = $form->getForm()->createView();
+        $context['result'] = Student::search($query)->toArray();
 
-        return View::render('dashboard/sections/view', $vars);
+        return View::render('dashboard/sections/view', $context);
     }
 }

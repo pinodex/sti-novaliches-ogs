@@ -33,8 +33,6 @@ class DepartmentsRoute implements ControllerProviderInterface
 
         $factory->match('/{id}', array($controller, 'view'))->bind('dashboard.departments.view');
 
-        $factory->match('/{id}/search', array($controller, 'view'))->bind('dashboard.departments.view.search');
-
         $factory->match('/{id}/edit', array($controller, 'edit'))->bind('dashboard.departments.edit');
 
         $factory->match('/{id}/delete', array($controller, 'delete'))->bind('dashboard.departments.delete');

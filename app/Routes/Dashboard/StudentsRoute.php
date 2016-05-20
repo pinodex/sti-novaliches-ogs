@@ -29,8 +29,6 @@ class StudentsRoute implements ControllerProviderInterface
 
         $factory->get('/', array($controller, 'index'))->bind('dashboard.students');
 
-        $factory->get('/search', array($controller, 'index'))->bind('dashboard.students.search');
-
         $factory->match('/add', array($controller, 'edit'))->bind('dashboard.students.add')->value('id', null);
 
         $factory->get('/{id}', array($controller, 'view'))->bind('dashboard.students.view')->assert('id', '[\d+]{11}');

@@ -14,7 +14,7 @@
                     <div class="panel-heading"><span class="icon-search"></span> Search Student</div>
                     <div class="panel-body">
                         <div class="alert alert-info">Fill any of the fields below</div>
-                        <form method="get" action="{{ path('dashboard.students.search') }}">
+                        <form method="get" action="{{ path('dashboard.students') }}">
                             {{ form_widget(search_form) }}
                             <button type="submit"><span class="icon-search"></span> Search</button>
                         </form>

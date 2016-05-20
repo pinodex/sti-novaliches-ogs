@@ -40,25 +40,23 @@ class AdminsController extends Controller
             });
         }
 
-        $form = Form::create(null, array(
+        $context = array();
+
+        $form = Form::create($request->query->all(), array(
             'csrf_protection' => false
         ));
         
         $form->add('name', 'text', array(
-            'required'  => false,
-            'data'      => $request->query->get('name')
+            'required'  => false
         ));
 
-        $form = $form->getForm();
+        $context['search_form'] = $form->getForm()->createView();
         
-        $result = Admin::search(array(
+        $context['result'] = Admin::search(array(
             array('name', 'LIKE', '%' . $request->query->get('name') . '%')
-        ));
+        ))->toArray();
 
-        return View::render('dashboard/admins/index', array(
-            'search_form'   => $form->createView(),
-            'result'        => $result->toArray()
-        ));
+        return View::render('dashboard/admins/index', $context);
     }
 
     /**

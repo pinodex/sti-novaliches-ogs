@@ -34,23 +34,23 @@ class MainController extends Controller
      */
     public function index(Application $app)
     {
-        $vars = array();
+        $context = array();
 
         if ($this->isRole('faculty')) {
             $faculty = $this->user->getModel();
 
-            $vars['faculty'] = $faculty->toArray();
-            $vars['unread_memo_count'] = $faculty->getUnreadMemoCount();
-            $vars['department'] = $faculty->department;
+            $context['faculty'] = $faculty->toArray();
+            $context['unread_memo_count'] = $faculty->getUnreadMemoCount();
+            $context['department'] = $faculty->department;
             
-            $vars['statuses'] = array(
+            $context['statuses'] = array(
                 $faculty->getStatusAttribute('prelim'),
                 $faculty->getStatusAttribute('midterm'),
                 $faculty->getStatusAttribute('prefinal'),
                 $faculty->getStatusAttribute('final')
             );
 
-            $vars['stats'] = array(
+            $context['stats'] = array(
                 'failed' => array(
                     'prelim'    => $faculty->getNumberOfFailsAttribute('prelim'),
                     'midterm'   => $faculty->getNumberOfFailsAttribute('midterm'),
@@ -67,7 +67,7 @@ class MainController extends Controller
             );
         }
 
-        return View::render('/dashboard/index', $vars);
+        return View::render('/dashboard/index', $context);
     }
 
     /**

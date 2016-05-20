@@ -27,8 +27,6 @@ class GuidanceRoute implements ControllerProviderInterface
 
         $factory->get('/', array($controller, 'index'))->bind('dashboard.guidance');
 
-        $factory->get('/search', array($controller, 'index'))->bind('dashboard.guidance.search');
-
         $factory->match('/add', array($controller, 'edit'))->bind('dashboard.guidance.add')->value('id', null);
 
         $factory->match('/{id}/edit', array($controller, 'edit'))->bind('dashboard.guidance.edit');

@@ -41,25 +41,27 @@ class HeadsController extends Controller
             });
         }
 
-        $form = Form::create(null, array(
+        $context = array();
+
+        $form = Form::create($request->query->all(), array(
             'csrf_protection' => false
         ));
         
         $form->add('name', 'text', array(
-            'required'  => false,
-            'data'      => $request->query->get('name')
+            'required'  => false
         ));
 
-        $form = $form->getForm();
+        $context['search_form'] = $form->getForm()->createView();
         
-        $result = Head::search(array(
-            array('name', 'LIKE', '%' . $request->query->get('name') . '%')
-        ), array('department'));
+        $context['result'] = Head::search(
+            array(
+                array('name', 'LIKE', '%' . $request->query->get('name') . '%')
+            ),
 
-        return View::render('dashboard/heads/index', array(
-            'search_form'   => $form->createView(),
-            'result'        => $result->toArray()
-        ));
+            array('department')
+        )->toArray();
+
+        return View::render('dashboard/heads/index', $context);
     }
 
     /**

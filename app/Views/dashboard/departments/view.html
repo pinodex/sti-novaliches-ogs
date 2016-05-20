@@ -42,7 +42,7 @@
                 <div class="panel">
                     <div class="panel-heading"><span class="icon-search"></span> Search Faculty</div>
                     <div class="panel-body">
-                        <form method="get" action="{{ path('dashboard.departments.view.search', {id: department.id}) }}">
+                        <form method="get" action="{{ path('dashboard.departments.view', {id: department.id}) }}">
                             {{ form_widget(search_form) }}
 
                             <button type="submit"><span class="icon-search"></span> Search</button>

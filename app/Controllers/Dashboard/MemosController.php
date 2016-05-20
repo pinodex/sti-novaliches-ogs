@@ -39,35 +39,32 @@ class MemosController extends Controller
             });
         }
 
-        $vars = array();
+        $context = array();
         $facultyChoices = Faculty::getFormChoices();
 
-        $searchForm = Form::create(null, array(
+        $searchForm = Form::create($request->query->all(), array(
             'csrf_protection' => false
         ));
         
         $searchForm->add('subject', 'text', array(
-            'required'  => false,
-            'data'      => $request->query->get('subject')
+            'required'  => false
         ));
 
         if (!$this->isRole('faculty')) {
             $searchForm->add('admin', 'choice', array(
                 'label'     => 'By admin',
                 'required'  => false,
-                'data'      => $request->query->get('admin'),
                 'choices'   => Admin::getFormChoices()
             ));
 
             $searchForm->add('faculty', 'choice', array(
                 'label'     => 'To faculty',
                 'required'  => false,
-                'data'      => $request->query->get('faculty'),
                 'choices'   => $facultyChoices
             ));
         }
 
-        $vars['search_form'] = $searchForm->getForm()->createView();
+        $context['search_form'] = $searchForm->getForm()->createView();
 
         if ($this->isRole('admin')) {
             $composeForm = Form::create(null, array(
@@ -79,7 +76,7 @@ class MemosController extends Controller
                 'placeholder'   => 'Select recipient'
             ));
 
-            $vars['compose_form'] = $composeForm->getForm()->createView();
+            $context['compose_form'] = $composeForm->getForm()->createView();
         }
         
         $subject = $request->query->get('subject');
@@ -91,9 +88,9 @@ class MemosController extends Controller
             $facultyId = $this->user->getModel()->id;
         }
 
-        $vars['result'] = Memo::search($subject, $adminId, $facultyId)->toArray();
+        $context['result'] = Memo::search($subject, $adminId, $facultyId)->toArray();
 
-        return View::render('dashboard/memos/index', $vars);
+        return View::render('dashboard/memos/index', $context);
     }
 
     /**

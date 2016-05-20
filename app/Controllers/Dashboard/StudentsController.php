@@ -44,25 +44,24 @@ class StudentsController extends Controller
             });
         }
 
-        $form = Form::create(null, array(
+        $context = array();
+
+        $form = Form::create($request->query->all(), array(
             'csrf_protection' => false
         ));
         
         $form->add('id', 'text', array(
             'label'     => 'Search by number',
-            'required'  => false,
-            'data'      => $request->query->get('id')
+            'required'  => false
         ));
         
         $form->add('name', 'text', array(
             'label'     => 'Search by name',
-            'required'  => false,
-            'data'      => $request->query->get('name')
+            'required'  => false
         ));
 
-        $form = $form->getForm();
+        $context['search_form'] = $form->getForm()->createView();
         
-        $result = array();
         $query = array();
         $builderHook = null;
 
@@ -83,12 +82,9 @@ class StudentsController extends Controller
             };
         }
 
-        $result = Student::search($query, null, $builderHook);
+        $context['result'] = Student::search($query, null, $builderHook)->toArray();
 
-        return View::render('dashboard/students/index', array(
-            'search_form'   => $form->createView(),
-            'result'        => $result->toArray()
-        ));
+        return View::render('dashboard/students/index', $context);
     }
 
     /**
@@ -114,16 +110,15 @@ class StudentsController extends Controller
             }
         }
 
-
-        $period = strtolower(Settings::get('period', 'prelim'));
-        $periodIndex = array_flip(array('prelim', 'midterm', 'prefinal', 'final'))[$period];
-
-        return View::render('dashboard/students/view', array(
+        $context = array(
             'student'       => $student->toArray(),
             'grades'        => $student->grades->toArray(),
-            'period'        => $period,
-            'active_period' => $periodIndex
-        ));
+            'period'        => strtolower(Settings::get('period', 'prelim'))
+        );
+
+        $context['active_period'] = array_flip(array('prelim', 'midterm', 'prefinal', 'final'))[$context['period']];
+
+        return View::render('dashboard/students/view', $context);
     }
 
     /**

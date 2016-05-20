@@ -43,25 +43,27 @@ class FacultyController extends Controller
             });
         }
 
-        $form = Form::create(null, array(
+        $context = array();
+
+        $form = Form::create($request->query->all(), array(
             'csrf_protection' => false
         ));
         
         $form->add('name', 'text', array(
-            'required'  => false,
-            'data'      => $request->query->get('name')
+            'required'  => false
         ));
 
-        $form = $form->getForm();
+        $context['search_form'] = $form->getForm()->createView();
         
-        $result = Faculty::search(array(
-            array('name', 'LIKE', '%' . $request->query->get('name') . '%')
-        ), array('department'));
+        $context['result'] = Faculty::search(
+            array(
+                array('name', 'LIKE', '%' . $request->query->get('name') . '%')
+            ),
 
-        return View::render('dashboard/faculty/index', array(
-            'search_form'   => $form->createView(),
-            'result'        => $result->toArray()
-        ));
+            array('department')
+        )->toArray();
+
+        return View::render('dashboard/faculty/index', $context);
     }
 
     /**
@@ -71,15 +73,13 @@ class FacultyController extends Controller
      */
     public function summary()
     {
-        $faculty = Faculty::all();
-        $period = strtolower(Settings::get('period', 'prelim'));
-        $periodIndex = array_flip(array('prelim', 'midterm', 'prefinal', 'final'))[$period];
+        $context = array(
+            'faculty'       => Faculty::all(),
+            'period'        => strtolower(Settings::get('period', 'prelim')),
+            'periodIndex'   => array_flip(array('prelim', 'midterm', 'prefinal', 'final'))[$period]
+        );
 
-        return View::render('dashboard/faculty/summary', array(
-            'faculty'       => $faculty,
-            'period'        => $period,
-            'active_period' => $periodIndex
-        ));
+        return View::render('dashboard/faculty/summary', $context);
     }
 
     /**
@@ -100,9 +100,12 @@ class FacultyController extends Controller
             $app->abort(403);
         }
 
-        $sections = array();
-        $period = strtolower(Settings::get('period', 'prelim'));
-        $periodIndex = array_flip(array('prelim', 'midterm', 'prefinal', 'final'))[$period];
+        $context = array();
+
+        $context['period'] = strtolower(Settings::get('period', 'prelim'));
+        $context['active_period'] = array_flip(array('prelim', 'midterm', 'prefinal', 'final'))[$context['period']];
+
+        $context['sections'] = array();
 
         $gradeGroups = $faculty->submittedGrades->groupBy(function (Grade $grade) {
             return $grade->subject . ' ' . $grade->section;
@@ -134,43 +137,40 @@ class FacultyController extends Controller
                 }
             }
 
-            $sections[] = array(
+            $context['sections'][] = array(
                 'id'                            => $id,
                 'student_count'                 => count($grades),
                 'student_without_grades_count'  => $withoutGradesCount
             );
         }
 
-        return View::render('dashboard/faculty/view', array(
-            'faculty'       => $faculty->toArray(),
-            'sections'      => $sections,
-            'active_period' => $periodIndex,
-            'period'        => $period,
-            'logs'          => array_reverse($faculty->submissionLogs->toArray()),
+        $context['faculty'] = $faculty->toArray();
+        $context['logs'] = array_reverse($faculty->submissionLogs->toArray());
 
-            'statuses' => array(
-                $faculty->getStatusAttribute('prelim'),
-                $faculty->getStatusAttribute('midterm'),
-                $faculty->getStatusAttribute('prefinal'),
-                $faculty->getStatusAttribute('final')
+        $context['statuses'] = array(
+            $faculty->getStatusAttribute('prelim'),
+            $faculty->getStatusAttribute('midterm'),
+            $faculty->getStatusAttribute('prefinal'),
+            $faculty->getStatusAttribute('final')
+        );
+
+        $context['stats'] = array(
+            'failed' => array(
+                'prelim'    => $faculty->getNumberOfFailsAttribute('prelim'),
+                'midterm'   => $faculty->getNumberOfFailsAttribute('midterm'),
+                'prefinal'  => $faculty->getNumberOfFailsAttribute('prefinal'),
+                'final'     => $faculty->getNumberOfFailsAttribute('final')
             ),
 
-            'stats' => array(
-                'failed' => array(
-                    'prelim'    => $faculty->getNumberOfFailsAttribute('prelim'),
-                    'midterm'   => $faculty->getNumberOfFailsAttribute('midterm'),
-                    'prefinal'  => $faculty->getNumberOfFailsAttribute('prefinal'),
-                    'final'     => $faculty->getNumberOfFailsAttribute('final')
-                ),
-
-                'dropped' => array(
-                    'prelim'    => $faculty->getNumberOfDropsAttribute('prelim'),
-                    'midterm'   => $faculty->getNumberOfDropsAttribute('midterm'),
-                    'prefinal'  => $faculty->getNumberOfDropsAttribute('prefinal'),
-                    'final'     => $faculty->getNumberOfDropsAttribute('final'),
-                )
+            'dropped' => array(
+                'prelim'    => $faculty->getNumberOfDropsAttribute('prelim'),
+                'midterm'   => $faculty->getNumberOfDropsAttribute('midterm'),
+                'prefinal'  => $faculty->getNumberOfDropsAttribute('prefinal'),
+                'final'     => $faculty->getNumberOfDropsAttribute('final'),
             )
-        ));
+        );
+
+        return View::render('dashboard/faculty/view', $context);
     }
 
     /**

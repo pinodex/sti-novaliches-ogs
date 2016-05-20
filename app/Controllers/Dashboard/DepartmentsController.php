@@ -84,14 +84,13 @@ class DepartmentsController extends Controller
             });
         }
 
-        $form = Form::create(null, array(
+        $form = Form::create($request->query->all(), array(
             'csrf_protection' => false
         ));
         
         $form->add('name', 'text', array(
             'label'     => 'Name',
-            'required'  => false,
-            'data'      => $request->query->get('name')
+            'required'  => false
         ));
 
         $form = $form->getForm();

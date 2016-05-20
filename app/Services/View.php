@@ -20,32 +20,32 @@ class View extends Service
      * Render view
      * 
      * @param string $templateName Template name
-     * @param array $vars Template variables
+     * @param array $context Template variables
      * 
      * @return string
      */
-    public static function render($templateName, $vars = array())
+    public static function render($templateName, $context = array())
     {
-        return self::$app['twig']->render($templateName . '.html', $vars);
+        return self::$app['twig']->render($templateName . '.html', $context);
     }
 
     /**
      * Simple rendering of view without Twig
      * 
      * @param string $templateName Template name
-     * @param array $vars Template variables
+     * @param array $context Template variables
      * 
      * @return string
      */
-    public static function simpleRender($templateName, $vars = array())
+    public static function simpleRender($templateName, $context = array())
     {
-        foreach ($vars as $key => $value) {
-            $vars['{{ ' . $key . ' }}'] = $value;
-            unset($vars[$key]);
+        foreach ($context as $key => $value) {
+            $context['{{ ' . $key . ' }}'] = $value;
+            unset($context[$key]);
         }
 
         $path = self::$app['twig.path'] . '/' . $templateName . '.html';
 
-        return strtr(file_get_contents($path), $vars);
+        return strtr(file_get_contents($path), $context);
     }
 }

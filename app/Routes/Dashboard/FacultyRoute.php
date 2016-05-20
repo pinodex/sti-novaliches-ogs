@@ -27,8 +27,6 @@ class FacultyRoute implements ControllerProviderInterface
         
         $factory->get('/', array($controller, 'index'))->bind('dashboard.faculty');
 
-        $factory->get('/search', array($controller, 'index'))->bind('dashboard.faculty.search');
-
         $factory->match('/summary', array($controller, 'summary'))->bind('dashboard.faculty.summary');
 
         $factory->match('/add', array($controller, 'edit'))->bind('dashboard.faculty.add')->value('id', null);

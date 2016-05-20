@@ -27,8 +27,6 @@ class HeadsRoute implements ControllerProviderInterface
         
         $factory->get('/', array($controller, 'index'))->bind('dashboard.heads');
 
-        $factory->get('/search', array($controller, 'index'))->bind('dashboard.heads.search');
-
         $factory->match('/add', array($controller, 'edit'))->bind('dashboard.heads.add')->value('id', null);
 
         $factory->match('/{id}/edit', array($controller, 'edit'))->bind('dashboard.heads.edit');

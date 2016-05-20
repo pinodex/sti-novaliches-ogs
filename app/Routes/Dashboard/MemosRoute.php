@@ -27,8 +27,6 @@ class MemosRoute implements ControllerProviderInterface
         
         $factory->get('/', array($controller, 'index'))->bind('dashboard.memos');
 
-        $factory->get('/search', array($controller, 'index'))->bind('dashboard.memos.search');
-
         $factory->match('/send', array($controller, 'send'))->bind('dashboard.memos.send');
 
         $factory->get('/{id}', array($controller, 'view'))->bind('dashboard.memos.view');
