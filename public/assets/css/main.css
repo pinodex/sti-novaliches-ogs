@@ -382,8 +382,8 @@ table {
 
 @font-face {
   font-family: 'icomoon';
-  src: url("../fonts/icomoon.eot?9ye6vp");
-  src: url("../fonts/icomoon.eot?9ye6vp#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?9ye6vp") format("truetype"), url("../fonts/icomoon.woff?9ye6vp") format("woff"), url("../fonts/icomoon.svg?9ye6vp#icomoon") format("svg");
+  src: url("../fonts/icomoon.eot?s13y3j");
+  src: url("../fonts/icomoon.eot?s13y3j#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?s13y3j") format("truetype"), url("../fonts/icomoon.woff?s13y3j") format("woff"), url("../fonts/icomoon.svg?s13y3j#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -427,6 +427,10 @@ table {
 
 .icon-head:before {
   content: "\e85e";
+}
+
+.icon-sections:before {
+  content: "\e228";
 }
 
 .icon-done:before {
