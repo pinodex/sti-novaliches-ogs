@@ -13,6 +13,7 @@ namespace App\Controllers;
 
 use App\Services\Auth;
 use App\Services\Csrf;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Base controller
@@ -73,7 +74,7 @@ class Controller
         return $this->user === null;
     }
 
-    protected function isTokenValid($identifier, $request)
+    protected function isTokenValid($identifier, Request $request)
     {
         return Csrf::isValid($identifier, $request->request->get('_token'));
     }

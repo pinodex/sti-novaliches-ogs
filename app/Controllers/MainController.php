@@ -75,8 +75,6 @@ class MainController extends Controller
 
         Form::handleFlashErrors('login_form', $form);
 
-        $isAccountLocked = false;
-
         if ($form->isValid()) {
             $data = $form->getData();
 

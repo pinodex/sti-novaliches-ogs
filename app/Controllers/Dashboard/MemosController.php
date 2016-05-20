@@ -19,6 +19,7 @@ use App\Services\View;
 use App\Services\Form;
 use App\Services\FlashBag;
 use App\Controllers\Controller;
+use Illuminate\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
