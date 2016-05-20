@@ -32,6 +32,7 @@ $app->mount('/dashboard/guidance',          new Dashboard\GuidanceRoute);
 $app->mount('/dashboard/departments',       new Dashboard\DepartmentsRoute);
 $app->mount('/dashboard/students',          new Dashboard\StudentsRoute);
 $app->mount('/dashboard/grades',            new Dashboard\GradesRoute);
+$app->mount('/dashboard/sections',          new Dashboard\SectionsRoute);
 $app->mount('/dashboard/memos',             new Dashboard\MemosRoute);
 $app->mount('/dashboard/settings',          new Dashboard\SettingsRoute);
 

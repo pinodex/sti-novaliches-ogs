@@ -46,6 +46,7 @@ class AdminProvider implements AuthProviderInterface
             'App\Controllers\Dashboard\HeadsController',
             'App\Controllers\Dashboard\MainController',
             'App\Controllers\Dashboard\MemosController',
+            'App\Controllers\Dashboard\SectionsController',
             'App\Controllers\Dashboard\SettingsController',
             'App\Controllers\Dashboard\StudentsController',
             'App\Controllers\Dashboard\StudentsImportController',
