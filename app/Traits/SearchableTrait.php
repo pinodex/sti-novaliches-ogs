@@ -39,7 +39,9 @@ trait SearchableTrait
      */
     public static function search($queries, $relations = null, $builderHook = null)
     {
-        $model = static::orderBy(DB::raw(self::$nameConcats[0]), 'ASC');
+        // We can do "ORDER BY CONCAT(last_name, ' ', first_name, ' ', middle_name) ASC", but it will
+        // be slower than not using concat. So we'll order one by one.
+        $model = static::orderBy('last_name', 'ASC')->orderBy('first_name', 'ASC')->orderBy('middle_name', 'ASC');
 
         if ($relations && count($relations) > 0) {
             call_user_func_array(array($model, 'with'), $relations);
