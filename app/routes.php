@@ -41,11 +41,23 @@ $app->mount('/dashboard/students/import',   new Dashboard\StudentsImportRoute);
 $app->mount('/dashboard/grades/import',     new Dashboard\GradesImportRoute);
 
 $app->before(function (Request $request, Application $app) {
+    $requestUri = $request->getRequestUri();
+
+    if ($request->getMethod() == 'GET' && strpos($requestUri, '/index.php') === 0) {
+        $redirect = substr($requestUri, 10, strlen($requestUri));
+
+        if (empty($redirect)) {
+            $redirect = '/';
+        }
+
+        return $app->redirect($redirect);
+    }
+
     if (is_array($request->get('_controller')) &&
         !Auth::isAllowed($request->get('_controller'))) {
         
         if (Auth::user()) {
-            FlashBag::add('messages', 'danger>>>You are not allowed to perform this action');
+            $app->abort(403);
         }
 
         return $app->redirect($app->path('site.login', array(
@@ -55,11 +67,13 @@ $app->before(function (Request $request, Application $app) {
 });
 
 $app->after(function (Request $request, Response $response) {
+    header_remove('X-Powered-By');
+
     $response->headers->add(array(
         'X-Frame-Options'   => 'SAMEORIGIN',
-        'Cache-Control'     => 'no-cache, no-store, max-age=0, must-revalidate',
         'Pragma'            => 'no-cache',
-        'Expires'           => 'Thu, 9 Sept 1999 09:00:00 GMT'
+        'Expires'           => 'Thu, 9 Sept 1999 09:00:00 GMT',
+        'Cache-Control'     => 'no-cache, no-store, max-age=0, must-revalidate'
     ));
 });
 
