@@ -60,6 +60,11 @@ class StudentsController extends Controller
             'required'  => false
         ));
 
+        $form->add('section', 'text', array(
+            'label'     => 'Search by section',
+            'required'  => false
+        ));
+
         $context['search_form'] = $form->getForm()->createView();
         
         $query = array();
@@ -75,14 +80,24 @@ class StudentsController extends Controller
             $query[] = array('name', 'LIKE', '%' . $name . '%');
         }
 
-        if ($this->isRole('faculty')) {
-            $builderHook = function (Builder $builder) {
+        $section = $request->query->get('section');
+
+        $builderHook = function (Builder $builder) use ($section) {
+            if ($this->isRole('faculty') || $section) {
                 $builder->leftJoin('grades', 'students.id', '=', 'grades.student_id');
+            }
+
+            if ($this->isRole('faculty')) {
                 $builder->where('importer_id', $this->user->getModel()->id);
-            };
-        }
+            }
+
+            if ($section) {
+                $builder->where('section', $section);
+            }
+        };
 
         $context['result'] = Student::search($query, null, $builderHook)->toArray();
+        $context['section'] = $section;
 
         return View::render('dashboard/students/index', $context);
     }
