@@ -125,15 +125,16 @@ class StudentsController extends Controller
             }
         }
 
-        $context = array(
+        $period = strtolower(Settings::get('period', 'prelim'));
+
+        return View::render('dashboard/students/view', array(
             'student'       => $student->toArray(),
             'grades'        => $student->grades->toArray(),
-            'period'        => strtolower(Settings::get('period', 'prelim'))
-        );
-
-        $context['active_period'] = array_flip(array('prelim', 'midterm', 'prefinal', 'final'))[$context['period']];
-
-        return View::render('dashboard/students/view', $context);
+            'period'        => $period,
+            'active_period' => array_flip(
+                array('prelim', 'midterm', 'prefinal', 'final')
+            )[$period]
+        ));
     }
 
     /**

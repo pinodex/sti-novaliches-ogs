@@ -73,13 +73,15 @@ class FacultyController extends Controller
      */
     public function summary()
     {
-        $context = array(
-            'faculty'       => Faculty::all(),
-            'period'        => strtolower(Settings::get('period', 'prelim')),
-            'periodIndex'   => array_flip(array('prelim', 'midterm', 'prefinal', 'final'))[$period]
-        );
+        $period = strtolower(Settings::get('period', 'prelim'));
 
-        return View::render('dashboard/faculty/summary', $context);
+        return View::render('dashboard/faculty/summary', array(
+            'faculty'       => Faculty::all(),
+            'period'        => $period,
+            'periodIndex'   => array_flip(
+                array('prelim', 'midterm', 'prefinal', 'final')
+            )[$period]
+        ));
     }
 
     /**
@@ -103,7 +105,10 @@ class FacultyController extends Controller
         $context = array();
 
         $context['period'] = strtolower(Settings::get('period', 'prelim'));
-        $context['active_period'] = array_flip(array('prelim', 'midterm', 'prefinal', 'final'))[$context['period']];
+        
+        $context['active_period'] = array_flip(
+            array('prelim', 'midterm', 'prefinal', 'final')
+        )[$context['period']];
 
         $context['sections'] = array();
 

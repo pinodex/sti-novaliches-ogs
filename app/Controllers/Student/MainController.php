@@ -43,13 +43,14 @@ class MainController extends Controller
         }
 
         $period = strtolower(Settings::get('period', 'prelim'));
-        $periodIndex = array_flip(array('prelim', 'midterm', 'prefinal', 'final'))[$period];
 
         return View::render('student/index', array(
             'student'       => $user->toArray(),
             'grades'        => $user->grades->toArray(),
             'period'        => $period,
-            'active_period' => $periodIndex
+            'active_period' => array_flip(
+                array('prelim', 'midterm', 'prefinal', 'final')
+            )[$period]
         ));
     }
 
