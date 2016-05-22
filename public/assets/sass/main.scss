@@ -92,7 +92,11 @@ a, a:visited {
     }
 }
 
-div > h1:first-child {
+div > h1:first-child,
+div > h2:first-child,
+div > h3:first-child,
+div > h4:first-child,
+div > h5:first-child {
     margin-top: 0;
 }
 

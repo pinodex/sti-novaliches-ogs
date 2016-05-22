@@ -27,6 +27,8 @@ class SectionsRoute implements ControllerProviderInterface
         
         $factory->get('/', array($controller, 'index'))->bind('dashboard.sections');
 
+        $factory->get('/{section}', array($controller, 'summary'))->bind('dashboard.sections.summary');
+
         return $factory;
     }
 }

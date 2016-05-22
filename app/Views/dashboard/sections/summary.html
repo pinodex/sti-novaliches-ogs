@@ -1,0 +1,65 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = section|upper %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ page_title }} summary</h1>
+
+        <div class="grid">
+            <div class="column-12">
+                {% if subjects is empty %}
+                    <div class="alert alert-neutral">No records found</div>
+                {% else %}
+                    <ul class="tabs">
+                        <li @click="activateTab(0)" :class="{'active': activeTab == 0}">Prelim</li>
+                        <li @click="activateTab(1)" :class="{'active': activeTab == 1}">Midterm</li>
+                        <li @click="activateTab(2)" :class="{'active': activeTab == 2}">Prefinal</li>
+                        <li @click="activateTab(3)" :class="{'active': activeTab == 3}">Final</li>
+                    </ul>
+
+                    <table class="center-align">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="long">Subject</span>
+                                    <span class="short">S</span>
+                                </th>
+                                <th>
+                                    <span class="long">Failed</span>
+                                    <span class="short">F</span>
+                                </th>
+                                <th>
+                                    <span class="long">Dropped</span>
+                                    <span class="short">D</span>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for subject, data in subjects %}
+                                <tr>
+                                    <td>{{ subject }}</td>
+                                    <td>
+                                        <span v-show="activeTab == 0">{{ data.failed.prelim }}</span>
+                                        <span v-show="activeTab == 1">{{ data.failed.midterm }}</span>
+                                        <span v-show="activeTab == 2">{{ data.failed.prefinal }}</span>
+                                        <span v-show="activeTab == 3">{{ data.failed.final }}</span>
+                                    </td>
+                                    <td>
+                                        <span v-show="activeTab == 0">{{ data.dropped.prelim }}</span>
+                                        <span v-show="activeTab == 1">{{ data.dropped.midterm }}</span>
+                                        <span v-show="activeTab == 2">{{ data.dropped.prefinal }}</span>
+                                        <span v-show="activeTab == 3">{{ data.dropped.final }}</span>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+
+                <p><a href="{{ path('dashboard.students', {section: section}) }}">View students in this section</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
