@@ -140,8 +140,11 @@ class Faculty extends Model
      */
     public function getFirstGradeImportAtAttribute($period = null)
     {
-        if ($first = $this->submissionLogs()->getQuery()
-            ->where('period', $period ?: Settings::get('period'))->first()) {
+        if ($period === null) {
+            $period = Settings::get('period', 'prelim');
+        }
+
+        if ($first = $this->submissionLogs()->getQuery()->where('period', $period)->first()) {
             
             return $first->date;
         }
@@ -156,8 +159,11 @@ class Faculty extends Model
      */
     public function getIsNeverSubmittedAttribute($period = null)
     {
-        return $this->submissionLogs()->getQuery()
-            ->where('period', $period ?: Settings::get('period'))->count() == 0;
+        if ($period === null) {
+            $period = Settings::get('period', 'prelim');
+        }
+
+        return $this->submissionLogs()->getQuery()->where('period', $period)->count() == 0;
     }
 
     /**
@@ -252,7 +258,10 @@ class Faculty extends Model
      */
     public function getIsSubmittedLateAttribute($period = null)
     {
-        $period = $period ?: Settings::get('period');
+        if ($period === null) {
+            $period = Settings::get('period', 'prelim');
+        }
+
         $firstLog = $this->submissionLogs()->getQuery()->where('period', $period)->take(1)->first();
 
         if ($firstLog) {
@@ -275,8 +284,12 @@ class Faculty extends Model
      */
     public function getNumberOfFailsAttribute($period = null)
     {
+        if ($period === null) {
+            $period = Settings::get('period', 'prelim');
+        }
+
+        $period = strtolower($period) . '_grade';
         $count = 0;
-        $period = strtolower($period ?: Settings::get('period', 'prelim')) . '_grade';
 
         foreach ($this->submittedGrades as $grade) {
             if ($grade->getOriginal($period) !== null && $grade->getOriginal($period) < 75) {
@@ -296,8 +309,12 @@ class Faculty extends Model
      */
     public function getNumberOfDropsAttribute($period = null)
     {
+        if ($period === null) {
+            $period = Settings::get('period', 'prelim');
+        }
+        
+        $period = strtolower($period) . '_grade';
         $count = 0;
-        $period = strtolower($period ?: Settings::get('period', 'prelim')) . '_grade';
 
         foreach ($this->submittedGrades as $grade) {
             if ($grade->getOriginal($period) == -1) {
