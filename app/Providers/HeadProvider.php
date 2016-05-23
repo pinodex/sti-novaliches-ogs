@@ -51,7 +51,9 @@ class HeadProvider implements AuthProviderInterface
             'App\Controllers\Dashboard\StudentsController' => array(
                 'index',
                 'view'
-            )
+            ),
+
+            'App\Controllers\Dashboard\SectionsController',
         );
     }
     
