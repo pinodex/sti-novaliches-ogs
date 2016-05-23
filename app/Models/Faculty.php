@@ -317,7 +317,7 @@ class Faculty extends Model
         $count = 0;
 
         foreach ($this->submittedGrades as $grade) {
-            if ($grade->getOriginal($period) == -1) {
+            if ($grade->getOriginal($period) !== null && $grade->getOriginal($period) == -1) {
                 $count++;
             }
         }
