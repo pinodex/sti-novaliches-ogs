@@ -51,6 +51,11 @@ class SectionsController extends Controller
             'required'  => false
         ));
 
+        $form->add('subject', 'text', array(
+            'label'     => 'Subject code',
+            'required'  => false
+        ));
+
         $form->add('faculty', 'choice', array(
             'required'  => false,
             'choices'   => Faculty::getFormChoices()
@@ -58,10 +63,14 @@ class SectionsController extends Controller
 
         $context['search_form'] = $form->getForm()->createView();
 
-        $grades = Grade::orderBy('section', 'ASC');
+        $grades = Grade::orderBy('section', 'ASC')->orderBy('subject', 'ASC');
 
         if ($section = $request->query->get('section')) {
             $grades->where('section', 'LIKE', '%' . $section . '%');
+        }
+
+        if ($subject = $request->query->get('subject')) {
+            $grades->where('subject', 'LIKE', '%' . $subject . '%');
         }
 
         if ($faculty = $request->query->get('faculty')) {
