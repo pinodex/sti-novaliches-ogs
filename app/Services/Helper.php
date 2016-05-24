@@ -255,7 +255,7 @@ class Helper
             return -2;
         }
 
-        return $grade;
+        return intval($grade);
     }
 
     /**
@@ -263,7 +263,7 @@ class Helper
      * 
      * @param int $grade Grade
      * 
-     * @return string
+     * @return string|int
      */
     public static function formatGrade($grade)
     {
