@@ -251,6 +251,10 @@ class Helper
             return -1;
         }
 
+        if (preg_match('/(?i)TRF/', $grade)) {
+            return -2;
+        }
+
         return $grade;
     }
 
@@ -273,6 +277,10 @@ class Helper
 
         if ($grade === -1 || $grade === 'DRP') {
             return 'DRP';
+        }
+
+        if ($grade === -2 || $grade === 'TRF') {
+            return 'TRF';
         }
 
         return $grade;
