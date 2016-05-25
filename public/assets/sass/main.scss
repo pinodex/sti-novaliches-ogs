@@ -269,27 +269,27 @@ a.button[disabled]:not(.link) {
 }
 
 .color-primary {
-    color: $brand-primary;
+    color: $brand-primary-hover;
 }
 
 .color-success {
-    color: $brand-success;
+    color: $brand-success-hover;
 }
 
 .color-warning {
-    color: $brand-warning;
+    color: $brand-warning-hover;
 }
 
 .color-danger {
-    color: $brand-danger;
+    color: $brand-danger-hover;
 }
 
 .color-info {
-    color: $brand-info;
+    color: $brand-info-hover;
 }
 
 .color-neutral {
-    color: $black-50;
+    color: $black-70;
 }
 
 a.button {

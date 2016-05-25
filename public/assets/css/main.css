@@ -959,27 +959,27 @@ a.button[disabled]:not(.link), .button[disabled].link:not(.link) {
 }
 
 .color-primary {
-  color: #428bca;
+  color: #3071a9;
 }
 
 .color-success {
-  color: #5cb85c;
+  color: #449d44;
 }
 
 .color-warning {
-  color: #f0ad4e;
+  color: #ec971f;
 }
 
 .color-danger {
-  color: #d9534f;
+  color: #c9302c;
 }
 
 .color-info {
-  color: #5bc0de;
+  color: #31b0d5;
 }
 
 .color-neutral {
-  color: gray;
+  color: #4d4d4d;
 }
 
 a.button, input.button[type="button"].link, .button.link {
