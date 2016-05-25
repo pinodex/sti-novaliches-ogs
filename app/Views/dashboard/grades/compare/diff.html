@@ -1,0 +1,145 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'Compare grades' %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ page_title }}</h1>
+
+        {% if result.data is empty %}
+            <div class="alert alert-neutral">No records found</div>
+        {% else %}
+            <select name="pages" @change="changePaginationPage" v-model="paginationPage">
+                {% for i in 1..result.last_page %}
+                    <option value="{{ i }}">Page {{ i }}</option>
+                {% endfor %}
+            </select>
+
+            <div class="grid">
+                <div class="column-6">
+                    <div class="panel">
+                        <div class="panel-heading">Database</div>
+                        
+                        <table class="center-align">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span class="long">Student #</span>
+                                        <span class="short">#</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Section</span>
+                                        <span class="short">S</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Subject</span>
+                                        <span class="short">S</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Prelim</span>
+                                        <span class="short">P</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Midterm</span>
+                                        <span class="short">M</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Pre-final</span>
+                                        <span class="short">PF</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Final</span>
+                                        <span class="short">F</span>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for i, diff in result.data %}
+                                    <tr>
+                                        {% if diff.source is not null %}
+                                            <td>{{ diff.target.student_id }}</td>
+                                            <td>{{ diff.target.section }}</td>
+                                            <td>{{ diff.target.subject }}</td>
+                                            <td class="{{ diff.target.prelim_grade != diff.source.prelim_grade ? 'color-danger': '' }}">{{ diff.target.prelim_grade }}</td>
+                                            <td class="{{ diff.target.midterm_grade != diff.source.midterm_grade ? 'color-danger': '' }}">{{ diff.target.midterm_grade }}</td>
+                                            <td class="{{ diff.target.prefinal_grade != diff.source.prefinal_grade ? 'color-danger': '' }}">{{ diff.target.prefinal_grade }}</td>
+                                            <td class="{{ diff.target.final_grade != diff.source.final_grade ? 'color-danger': '' }}">{{ diff.target.final_grade }}</td>
+                                        {% else %}
+                                            <td>{{ diff.target.student_id }}</td>
+                                            <td>{{ diff.target.section }}</td>
+                                            <td>{{ diff.target.subject }}</td>
+                                            <td class="color-warning">{{ diff.target.prelim_grade }}</td>
+                                            <td class="color-warning">{{ diff.target.midterm_grade }}</td>
+                                            <td class="color-warning">{{ diff.target.prefinal_grade }}</td>
+                                            <td class="color-warning">{{ diff.target.final_grade }}</td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="column-6">
+                    <div class="panel">
+                        <div class="panel-heading">Uploaded CSV</div>
+
+                        <table class="center-align">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span class="long">Student #</span>
+                                        <span class="short">#</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Section</span>
+                                        <span class="short">S</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Subject</span>
+                                        <span class="short">S</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Prelim</span>
+                                        <span class="short">P</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Midterm</span>
+                                        <span class="short">M</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Pre-final</span>
+                                        <span class="short">PF</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Final</span>
+                                        <span class="short">F</span>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for i, diff in result.data %}
+                                    <tr>
+                                        {% if diff.source is not null %}
+                                            <td>{{ diff.source.student_id }}</td>
+                                            <td>{{ diff.source.section }}</td>
+                                            <td>{{ diff.source.subject }}</td>
+                                            <td class="{{ diff.target.prelim_grade != diff.source.prelim_grade ? 'color-danger': '' }}">{{ diff.source.prelim_grade }}</td>
+                                            <td class="{{ diff.target.midterm_grade != diff.source.midterm_grade ? 'color-danger': '' }}">{{ diff.source.midterm_grade }}</td>
+                                            <td class="{{ diff.target.prefinal_grade != diff.source.prefinal_grade ? 'color-danger': '' }}">{{ diff.source.prefinal_grade }}</td>
+                                            <td class="{{ diff.target.final_grade != diff.source.final_grade ? 'color-danger': '' }}">{{ diff.source.final_grade }}</td>
+                                        {% else %}
+                                            <td colspan="7">Grade entry not found</td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -40,6 +40,8 @@ $app->mount('/dashboard/faculty/import',    new Dashboard\FacultyImportRoute);
 $app->mount('/dashboard/students/import',   new Dashboard\StudentsImportRoute);
 $app->mount('/dashboard/grades/import',     new Dashboard\GradesImportRoute);
 
+$app->mount('/dashboard/grades/compare',     new Dashboard\GradesCompareRoute);
+
 $app->before(function (Request $request, Application $app) {
     $requestUri = $request->getRequestUri();
 
