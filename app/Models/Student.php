@@ -43,7 +43,8 @@ class Student extends Model
     );
 
     protected $appends = array(
-        'is_required_info_filled'
+        'is_required_info_filled',
+        'name'
     );
 
     /**

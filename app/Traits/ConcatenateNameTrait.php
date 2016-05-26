@@ -23,6 +23,6 @@ trait ConcatenateNameTrait
      */
     public function getNameAttribute()
     {
-        return ucwords($this->last_name . ', ' . $this->first_name);
+        return ucwords(strtolower($this->last_name . ', ' . $this->first_name));
     }
 }
