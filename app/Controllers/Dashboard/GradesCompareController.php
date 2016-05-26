@@ -15,10 +15,9 @@ use Silex\Application;
 use App\Models\Grade;
 use App\Services\View;
 use App\Services\Form;
-use App\Services\Session;
+use App\Services\FlashBag;
 use App\Controllers\Controller;
 use App\Components\Parser\MasterGradingSheet;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -47,7 +46,6 @@ class GradesCompareController extends Controller
         $this->cache->remove('master_grading_sheet');
 
         $form = Form::create();
-        $fs = new Filesystem();
 
         $form->add('file', 'file', array(
             'label' => ' ',
@@ -110,7 +108,7 @@ class GradesCompareController extends Controller
                 'student_id', 'importer_id', 'subject', 'section', 'prelim_grade', 'midterm_grade', 'prefinal_grade', 'final_grade'
             ));
 
-            $mismatches->each(function ($entry) use ($chunk, &$aggregation) {
+            $mismatches->each(function (Grade $entry) use ($chunk, &$aggregation) {
                 $target = $entry->toArray();
                 $source = null;
 
