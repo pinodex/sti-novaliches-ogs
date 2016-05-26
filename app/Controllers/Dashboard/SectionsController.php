@@ -11,17 +11,14 @@
 
 namespace App\Controllers\Dashboard;
 
-use Silex\Application;
 use App\Models\Grade;
 use App\Models\Faculty;
-use App\Models\Student;
 use App\Services\View;
 use App\Services\Form;
 use App\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Arr;
 
 /**
  * Route controller for section management pages
