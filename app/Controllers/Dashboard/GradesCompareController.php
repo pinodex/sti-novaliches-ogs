@@ -15,7 +15,6 @@ use Silex\Application;
 use App\Models\Grade;
 use App\Services\View;
 use App\Services\Form;
-use App\Services\Cache;
 use App\Services\Session;
 use App\Controllers\Controller;
 use App\Components\Parser\MasterGradingSheet;
@@ -45,7 +44,7 @@ class GradesCompareController extends Controller
 
     public function upload(Request $request, Application $app)
     {
-        Cache::getInstance()->remove('master_grading_sheet');
+        $this->cache->remove('master_grading_sheet');
 
         $form = Form::create();
         $fs = new Filesystem();
@@ -70,7 +69,7 @@ class GradesCompareController extends Controller
             }
 
             $gradingSheet = MasterGradingSheet::parse($file->getPathname());
-            Cache::getInstance()->put('master_grading_sheet', $gradingSheet->getSheetContents(0));
+            $this->cache->put('master_grading_sheet', $gradingSheet->getSheetContents(0));
 
             return $app->redirect($app->path('dashboard.grades.compare.diff'));
         }
@@ -82,7 +81,7 @@ class GradesCompareController extends Controller
 
     public function diff(Request $request, Application $app)
     {
-        if (!Cache::getInstance()->has('master_grading_sheet')) {
+        if (!$this->cache->has('master_grading_sheet')) {
             return $app->redirect($app->path('dashboard.grades.compare.upload'));
         }
 
@@ -93,7 +92,7 @@ class GradesCompareController extends Controller
         }
         
         $aggregation = array();
-        $csvData = new Collection(Cache::getInstance()->get('master_grading_sheet'));
+        $csvData = new Collection($this->cache->get('master_grading_sheet'));
         
         // Chunk to multiple queries get pass the database's limits
         $csvData->chunk(250)->each(function (Collection $chunk) use (&$aggregation) {

@@ -13,6 +13,7 @@ namespace App\Controllers;
 
 use App\Services\Auth;
 use App\Services\Csrf;
+use App\Services\Cache;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -31,11 +32,17 @@ class Controller
     protected $userModel;
 
     /**
+     * @var \App\Components\Cache Cache instance
+     */
+    protected $cache;
+
+    /**
      * Constructs base controller class
      */
     public function __construct()
     {
         $this->user = Auth::user();
+        $this->cache = Cache::getInstance();
     }
 
     /**

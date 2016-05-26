@@ -14,7 +14,6 @@ namespace App\Controllers\Dashboard;
 use Silex\Application;
 use App\Services\View;
 use App\Services\Form;
-use App\Services\Cache;
 use App\Services\Session;
 use App\Services\FlashBag;
 use App\Controllers\Controller;
@@ -52,7 +51,7 @@ class GradesImportController extends Controller
         Session::remove('gw_selected_sheets');
         Session::remove('gw_import_done');
 
-        Cache::getInstance()->remove('grading_sheet');
+        $this->cache->remove('grading_sheet');
 
         $form = Form::create();
 
@@ -148,7 +147,7 @@ class GradesImportController extends Controller
             if ($previousData = Session::get('gw_selected_sheets')) {
                 // Check if there are changes to sheet selection before busting the cache
                 if ($previousData != $data) {
-                    Cache::getInstance()->remove('grading_sheet');
+                    $this->cache->remove('grading_sheet');
                 }
             }
 
@@ -178,11 +177,11 @@ class GradesImportController extends Controller
 
         /* Check if spreadsheet contents is cached in the session database
            Used remove the need to load the spreadsheet file again, thus saving time */
-        if (!$contents = Cache::getInstance()->get('grading_sheet')) {
+        if (!$contents = $this->cache->get('grading_sheet')) {
             set_time_limit(0);
             
             $contents = GradingSheet::parse($uploadedFile)->getSheetsContent($selectedSheets);
-            Cache::getInstance()->put('grading_sheet', $contents);
+            $this->cache->put('grading_sheet', $contents);
         }
 
         $form = Form::create();
@@ -238,7 +237,7 @@ class GradesImportController extends Controller
         Session::remove('gw_selected_sheets');
         Session::remove('gw_import_done');
 
-        Cache::getInstance()->remove('grading_sheet');
+        $this->cache->remove('grading_sheet');
         
         @unlink($uploadedFile);
         
