@@ -16,6 +16,7 @@ use App\Services\Auth;
 use App\Services\Csrf;
 use App\Services\Form;
 use App\Services\View;
+use App\Services\Session;
 use App\Services\FlashBag;
 use App\Exceptions\AuthException;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,6 +55,14 @@ class MainController extends Controller
         if ($this->isLoggedIn()) {
             return $app->redirect($app->path('site.index'));
         }
+        
+        $failedLogins = Session::get('failed_logins', 0);
+        $secondsLeftUntilUnlock = (300 - (time() - (Session::get('last_failed_login') + 300)));
+
+        if ($secondsLeftUntilUnlock <= 0) {
+            Session::set('failed_logins', 0);
+            $failedLogins = 0;
+        }
 
         $form = Form::create();
         
@@ -76,6 +85,17 @@ class MainController extends Controller
         Form::handleFlashErrors('login_form', $form);
 
         if ($form->isValid()) {
+            if ($failedLogins >= 10) {
+                $minutesLeft = ceil($secondsLeftUntilUnlock / 60) . ' minute';
+
+                if ($minutesLeft > 1) {
+                    $minutesLeft .= 's';
+                }
+
+                Form::flashError('login_form', 'You have exceeded the maximum failed login attempts. Try again after ' . $minutesLeft);
+                return $app->redirect($app->path('site.login'));
+            }
+
             $data = $form->getData();
 
             try {
@@ -92,6 +112,9 @@ class MainController extends Controller
                         'next' => $next
                     )));
                 }
+
+                Session::set('failed_logins', ++$failedLogins);
+                Session::set('last_failed_login', time());
 
                 return $app->redirect($app->path('site.login'));
             }
@@ -125,31 +148,5 @@ class MainController extends Controller
         }
 
         return $app->redirect($app->path('site.login'));
-    }
-
-    /**
-     * Account settings redirector
-     * 
-     * URL: /settings
-     */
-    public function settings(Application $app)
-    {
-        $destination = 'site.login';
-        
-        if ($this->user) {
-            $role = $this->user->getProvider()->getRole();
-
-            switch ($role) {
-                case 'admin':
-                    $destination = 'admin.settings';
-                    break;
-                
-                case 'faculty':
-                    $destination = 'faculty.settings';
-                    break;
-            }
-        }
-
-        return $app->redirect($app->path($destination));
     }
 }
