@@ -67,7 +67,7 @@ class Grade extends Model
      */
     public function importer()
     {
-        return $this->belongsTo('App\Models\Faculty', 'importer_id');
+        return $this->belongsTo('App\Models\Faculty');
     }
 
     /**

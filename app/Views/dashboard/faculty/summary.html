@@ -44,7 +44,7 @@
             </div>
 
             <div class="column-9">
-                <table class="center-align">
+                <table class="center-align printable">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -71,7 +71,7 @@
                     {% endfor %}
                 </table>
 
-                <button @click="printDocument()">Print Document</button>
+                <button @click="printDocument()" class="print-invisible">Print Document</button>
             </div>
         </div>
     </div>

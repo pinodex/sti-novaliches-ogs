@@ -292,6 +292,10 @@ a.button[disabled]:not(.link) {
     color: $black-70;
 }
 
+.text-bold {
+    font-weight: bold;
+}
+
 a.button {
     text-decoration: none;
 }
@@ -665,6 +669,10 @@ table {
                     display: none;
                 }
             }
+
+            &.has-parent {
+                border-top: 1px solid #ccc;
+            }
         }
     }
 
@@ -885,6 +893,36 @@ table {
 
     .print-visible {
         display: block !important;
+    }
+
+    table.printable {
+        border-color: #111;
+
+        thead,
+        th + th,
+        td + td,
+        th, td,
+        thead th.has-parent {
+            border-color: #111;
+        }
+
+        tbody {
+            tr:nth-child(even) {
+                background: none;
+            }
+
+            tr + tr {
+                border-top: 1px solid #111;
+            }
+
+            td {
+                vertical-align: middle;
+            }
+        }
+    }
+
+    .sf-toolbar {
+        display: none !important;
     }
 }
 

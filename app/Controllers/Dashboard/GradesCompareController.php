@@ -97,7 +97,7 @@ class GradesCompareController extends Controller
         
         // Chunk to multiple queries get pass the database's limits
         $csvData->chunk(250)->each(function (Collection $chunk) use (&$aggregation) {
-            $query = Grade::query();
+            $query = Grade::with('student', 'importer');
 
             $chunk->each(function ($record) use ($query) {
                 $query->where(function (Builder $builder) use ($record) {
@@ -108,7 +108,7 @@ class GradesCompareController extends Controller
             });
 
             $mismatches = $query->get(array(
-                'student_id', 'subject', 'section', 'prelim_grade', 'midterm_grade', 'prefinal_grade', 'final_grade'
+                'student_id', 'importer_id', 'subject', 'section', 'prelim_grade', 'midterm_grade', 'prefinal_grade', 'final_grade'
             ));
 
             $mismatches->each(function ($entry) use ($chunk, &$aggregation) {

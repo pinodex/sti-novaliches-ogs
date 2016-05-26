@@ -982,6 +982,10 @@ a.button[disabled]:not(.link), .button[disabled].link:not(.link) {
   color: #4d4d4d;
 }
 
+.text-bold {
+  font-weight: bold;
+}
+
 a.button, input.button[type="button"].link, .button.link {
   text-decoration: none;
 }
@@ -1303,6 +1307,9 @@ table thead th .long {
     display: none;
   }
 }
+table thead th.has-parent {
+  border-top: 1px solid #ccc;
+}
 table tbody tr:nth-child(even) {
   background: #eee;
 }
@@ -1483,6 +1490,30 @@ table.simple td {
 
   .print-visible {
     display: block !important;
+  }
+
+  table.printable {
+    border-color: #111;
+  }
+  table.printable thead,
+  table.printable th + th,
+  table.printable td + td,
+  table.printable th, table.printable td,
+  table.printable thead th.has-parent {
+    border-color: #111;
+  }
+  table.printable tbody tr:nth-child(even) {
+    background: none;
+  }
+  table.printable tbody tr + tr {
+    border-top: 1px solid #111;
+  }
+  table.printable tbody td {
+    vertical-align: middle;
+  }
+
+  .sf-toolbar {
+    display: none !important;
   }
 }
 @keyframes pulse {
