@@ -17,6 +17,7 @@ use App\Services\View;
 use App\Services\Form;
 use App\Services\FlashBag;
 use App\Controllers\Controller;
+use App\Components\GradesComparator;
 use App\Components\Parser\MasterGradingSheet;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -86,9 +87,17 @@ class GradesCompareController extends Controller
                 return $page;
             });
         }
+
+        $query = Grade::with('student', 'importer');
+        $comparator = new GradesComparator($this->cache->get('master_grading_sheet'), $query);
+        $aggregation = $comparator->getMismatches();
+
+        // TODO: student name and importer name
+        // PLUCK PLUCK PLUCK
         
-        $aggregation = array();
-        $csvData = new Collection($this->cache->get('master_grading_sheet'));
+        /*
+        $aggregation = new Collection();
+        $csvData = Collection::make();
         
         // Chunk to multiple queries get pass the database's limits
         $csvData->chunk(250)->each(function (Collection $chunk) use (&$aggregation) {
@@ -97,7 +106,11 @@ class GradesCompareController extends Controller
             $chunk->each(function ($record) use ($query) {
                 $query->where(function (Builder $builder) use ($record) {
                     foreach ($record as $key => $value) {
-                        $builder->orWhere($key, '!=', $value);
+                        if ($value === null) {
+                            $builder->orWhereNotNull($key);
+                        } else {
+                            $builder->orWhere($key, '!=', $value);
+                        }
                     }
                 });
             });
@@ -107,29 +120,40 @@ class GradesCompareController extends Controller
             ));
 
             $mismatches->each(function (Grade $entry) use ($chunk, &$aggregation) {
-                $target = $entry->toArray();
-                $source = null;
+                $mismatch = array(
+                    'target' => $entry->toArray(),
+                    'source' => null
+                );
 
-                $searchId = $chunk->search(function ($item) use ($target) {
-                    return $item['student_id']  == $target['student_id'] &&
-                           $item['section']     == $target['section'] &&
-                           $item['subject']     == $target['subject'];
+                $searchId = $chunk->search(function ($item) use ($mismatch) {
+                    return $mismatch['target']['student_id'] == $item['student_id'] &&
+                           $mismatch['target']['section']    == $item['section'] &&
+                           $mismatch['target']['subject']    == $item['subject'];
                 });
 
                 if ($searchId !== false) {
-                    $source = $chunk->get($searchId);
+                    $mismatch['source'] = $chunk->get($searchId);
                 }
 
-                $aggregation[] = array(
-                    'source' => $source,
-                    'target' => $target
-                );
+                // Check if mismatched item is already aggregated
+                $aggregationSearch = $aggregation->search(function ($item) use ($mismatch) {
+                    return $mismatch['target']['student_id'] == $item['target']['student_id'] &&
+                           $mismatch['target']['section']    == $item['target']['section'] &&
+                           $mismatch['target']['subject']    == $item['target']['subject'];
+                });
+
+                // Add new mismatch entry if not yet aggregated
+                if ($aggregationSearch === false) {
+                    $aggregation->push($mismatch);
+                }
             });
         });
+        */
 
         return View::render('dashboard/grades/compare/diff', array(
             'result' => (new LengthAwarePaginator(
-                array_slice($aggregation, (50 * ($page - 1)), 50), count($aggregation), 50
+                $aggregation->forPage($page, 50),
+                $aggregation->count(), 50
             ))->toArray()
         ));
     }
