@@ -21,8 +21,6 @@ use App\Components\GradesComparator;
 use App\Components\Parser\MasterGradingSheet;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\Paginator;
 
 /**
