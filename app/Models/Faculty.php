@@ -208,7 +208,7 @@ class Faculty extends Model
     {
         $isValid = true;
 
-        $gradeGroups = $this->submittedGrades->groupBy(function (Grade $grade) {
+        $gradeGroups = $this->submittedGrades()->getQuery()->groupBy(function (Grade $grade) {
             return $grade->subject . ' ' . $grade->section;
         });
 
