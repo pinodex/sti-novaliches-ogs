@@ -83,26 +83,26 @@
                     {% for i, diff in result.data %}
                         <tr>
                             <td>{{ diff.student_id }}</td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ diff.student ? diff.student.name : 'N/A '}}</td>
+                            <td>{{ diff.importer ? diff.importer.name : 'N/A' }}</td>
                             <td>{{ diff.section }}</td>
                             <td>{{ diff.subject }}</td>
                                     
-                            {% if diff.source_hash is not null %}
-                                <td class="text-bold {{ diff.target_prelim_grade == diff.source_prelim_grade ? 'color-success' : 'color-danger' }}">{{ diff.target_prelim_grade == diff.source_prelim_grade ? 'OK' : diff.target_prelim_grade | format_grade }}</td>
-                                <td class="text-bold {{ diff.target_midterm_grade == diff.source_midterm_grade ? 'color-success' : 'color-danger' }}">{{ diff.target_midterm_grade == diff.source_midterm_grade ? 'OK' : diff.target_midterm_grade | format_grade }}</td>
-                                <td class="text-bold {{ diff.target_prefinal_grade == diff.source_prefinal_grade ? 'color-success' : 'color-danger' }}">{{ diff.target_prefinal_grade == diff.source_prefinal_grade ? 'OK' : diff.target_prefinal_grade | format_grade }}</td>
-                                <td class="text-bold {{ diff.target_final_grade == diff.source_final_grade ? 'color-success' : 'color-danger' }}">{{ diff.target_final_grade == diff.source_final_grade ? 'OK' : diff.target_final_grade | format_grade }}</td>
+                            {% if diff.source is not null %}
+                                <td class="text-bold {{ diff.target.prelim_grade == diff.source.prelim_grade ? 'color-success' : 'color-danger' }}">{{ diff.target.prelim_grade == diff.source.prelim_grade ? 'OK' : diff.target.prelim_grade | format_grade }}</td>
+                                <td class="text-bold {{ diff.target.midterm_grade == diff.source.midterm_grade ? 'color-success' : 'color-danger' }}">{{ diff.target.midterm_grade == diff.source.midterm_grade ? 'OK' : diff.target.midterm_grade | format_grade }}</td>
+                                <td class="text-bold {{ diff.target.prefinal_grade == diff.source.prefinal_grade ? 'color-success' : 'color-danger' }}">{{ diff.target.prefinal_grade == diff.source.prefinal_grade ? 'OK' : diff.target.prefinal_grade | format_grade }}</td>
+                                <td class="text-bold {{ diff.target.final_grade == diff.source.final_grade ? 'color-success' : 'color-danger' }}">{{ diff.target.final_grade == diff.source.final_grade ? 'OK' : diff.target.final_grade | format_grade }}</td>
 
-                                <td class="text-bold {{ diff.source_prelim_grade == diff.target_prelim_grade ? 'color-success' : 'color-danger' }}">{{ diff.source_prelim_grade == diff.target_prelim_grade ? 'OK' : diff.source_prelim_grade | format_grade }}</td>
-                                <td class="text-bold {{ diff.source_midterm_grade == diff.target_midterm_grade ? 'color-success' : 'color-danger' }}">{{ diff.source_midterm_grade == diff.target_midterm_grade ? 'OK' : diff.source_midterm_grade | format_grade }}</td>
-                                <td class="text-bold {{ diff.source_prefinal_grade == diff.target_prefinal_grade ? 'color-success' : 'color-danger' }}">{{ diff.source_prefinal_grade == diff.target_prefinal_grade ? 'OK' : diff.source_prefinal_grade | format_grade }}</td>
-                                <td class="text-bold {{ diff.source_final_grade == diff.target_final_grade ? 'color-success' : 'color-danger' }}">{{ diff.source_final_grade == diff.target_final_grade ? 'OK' : diff.source_final_grade | format_grade }}</td>
+                                <td class="text-bold {{ diff.source.prelim_grade == diff.target.prelim_grade ? 'color-success' : 'color-danger' }}">{{ diff.source.prelim_grade == diff.target.prelim_grade ? 'OK' : diff.source.prelim_grade | format_grade }}</td>
+                                <td class="text-bold {{ diff.source.midterm_grade == diff.target.midterm_grade ? 'color-success' : 'color-danger' }}">{{ diff.source.midterm_grade == diff.target.midterm_grade ? 'OK' : diff.source.midterm_grade | format_grade }}</td>
+                                <td class="text-bold {{ diff.source.prefinal_grade == diff.target.prefinal_grade ? 'color-success' : 'color-danger' }}">{{ diff.source.prefinal_grade == diff.target.prefinal_grade ? 'OK' : diff.source.prefinal_grade | format_grade }}</td>
+                                <td class="text-bold {{ diff.source.final_grade == diff.target.final_grade ? 'color-success' : 'color-danger' }}">{{ diff.source.final_grade == diff.target.final_grade ? 'OK' : diff.source.final_grade | format_grade }}</td>
                             {% else %}
-                                <td class="color-warning">{{ diff.target_prelim_grade|format_grade }}</td>
-                                <td class="color-warning">{{ diff.target_midterm_grade|format_grade }}</td>
-                                <td class="color-warning">{{ diff.target_prefinal_grade|format_grade }}</td>
-                                <td class="color-warning">{{ diff.target_final_grade|format_grade }}</td>
+                                <td class="color-warning">{{ diff.target.prelim_grade|format_grade }}</td>
+                                <td class="color-warning">{{ diff.target.midterm_grade|format_grade }}</td>
+                                <td class="color-warning">{{ diff.target.prefinal_grade|format_grade }}</td>
+                                <td class="color-warning">{{ diff.target.final_grade|format_grade }}</td>
 
                                 <td colspan="4" class="color-warning">Grade entry not found</td>
                             {% endif %}

@@ -22,10 +22,6 @@ use App\Models\Grade;
  */
 class GradesComparator
 {
-    private $csvData;
-
-    private $dbGrades;
-
     private $mismatches;
 
     private $columns = array(
@@ -41,116 +37,59 @@ class GradesComparator
 
     public function __construct($csvData, Builder $dbGrades)
     {
-        if (!($csvData instanceof Collection)) {
-            $csvData = Collection::make($csvData);
+        $csvGrades = new Collection();
+        $csvHashPair = new Collection();
+
+        // Build a hash table and hash pair of CSV contents
+        foreach ($csvData as $data) {
+            $rowHash = hash('sha1', implode('', $data));
+            $idHash = hash('sha1', $data['student_id'] . $data['section'] . $data['subject']);
+
+            $csvGrades->put($rowHash, $data);
+            $csvHashPair->put($idHash, $rowHash);
         }
 
-        $this->csvData = $csvData;
-        $this->dbGrades = $dbGrades;
-        $this->aggregation = new Collection();
+        $hashes = '(\'' . implode('\',\'', $csvGrades->keys()->toArray()) . '\')';
 
-        // Create a temporary table for grades in CSV
-        DB::statement('CREATE TEMPORARY TABLE grades_temporary LIKE grades');
+        $this->mismatches = $dbGrades->select(
+            DB::raw('SHA1(CONCAT(
+                student_id,
+                subject,
+                section,
+                IFNULL(prelim_grade, ""),
+                IFNULL(midterm_grade, ""),
+                IFNULL(prefinal_grade, ""),
+                IFNULL(final_grade, "")
+            )) AS hash,' . implode(',', $this->columns))
+        )->having('hash', 'NOT IN', DB::raw($hashes))->get();
 
-        // Insert CSV contents into the temporary table
-        $csvData->chunk(500)->each(function (Collection $chunk) {
-            $values = array();
-            $bindings = array();
+        $this->mismatches->transform(function (Grade $grade) use ($csvHashPair, $csvGrades) {
+            $mismatch = array(
+                'student_id'    => $grade->student_id,
+                'section'       => $grade->section,
+                'subject'       => $grade->subject,
 
-            $chunk->each(function ($row) use (&$values, &$bindings) {
-                $values[] = '(?, null, ?, ?, ?, ?, ?, ?, null, null, null, null, null, null, null, null)';
-                $bindings = array_merge($bindings, array_values($row));
-            });
+                'student'       => $grade->student->toArray(),
+                'importer'      => $grade->importer->toArray(),
+                
+                'target' => array(
+                    'prelim_grade'      => $grade->prelim_grade,
+                    'midterm_grade'     => $grade->midterm_grade,
+                    'prefinal_grade'    => $grade->prefinal_grade,
+                    'final_grade'       => $grade->final_grade
+                ),
 
-            DB::insert('INSERT IGNORE INTO grades_temporary VALUES ' . implode(',', $values), $bindings);
+                'source' => null
+            );
+
+            $idHash = hash('sha1', $grade->student_id . $grade->section . $grade->subject);
+
+            if ($csvHashPair->has($idHash)) {
+                $mismatch['source'] = $csvGrades->get($csvHashPair->get($idHash));
+            }
+
+            return $mismatch;
         });
-
-        // Duplicate the temporary table because we can't reuse a temporary table in one query
-        DB::statement('CREATE TEMPORARY TABLE grades_temporary_join LIKE grades');
-        DB::statement('INSERT INTO grades_temporary_join SELECT * FROM grades_temporary');
-
-        /*
-            Magic explained:
-
-            Hash each row from grades table by computing the SHA-1 hash of concatenated column values,
-            do the same on the temporary table and select every hash in grades table that are
-            not in the temporary grades table.
-
-            Left join the temporary grades table to the grades table which returns a record like
-
-            "hash"                  => [SHA-1 hash of row]
-            "student_id"            => [Student ID]
-            "subject"               => [Subject Code]
-            "section"               => [Section]
-            "target_prelim_grade"   => [Prelim grade from grades table]
-            "target_midterm_grade"  => [Midterm grade from grades table]
-            "target_prefinal_grade" => [Pre-final grade from grades table]
-            "target_final_grade"    => [Final grade from grades table]
-            "source_prelim_grade"   => [Prelim grade from temporary grades table]
-            "source_midterm_grade"  => [Midterm grade from temporary grades table]
-            "source_prefinal_grade" => [Pre-final grade from temporary grades table]
-            "source_final_grade"    => [Final grade from temporary grades table]
-         */
-        $mismatchSearchQuery = <<<EOF
-            SELECT
-                SHA1(CONCAT(
-                    grades.student_id,
-                    grades.subject,
-                    grades.section,
-                    IFNULL(grades.prelim_grade, ""),
-                    IFNULL(grades.midterm_grade, ""),
-                    IFNULL(grades.prefinal_grade, ""),
-                    IFNULL(grades.final_grade, "")
-                )) AS target_hash,
-
-                SHA1(CONCAT(
-                    grades_temporary_join.student_id,
-                    grades_temporary_join.subject,
-                    grades_temporary_join.section,
-                    IFNULL(grades_temporary_join.prelim_grade, ""),
-                    IFNULL(grades_temporary_join.midterm_grade, ""),
-                    IFNULL(grades_temporary_join.prefinal_grade, ""),
-                    IFNULL(grades_temporary_join.final_grade, "")
-                )) AS source_hash,
-                
-                grades.student_id,
-                grades.subject,
-                grades.section,
-                
-                grades.prelim_grade as target_prelim_grade,
-                grades.midterm_grade as target_midterm_grade,
-                grades.prefinal_grade as target_prefinal_grade,
-                grades.final_grade as target_final_grade,
-
-                grades_temporary_join.prelim_grade as source_prelim_grade,
-                grades_temporary_join.midterm_grade as source_midterm_grade,
-                grades_temporary_join.prefinal_grade as source_prefinal_grade,
-                grades_temporary_join.final_grade as source_final_grade
-
-            FROM grades
-
-            LEFT JOIN grades_temporary_join ON
-                grades.student_id = grades_temporary_join.student_id AND
-                grades.subject    = grades_temporary_join.subject    AND
-                grades.section    = grades_temporary_join.section
-                
-            HAVING target_hash NOT IN (
-                SELECT
-                    SHA1(CONCAT(
-                        student_id,
-                        subject,
-                        section,
-                        IFNULL(prelim_grade, ""),
-                        IFNULL(midterm_grade, ""),
-                        IFNULL(prefinal_grade, ""),
-                        IFNULL(final_grade, "")
-                    ))
-                 
-                    FROM grades_temporary
-            )
-EOF;
-
-        $this->mismatches = Collection::make(DB::select($mismatchSearchQuery));
     }
 
     public function getMismatches()

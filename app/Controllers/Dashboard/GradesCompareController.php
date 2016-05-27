@@ -89,66 +89,13 @@ class GradesCompareController extends Controller
         }
 
         $query = Grade::with('student', 'importer');
-        $comparator = new GradesComparator($this->cache->get('master_grading_sheet'), $query);
-        $aggregation = $comparator->getMismatches();
 
-        // TODO: student name and importer name
-        // PLUCK PLUCK PLUCK
-        
-        /*
-        $aggregation = new Collection();
-        $csvData = Collection::make();
-        
-        // Chunk to multiple queries get pass the database's limits
-        $csvData->chunk(250)->each(function (Collection $chunk) use (&$aggregation) {
-            $query = Grade::with('student', 'importer');
+        if (!$aggregation = $this->cache->get('master_grading_sheet_aggregation')) {
+            $comparator = new GradesComparator($this->cache->get('master_grading_sheet'), $query);
+            $aggregation = $comparator->getMismatches();
 
-            $chunk->each(function ($record) use ($query) {
-                $query->where(function (Builder $builder) use ($record) {
-                    foreach ($record as $key => $value) {
-                        if ($value === null) {
-                            $builder->orWhereNotNull($key);
-                        } else {
-                            $builder->orWhere($key, '!=', $value);
-                        }
-                    }
-                });
-            });
-
-            $mismatches = $query->get(array(
-                'student_id', 'importer_id', 'subject', 'section', 'prelim_grade', 'midterm_grade', 'prefinal_grade', 'final_grade'
-            ));
-
-            $mismatches->each(function (Grade $entry) use ($chunk, &$aggregation) {
-                $mismatch = array(
-                    'target' => $entry->toArray(),
-                    'source' => null
-                );
-
-                $searchId = $chunk->search(function ($item) use ($mismatch) {
-                    return $mismatch['target']['student_id'] == $item['student_id'] &&
-                           $mismatch['target']['section']    == $item['section'] &&
-                           $mismatch['target']['subject']    == $item['subject'];
-                });
-
-                if ($searchId !== false) {
-                    $mismatch['source'] = $chunk->get($searchId);
-                }
-
-                // Check if mismatched item is already aggregated
-                $aggregationSearch = $aggregation->search(function ($item) use ($mismatch) {
-                    return $mismatch['target']['student_id'] == $item['target']['student_id'] &&
-                           $mismatch['target']['section']    == $item['target']['section'] &&
-                           $mismatch['target']['subject']    == $item['target']['subject'];
-                });
-
-                // Add new mismatch entry if not yet aggregated
-                if ($aggregationSearch === false) {
-                    $aggregation->push($mismatch);
-                }
-            });
-        });
-        */
+            $this->cache->put('master_grading_sheet_aggregation', $aggregation);
+        }
 
         return View::render('dashboard/grades/compare/diff', array(
             'result' => (new LengthAwarePaginator(
