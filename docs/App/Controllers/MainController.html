@@ -106,6 +106,15 @@ Includes the root index and the login/logout routes</p>        </div>
                 <td class="last"></td>
                 <td><small>from&nbsp;<a href="../../App/Controllers/Controller.html#property_userModel"><abbr title="App\Controllers\Controller">Controller</abbr></a></small></td>
             </tr>
+                    <tr>
+                <td class="type" id="property_cache">
+                                        protected                                        
+    <a href="../../App/Components/Cache.html"><abbr title="App\Components\Cache">Cache</abbr></a>
+                </td>
+                <td>$cache</td>
+                <td class="last"></td>
+                <td><small>from&nbsp;<a href="../../App/Controllers/Controller.html#property_cache"><abbr title="App\Controllers\Controller">Controller</abbr></a></small></td>
+            </tr>
             </table>
 
     
@@ -159,7 +168,8 @@ Includes the root index and the login/logout routes</p>        </div>
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_isTokenValid">isTokenValid</a>($identifier, $request)
+                    <a href="#method_isTokenValid">isTokenValid</a>($identifier, 
+    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../App/Controllers/Controller.html#method_isTokenValid"><abbr title="App\Controllers\Controller">Controller</abbr></a></small></div>
@@ -199,17 +209,6 @@ Includes the root index and the login/logout routes</p>        </div>
                                             <p>Logout page</p>                </div>
                 <div class="col-md-2"></div>
             </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_settings">settings</a>(
-    <abbr title="Silex\Application">Application</abbr> $app)
-                                            <p>Account settings redirector</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
             </div>
 
 
@@ -218,7 +217,7 @@ Includes the root index and the login/logout routes</p>        </div>
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">in <a href="../../App/Controllers/Controller.html#method___construct"><abbr title="App\Controllers\Controller">Controller</abbr></a> at line         line 35</div>
+        <div class="location">in <a href="../../App/Controllers/Controller.html#method___construct"><abbr title="App\Controllers\Controller">Controller</abbr></a> at line         line 42</div>
         <code>                    
     
     <strong>__construct</strong>()</code>
@@ -236,7 +235,7 @@ Includes the root index and the login/logout routes</p>        </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_isRole">
-        <div class="location">in <a href="../../App/Controllers/Controller.html#method_isRole"><abbr title="App\Controllers\Controller">Controller</abbr></a> at line         line 47</div>
+        <div class="location">in <a href="../../App/Controllers/Controller.html#method_isRole"><abbr title="App\Controllers\Controller">Controller</abbr></a> at line         line 55</div>
         <code>            protected        
     boolean
     <strong>isRole</strong>(
@@ -276,7 +275,7 @@ Includes the root index and the login/logout routes</p>        </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_isLoggedIn">
-        <div class="location">in <a href="../../App/Controllers/Controller.html#method_isLoggedIn"><abbr title="App\Controllers\Controller">Controller</abbr></a> at line         line 61</div>
+        <div class="location">in <a href="../../App/Controllers/Controller.html#method_isLoggedIn"><abbr title="App\Controllers\Controller">Controller</abbr></a> at line         line 69</div>
         <code>            protected        
     boolean
     <strong>isLoggedIn</strong>()</code>
@@ -304,7 +303,7 @@ Includes the root index and the login/logout routes</p>        </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_isNotLoggedIn">
-        <div class="location">in <a href="../../App/Controllers/Controller.html#method_isNotLoggedIn"><abbr title="App\Controllers\Controller">Controller</abbr></a> at line         line 71</div>
+        <div class="location">in <a href="../../App/Controllers/Controller.html#method_isNotLoggedIn"><abbr title="App\Controllers\Controller">Controller</abbr></a> at line         line 79</div>
         <code>            protected        
     boolean
     <strong>isNotLoggedIn</strong>()</code>
@@ -332,10 +331,11 @@ Includes the root index and the login/logout routes</p>        </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_isTokenValid">
-        <div class="location">in <a href="../../App/Controllers/Controller.html#method_isTokenValid"><abbr title="App\Controllers\Controller">Controller</abbr></a> at line         line 76</div>
+        <div class="location">in <a href="../../App/Controllers/Controller.html#method_isTokenValid"><abbr title="App\Controllers\Controller">Controller</abbr></a> at line         line 84</div>
         <code>            protected        
     
-    <strong>isTokenValid</strong>($identifier, $request)</code>
+    <strong>isTokenValid</strong>($identifier, 
+    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -348,7 +348,8 @@ Includes the root index and the login/logout routes</p>        </div>
                 <td></td>
             </tr>
                     <tr>
-                <td></td>
+                <td>
+    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr></td>
                 <td>$request</td>
                 <td></td>
             </tr>
@@ -363,7 +364,7 @@ Includes the root index and the login/logout routes</p>        </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_index">
-        <div class="location">at line         line 34</div>
+        <div class="location">at line         line 37</div>
         <code>                    
     
     <strong>index</strong>(
@@ -393,7 +394,7 @@ Includes the root index and the login/logout routes</p>        </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_login">
-        <div class="location">at line         line 50</div>
+        <div class="location">at line         line 53</div>
         <code>                    
     
     <strong>login</strong>(
@@ -430,7 +431,7 @@ Includes the root index and the login/logout routes</p>        </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_logout">
-        <div class="location">at line         line 118</div>
+        <div class="location">at line         line 144</div>
         <code>                    
     
     <strong>logout</strong>(
@@ -450,36 +451,6 @@ Includes the root index and the login/logout routes</p>        </div>
                 <td>$request</td>
                 <td></td>
             </tr>
-                    <tr>
-                <td>
-    <abbr title="Silex\Application">Application</abbr></td>
-                <td>$app</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_settings">
-        <div class="location">at line         line 132</div>
-        <code>                    
-    
-    <strong>settings</strong>(
-    <abbr title="Silex\Application">Application</abbr> $app)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Account settings redirector</p>                    <p>URL: /settings</p>            </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
                     <tr>
                 <td>
     <abbr title="Silex\Application">Application</abbr></td>

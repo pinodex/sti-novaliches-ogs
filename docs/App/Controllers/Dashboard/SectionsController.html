@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>App\Controllers\Dashboard\AdminsController | API</title>
+    <title>App\Controllers\Dashboard\SectionsController | API</title>
 
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:App_Controllers_Dashboard_AdminsController" data-root-path="../../../">
+    <body id="class" data-name="class:App_Controllers_Dashboard_SectionsController" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -67,21 +67,21 @@
                                         <li><a href="../../../App/Controllers.html">Controllers</a></li>
                                         <li><a href="../../../App/Controllers/Dashboard.html">Dashboard</a></li>
     
-                <li>AdminsController</li>
+                <li>SectionsController</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
-        <h1>AdminsController</h1>
+        <h1>SectionsController</h1>
     </div>
 
     <p>    class
-    <strong>AdminsController</strong>        extends <a href="../../../App/Controllers/Controller.html"><abbr title="App\Controllers\Controller">Controller</abbr></a>
+    <strong>SectionsController</strong>        extends <a href="../../../App/Controllers/Controller.html"><abbr title="App\Controllers\Controller">Controller</abbr></a>
 </p>
 
             <div class="description">
-            <p>Route controller for administrator management pages</p>                    </div>
+            <p>Route controller for section management pages</p>                    </div>
     
     
     
@@ -182,31 +182,7 @@
                 <div class="col-md-8 type">
                     <a href="#method_index">index</a>(
     <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request)
-                                            <p>Manage admin accounts page</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_edit">edit</a>(
-    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
-    <abbr title="Silex\Application">Application</abbr> $app, $id)
-                                            <p>Edit admin account page</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_delete">delete</a>(
-    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
-    <abbr title="Silex\Application">Application</abbr> $app, $id)
-                                            <p>Delete admin account page</p>                </div>
+                                            <p>Sections index page</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -364,7 +340,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_index">
-        <div class="location">at line         line 35</div>
+        <div class="location">at line         line 33</div>
         <code>                    
     
     <strong>index</strong>(
@@ -372,7 +348,7 @@
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Manage admin accounts page</p>                    <p>URL: /dashboard/admins/</p>            </div>
+                                    <p>Sections index page</p>                    <p>URL: /dashboard/sections/</p>            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -381,91 +357,6 @@
                 <td>
     <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr></td>
                 <td>$request</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_edit">
-        <div class="location">at line         line 68</div>
-        <code>                    
-    
-    <strong>edit</strong>(
-    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
-    <abbr title="Silex\Application">Application</abbr> $app, $id)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Edit admin account page</p>                    <p>URL: /dashboard/admins/add
-URL: /dashboard/admins/{id}/edit</p>            </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>
-    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr></td>
-                <td>$request</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>
-    <abbr title="Silex\Application">Application</abbr></td>
-                <td>$app</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$id</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_delete">
-        <div class="location">at line         line 140</div>
-        <code>                    
-    
-    <strong>delete</strong>(
-    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, 
-    <abbr title="Silex\Application">Application</abbr> $app, $id)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Delete admin account page</p>                    <p>URL: /dashboard/admins/{id}/delete</p>            </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>
-    <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr></td>
-                <td>$request</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>
-    <abbr title="Silex\Application">Application</abbr></td>
-                <td>$app</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$id</td>
                 <td></td>
             </tr>
             </table>

@@ -133,6 +133,15 @@
 
             <table class="table table-condensed">
                     <tr>
+                <td class="type" id="property_nameConcats">
+                    static                                        private                    
+    array
+                </td>
+                <td>$nameConcats</td>
+                <td class="last"></td>
+                <td><small>from&nbsp;<a href="../../App/Traits/SearchableTrait.html#property_nameConcats"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a></small></td>
+            </tr>
+                    <tr>
                 <td class="type" id="property_fillable">
                                         protected                                        
     
@@ -156,15 +165,6 @@
     
                 </td>
                 <td>$appends</td>
-                <td class="last"></td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_searchWithRelations">
-                    static                                        private                    
-    
-                </td>
-                <td>$searchWithRelations</td>
                 <td class="last"></td>
                 <td></td>
             </tr>
@@ -241,10 +241,10 @@
                     <div class="row">
                 <div class="col-md-2 type">
                     static&nbsp;
-    
+    <abbr title="Illuminate\Pagination\LengthAwarePaginator">LengthAwarePaginator</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_search">search</a>($id = null, $name = null)
+                    <a href="#method_search">search</a>($queries, $relations = null, $builderHook = null)
                                             <p>Search</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/SearchableTrait.html#method_search"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a></small></div>
             </div>
@@ -257,6 +257,16 @@
                     <a href="#method_getFormChoices">getFormChoices</a>()
                                             <p>Get department list for form choices</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/ChoosableTrait.html#method_getFormChoices"><abbr title="App\Traits\ChoosableTrait">ChoosableTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getChoiceName">getChoiceName</a>()
+                                            <p>Get name for choice display.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/ChoosableTrait.html#method_getChoiceName"><abbr title="App\Traits\ChoosableTrait">ChoosableTrait</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -397,16 +407,6 @@
                     <a href="#method_getNumberOfDropsAttribute">getNumberOfDropsAttribute</a>(
     string $period = null)
                                             <p>Get number<em>of</em>drops attribute</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getChoiceName">getChoiceName</a>()
-                                            <p>Get name for choice display. Used by FormModelChoicesTrait</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -643,10 +643,10 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_search">
-        <div class="location">in <a href="../../App/Traits/SearchableTrait.html#method_search"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a> at line         line 30</div>
+        <div class="location">in <a href="../../App/Traits/SearchableTrait.html#method_search"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a> at line         line 40</div>
         <code>        static            
-    
-    <strong>search</strong>($id = null, $name = null)</code>
+    <abbr title="Illuminate\Pagination\LengthAwarePaginator">LengthAwarePaginator</abbr>
+    <strong>search</strong>($queries, $relations = null, $builderHook = null)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -657,17 +657,32 @@
                     <table class="table table-condensed">
                     <tr>
                 <td></td>
-                <td>$id</td>
+                <td>$queries</td>
                 <td></td>
             </tr>
                     <tr>
                 <td></td>
-                <td>$name</td>
+                <td>$relations</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$builderHook</td>
                 <td></td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    <abbr title="Illuminate\Pagination\LengthAwarePaginator">LengthAwarePaginator</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -693,8 +708,26 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_getChoiceName">
+        <div class="location">in <a href="../../App/Traits/ChoosableTrait.html#method_getChoiceName"><abbr title="App\Traits\ChoosableTrait">ChoosableTrait</abbr></a> at line         line 46</div>
+        <code>                    
+    
+    <strong>getChoiceName</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get name for choice display.</p>                    <p>return string</p>            </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_department">
-        <div class="location">at line         line 63</div>
+        <div class="location">at line         line 59</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>department</strong>()</code>
@@ -722,7 +755,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_head">
-        <div class="location">at line         line 73</div>
+        <div class="location">at line         line 69</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>head</strong>()</code>
@@ -750,7 +783,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_memos">
-        <div class="location">at line         line 83</div>
+        <div class="location">at line         line 79</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>memos</strong>()</code>
@@ -778,7 +811,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_submissionLogs">
-        <div class="location">at line         line 93</div>
+        <div class="location">at line         line 89</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>submissionLogs</strong>()</code>
@@ -806,7 +839,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_submittedGrades">
-        <div class="location">at line         line 103</div>
+        <div class="location">at line         line 99</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>submittedGrades</strong>()</code>
@@ -834,7 +867,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getUnreadMemoCount">
-        <div class="location">at line         line 113</div>
+        <div class="location">at line         line 109</div>
         <code>                    
     int
     <strong>getUnreadMemoCount</strong>()</code>
@@ -862,7 +895,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getStatusAttribute">
-        <div class="location">at line         line 123</div>
+        <div class="location">at line         line 119</div>
         <code>                    
     string
     <strong>getStatusAttribute</strong>($period = null)</code>
@@ -900,7 +933,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getFirstGradeImportAtAttribute">
-        <div class="location">at line         line 145</div>
+        <div class="location">at line         line 141</div>
         <code>                    
     string
     <strong>getFirstGradeImportAtAttribute</strong>($period = null)</code>
@@ -938,7 +971,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getIsNeverSubmittedAttribute">
-        <div class="location">at line         line 161</div>
+        <div class="location">at line         line 160</div>
         <code>                    
     boolean
     <strong>getIsNeverSubmittedAttribute</strong>($period = null)</code>
@@ -976,7 +1009,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getIsIncompleteAttribute">
-        <div class="location">at line         line 172</div>
+        <div class="location">at line         line 174</div>
         <code>                    
     boolean
     <strong>getIsIncompleteAttribute</strong>($period = null)</code>
@@ -1014,7 +1047,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getIsValidAttribute">
-        <div class="location">at line         line 205</div>
+        <div class="location">at line         line 207</div>
         <code>                    
     boolean
     <strong>getIsValidAttribute</strong>()</code>
@@ -1042,7 +1075,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getIsSubmittedLateAttribute">
-        <div class="location">at line         line 257</div>
+        <div class="location">at line         line 259</div>
         <code>                    
     boolean
     <strong>getIsSubmittedLateAttribute</strong>($period = null)</code>
@@ -1080,7 +1113,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getNumberOfFailsAttribute">
-        <div class="location">at line         line 280</div>
+        <div class="location">at line         line 285</div>
         <code>                    
     integer
     <strong>getNumberOfFailsAttribute</strong>($period = null)</code>
@@ -1118,7 +1151,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getNumberOfDropsAttribute">
-        <div class="location">at line         line 301</div>
+        <div class="location">at line         line 310</div>
         <code>                    
     integer
     <strong>getNumberOfDropsAttribute</strong>(
@@ -1157,26 +1190,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_getChoiceName">
-        <div class="location">at line         line 320</div>
-        <code>                    
-    
-    <strong>getChoiceName</strong>()</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Get name for choice display. Used by FormModelChoicesTrait</p>                    <p>return string</p>            </div>
-                <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_addSubmissionLogEntry">
-        <div class="location">at line         line 328</div>
+        <div class="location">at line         line 331</div>
         <code>                    
     
     <strong>addSubmissionLogEntry</strong>()</code>

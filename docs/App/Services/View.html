@@ -121,8 +121,20 @@
                 <div class="col-md-8 type">
                     <a href="#method_render">render</a>(
     string $templateName, 
-    array $vars = array())
+    array $context = array())
                                             <p>Render view</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;
+    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_simpleRender">simpleRender</a>(
+    string $templateName, 
+    array $context = array())
+                                            <p>Simple rendering of view without Twig</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -168,7 +180,7 @@
     string
     <strong>render</strong>(
     string $templateName, 
-    array $vars = array())</code>
+    array $context = array())</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -186,7 +198,54 @@
                     <tr>
                 <td>
     array</td>
-                <td>$vars</td>
+                <td>$context</td>
+                <td>Template variables</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_simpleRender">
+        <div class="location">at line         line 40</div>
+        <code>        static            
+    string
+    <strong>simpleRender</strong>(
+    string $templateName, 
+    array $context = array())</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Simple rendering of view without Twig</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>
+    string</td>
+                <td>$templateName</td>
+                <td>Template name</td>
+            </tr>
+                    <tr>
+                <td>
+    array</td>
+                <td>$context</td>
                 <td>Template variables</td>
             </tr>
             </table>

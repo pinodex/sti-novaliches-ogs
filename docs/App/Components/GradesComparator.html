@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>App\Traits\FilteredSearchableTrait | API</title>
+    <title>App\Components\GradesComparator | API</title>
 
             <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:App_Traits_FilteredSearchableTrait" data-root-path="../../">
+    <body id="class" data-name="class:App_Components_GradesComparator" data-root-path="../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -62,43 +62,77 @@
 
                         <div class="namespace-breadcrumbs">
             <ol class="breadcrumb">
-                <li><span class="label label-default">trait</span></li>
+                <li><span class="label label-default">class</span></li>
                                                             <li><a href="../../App.html">App</a></li>
-                                        <li><a href="../../App/Traits.html">Traits</a></li>
+                                        <li><a href="../../App/Components.html">Components</a></li>
     
-                <li>FilteredSearchableTrait</li>
+                <li>GradesComparator</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
-        <h1>FilteredSearchableTrait</h1>
+        <h1>GradesComparator</h1>
     </div>
 
-    <p>    trait
-    <strong>FilteredSearchableTrait</strong>
+    <p>    class
+    <strong>GradesComparator</strong>
 </p>
 
             <div class="description">
-            <p>Gives a model method to search by id or name</p>                    </div>
+            <p>Allows grade comparison from an uploaded CSV to grades in the database</p>            <p>Comparision works by comparing hashes of each row from CSV to each row from the database.
+A hash mismatch means an entry mismatch.</p>        </div>
     
     
     
+            <h2>Properties</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td class="type" id="property_mismatches">
+                                                            private                    
+    <abbr title="Illuminate\Database\Eloquent\Collection">Collection</abbr>
+                </td>
+                <td>$mismatches</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_columns">
+                                        protected                                        
+    array
+                </td>
+                <td>$columns</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+            </table>
+
     
             <h2>Methods</h2>
 
             <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;
+                    
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_filteredSearch">filteredSearch</a>(
-    string|int $id = null, 
-    string $name = null, 
-    array $importerId = null)
-                                            <p>Search</p>                </div>
+                    <a href="#method___construct">__construct</a>(
+    array $csvData, 
+    <abbr title="Illuminate\Database\Eloquent\Builder">Builder</abbr> $dbGrades)
+                                            <p>Constructs GradesComparator</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMismatches">getMismatches</a>()
+                                            <p class="no-description">No description</p>
+                                    </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -108,42 +142,51 @@
 
             <div id="method-details">
                     <div class="method-item">
-                    <h3 id="method_filteredSearch">
-        <div class="location">at line         line 30</div>
-        <code>        static            
+                    <h3 id="method___construct">
+        <div class="location">at line         line 53</div>
+        <code>                    
     
-    <strong>filteredSearch</strong>(
-    string|int $id = null, 
-    string $name = null, 
-    array $importerId = null)</code>
+    <strong>__construct</strong>(
+    array $csvData, 
+    <abbr title="Illuminate\Database\Eloquent\Builder">Builder</abbr> $dbGrades)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Search</p>                                </div>
+                                    <p>Constructs GradesComparator</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
                 <td>
-    string|int</td>
-                <td>$id</td>
-                <td>ID query</td>
-            </tr>
-                    <tr>
-                <td>
-    string</td>
-                <td>$name</td>
-                <td>Name query</td>
-            </tr>
-                    <tr>
-                <td>
     array</td>
-                <td>$importerId</td>
-                <td></td>
+                <td>$csvData</td>
+                <td>CSV contents</td>
+            </tr>
+                    <tr>
+                <td>
+    <abbr title="Illuminate\Database\Eloquent\Builder">Builder</abbr></td>
+                <td>$dbGrades</td>
+                <td>Query builder for grades table</td>
             </tr>
             </table>
 
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getMismatches">
+        <div class="location">at line         line 110</div>
+        <code>                    
+    
+    <strong>getMismatches</strong>()</code>
+    </h3>
+    <div class="details">
+                <div class="tags">
             
             
             

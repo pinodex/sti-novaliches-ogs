@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>App\Traits\RelationSearchableTrait | API</title>
+    <title>App\Exceptions\AuthException | API</title>
 
             <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:App_Traits_RelationSearchableTrait" data-root-path="../../">
+    <body id="class" data-name="class:App_Exceptions_AuthException" data-root-path="../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -62,27 +62,53 @@
 
                         <div class="namespace-breadcrumbs">
             <ol class="breadcrumb">
-                <li><span class="label label-default">trait</span></li>
+                <li><span class="label label-default">class</span></li>
                                                             <li><a href="../../App.html">App</a></li>
-                                        <li><a href="../../App/Traits.html">Traits</a></li>
+                                        <li><a href="../../App/Exceptions.html">Exceptions</a></li>
     
-                <li>RelationSearchableTrait</li>
+                <li>AuthException</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
-        <h1>RelationSearchableTrait</h1>
+        <h1>AuthException</h1>
     </div>
 
-    <p>    trait
-    <strong>RelationSearchableTrait</strong>
+    <p>    class
+    <strong>AuthException</strong>        extends <a target="_blank" href="http://php.net/Exception">Exception</a>
 </p>
 
             <div class="description">
-            <p>Gives a model method to search by id or name</p>                    </div>
+            <p>Thrown when an auth error occurs</p>                    </div>
     
     
+            <h2>Constants</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td>USER_NOT_FOUND</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>INVALID_PASSWORD</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ACCOUNT_LOCKED</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+            </table>
+
     
     
             <h2>Methods</h2>
@@ -94,8 +120,10 @@
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_searchRelated">searchRelated</a>($relation, $id, $name)
-                                            <p>Search related</p>                </div>
+                    <a href="#method___construct">__construct</a>(
+    string $message, 
+    int $code)
+                                            <p>Constructs AuthException</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -105,33 +133,32 @@
 
             <div id="method-details">
                     <div class="method-item">
-                    <h3 id="method_searchRelated">
+                    <h3 id="method___construct">
         <div class="location">at line         line 31</div>
         <code>                    
     
-    <strong>searchRelated</strong>($relation, $id, $name)</code>
+    <strong>__construct</strong>(
+    string $message, 
+    int $code)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Search related</p>                                </div>
+                                    <p>Constructs AuthException</p>                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
-                <td>$relation</td>
-                <td></td>
+                <td>
+    string</td>
+                <td>$message</td>
+                <td>Exception message</td>
             </tr>
                     <tr>
-                <td></td>
-                <td>$id</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$name</td>
-                <td></td>
+                <td>
+    int</td>
+                <td>$code</td>
+                <td>Exception code</td>
             </tr>
             </table>
 

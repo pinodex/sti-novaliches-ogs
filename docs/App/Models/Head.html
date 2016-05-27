@@ -118,12 +118,29 @@
                     Gives a model method to search by id or name
                 </div>
             </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="../../App/Traits/ChoosableTrait.html"><abbr title="App\Traits\ChoosableTrait">ChoosableTrait</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Gives a model method to get array of data for form choices
+                </div>
+            </div>
             </div>
     
     
             <h2>Properties</h2>
 
             <table class="table table-condensed">
+                    <tr>
+                <td class="type" id="property_nameConcats">
+                    static                                        private                    
+    array
+                </td>
+                <td>$nameConcats</td>
+                <td class="last"></td>
+                <td><small>from&nbsp;<a href="../../App/Traits/SearchableTrait.html#property_nameConcats"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a></small></td>
+            </tr>
                     <tr>
                 <td class="type" id="property_fillable">
                                         protected                                        
@@ -139,15 +156,6 @@
     
                 </td>
                 <td>$hidden</td>
-                <td class="last"></td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_searchWithRelations">
-                    static                                        private                    
-    
-                </td>
-                <td>$searchWithRelations</td>
                 <td class="last"></td>
                 <td></td>
             </tr>
@@ -233,12 +241,32 @@
                     <div class="row">
                 <div class="col-md-2 type">
                     static&nbsp;
+    <abbr title="Illuminate\Pagination\LengthAwarePaginator">LengthAwarePaginator</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_search">search</a>($queries, $relations = null, $builderHook = null)
+                                            <p>Search</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/SearchableTrait.html#method_search"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;
     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_search">search</a>($id = null, $name = null)
-                                            <p>Search</p>                </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/SearchableTrait.html#method_search"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a></small></div>
+                    <a href="#method_getFormChoices">getFormChoices</a>()
+                                            <p>Get department list for form choices</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/ChoosableTrait.html#method_getFormChoices"><abbr title="App\Traits\ChoosableTrait">ChoosableTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getChoiceName">getChoiceName</a>()
+                                            <p>Get name for choice display.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/ChoosableTrait.html#method_getChoiceName"><abbr title="App\Traits\ChoosableTrait">ChoosableTrait</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -484,10 +512,10 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_search">
-        <div class="location">in <a href="../../App/Traits/SearchableTrait.html#method_search"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a> at line         line 30</div>
+        <div class="location">in <a href="../../App/Traits/SearchableTrait.html#method_search"><abbr title="App\Traits\SearchableTrait">SearchableTrait</abbr></a> at line         line 40</div>
         <code>        static            
-    
-    <strong>search</strong>($id = null, $name = null)</code>
+    <abbr title="Illuminate\Pagination\LengthAwarePaginator">LengthAwarePaginator</abbr>
+    <strong>search</strong>($queries, $relations = null, $builderHook = null)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -498,16 +526,67 @@
                     <table class="table table-condensed">
                     <tr>
                 <td></td>
-                <td>$id</td>
+                <td>$queries</td>
                 <td></td>
             </tr>
                     <tr>
                 <td></td>
-                <td>$name</td>
+                <td>$relations</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$builderHook</td>
                 <td></td>
             </tr>
             </table>
 
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    <abbr title="Illuminate\Pagination\LengthAwarePaginator">LengthAwarePaginator</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFormChoices">
+        <div class="location">in <a href="../../App/Traits/ChoosableTrait.html#method_getFormChoices"><abbr title="App\Traits\ChoosableTrait">ChoosableTrait</abbr></a> at line         line 26</div>
+        <code>        static            
+    
+    <strong>getFormChoices</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get department list for form choices</p>                    <p>return array</p>            </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getChoiceName">
+        <div class="location">in <a href="../../App/Traits/ChoosableTrait.html#method_getChoiceName"><abbr title="App\Traits\ChoosableTrait">ChoosableTrait</abbr></a> at line         line 46</div>
+        <code>                    
+    
+    <strong>getChoiceName</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get name for choice display.</p>                    <p>return string</p>            </div>
+                <div class="tags">
             
             
             
@@ -517,7 +596,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_department">
-        <div class="location">at line         line 52</div>
+        <div class="location">at line         line 53</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>department</strong>()</code>
@@ -545,7 +624,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_faculty">
-        <div class="location">at line         line 62</div>
+        <div class="location">at line         line 63</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>faculty</strong>()</code>

@@ -19,12 +19,21 @@ use App\Models\Grade;
 
 /**
  * Allows grade comparison from an uploaded CSV to grades in the database
+ * 
+ * Comparision works by comparing hashes of each row from CSV to each row from the database.
+ * A hash mismatch means an entry mismatch.
  */
 class GradesComparator
 {
+    /**
+     * @var Collection Holds the collection of mismatched elements
+     */
     private $mismatches;
 
-    private $columns = array(
+    /**
+     * @var array Array of columns to get from grades table
+     */
+    protected $columns = array(
         'student_id',
         'importer_id',
         'subject',
@@ -35,6 +44,12 @@ class GradesComparator
         'final_grade'
     );
 
+    /**
+     * Constructs GradesComparator
+     * 
+     * @param array $csvData CSV contents
+     * @param Builder $dbGrades Query builder for grades table
+     */
     public function __construct($csvData, Builder $dbGrades)
     {
         $csvGrades = new Collection();

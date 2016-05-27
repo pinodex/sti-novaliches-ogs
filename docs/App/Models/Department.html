@@ -88,14 +88,6 @@
     <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-6">
-                                            <a href="../../App/Traits/RelationSearchableTrait.html"><abbr title="App\Traits\RelationSearchableTrait">RelationSearchableTrait</abbr></a>
-                                    </div>
-                <div class="col-md-6">
-                    Gives a model method to search by id or name
-                </div>
-            </div>
-                    <div class="row">
-                <div class="col-md-6">
                                             <a href="../../App/Traits/ChoosableTrait.html"><abbr title="App\Traits\ChoosableTrait">ChoosableTrait</abbr></a>
                                     </div>
                 <div class="col-md-6">
@@ -134,16 +126,6 @@
             <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_searchRelated">searchRelated</a>($relation, $id, $name)
-                                            <p>Search related</p>                </div>
-                <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/RelationSearchableTrait.html#method_searchRelated"><abbr title="App\Traits\RelationSearchableTrait">RelationSearchableTrait</abbr></a></small></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
                     static&nbsp;
     
                 </div>
@@ -151,6 +133,16 @@
                     <a href="#method_getFormChoices">getFormChoices</a>()
                                             <p>Get department list for form choices</p>                </div>
                 <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/ChoosableTrait.html#method_getFormChoices"><abbr title="App\Traits\ChoosableTrait">ChoosableTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getChoiceName">getChoiceName</a>()
+                                            <p>Get name for choice display.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../App/Traits/ChoosableTrait.html#method_getChoiceName"><abbr title="App\Traits\ChoosableTrait">ChoosableTrait</abbr></a></small></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
@@ -172,60 +164,12 @@
                                             <p>Get department faculty</p>                </div>
                 <div class="col-md-2"></div>
             </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getChoiceName">getChoiceName</a>()
-                                            <p>Get name for choice display. Used by FormModelChoicesTrait</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
             </div>
 
 
         <h2>Details</h2>
 
             <div id="method-details">
-                    <div class="method-item">
-                    <h3 id="method_searchRelated">
-        <div class="location">in <a href="../../App/Traits/RelationSearchableTrait.html#method_searchRelated"><abbr title="App\Traits\RelationSearchableTrait">RelationSearchableTrait</abbr></a> at line         line 31</div>
-        <code>                    
-    
-    <strong>searchRelated</strong>($relation, $id, $name)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Search related</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$relation</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$id</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$name</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
                     <div class="method-item">
                     <h3 id="method_getFormChoices">
         <div class="location">in <a href="../../App/Traits/ChoosableTrait.html#method_getFormChoices"><abbr title="App\Traits\ChoosableTrait">ChoosableTrait</abbr></a> at line         line 26</div>
@@ -245,8 +189,26 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_getChoiceName">
+        <div class="location">in <a href="../../App/Traits/ChoosableTrait.html#method_getChoiceName"><abbr title="App\Traits\ChoosableTrait">ChoosableTrait</abbr></a> at line         line 46</div>
+        <code>                    
+    
+    <strong>getChoiceName</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get name for choice display.</p>                    <p>return string</p>            </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_head">
-        <div class="location">at line         line 40</div>
+        <div class="location">at line         line 39</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>head</strong>()</code>
@@ -274,7 +236,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_faculty">
-        <div class="location">at line         line 50</div>
+        <div class="location">at line         line 49</div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\Relation">Relation</abbr>
     <strong>faculty</strong>()</code>
@@ -294,24 +256,6 @@
         </tr>
     </table>
 
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_getChoiceName">
-        <div class="location">at line         line 60</div>
-        <code>                    
-    
-    <strong>getChoiceName</strong>()</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Get name for choice display. Used by FormModelChoicesTrait</p>                    <p>return string</p>            </div>
-                <div class="tags">
-            
             
             
                     </div>
