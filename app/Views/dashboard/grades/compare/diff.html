@@ -15,6 +15,8 @@
                 {% endfor %}
             </select>
 
+            <p class="print-visible">Page {{ result.current_page ~ '/' ~ result.last_page }}, showing entry {{ result.from }} to {{ result.to }} out of {{ result.total }} total entries.</p>
+
             <table class="center-align printable">
                 <thead>
                     <tr>
@@ -110,6 +112,8 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            <p>Page {{ result.current_page ~ '/' ~ result.last_page }}, showing entry {{ result.from }} to {{ result.to }} out of {{ result.total }} total entries.</p>
 
             <button @click="printDocument()" class="print-invisible">Print document</button>
         {% endif %}
