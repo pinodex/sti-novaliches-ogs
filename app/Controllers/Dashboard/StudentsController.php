@@ -94,6 +94,8 @@ class StudentsController extends Controller
             if ($section) {
                 $builder->where('section', $section);
             }
+
+            $builder->groupBy('id');
         };
 
         $context['result'] = Student::search($query, null, $builderHook)->toArray();
