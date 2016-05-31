@@ -83,8 +83,8 @@ class GradesComparator
                 'section'       => $grade->section,
                 'subject'       => $grade->subject,
 
-                'student'       => $grade->student->toArray(),
-                'importer'      => $grade->importer->toArray(),
+                'student'       => $grade->student,
+                'importer'      => $grade->importer,
                 
                 'target' => array(
                     'prelim_grade'      => $grade->prelim_grade,
