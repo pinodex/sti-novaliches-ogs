@@ -5,6 +5,12 @@
 {% block content %}
     <div class="container">
         <h1>{{ page_title }} <span class="print-visible">for {{ "{{ summaryTabs.period | capitalize }}" }} period</span></h1>
+
+        {% if settings('semester') and settings('academic_year') %}
+            <p>{{ settings('semester')|capitalize }} semester. Academic year {{ settings('academic_year') }}.</p>
+        {% else %}
+            <p class="print-invisible"><em>Semester and academic year settings are not set.</em></p>
+        {% endif %}
         
         <div class="grid">
             <div class="column-3 print-invisible">
