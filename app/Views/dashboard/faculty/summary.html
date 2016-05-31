@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="container">
-        <h1>{{ page_title }}</h1>
+        <h1>{{ page_title }} <span class="print-visible">for {{ "{{ summaryTabs.period | capitalize }}" }} period</span></h1>
         
         <div class="grid">
             <div class="column-3 print-invisible">
@@ -16,7 +16,7 @@
                             <select v-model="summaryTabs.period" id="period">
                                 <option value="prelim">Prelim</option>
                                 <option value="midterm">Midterm</option>
-                                <option value="prefinal">Prefinal</option>
+                                <option value="prefinal">Pre-final</option>
                                 <option value="final">Final</option>
                             </select>
                         </div>
@@ -39,6 +39,10 @@
                                 <option value="0">Invalid</option>
                             </select>
                         </div>
+
+                        <p class="print-invisible">
+                            <a @click.prevent="printDocument()" href="#">Print Document</a>
+                        </p>
                     </div>
                 </div>
             </div>

@@ -1505,6 +1505,10 @@ table.simple td {
     display: block !important;
   }
 
+  span.print-visible {
+    display: inline !important;
+  }
+
   table.printable {
     border-color: #111;
   }
