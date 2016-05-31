@@ -105,6 +105,9 @@ class MainController extends Controller
 
                 if ($e->getCode() == AuthException::ACCOUNT_LOCKED) {
                     FlashBag::add('account_locked', true);
+                } else {
+                    Session::set('failed_logins', ++$failedLogins);
+                    Session::set('last_failed_login', time());
                 }
 
                 if ($next = $request->query->get('next')) {
@@ -112,9 +115,6 @@ class MainController extends Controller
                         'next' => $next
                     )));
                 }
-
-                Session::set('failed_logins', ++$failedLogins);
-                Session::set('last_failed_login', time());
 
                 return $app->redirect($app->path('site.login'));
             }
