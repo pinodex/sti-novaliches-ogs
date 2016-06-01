@@ -29,7 +29,16 @@ class IlluminateDatabaseServiceProvider implements ServiceProviderInterface
         $app['database'] = $app->share(function () use ($app) {
             $capsule = new Capsule();
 
-            $capsule->addConnection($app['database.connection']);
+            $capsule->addConnection(array_merge(
+                array(
+                    'driver'    => 'mysql',
+                    'charset'   => 'utf8',
+                    'collation' => 'utf8_unicode_ci'
+                ),
+
+                $app['database.connection']
+            ));
+
             $capsule->setEventDispatcher(new Dispatcher(new Container()));
 
             if (isset($app['database.connection']['logging']) && 

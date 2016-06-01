@@ -48,13 +48,10 @@ $app['twig.options'] = array(
  * connect to your database.
  */
 $app['database.connection'] = array(
-    'driver'    => 'mysql',
     'host'      => 'localhost',
     'database'  => '',
     'username'  => '',
-    'password'  => '',
-    'charset'   => 'utf8',
-    'collation' => 'utf8_unicode_ci'
+    'password'  => ''
 );
 
 /*
