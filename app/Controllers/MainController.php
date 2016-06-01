@@ -149,4 +149,14 @@ class MainController extends Controller
 
         return $app->redirect($app->path('site.login'));
     }
+
+    /**
+     * Site credits page
+     * 
+     * URL: /credits
+     */
+    public function credits()
+    {
+        return View::render('credits');
+    }
 }

@@ -32,6 +32,8 @@ class MainRoute implements ControllerProviderInterface
         $factory->match('/login', array($controller, 'login'))->bind('site.login');
 
         $factory->get('/logout', array($controller, 'logout'))->bind('site.logout');
+
+        $factory->get('/credits', array($controller, 'credits'))->bind('site.credits');
         
         return $factory;
     }

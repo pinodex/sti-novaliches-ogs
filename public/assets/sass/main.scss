@@ -568,6 +568,20 @@ label {
     }
 }
 
+.credit-item {
+    h2, p:last-child {
+        margin-bottom: 0;
+    }
+
+    h2 + p {
+        margin-top: 5px;
+    }
+
+    & + .credit-item {
+        margin-top: 30px;
+    }
+}
+
 .dashboard-menu {
     .grid + .grid {
         margin-top: 15px;

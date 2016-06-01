@@ -11,6 +11,8 @@
     │           pinodex.github.io              │
     │        raphaelmarco@outlook.com          │
     ╰──────────────────────────────────────────╯
+
+    Also checkout {{ url('site.credits') }}
     -->
     <meta name="description" content="View your grades online." />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,7 +21,6 @@
     <meta property="og:url" content="{{ app.request.uri }}" />
     <meta property="og:description" content="View your grades online." />
     <meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() }}/assets/img/og-image.png" />
-    
 {% if app.debug %}
     <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
     <link rel="stylesheet" type="text/css" href="/assets/css/medium-editor.css" />
@@ -27,7 +28,6 @@
 {% else %}
     <link rel="stylesheet" type="text/css" href="/assets/css/compiled.css" />
 {% endif %}
-
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
     <link rel="apple-touch-icon" sizes="57x57" href="/assets/icon/apple-touch-icon-57x57.png" />
     <link rel="apple-touch-icon" sizes="60x60" href="/assets/icon/apple-touch-icon-60x60.png" />
