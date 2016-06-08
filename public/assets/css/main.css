@@ -1044,14 +1044,19 @@ a.button, input.button[type="button"].link, .button.link {
 }
 .top-bar nav ul {
   list-style: none;
+  display: block;
   margin: 0;
   padding: 0;
 }
-.top-bar nav ul li > span, .top-bar nav ul li > a, .top-bar nav ul li > input[type="button"].link, .top-bar nav ul li > button.link, .top-bar nav ul li > .button.link {
+.top-bar nav ul li {
   display: block;
-  color: #fff;
+}
+.top-bar nav ul li > span, .top-bar nav ul li > a, .top-bar nav ul li > input[type="button"].link, .top-bar nav ul li > button.link, .top-bar nav ul li > .button.link {
   text-decoration: none;
+  line-height: 1.45;
+  display: block;
   padding: 15px;
+  color: #fff;
 }
 .top-bar nav ul li a:hover, .top-bar nav ul li input[type="button"].link:hover, .top-bar nav ul li button.link:hover, .top-bar nav ul li .button.link:hover {
   background: #004f84;

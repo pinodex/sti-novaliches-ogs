@@ -355,15 +355,19 @@ a.button {
 
         ul {
             list-style: none;
+            display: block;
             margin: 0;
             padding: 0;
 
             li {
-                > span, > a {
-                    display: block;
-                    color: #fff;
+                display: block;
+
+                & > span, & > a {
                     text-decoration: none;
+                    line-height: 1.45;
+                    display: block;
                     padding: 15px;
+                    color: #fff;
                 }
 
                 a:hover {
