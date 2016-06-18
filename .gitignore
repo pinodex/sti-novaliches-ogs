@@ -1,0 +1,12 @@
+/.sass-cache
+
+/vendor
+/node_modules
+/public/storage
+
+.env
+
+*.sublime-project
+*.sublime-workspace
+
+composer.lock

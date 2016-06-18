@@ -1,0 +1,116 @@
+{% extends '/_layout/main-default.html' %}
+
+{% form_theme search_form '/_layout/form-default.html' %}
+
+{% set page_title = department.name ~ ' Department' %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ page_title }}</h1>
+
+        <div class="grid">
+            <div class="column-4">
+                <div class="panel">
+                    <div class="panel-heading">Information</div>
+                    <div class="panel-body">
+                        {% if department.head %}
+                            <table class="borderless colorless">
+                                <tbody>
+                                    <tr>
+                                        <td>Head Name</td>
+                                        <td>{{ department.head ? department.head.name : 'N/A' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Last login</td>
+                                        <td>{{ department.head ? department.head.last_login_at : 'N/A' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            {% if current_user.getRole() == 'admin' %}
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <a href="{{ path('dashboard.heads.edit', {id: department.head.id}) }}">Edit head</a>
+                                    </li>
+                                </ul>
+                            {% endif %}
+                        {% else %}
+                            <p>No head assigned</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-heading"><span class="icon-search"></span> Search Faculty</div>
+                    <div class="panel-body">
+                        <form method="get" action="{{ path('dashboard.departments.view', {id: department.id}) }}">
+                            {{ form_widget(search_form) }}
+
+                            <button type="submit"><span class="icon-search"></span> Search</button>
+                        </form>
+                    </div>
+                </div>
+
+                {% if current_user.getRole() == 'admin' %}
+                    <div class="panel">
+                        <div class="panel-heading">Actions</div>
+                        <div class="panel-body">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="{{ path('dashboard.departments.edit', {id: department.id}) }}">Edit department</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="column-8">
+                <div class="panel">
+                    <div class="panel-heading">Faculty</div>
+                    <div class="panel-body">
+                        {% if result.data is not empty %}
+                            <select name="pages" @change="changePaginationPage" v-model="paginationPage">
+                                {% for i in 1..result.last_page %}
+                                    <option value="{{ i }}">Page {{ i }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <table class="center-align">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <span class="long">Name</span>
+                                            <span class="short">N</span>
+                                        </th>
+                                        <th>
+                                            <span class="long">Last Login</span>
+                                            <span class="short">L</span>
+                                        </th>
+                                        <th>
+                                            <span class="long">Actions</span>
+                                            <span class="short">A</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for faculty in result.data %}
+                                        <tr>
+                                            <td>{{ faculty.name }}</td>
+                                            <td>{{ faculty.last_login_at }}</td>
+                                            <td>
+                                                <a href="{{ path('dashboard.faculty.view', {id: faculty.id}) }}">View</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <p>No results</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

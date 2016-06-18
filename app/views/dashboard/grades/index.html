@@ -1,0 +1,28 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'Grades' %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ page_title }}</h1>
+
+        <div class="grid">
+            <div class="column-4">
+                <div class="panel">
+                    <div class="panel-heading">Actions</div>
+                    <div class="panel-body">
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="{{ path('dashboard.grades.import') }}">Import grades</a>
+                            </li>
+
+                            <li>
+                                <a href="{{ path('dashboard.grades.compare') }}">Compare grades</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

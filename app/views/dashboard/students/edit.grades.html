@@ -1,0 +1,113 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'Student grades' %}
+
+{% block content %}
+    <div class="container">
+        <h1>Edit Student Grades</h1>
+
+        <div class="grid">
+            <div class="column-4">
+                <div class="panel">
+                    <div class="panel-heading">Student Information</div>
+                    <div class="panel-body">
+                        <table class="borderless colorless">
+                            <tbody>
+                                <tr>
+                                    <td>Student #</td>
+                                    <td>{{ student.id }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Last Name</td>
+                                    <td>{{ student.last_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>First Name</td>
+                                    <td>{{ student.first_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Middle Name</td>
+                                    <td>{{ student.middle_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Course</td>
+                                    <td>{{ student.course }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column-8">
+                <div class="panel">
+                    <div class="panel-heading">Grades</div>
+                    <div class="panel-body">
+                        <p>
+                        <small>You are in grades edit page. Only number, <em>INC</em>, <em>DRP</em>, and <em>TRF</em> value are allowed. Please leave blank if the grade is currently not available.</small>
+                        </p>
+                
+                        <form action="{{ app.request.getRequestUri }}" method="post">
+                            <input type="hidden" name="_token" value="{{ csrf_token('student.grades.edit') }}" />
+
+                            <table class="center-align">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <span class="long">Subject</span>
+                                            <span class="short">Subj</span>
+                                        </th>
+                                        <th>
+                                            <span class="long">Prelim</span>
+                                            <span class="short">1</span>
+                                        </th>
+                                        <th>
+                                            <span class="long">Midterm</span>
+                                            <span class="short">2</span>
+                                        </th>
+                                        <th>
+                                            <span class="long">Pre-final</span>
+                                            <span class="short">3</span>
+                                        </th>
+                                        <th>
+                                            <span class="long">Final</span>
+                                            <span class="short">4</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for i,grade in grades %}
+                                        <tr>
+                                            <th>
+                                                {{ grade.subject }}
+                                                <input type="hidden" name="grades[{{ i }}][subject]" value="{{ grade.subject }}" />
+                                            </th>
+                                            <td>
+                                                <input type="input" class="grade-edit-input" name="grades[{{ i }}][prelim_grade]" value="{{ grade.prelim_grade }}" autocomplete="off" />
+                                            </td>
+                                            <td>
+                                                <input type="input" class="grade-edit-input" name="grades[{{ i }}][midterm_grade]" value="{{ grade.midterm_grade }}" autocomplete="off" />
+                                            </td>
+                                            <td>
+                                                <input type="input" class="grade-edit-input" name="grades[{{ i }}][prefinal_grade]" value="{{ grade.prefinal_grade }}" autocomplete="off" />
+                                            </td>
+                                            <td>
+                                                <input type="input" class="grade-edit-input" name="grades[{{ i }}][final_grade]" value="{{ grade.final_grade }}" autocomplete="off" />
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <div class="buttons">
+                                <a href="{{ path('dashboard.students.view', {id: student.id}) }}" class="button danger">Discard Changes</a>
+                                <button type="submit" class="button success">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

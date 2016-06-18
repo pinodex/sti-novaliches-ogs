@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <!--
+    ╭──────────────────────────────────────────╮
+    │        Front-end & Back-end Dev't        │
+    ╞══════════════════════════════════════════╡
+    │             RAPHAEL MARCO                │
+    │                                          │
+    │           pinodex.github.io              │
+    │        raphaelmarco@outlook.com          │
+    ╰──────────────────────────────────────────╯
+
+    Also checkout {{ route('credits') }}
+    -->
+    <meta name="description" content="View your grades online." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="{{ page_title }} - STI College Novaliches" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ app.request.uri }}" />
+    <meta property="og:description" content="View your grades online." />
+    <meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() }}/assets/img/og-image.png" />
+{% if config('app.debug') %}
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/medium-editor.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/medium-theme.css" />
+{% else %}
+    <link rel="stylesheet" type="text/css" href="/assets/css/compiled.css" />
+{% endif %}
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/icon/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/icon/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/icon/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/icon/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/icon/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/icon/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/icon/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icon/apple-touch-icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icon/apple-touch-icon-180x180.png" />
+    <link rel="icon" type="image/png" href="/assets/icon/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/assets/icon/android-chrome-192x192.png" sizes="192x192" />
+    <link rel="icon" type="image/png" href="/assets/icon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="/assets/icon/favicon-16x16.png" sizes="16x16" />
+    <link rel="manifest" href="/assets/icon/manifest.json" />
+    <link rel="mask-icon" href="/assets/icon/safari-pinned-tab.svg" color="#006db7" />
+    <link rel="shortcut icon" href="/assets/icon/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#fff001" />
+    <meta name="msapplication-TileImage" content="/assets/icon/mstile-144x144.png" />
+    <meta name="msapplication-config" content="/assets/icon/browserconfig.xml" />
+    <meta name="theme-color" content="#006db7" />
+    <title>{{ page_title }} - STI College Novaliches</title>
+</head>
+<body class="{{ body_class | default('') }}" id="app">
+    <div class="top-bar{{ auth_guest() ? ' not-logged-in' }} print-invisible">
+        <div class="container">
+            <button class="nav-toggle" @click="toggleNav()">
+                <span class="icon-menu"></span>
+            </button>
+            
+            <div class="logo-area">
+                <img src="/assets/img/logo-horizontal.png" alt="Logo" />
+            </div>
+
+            <nav :class="{'active': isNavActive}">
+                {% if not auth_guest() %}
+                    <ul class="left">
+                        {% if auth_user().getRole() != 'student' %}
+                            <li>
+                                <a href="">Dashboard</a>
+                            </li>
+                        {% elseif auth_user().getRole() == 'student' %}
+                            <li>
+                                <a href="">Student</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <ul class="right">
+                        {% if auth_user().getRole() != 'student' %}
+                            <li>
+                                <a href="">
+                                    <span class="icon-settings"></span>
+                                    <strong>{{ auth_user().name }}</strong>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="">
+                                    <span class="icon-settings"></span>
+                                    <strong>{{ auth_user().name }}</strong>
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li>
+                            <a href="{{ route('logout') }}">Logout</a>
+                        </li>
+                    </ul>
+                {% endif %}
+            </nav>
+        </div>
+    </div>
+
+    <div id="page-content">
+        <div class="container">
+            {% for error in session_get('message') %}
+                <div class="alert alert-{{ error|split('>>>')[0] }}">{{ error|split('>>>')[1] }}</div>
+            {% endfor %}
+        </div>
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script type="x/template" id="modal-template">
+        <div class="modal-mask" v-show="show" @click="show = false" transition="modal">
+            <div class="modal-wrapper">
+                <div class="modal-container" @click.stop>
+                    <div class="modal-header">
+                        <slot name="header"></slot>
+                    </div>
+        
+                    <div class="modal-body">
+                        <slot name="body"></slot>
+                    </div>
+
+                    <div class="modal-footer">
+                        <slot name="footer">
+                            <button type="button" @click="show = false">OK</button>
+                        </slot>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+{% if use_medium_editor is defined %}
+    <script src="/assets/js/medium-editor.min.js"></script>
+{% endif %}
+{% if config('app.debug') %}
+    <script src="/assets/js/vue.js"></script>
+    <script src="/assets/js/app.js"></script>
+{% else %}
+    <script src="/assets/js/compiled.js"></script>
+{% endif %}
+</body>
+</html>

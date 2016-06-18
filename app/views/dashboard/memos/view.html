@@ -1,0 +1,36 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'View memo' %}
+
+{% block content %}
+    <div class="container">
+        <div class="grid">
+            <div class="column-offset-2 column-8">
+                {% if current_user.getRole() == 'admin' %}
+                    <div class="box print-invisible">
+                        <h3>Memo details</h3>
+                        <small><em>Only administrators can see this.</em></small>
+
+                        <ul class="list-unstyled" style="margin-top: 15px;">
+                            <li>Sender: {{ memo.admin_id ? memo.admin.name : 'N/A' }}</li>
+                            <li>Date sent: {{ memo.created_at|date('M d, Y h:i A') }}</li>
+                            <li>Status: {{ memo.is_unread ? 'Unread' : 'Read on ' ~ memo.opened_at|date('M d, Y h:i A') }}</li>
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <img src="/assets/img/logo-print.png" alt="Logo" class="print-visible" />
+
+                <h2>{{ memo.subject }}</h2>
+
+                <div class="memo-content">
+                    {{ memo.content|raw }}
+                </div>
+
+                <div class="print-invisible">
+                    <button @click="printDocument()">Print document</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

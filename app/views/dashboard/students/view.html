@@ -1,0 +1,202 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'Student information' %}
+
+{% block content %}
+    <div class="container">
+        <h1>View Student</h1>
+
+        <div class="grid">
+            <div class="column-4">
+                <div class="panel">
+                    <div class="panel-heading">Information</div>
+                    <div class="panel-body">
+                        <div class="info-group">
+                            <div class="info-item">
+                                <p class="title">Student no.</p>
+                                <p>{{ student.id|format_student_id }}</p>
+                            </div>
+
+                            <div class="info-item">
+                                <p class="title">Name</p>
+                                <p>{{ student.name }}</p>
+                            </div>
+
+                            <div class="info-item">
+                                <p class="title">Course</p>
+                                <p>{{ student.course }}</p>
+                            </div>
+
+                            <div class="info-item">
+                                <p class="title">Mobile number</p>
+                                <p>{{ student.mobile_number|default('N/A') }}</p>
+                            </div>
+
+                            <div class="info-item">
+                                <p class="title">Landline</p>
+                                <p>{{ student.landline|default('N/A') }}</p>
+                            </div>
+
+                            <div class="info-item">
+                                <p class="title">Email address</p>
+                                <p>{{ student.email_address|default('N/A') }}</p>
+                            </div>
+
+                            <div class="info-item">
+                                <p class="title">Address</p>
+                                <p>{{ student.address|default('N/A') }}</p>
+                            </div>
+
+                            <div class="info-item">
+                                <p class="title">Name of parent/guardian</p>
+                                <p>{{ student.guardian_name|default('N/A') }}</p>
+                            </div>
+
+                            <div class="info-item">
+                                <p class="title">Contact no</p>
+                                <p>{{ student.guardian_contact_number|default('N/A') }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% if current_user.getRole() == 'admin' %}
+                    <div class="panel">
+                        <div class="panel-heading">Actions</div>
+                        <div class="panel-body">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="{{ path('dashboard.students.edit', {id: student.id}) }}">Edit Student</a>   
+                                </li>
+                                <li>
+                                    <a href="{{ path('dashboard.students.edit.grades', {id: student.id}) }}">Edit Grades</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="column-8">
+                {% if grades is not empty %}
+                    <div class="panel">
+                        <div class="panel-heading">Grades</div>
+                    </div>
+
+                    <table class="center-align">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="long">Subject</span>
+                                    <span class="short">Subj</span>
+                                </th>
+                                <th>
+                                    <span class="long">Prelim</span>
+                                    <span class="short">1</span>
+                                </th>
+                                <th>
+                                    <span class="long">Midterm</span>
+                                    <span class="short">2</span>
+                                </th>
+                                <th>
+                                    <span class="long">Pre-final</span>
+                                    <span class="short">3</span>
+                                </th>
+                                <th>
+                                    <span class="long">Final</span>
+                                    <span class="short">4</span>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for grade in grades %}
+                                <tr>
+                                    <th>{{ grade.subject }}</th>
+                                    <td class="{{ grade.prelim_grade|grade_class }}">{{ grade.prelim_grade }}</td>
+                                    <td class="{{ grade.midterm_grade|grade_class }}">{{ grade.midterm_grade }}</td>
+                                    <td class="{{ grade.prefinal_grade|grade_class }}">{{ grade.prefinal_grade }}</td>
+                                    <td class="{{ grade.final_grade|grade_class }}">{{ grade.final_grade }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    <div class="panel">
+                        <div class="panel-heading">Attendance summary</div>
+                    </div>
+
+                    <ul class="tabs" data-activated-tab="{{ active_period }}">
+                        <li @click="activateTab(0)" :class="{'active': activeTab == 0}">Prelim</li>
+                        <li @click="activateTab(1)" :class="{'active': activeTab == 1}">Midterm</li>
+                        <li @click="activateTab(2)" :class="{'active': activeTab == 2}">Prefinal</li>
+                        <li @click="activateTab(3)" :class="{'active': activeTab == 3}">Final</li>
+                    </ul>
+
+                    <table class="center-align">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="long">Subject</span>
+                                    <span class="short">Subj</span>
+                                </th>
+                                <th>
+                                    <span class="long">Total class hours</span>
+                                    <span class="short">TH</span>
+                                </th>
+                                <th>
+                                    <span class="long">Hours absent</span>
+                                    <span class="short">HA</span>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody v-show="activeTab == 0">
+                            {% for grade in grades %}
+                                <tr>
+                                    <th>{{ grade.subject }}</th>
+                                    <td>{{ grade.prelim_attendance_hours }}</td>
+                                    <td>{{ grade.prelim_absent_hours }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+
+                        <tbody v-show="activeTab == 1">
+                            {% for grade in grades %}
+                                <tr>
+                                    <th>{{ grade.subject }}</th>
+                                    <td>{{ grade.midterm_attendance_hours }}</td>
+                                    <td>{{ grade.midterm_absent_hours }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+
+                        <tbody v-show="activeTab == 2">
+                            {% for grade in grades %}
+                                <tr>
+                                    <th>{{ grade.subject }}</th>
+                                    <td>{{ grade.prefinal_attendance_hours }}</td>
+                                    <td>{{ grade.prefinal_absent_hours }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+
+                        <tbody v-show="activeTab == 3">
+                            {% for grade in grades %}
+                                <tr>
+                                    <th>{{ grade.subject }}</th>
+                                    <td>{{ grade.final_attendance_hours }}</td>
+                                    <td>{{ grade.final_absent_hours }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="alert alert-info">
+                        Grades are not yet available for this student yet.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
