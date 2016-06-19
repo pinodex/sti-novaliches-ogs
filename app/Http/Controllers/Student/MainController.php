@@ -12,6 +12,7 @@
 namespace App\Http\Controllers\Student;
 
 use Auth;
+use Session;
 use Redirect;
 use FormFactory;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Http\Controllers\Controller;
 use App\Exceptions\AuthException;
 use App\Extensions\Settings;
+use App\Extensions\Form;
 use App\Models\Grade;
 
 /**
@@ -35,6 +37,7 @@ class MainController extends Controller
         parent::__construct();
 
         $this->middleware('auth');
+        $this->middleware('role:student');
     }
 
     /**
@@ -45,7 +48,7 @@ class MainController extends Controller
     public function index()
     {
         if (!$this->user->is_required_info_filled) {
-            return 'lol';
+            return redirect()->route('student.account');
         }
 
         $period = strtolower(Settings::get('period', 'prelim'));
@@ -70,7 +73,7 @@ class MainController extends Controller
         $user = $this->user->getModel();
 
         if (!$user->is_required_info_filled) {
-            return $app->redirect($app->path('student.account'));
+            return redirect()->route('student.account');
         }
         
         if ($period && !in_array($period, array('prelim', 'midterm', 'prefinal', 'final'))) {
@@ -139,7 +142,7 @@ class MainController extends Controller
             $this->user->email_address = toSchoolEmail($this->user->first_name, $this->user->last_name);
         }
 
-        $form = FormFactory::create(Type\FormType::class, $this->user->toArray());
+        $form = Form::create($this->user->toArray());
 
         $form->add('mobile_number', Type\TextType::class, [
             'label' => 'Mobile number *',
@@ -180,7 +183,7 @@ class MainController extends Controller
         ]);
 
         $form->add('guardian_contact_number', Type\TextType::class, [
-            'label' => 'Guardian\'s/Parent\'s contact no. *',
+            'label' => 'Guardian&rsquo;s/Parent&rsquo;s contact no. *',
             'constraints' => new Assert\Regex([
                 'pattern'   => '/^(([\d]{9})|([\d]{7})|((0|63|\+63)([\d]{10})))$/',
                 'message'   => 'Please enter a valid mobile number or landline',
@@ -193,6 +196,8 @@ class MainController extends Controller
         if ($form->isValid()) {
             $this->user->fill($form->getData());
             $this->user->save();
+
+            Session::flash('flash_message', 'success>>>Your student information has been updated.');
 
             return redirect()->route('student.index');
         }

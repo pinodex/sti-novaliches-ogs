@@ -78,8 +78,8 @@ if (!function_exists('toSchoolEmail')) {
      */
     function toSchoolEmail($firstName, $lastName)
     {
-        $firstName = strtolower(static::convertAccents($firstName));
-        $lastName = strtolower(static::convertAccents($lastName));
+        $firstName = strtolower(normalizeAccents($firstName));
+        $lastName = strtolower(normalizeAccents($lastName));
 
         $firstName = preg_replace('/\s+/', '', $firstName);
         $lastName = preg_replace('/\s+/', '', $lastName);
@@ -304,5 +304,12 @@ if (!function_exists('formatBytes')) {
         $conv = floor(log($bytes, 1024));
 
         return round($bytes / pow(1024, $conv), 2) . ' ' . $units[$conv];
+    }
+}
+
+if (!function_exists('settings')) {
+    function settings($id, $default = null)
+    {
+        return \App\Extensions\Settings::get($id, $default);
     }
 }

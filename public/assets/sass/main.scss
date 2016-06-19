@@ -17,9 +17,19 @@ $brand-warning-hover:   darken($brand-warning, $darken-percent);
 $brand-danger-hover:    darken($brand-danger, $darken-percent);
 $brand-info-hover:      darken($brand-info, $darken-percent);
 
+html {
+    box-sizing: border-box;
+}
+
 html, body {
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
 }
 
 body {
@@ -164,6 +174,10 @@ input[type="button"], button, .button {
         &:not([disabled]):hover {
             background: $brand-primary-hover;
         }
+
+        &:not([disabled]):focus {
+            box-shadow: inset 0 0 0 3px $brand-primary-hover;
+        }
     }
 
     &.success {
@@ -176,6 +190,10 @@ input[type="button"], button, .button {
 
         &.active {
             background: $brand-success-hover;
+        }
+
+        &:not([disabled]):focus {
+            box-shadow: inset 0 0 0 3px $brand-success-hover;
         }
     }
 
@@ -190,6 +208,10 @@ input[type="button"], button, .button {
         &.active {
             background: $brand-warning-hover;
         }
+
+        &:not([disabled]):focus {
+            box-shadow: inset 0 0 0 3px $brand-warning-hover;
+        }
     }
 
     &.danger {
@@ -202,6 +224,10 @@ input[type="button"], button, .button {
 
         &.active {
             background: $brand-danger-hover;
+        }
+
+        &:not([disabled]):focus {
+            box-shadow: inset 0 0 0 3px $brand-danger-hover;
         }
     }
 
@@ -216,6 +242,10 @@ input[type="button"], button, .button {
         &.active {
             background: $brand-info-hover;
         }
+
+        &:not([disabled]):focus {
+            box-shadow: inset 0 0 0 3px $brand-info-hover;
+        }
     }
 
     &.neutral {
@@ -226,9 +256,12 @@ input[type="button"], button, .button {
             background: $black-70;
         }
 
-
         &.active {
             background: $black-70;
+        }
+
+        &:not([disabled]):focus {
+            box-shadow: inset 0 0 0 3px $black-70;
         }
     }
 
@@ -237,6 +270,11 @@ input[type="button"], button, .button {
 
         &:not([disabled]):hover {
             background: transparent;
+        }
+
+        &:not([disabled]):focus {
+            box-shadow: none;
+            outline: none;
         }
 
         @extend a;
@@ -252,6 +290,10 @@ input[type="button"], button, .button {
 
     &:not([disabled]):hover {
         background: $brand-info-hover;
+    }
+
+    &:not([disabled]):focus {
+        box-shadow: inset 0 0 0 3px $brand-info-hover;
     }
 }
 

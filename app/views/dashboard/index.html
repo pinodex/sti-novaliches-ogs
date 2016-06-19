@@ -10,25 +10,25 @@
                     <div class="panel-heading">Menu</div>
                 </div>
 
-                {% if current_user.getRole() == 'admin' %}
+                {% if auth_user().getRole() == 'admin' %}
                     <div class="dashboard-menu">
                         <div class="grid">
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ path('dashboard.admins') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-user"></span>
                                     <p>Site admins</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ path('dashboard.heads') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-head"></span>
                                     <p>Head accounts</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ path('dashboard.faculty') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-faculty"></span>
                                     <p>Faculty accounts</p>
                                 </a>
@@ -37,21 +37,21 @@
 
                         <div class="grid">
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ path('dashboard.guidance') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-guidance"></span>
                                     <p>Guidance accounts</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ path('dashboard.departments') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-departments"></span>
                                     <p>Departments</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ path('dashboard.sections') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-sections"></span>
                                     <p>Sections</p>
                                 </a>
@@ -60,21 +60,21 @@
 
                         <div class="grid">
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ path('dashboard.students') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-students"></span>
                                     <p>Students</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ path('dashboard.grades') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-grades"></span>
                                     <p>Grades</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ path('dashboard.memos') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-memos"></span>
                                     <p>Memos</p>
                                 </a>
@@ -83,14 +83,14 @@
 
                         <div class="grid">
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ path('dashboard.settings') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-wrench"></span>
                                     <p>Settings</p>
                                 </a>
                             </div>
                             
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ path('dashboard.settings.maintenance') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-maintenance"></span>
                                     <p>Maintenance</p>
                                 </a>
@@ -99,25 +99,25 @@
                     </div>
                 {% endif %}
 
-                {% if current_user.getRole() == 'head' %}
+                {% if auth_user().getRole() == 'head' %}
                     <div class="dashboard-menu">
                         <div class="grid">
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ path('dashboard.departments.self') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-departments"></span>
                                     <p>My Department</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ path('dashboard.sections') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-sections"></span>
                                     <p>Sections</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ path('dashboard.students') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-students"></span>
                                     <p>Students</p>
                                 </a>
@@ -126,25 +126,25 @@
                     </div>
                 {% endif %}
 
-                {% if current_user.getRole() == 'faculty' %}
+                {% if auth_user().getRole() == 'faculty' %}
                     <div class="dashboard-menu">
                         <div class="grid">
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ path('dashboard.students') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-students"></span>
                                     <p>My Students</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ path('dashboard.grades.import') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-file_upload"></span>
                                     <p>Import Grades</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item{{ unread_memo_count > 0 ? ' has-notification' : '' }}" href="{{ path('dashboard.memos') }}">
+                                <a class="dashboard-item{{ unread_memo_count > 0 ? ' has-notification' : '' }}" href="">
                                     {% if unread_memo_count > 0 %}
                                         <span class="notification-count">{{ unread_memo_count }}</span>
                                     {% endif %}
@@ -156,11 +156,11 @@
                     </div>
                 {% endif %}
 
-                {% if current_user.getRole() == 'guidance' %}
+                {% if auth_user().getRole() == 'guidance' %}
                     <div class="dashboard-menu">
                         <div class="grid">
                             <div class="column-6">
-                                <a class="dashboard-item" href="{{ path('dashboard.students') }}">
+                                <a class="dashboard-item" href="">
                                     <span class="icon-students"></span>
                                     <p>Student List</p>
                                 </a>
@@ -171,7 +171,7 @@
             </div>
 
             <div class="column-4">
-                {% if current_user.getRole() == 'faculty' %}
+                {% if auth_user().getRole() == 'faculty' %}
                     <div class="panel">
                         <div class="panel-heading">You</div>
                         <div class="panel-body">

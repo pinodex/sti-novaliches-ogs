@@ -12,6 +12,7 @@
                     <div class="panel-heading"><span class="icon-settings"></span> Settings</div>
                     <div class="panel-body">
                         <form method="post" action="{{ app.request.getRequestUri }}">
+                            {{ csrf_field() }}
                             {{ form_widget(settings_form) }}
 
                             <button type="submit" class="success">Save Changes</button>

@@ -112,8 +112,8 @@ class Student extends Model implements Authenticatable, MultiRoleModelInterface
      */
     public function getIsRequiredInfoFilledAttribute()
     {
-        return $this->mobile_number || $this->email_address || $this->address || 
-                $this->guardian_name || $this->guardian_contact_number;
+        return $this->mobile_number && $this->email_address && $this->address && 
+                $this->guardian_name && $this->guardian_contact_number;
     }
 
     /**

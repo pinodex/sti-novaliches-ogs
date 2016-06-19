@@ -12,10 +12,10 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use FormFactory;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use App\Exceptions\AuthException;
+use App\Extensions\Form;
 
 /**
  * Main controller
@@ -52,7 +52,7 @@ class MainController extends Controller
             $failedAttempts = 0;
         }
 
-        $form = FormFactory::create();
+        $form = Form::create();
 
         $form->add('id', Type\TextType::class, [
             'attr' => [
@@ -67,8 +67,8 @@ class MainController extends Controller
             ]
         ]);
 
-        if ($failedAttempts >= 3) {
-            $this->flashFormMessage('login_form',
+        if ($failedAttempts >= 10) {
+            Form::flashError('login_form',
                 sprintf('You exceeded the maximum failed login attempts. Please try again after %s %s.',
                     ceil($throttleSecondsLeft / 60),
                     ceil($throttleSecondsLeft / 60) == 1 ? 'minute' : 'minutes'
@@ -76,11 +76,13 @@ class MainController extends Controller
             );
         }
 
-        $this->dispatchFormFlashMessages('login_form', $form);
+        $form = $form->getForm();
         $form->handleRequest($request);
+        
+        Form::handleFlashErrors('login_form', $form);
 
         if ($form->isValid()) {
-            if ($failedAttempts >= 3) {
+            if ($failedAttempts >= 10) {
                 return redirect('login');
             }
 
@@ -93,7 +95,7 @@ class MainController extends Controller
                     return redirect()->route(Auth::user()->getRedirectRoute());
                 }
             } catch (AuthException $e) {
-                $this->flashFormMessage('login_form', $e->getMessage());
+                Form::flashError('login_form', $e->getMessage());
 
                 if ($e->getCode() == AuthException::ACCOUNT_LOCKED) {
                     session()->flash('account_locked', true);
@@ -105,7 +107,7 @@ class MainController extends Controller
                 return redirect('login');
             }
 
-            $this->flashFormMessage('login_form', 'Unknown error occurred');
+            Form::flashError('login_form', 'Unknown error occurred');
             return redirect('login');
         }
 
@@ -117,6 +119,8 @@ class MainController extends Controller
     public function logout()
     {
         Auth::logout();
+
+        Form::flashError('login_form', 'You have been logged out.');
 
         return redirect('login');
     }

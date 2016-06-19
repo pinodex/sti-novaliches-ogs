@@ -12,6 +12,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable;
+use App\Extensions\User\Roles\MultiRoleModelInterface;
 use App\Traits\HumanReadableDateTrait;
 use App\Traits\HashablePasswordTrait;
 use App\Traits\ConcatenateNameTrait;
@@ -23,7 +25,7 @@ use App\Traits\ChoosableTrait;
  * 
  * Model class for admins table
  */
-class Admin extends Model
+class Admin extends Model implements Authenticatable, MultiRoleModelInterface
 {
     use HumanReadableDateTrait,
         HashablePasswordTrait,
@@ -46,6 +48,37 @@ class Admin extends Model
     protected $appends = array(
         'name'
     );
+
+    public function getAuthIdentifierName()
+    {
+        return 'id';
+    }
+
+    public function getAuthIdentifier()
+    {
+        return 'admin:' . $this->attributes['id'];
+    }
+
+    public function getAuthPassword()
+    {
+        return $this->attributes['password'];
+    }
+
+    public function getRememberToken() {}
+
+    public function setRememberToken($value) {}
+
+    public function getRememberTokenName() {}
+
+    public function getRedirectRoute()
+    {
+        return 'dashboard.index';
+    }
+
+    public function getRole()
+    {
+        return 'admin';
+    }
 
     /**
      * Get associated memos

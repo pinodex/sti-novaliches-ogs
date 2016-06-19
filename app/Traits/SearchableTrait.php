@@ -11,7 +11,7 @@
 
 namespace App\Traits;
 
-use Illuminate\Database\Capsule\Manager as DB;
+use DB;
 use Illuminate\Database\Eloquent\Builder;
 
 /**

@@ -11,20 +11,21 @@
 
 namespace App\Extensions\User\Roles;
 
-use App\Models\Student;
+use Hash;
+use App\Models\Admin;
 use App\Exceptions\AuthException;
 use Illuminate\Contracts\Auth\Authenticatable;
 
-class StudentUserRole implements UserRoleInterface
+class AdminUserRole implements UserRoleInterface
 {
     public function retrieveById($identifier)
     {
-        return Student::find(parseStudentId($identifier));
+        return Admin::find($identifier);
     }
 
     public function retrieveByCredentials(array $credentials)
     {
-        $user = Student::find(parseStudentId($credentials['id']));
+        $user = Admin::where('username', $credentials['id'])->first();
 
         if ($user) {
             return $user;
@@ -35,14 +36,7 @@ class StudentUserRole implements UserRoleInterface
 
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
-        // As a security measure, don't allow access to students with no middle name
-        if (empty($user->middle_name) || $user->middle_name == '.') {
-            throw new AuthException('Your account is temporarily locked.', AuthException::ACCOUNT_LOCKED);
-        }
-
-        if (strtoupper($credentials['password']) == $user->middle_name  ||
-            strtoupper($credentials['password']) == normalizeAccents($user->middle_name)) {
-
+        if (Hash::check($credentials['password'], $user->password)) {
             return true;
         }
 

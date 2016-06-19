@@ -497,9 +497,19 @@ table {
   content: "\e0da";
 }
 
+html {
+  box-sizing: border-box;
+}
+
 html, body {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
 body {
@@ -880,6 +890,9 @@ input[type="button"].primary, button.primary, .button.primary {
 input[type="button"].primary:not([disabled]):hover, button.primary:not([disabled]):hover, .button.primary:not([disabled]):hover {
   background: #3071a9;
 }
+input[type="button"].primary:not([disabled]):focus, button.primary:not([disabled]):focus, .button.primary:not([disabled]):focus {
+  box-shadow: inset 0 0 0 3px #3071a9;
+}
 input[type="button"].success, button.success, .button.success {
   background: #5cb85c;
   color: #fff;
@@ -889,6 +902,9 @@ input[type="button"].success:not([disabled]):hover, button.success:not([disabled
 }
 input[type="button"].success.active, button.success.active, .button.success.active {
   background: #449d44;
+}
+input[type="button"].success:not([disabled]):focus, button.success:not([disabled]):focus, .button.success:not([disabled]):focus {
+  box-shadow: inset 0 0 0 3px #449d44;
 }
 input[type="button"].warning, button.warning, .button.warning {
   background: #f0ad4e;
@@ -900,6 +916,9 @@ input[type="button"].warning:not([disabled]):hover, button.warning:not([disabled
 input[type="button"].warning.active, button.warning.active, .button.warning.active {
   background: #ec971f;
 }
+input[type="button"].warning:not([disabled]):focus, button.warning:not([disabled]):focus, .button.warning:not([disabled]):focus {
+  box-shadow: inset 0 0 0 3px #ec971f;
+}
 input[type="button"].danger, button.danger, .button.danger {
   background: #d9534f;
   color: #fff;
@@ -909,6 +928,9 @@ input[type="button"].danger:not([disabled]):hover, button.danger:not([disabled])
 }
 input[type="button"].danger.active, button.danger.active, .button.danger.active {
   background: #c9302c;
+}
+input[type="button"].danger:not([disabled]):focus, button.danger:not([disabled]):focus, .button.danger:not([disabled]):focus {
+  box-shadow: inset 0 0 0 3px #c9302c;
 }
 input[type="button"].info, button.info, .button.info {
   background: #5bc0de;
@@ -920,6 +942,9 @@ input[type="button"].info:not([disabled]):hover, button.info:not([disabled]):hov
 input[type="button"].info.active, button.info.active, .button.info.active {
   background: #31b0d5;
 }
+input[type="button"].info:not([disabled]):focus, button.info:not([disabled]):focus, .button.info:not([disabled]):focus {
+  box-shadow: inset 0 0 0 3px #31b0d5;
+}
 input[type="button"].neutral, button.neutral, .button.neutral {
   background: gray;
   color: #fff;
@@ -930,11 +955,18 @@ input[type="button"].neutral:not([disabled]):hover, button.neutral:not([disabled
 input[type="button"].neutral.active, button.neutral.active, .button.neutral.active {
   background: #4d4d4d;
 }
+input[type="button"].neutral:not([disabled]):focus, button.neutral:not([disabled]):focus, .button.neutral:not([disabled]):focus {
+  box-shadow: inset 0 0 0 3px #4d4d4d;
+}
 input[type="button"].link, button.link, .button.link {
   background: transparent;
 }
 input[type="button"].link:not([disabled]):hover, button.link:not([disabled]):hover, .button.link:not([disabled]):hover {
   background: transparent;
+}
+input[type="button"].link:not([disabled]):focus, button.link:not([disabled]):focus, .button.link:not([disabled]):focus {
+  box-shadow: none;
+  outline: none;
 }
 input[type="button"][disabled], button[disabled], .button[disabled] {
   opacity: 0.75;
@@ -944,6 +976,9 @@ input[type="button"].active, button.active, .button.active {
 }
 input[type="button"]:not([disabled]):hover, button:not([disabled]):hover, .button:not([disabled]):hover {
   background: #31b0d5;
+}
+input[type="button"]:not([disabled]):focus, button:not([disabled]):focus, .button:not([disabled]):focus {
+  box-shadow: inset 0 0 0 3px #31b0d5;
 }
 
 a.button[disabled]:not(.link), .button[disabled].link:not(.link) {

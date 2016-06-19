@@ -11,7 +11,7 @@
 
 namespace App\Traits;
 
-use App\Services\Hash;
+use Hash;
 
 /**
  * Provides password attribute mutation for hashing

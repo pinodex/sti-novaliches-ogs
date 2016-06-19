@@ -178,7 +178,8 @@ return [
             'elixir',
             'head',
             'last',
-            'route'
+            'route',
+            'settings'
         ],
 
         /*

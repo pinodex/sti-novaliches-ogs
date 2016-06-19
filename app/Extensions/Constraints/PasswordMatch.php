@@ -9,16 +9,19 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Middleware;
+namespace App\Extensions\Constraints;
 
-use Illuminate\Cookie\Middleware\EncryptCookies as BaseEncrypter;
+use Symfony\Component\Validator\Constraint;
 
-class EncryptCookies extends BaseEncrypter
+class PasswordMatch extends Constraint
 {
     /**
-     * The names of the cookies that should not be encrypted.
-     *
-     * @var array
+     * @var string Model class for record check
      */
-    protected $except = [];
+    public $hash;
+
+    /**
+     * @var string Error message
+     */
+    public $message = 'Password does not match';
 }

@@ -67,25 +67,25 @@
                     <ul class="left">
                         {% if auth_user().getRole() != 'student' %}
                             <li>
-                                <a href="">Dashboard</a>
+                                <a href="{{ route('dashboard.index') }}">Dashboard</a>
                             </li>
                         {% elseif auth_user().getRole() == 'student' %}
                             <li>
-                                <a href="">Student</a>
+                                <a href="{{ route('student.index') }}">Student</a>
                             </li>
                         {% endif %}
                     </ul>
                     <ul class="right">
                         {% if auth_user().getRole() != 'student' %}
                             <li>
-                                <a href="">
+                                <a href="{{ route('dashboard.account') }}">
                                     <span class="icon-settings"></span>
                                     <strong>{{ auth_user().name }}</strong>
                                 </a>
                             </li>
                         {% else %}
                             <li>
-                                <a href="">
+                                <a href="{{ route('student.account') }}">
                                     <span class="icon-settings"></span>
                                     <strong>{{ auth_user().name }}</strong>
                                 </a>
@@ -99,13 +99,13 @@
             </nav>
         </div>
     </div>
-
+{% set flash_message = session_get('flash_message') %}
     <div id="page-content">
-        <div class="container">
-            {% for error in session_get('message') %}
-                <div class="alert alert-{{ error|split('>>>')[0] }}">{{ error|split('>>>')[1] }}</div>
-            {% endfor %}
-        </div>
+        {% if flash_message %}
+            <div class="container">
+                <div class="alert alert-{{ flash_message|split('>>>')[0] }}">{{ flash_message|split('>>>')[1] }}</div>
+            </div>
+        {% endif %}
 
         {% block content %}{% endblock %}
     </div>
@@ -124,7 +124,7 @@
 
                     <div class="modal-footer">
                         <slot name="footer">
-                            <button type="button" @click="show = false">OK</button>
+                            <button type="button" @click="show = false" autofocus>OK</button>
                         </slot>
                     </div>
                 </div>

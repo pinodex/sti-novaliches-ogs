@@ -11,10 +11,10 @@
 
 namespace App\Http\Middleware;
 
+use Auth;
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
-class RedirectIfAuthenticated
+class Role
 {
     /**
      * Handle an incoming request.
@@ -24,12 +24,18 @@ class RedirectIfAuthenticated
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next)
     {
-        if (Auth::guard($guard)->check()) {
-            return redirect()->route(Auth::user()->getRedirectRoute());
+        $requiredRoles = array();
+
+        for ($i = 2; $i < func_num_args(); $i++) { 
+            $requiredRoles[] = func_get_arg($i);
         }
 
-        return $next($request);
+        if (in_array(Auth::user()->getRole(), $requiredRoles)) {
+            return $next($request);
+        }
+
+        abort(403);
     }
 }

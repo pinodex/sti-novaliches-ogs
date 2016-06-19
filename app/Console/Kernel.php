@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the online grades system for STI College Novaliches
+ *
+ * (c) Raphael Marco <raphaelmarco@outlook.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
@@ -12,9 +21,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
-        // Commands\Inspire::class,
-    ];
+    protected $commands = [];
 
     /**
      * Define the application's command schedule.
@@ -22,9 +29,5 @@ class Kernel extends ConsoleKernel
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule)
-    {
-        // $schedule->command('inspire')
-        //          ->hourly();
-    }
+    protected function schedule(Schedule $schedule) {}
 }

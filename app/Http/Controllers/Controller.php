@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the online grades system for STI College Novaliches
+ *
+ * (c) Raphael Marco <raphaelmarco@outlook.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Http\Controllers;
 
 use Auth;
@@ -21,15 +30,8 @@ class Controller extends BaseController
         $this->user = Auth::user();
     }
 
-    protected function flashFormMessage($identifier, $message)
+    protected function isRole($role)
     {
-        session()->flash('form_message.' . $identifier, $message);
-    }
-
-    protected function dispatchFormFlashMessages($identifier, $form)
-    {
-        if ($message = session('form_message.' . $identifier)) {
-            $form->addError(new FormError($message));
-        }
+        return $this->user->getRole() == $role;
     }
 }
