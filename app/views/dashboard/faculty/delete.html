@@ -10,9 +10,10 @@
             <div class="column-4">
                 <p>Are you sure you want to delete <strong>{{ faculty.name }}</strong>?</p>
                 <form method="post" action="{{ app.request.getRequestUri }}">
+                    {{ csrf_field() }}
                     {{ form_widget(form) }}
                     
-                    <a href="{{ path('dashboard.faculty.edit', {id: faculty.id}) }}" class="button neutral">Cancel</a>
+                    <a href="{{ route('dashboard.faculty.edit', {id: faculty.id}) }}" class="button neutral">Cancel</a>
                     <button type="submit" class="danger">Delete Faculty <span class="icon-navigate_next"></span></button>
                 </form>
             </div>

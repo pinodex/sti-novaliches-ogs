@@ -9,7 +9,7 @@
         <h1><span class="icon-file_upload"></span> {{ page_title }}</h1>
 
         <div class="grid">
-            {% include '/dashboard/faculty/import/steps.html' %}
+            {% include '/dashboard/import/faculty/steps.html' %}
 
             <div class="column-8">
                 <div class="panel">
@@ -19,7 +19,7 @@
                             {{ form_widget(choose_form) }}
 
                             <div class="buttons">
-                                <a href="{{ path('dashboard.faculty.import.1') }}" class="button neutral" :disabled="disableAction"><span class="icon-navigate_before"></span> Back</a>
+                                <a href="{{ route('dashboard.import.faculty.stepOne') }}" class="button neutral" :disabled="disableAction"><span class="icon-navigate_before"></span> Back</a>
                                 <button type="submit" class="success" :disabled="disableAction">Next <span class="icon-navigate_next"></span></button>
                             </div>
                         </form>

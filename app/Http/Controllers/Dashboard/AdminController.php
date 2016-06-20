@@ -12,11 +12,10 @@
 namespace App\Http\Controllers\Dashboard;
 
 use Session;
-use FormFactory;
 use Illuminate\Http\Request;
-use App\Extensions\Constraints as CustomAssert;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Extensions\Constraints as CustomAssert;
 use App\Http\Controllers\Controller;
 use App\Extensions\Form;
 use App\Models\Admin;
@@ -42,17 +41,18 @@ class AdminController extends Controller
 
         $form = Form::create($request->query->all());
         
-        $form->add('name', Type\TextType::class, array(
+        $form->add('name', Type\TextType::class, [
             'required'  => false
-        ));
-
-        $context['search_form'] = $form->getForm()->createView();
+        ]);
         
-        $context['result'] = Admin::search(array(
-            array('name', 'LIKE', '%' . $request->query->get('name') . '%')
-        ))->toArray();
+        $result = Admin::search([
+            ['name', 'LIKE', '%' . $request->query->get('name') . '%']
+        ]);
 
-        return view('dashboard/admins/index', $context);
+        return view('dashboard/admins/index', [
+            'search_form'   => $form->getForm()->createView(),
+            'result'        => $result
+        ]);
     }
 
     /**
@@ -70,32 +70,29 @@ class AdminController extends Controller
         $form->add('middle_name', Type\TextType::class);
         $form->add('last_name', Type\TextType::class);
 
-        $form->add('username', Type\TextType::class, array(
-            'constraints' => new CustomAssert\UniqueRecord(array(
+        $form->add('username', Type\TextType::class, [
+            'constraints' => new CustomAssert\UniqueRecord([
                 'model'     => 'App\Models\Admin',
                 'exclude'   => $admin->username,
                 'row'       => 'username',
                 'message'   => 'Username already in use.'
-            ))
-        ));
+            ])
+        ]);
 
-        $form->add('password', Type\RepeatedType::class, array(
-            'type'      => Type\PasswordType::class,
-            'required'  => false,
+        if ($this->user->id != $admin->id) {
+            $form->add('password', Type\RepeatedType::class, [
+                'type'      => Type\PasswordType::class,
+                'required'  => false,
 
-            'first_options' => array(
-                'label' => 'Password (leave blank if not changing)'
-            ),
+                'first_options' => ['label' => 'Password (leave blank if not changing)'],
+                'second_options' => ['label' => 'Repeat Password (leave blank if not changing)'],
 
-            'second_options' => array(
-                'label' => 'Repeat Password (leave blank if not changing)'
-            ),
-
-            'constraints' => new Assert\Length(array(
-                'min'        => 8,
-                'minMessage' => 'Password should be at least 8 characters long'
-            ))
-        ));
+                'constraints' => new Assert\Length([
+                    'min'        => 8,
+                    'minMessage' => 'Password should be at least 8 characters long'
+                ])
+            ]);
+        }
 
         $form = $form->getForm();
         $form->handleRequest($request);
@@ -103,7 +100,7 @@ class AdminController extends Controller
         if ($form->isValid()) {
             $data = $form->getData();
 
-            if ($data['password'] === null) {
+            if ($this->user->id != $admin->id && $data['password'] === null) {
                 unset($data['password']);
             }
 
@@ -115,10 +112,10 @@ class AdminController extends Controller
             return redirect()->route('dashboard.admins.index');
         }
 
-        return view('dashboard/admins/' . $mode, array(
+        return view('dashboard/admins/' . $mode, [
             'form'  => $form->createView(),
-            'admin' => $admin->toArray()
-        ));
+            'admin' => $admin
+        ]);
     }
 
     /**
@@ -148,9 +145,9 @@ class AdminController extends Controller
             return redirect()->route('dashboard.admins.index');;
         }
 
-        return view('dashboard/admins/delete', array(
+        return view('dashboard/admins/delete', [
             'form'  => $form->createView(),
-            'admin' => $admin->toArray()
-        ));
+            'admin' => $admin
+        ]);
     }
 }

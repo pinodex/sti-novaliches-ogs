@@ -13,7 +13,8 @@
         "barryvdh/laravel-debugbar": "^2.2",
         "symfony/security-csrf": "2.8.*|3.0.*",
         "symfony/form": "2.8.*|3.0.*",
-        "symfony/validator": "2.8.*|3.0.*"
+        "symfony/validator": "2.8.*|3.0.*",
+        "nuovo/spreadsheet-reader": "^0.5.11"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

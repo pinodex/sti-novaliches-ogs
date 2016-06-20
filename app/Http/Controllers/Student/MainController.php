@@ -14,7 +14,6 @@ namespace App\Http\Controllers\Student;
 use Auth;
 use Session;
 use Redirect;
-use FormFactory;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -93,7 +92,7 @@ class MainController extends Controller
             $subjectChoices[$choice] = $choice;
         }
 
-        $form = FormFactory::create();
+        $form = Form::create();
 
         $form->add('subject', Type\ChoiceType::class, [
             'choices'   => $subjectChoices,

@@ -13,6 +13,10 @@
                 <form method="post" action="{{ app.request.getRequestUri }}">
                     {{ csrf_field() }}
                     {{ form_widget(form) }}
+
+                    {% if auth_user().id == admin.id %}
+                        <p><a href="{{ route('dashboard.account') }}">Click here</a> to change your account password.</p>
+                    {% endif %}
                     
                     <button type="submit" class="success">Save <span class="icon-navigate_next"></span></button>
                     <a href="{{ route('dashboard.admins.delete', {id: admin.id}) }}" class="button link" @click.prevent="modals.confirm = true">Delete Admin</a>

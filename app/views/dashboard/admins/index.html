@@ -30,11 +30,11 @@
             </div>
 
             <div class="column-8">
-                {% if result.data is empty %}
+                {% if result is empty %}
                     <div class="alert alert-neutral">No records found</div>
                 {% else %}
                     <select name="pages" @change="changePaginationPage" v-model="paginationPage">
-                        {% for i in 1..result.last_page %}
+                        {% for i in 1..result.lastPage %}
                             <option value="{{ i }}">Page {{ i }}</option>
                         {% endfor %}
                     </select>
@@ -62,7 +62,7 @@
                         </thead>
 
                         <tbody>
-                            {% for row in result.data %}
+                            {% for row in result %}
                                 <tr>
                                     <td>{{ row.name }}</td>
                                     <td>{{ row.username }}</td>

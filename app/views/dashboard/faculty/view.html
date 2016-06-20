@@ -77,16 +77,16 @@
                     <div class="panel-heading">Actions</div>
                         <div class="panel-body">
                         <ul class="list-unstyled">
-                            {% if current_user.getRole() == 'admin' %}
+                            {% if auth_user().getRole() == 'admin' %}
                                 <li>
-                                    <a href="{{ path('dashboard.faculty.edit', {id: faculty.id}) }}">Edit Faculty</a>
+                                    <a href="{{ route('dashboard.faculty.edit', {id: faculty.id}) }}">Edit Faculty</a>
                                 </li>
                                 <li>
-                                    <a href="{{ path('dashboard.memos.send', {recipient: faculty.id}) }}">Send Memo</a>
+                                    <a href="{{ route('dashboard.memo.send', {recipient: faculty.id}) }}">Send Memo</a>
                                 </li>
                             {% endif %}
                             <li>
-                                <a href="{{ path('dashboard.sections', {faculty: faculty.id}) }}">View sections summary</a>
+                                <a href="{{ route('dashboard.sections.index', {faculty: faculty.id}) }}">View sections summary</a>
                             </li>
                         </ul>
                     </div>

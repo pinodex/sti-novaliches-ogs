@@ -11,13 +11,13 @@
 
 namespace App\Models;
 
+use Hash;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HumanReadableDateTrait;
 use App\Traits\HashablePasswordTrait;
 use App\Traits\ConcatenateNameTrait;
 use App\Traits\SearchableTrait;
-use App\Services\Settings;
-use App\Services\Hash;
+use App\Extensions\Settings;
 
 /**
  * Head model

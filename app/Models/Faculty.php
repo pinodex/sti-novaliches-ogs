@@ -17,7 +17,7 @@ use App\Traits\HashablePasswordTrait;
 use App\Traits\ConcatenateNameTrait;
 use App\Traits\SearchableTrait;
 use App\Traits\ChoosableTrait;
-use App\Services\Settings;
+use App\Extensions\Settings;
 
 /**
  * Head model
