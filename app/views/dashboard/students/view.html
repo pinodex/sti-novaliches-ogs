@@ -60,17 +60,19 @@
                     </div>
                 </div>
 
-                {% if current_user.getRole() == 'admin' %}
+                {% if auth_user().getRole() == 'admin' %}
                     <div class="panel">
                         <div class="panel-heading">Actions</div>
                         <div class="panel-body">
                             <ul class="list-unstyled">
                                 <li>
-                                    <a href="{{ path('dashboard.students.edit', {id: student.id}) }}">Edit Student</a>   
+                                    <a href="{{ route('dashboard.students.edit', {id: student.id}) }}">Edit Student</a>   
                                 </li>
-                                <li>
-                                    <a href="{{ path('dashboard.students.edit.grades', {id: student.id}) }}">Edit Grades</a>
-                                </li>
+                                {% if grades is not empty %}
+                                    <li>
+                                        <a href="{{ route('dashboard.students.grades.edit', {id: student.id}) }}">Edit Grades</a>
+                                    </li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>

@@ -11,9 +11,9 @@
 
 namespace App\Extensions\Importer;
 
+use Hash;
 use App\Models\Faculty;
 use App\Models\Department;
-use App\Services\Hash;
 
 /**
  * Faculty Sheet importer

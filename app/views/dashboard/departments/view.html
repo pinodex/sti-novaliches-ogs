@@ -26,10 +26,10 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            {% if current_user.getRole() == 'admin' %}
+                            {% if auth_user().getRole() == 'admin' %}
                                 <ul class="list-unstyled">
                                     <li>
-                                        <a href="{{ path('dashboard.heads.edit', {id: department.head.id}) }}">Edit head</a>
+                                        <a href="{{ route('dashboard.heads.edit', {id: department.head.id}) }}">Edit head</a>
                                     </li>
                                 </ul>
                             {% endif %}
@@ -42,7 +42,7 @@
                 <div class="panel">
                     <div class="panel-heading"><span class="icon-search"></span> Search Faculty</div>
                     <div class="panel-body">
-                        <form method="get" action="{{ path('dashboard.departments.view', {id: department.id}) }}">
+                        <form method="get" action="{{ route('dashboard.departments.view', {id: department.id}) }}">
                             {{ form_widget(search_form) }}
 
                             <button type="submit"><span class="icon-search"></span> Search</button>
@@ -50,13 +50,13 @@
                     </div>
                 </div>
 
-                {% if current_user.getRole() == 'admin' %}
+                {% if auth_user().getRole() == 'admin' %}
                     <div class="panel">
                         <div class="panel-heading">Actions</div>
                         <div class="panel-body">
                             <ul class="list-unstyled">
                                 <li>
-                                    <a href="{{ path('dashboard.departments.edit', {id: department.id}) }}">Edit department</a>
+                                    <a href="{{ route('dashboard.departments.edit', {id: department.id}) }}">Edit department</a>
                                 </li>
                             </ul>
                         </div>
@@ -68,9 +68,9 @@
                 <div class="panel">
                     <div class="panel-heading">Faculty</div>
                     <div class="panel-body">
-                        {% if result.data is not empty %}
+                        {% if result is not empty %}
                             <select name="pages" @change="changePaginationPage" v-model="paginationPage">
-                                {% for i in 1..result.last_page %}
+                                {% for i in 1..result.lastPage %}
                                     <option value="{{ i }}">Page {{ i }}</option>
                                 {% endfor %}
                             </select>
@@ -94,12 +94,12 @@
                                 </thead>
 
                                 <tbody>
-                                    {% for faculty in result.data %}
+                                    {% for faculty in result %}
                                         <tr>
                                             <td>{{ faculty.name }}</td>
                                             <td>{{ faculty.last_login_at }}</td>
                                             <td>
-                                                <a href="{{ path('dashboard.faculty.view', {id: faculty.id}) }}">View</a>
+                                                <a href="{{ route('dashboard.faculty.view', {id: faculty.id}) }}">View</a>
                                             </td>
                                         </tr>
                                     {% endfor %}

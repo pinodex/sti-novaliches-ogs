@@ -16,6 +16,7 @@
                     <div class="panel-heading">Choose sheets to import</div>
                     <div class="panel-body">
                         <form method="post" action="{{ app.request.getRequestUri }}" @submit="disableAction = true">
+                            {{ csrf_field() }}
                             {{ form_widget(choose_form) }}
 
                             <div class="buttons">

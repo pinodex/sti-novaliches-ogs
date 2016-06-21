@@ -48,7 +48,7 @@
                         </p>
                 
                         <form action="{{ app.request.getRequestUri }}" method="post">
-                            <input type="hidden" name="_token" value="{{ csrf_token('student.grades.edit') }}" />
+                            {{ csrf_field() }}
 
                             <table class="center-align">
                                 <thead>
@@ -101,7 +101,7 @@
                             </table>
 
                             <div class="buttons">
-                                <a href="{{ path('dashboard.students.view', {id: student.id}) }}" class="button danger">Discard Changes</a>
+                                <a href="{{ route('dashboard.students.view', {id: student.id}) }}" class="button danger">Discard Changes</a>
                                 <button type="submit" class="button success">Save Changes</button>
                             </div>
                         </form>

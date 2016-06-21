@@ -11,7 +11,7 @@
 
 namespace App\Extensions\Importer;
 
-use Illuminate\Database\Capsule\Manager as DB;
+use DB;
 
 /**
  * Student Sheet importer

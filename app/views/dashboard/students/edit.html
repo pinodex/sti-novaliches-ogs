@@ -11,10 +11,11 @@
         <div class="grid">
             <div class="column-4">
                 <form method="post" action="{{ app.request.getRequestUri }}">
+                    {{ csrf_field() }}
                     {{ form_widget(form) }}
                     
                     <button type="submit">Save <span class="icon-navigate_next"></span></button>
-                    <a href="{{ path('dashboard.students.delete', {id: student.id}) }}" class="button link" @click.prevent="modals.confirm = true">Delete Student</a>
+                    <a href="{{ route('dashboard.students.delete', {id: student.id}) }}" class="button link" @click.prevent="modals.confirm = true">Delete Student</a>
                 </form>
             </div>
         </div>
@@ -28,9 +29,10 @@
         </div>
 
         <div slot="footer">
-            <form method="post" action="{{ path('dashboard.students.delete', {id: student.id}) }}">
-                <input type="hidden" name="_token" value="{{ csrf_token('students.delete') }}" />
-                    
+            <form method="post" action="{{ route('dashboard.students.delete', {id: student.id}) }}">
+                {{ csrf_field() }}
+                <input type="hidden" name="_confirm" />
+                
                 <button type="button" class="neutral" @click="modals.confirm = false">Cancel</button>
                 <button type="submit" class="danger">Delete Student <span class="icon-navigate_next"></span></button>
             </form>

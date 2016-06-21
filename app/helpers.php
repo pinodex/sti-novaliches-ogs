@@ -240,15 +240,21 @@ if (!function_exists('parseGrade')) {
             return null;
         }
 
-        if (preg_match('/(?i)INC/', $grade)) {
+        $grade = strtoupper($grade);
+
+        if ($grade == 'N/A') {
+            return null;
+        }
+
+        if ($grade == 'INC') {
             return 0;
         }
 
-        if (preg_match('/(?i)DRP/', $grade)) {
+        if ($grade == 'DRP') {
             return -1;
         }
 
-        if (preg_match('/(?i)TRF/', $grade)) {
+        if ($grade == 'TRF') {
             return -2;
         }
 

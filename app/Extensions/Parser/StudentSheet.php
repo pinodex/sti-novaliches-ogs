@@ -12,7 +12,6 @@
 namespace App\Extensions\Parser;
 
 use App\Extensions\Parser;
-use App\Services\Helper;
 
 /**
  * Student Sheet parser
@@ -25,7 +24,7 @@ class StudentSheet extends Parser
         $this->changeSheet($index);
 
         foreach ($this->spreadsheet as $i => $row) {
-            if ($i > 0 && Helper::isStudentId($row[0])) {
+            if ($i > 0 && isStudentId($row[0])) {
                 $output[] = array(
                     'id'            => $row[0],
                     'last_name'     => $row[1],

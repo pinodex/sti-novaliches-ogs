@@ -13,7 +13,7 @@
                 <div class="panel">
                     <div class="panel-heading"><span class="icon-search"></span> Search Guidance account</div>
                     <div class="panel-body">
-                        <form method="get" action="{{ path('dashboard.guidance') }}">
+                        <form method="get" action="{{ route('dashboard.guidance.index') }}">
                             {{ form_widget(search_form) }}
 
                             <button type="submit"><span class="icon-search"></span> Search</button>
@@ -24,17 +24,17 @@
                 <div class="panel">
                     <div class="panel-heading">Actions</div>
                     <div class="panel-body">
-                        <a href="{{ path('dashboard.guidance.add') }}">Add new guidance account</a>
+                        <a href="{{ route('dashboard.guidance.add') }}">Add new guidance account</a>
                     </div>
                 </div>
             </div>
 
             <div class="column-8">
-                {% if result.data is empty %}
+                {% if result is empty %}
                     <div class="alert alert-neutral">No records found</div>
                 {% else %}
                     <select name="pages" @change="changePaginationPage" v-model="paginationPage">
-                        {% for i in 1..result.last_page %}
+                        {% for i in 1..result.lastPage %}
                             <option value="{{ i }}">Page {{ i }}</option>
                         {% endfor %}
                     </select>
@@ -58,12 +58,12 @@
                         </thead>
 
                         <tbody>
-                            {% for row in result.data %}
+                            {% for row in result %}
                                 <tr>
                                     <td>{{ row.name }}</td>
                                     <td>{{ row.last_login_at }}</td>
                                     <td>
-                                        <a href="{{ path('dashboard.guidance.edit', {id: row.id}) }}">Edit</a>
+                                        <a href="{{ route('dashboard.guidance.edit', {id: row.id}) }}">Edit</a>
                                     </td>
                                 </tr>
                             {% endfor %}

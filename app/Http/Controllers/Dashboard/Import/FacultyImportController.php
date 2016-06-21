@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Extensions\Constraints as CustomAssert;
 use App\Extensions\Parser\FacultySheet;
+use App\Extensions\Importer\FacultyImporter;
 use App\Http\Controllers\Controller;
 use App\Extensions\Form;
 
@@ -35,7 +36,7 @@ class FacultyImportController extends Controller
     /**
      * Faculty import redirector
      * 
-     * URL: /dashboard/faculty/import/
+     * URL: /dashboard/import/faculty/
      */
     public function index() {
         return redirect()->route('dashboard.import.faculty.stepOne');
@@ -101,7 +102,7 @@ class FacultyImportController extends Controller
     /**
      * Grade import wizard step 2
      * 
-     * URL: /dashboard/faculty/import/2
+     * URL: /dashboard/import/faculty/2
      */
     public function stepTwo(Request $request) {
         if (!$uploadedFile = Session::get('fw_uploaded_file')) {
@@ -138,6 +139,84 @@ class FacultyImportController extends Controller
         return view('dashboard/import/faculty/2', array(
             'choose_form'   => $form->createView(),
             'current_step'  => 2
+        ));
+    }
+
+    /**
+     * Grade import wizard step 3
+     * 
+     * URL: /dashboard/import/faculty/3
+     */
+    public function stepThree(Request $request) {
+        if (!$uploadedFile = Session::get('fw_uploaded_file')) {
+            return redirect()->route('dashboard.import.faculty.stepOne');
+        }
+
+        if (!$selectedSheets = Session::get('fw_selected_sheets')) {
+            return redirect()->route('dashboard.import.faculty.stepTwo');
+        }
+
+        /* Check if spreadsheet contents is cached in the session database
+           Used remove the need to load the spreadsheet file again, thus saving time */
+        if (!$contents = Cache::get('faculty_sheet')) {
+            set_time_limit(0);
+            
+            $contents = FacultySheet::parse($uploadedFile)->getSheetsContent($selectedSheets);
+            Cache::put('faculty_sheet', $contents, 60);
+        }
+
+        $form = Form::create();
+        
+        $form->add('_confirm', Type\HiddenType::class, array(
+            'required' => false
+        ));
+        
+        $form = $form->getForm();
+        $form->handleRequest($request);
+        
+        if ($form->isValid()) {
+            FacultyImporter::import($contents);
+            Session::put('fw_import_done', true);
+            
+            return redirect()->route('dashboard.import.faculty.stepFour');
+        }
+
+        return view('dashboard/import/faculty/3', array(
+            'current_step'          => 3,
+            'confirm_form'          => $form->createView(),
+            'spreadsheet_contents'  => $contents
+        ));
+    }
+
+    /**
+     * Grade import wizard step 4
+     * 
+     * URL: /dashboard/import/faculty/4
+     */
+    public function stepFour() {
+        if (!$uploadedFile = Session::get('fw_uploaded_file')) {
+            return redirect()->route('dashboard.import.faculty.stepOne');
+        }
+
+        if (!Session::get('fw_selected_sheets')) {
+            return redirect()->route('dashboard.import.faculty.stepTwo');
+        }
+
+        if (!Session::get('fw_import_done')) {
+            return redirect()->route('dashboard.import.faculty.stepThree');
+        }
+
+        // cleanup
+        Session::forget('fw_uploaded_file');
+        Session::forget('fw_selected_sheets');
+        Session::forget('fw_import_done');
+
+        Cache::forget('faculty_sheet');
+        
+        @unlink($uploadedFile);
+        
+        return view('dashboard/import/faculty/4', array(
+            'current_step' => 4
         ));
     }
 }
