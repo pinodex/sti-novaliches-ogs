@@ -26,7 +26,7 @@ class MainController extends Controller
         parent::__construct();
 
         $this->middleware('auth');
-        $this->middleware('role:admin,head,faculty,guidance');
+        $this->middleware('acl');
     }
 
     /**

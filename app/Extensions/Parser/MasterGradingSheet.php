@@ -12,7 +12,6 @@
 namespace App\Extensions\Parser;
 
 use App\Extensions\Parser;
-use App\Services\Helper;
 
 /**
  * Master Grading Sheet parser
@@ -34,10 +33,10 @@ class MasterGradingSheet extends Parser
                 $row[8] = '0' . $row[8];
             }
 
-            $row[14] = Helper::parseGrade($row[14]);
-            $row[22] = Helper::parseGrade($row[22]);
-            $row[16] = Helper::parseGrade($row[16]);
-            $row[25] = Helper::parseGrade($row[25]);
+            $row[14] = parseGrade($row[14]);
+            $row[22] = parseGrade($row[22]);
+            $row[16] = parseGrade($row[16]);
+            $row[25] = parseGrade($row[25]);
 
             $output[] = array(
                 'student_id'        => $row[8],

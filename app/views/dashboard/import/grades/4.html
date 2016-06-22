@@ -7,15 +7,15 @@
         <h1><span class="icon-file_upload"></span> {{ page_title }}</h1>
 
         <div class="grid">
-            {% include '/dashboard/grades/import/steps.html' %}
+            {% include '/dashboard/import/grades/steps.html' %}
 
             <div class="column-8">
                 <div class="panel">
                     <div class="panel-heading">Finished</div>
                     <div class="panel-body">
                         <div>Import finished.</div>
-                        <p><a href="{{ path('dashboard.index') }}">Back to home</a></p>
-                        <p><a href="{{ path('dashboard.grades.import') }}">Import another grades</a></p>
+                        <p><a href="{{ route('dashboard.index') }}">Back to home</a></p>
+                        <p><a href="{{ route('dashboard.import.grades') }}">Import another grades</a></p>
                     </div>
                 </div>
             </div>

@@ -12,7 +12,6 @@
 namespace App\Extensions\Parser;
 
 use App\Extensions\Parser;
-use App\Services\Helper;
 
 /**
  * Grading Sheet parser
@@ -44,7 +43,7 @@ class GradingSheet extends Parser
                 $output['metadata']['final_attendance_hours'] = $row[234];
             }
 
-            if ($i >= 10 && Helper::isStudentId($row[2])) {
+            if ($i >= 10 && isStudentId($row[2])) {
                 $output['students'][] = array(
                     'student_id'            => $row[2],
                     'name'                  => $row[4],

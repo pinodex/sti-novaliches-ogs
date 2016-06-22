@@ -213,6 +213,7 @@ return [
         'filters' => [
             'get'               => 'data_get',
             'format_student_id' => 'formatStudentId',
+            'format_grade'      => 'formatGrade',
             'grade_class'       => 'getGradeClass'
         ],
     ],  

@@ -12,20 +12,20 @@
 namespace App\Extensions\User\Roles;
 
 use Hash;
-use App\Models\Admin;
+use App\Models\Head;
 use App\Exceptions\AuthException;
 use Illuminate\Contracts\Auth\Authenticatable;
 
-class AdminUserRole implements UserRoleInterface
+class HeadUserRole implements UserRoleInterface
 {
     public function retrieveById($identifier)
     {
-        return Admin::find($identifier);
+        return Head::find($identifier);
     }
 
     public function retrieveByCredentials(array $credentials)
     {
-        $user = Admin::where('username', $credentials['id'])->first();
+        $user = Head::where('username', $credentials['id'])->first();
 
         if ($user) {
             return $user;
@@ -40,10 +40,10 @@ class AdminUserRole implements UserRoleInterface
             if (Hash::needsRehash($user->password)) {
                 $user->password = Hash::make($credentials['password']);
             }
-
+            
             $user->last_login_at = date('Y-m-d H:i:s');
             $user->save();
-
+            
             return true;
         }
 

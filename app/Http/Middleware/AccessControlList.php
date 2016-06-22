@@ -14,25 +14,34 @@ namespace App\Http\Middleware;
 use Auth;
 use Closure;
 
-class Role
+class AccessControlList
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  string|null  $guard
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        $requiredRoles = array();
+        $role = Auth::user()->getRole();
+        $acl = require app_path('acl.php');
 
-        for ($i = 2; $i < func_num_args(); $i++) { 
-            $requiredRoles[] = func_get_arg($i);
+        if (!array_key_exists($role, $acl)) {
+            abort(403);
+        }
+        
+        $action = explode('@', $request->route()->getActionName());
+        $controllerName = $action[0];
+        $controllerAction = $action[1];
+        $allowedActions = $acl[$role];
+
+        if (array_key_exists($controllerName, $allowedActions) && in_array($controllerAction, $allowedActions[$controllerName])) {
+            return $next($request);
         }
 
-        if (in_array(Auth::user()->getRole(), $requiredRoles)) {
+        if (in_array($controllerName, $allowedActions)) {
             return $next($request);
         }
 

@@ -29,7 +29,7 @@ class DepartmentController extends Controller
         parent::__construct();
 
         $this->middleware('auth');
-        $this->middleware('role:admin');
+        $this->middleware('acl');
     }
 
     /**
@@ -51,14 +51,14 @@ class DepartmentController extends Controller
      */
     public function self()
     {
-        if (!$this->isRole('head') || !$this->isRole('faculty')) {
+        if (!$this->isRole('head') && !$this->isRole('faculty')) {
             abort(404);
         }
 
         if ($this->isRole('head') && $this->user->department === null) {
             Session::flash('flash_message', 'danger>>>You are not yet assigned to any department');
 
-            return redirect()->route('dashboard.departments');
+            return redirect()->route('dashboard.index');
         }
 
         return redirect()->route('dashboard.departments.view', [

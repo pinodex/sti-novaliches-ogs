@@ -31,7 +31,7 @@ class StudentImportController extends Controller
         parent::__construct();
 
         $this->middleware('auth');
-        $this->middleware('role:admin');
+        $this->middleware('acl');
     }
 
     /**
@@ -88,7 +88,7 @@ class StudentImportController extends Controller
             $contents = file_get_contents($form['file']->getData()->getPathName());
 
             Storage::put($storageName, mb_convert_encoding($contents, 'UTF-8', 'pass'));
-            Session::put('sw_uploaded_file', storage_path() . '/app' . $storageName);
+            Session::put('sw_uploaded_file', storage_path('app' . $storageName));
             
             return redirect()->route('dashboard.import.students.stepTwo');
         }

@@ -11,12 +11,8 @@
                 <table>
                     <tbody>
                         <tr>
-                            <td>Cache size</td>
-                            <td>{{ cache_size }}</td>
-                        </tr>
-                        <tr>
-                            <td>Temporary storage size</td>
-                            <td>{{ storage_size }}</td>
+                            <td>Import cache size</td>
+                            <td>{{ import_cache_size }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -25,13 +21,10 @@
 
         <ul class="list-unstyled">
             <li>
-                <a href="{{ path('dashboard.settings.maintenance.clear', {target: 'cache'}) }}">Clear server cache</a>
+                <a href="{{ route('dashboard.settings.maintenancePurge', {store: 'importCache'}) }}">Purge import cache</a>
             </li>
             <li>
-                <a href="{{ path('dashboard.settings.maintenance.clear', {target: 'storage'}) }}">Clear temporary storage directory</a>
-            </li>
-            <li>
-                <a href="{{ path('dashboard.settings.maintenance.databaseCleanup') }}">Cleanup database</a>
+                <a href="{{ route('dashboard.settings.maintenancePurge', {store: 'appCache'}) }}">Purge application cache</a>
             </li>
         </ul>
     </div>

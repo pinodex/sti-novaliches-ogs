@@ -14,6 +14,7 @@
                     <div class="panel-heading">Upload CSV file</div>
                     <div class="panel-body">
                         <form method="post" action="{{ app.request.getRequestUri }}" enctype="multipart/form-data" @submit="disableAction = true">
+                            {{ csrf_field() }}
                             {{ form_widget(upload_form) }}
 
                             <button type="submit" class="success" :disabled="disableAction">Next <span class="icon-navigate_next"></span></button>

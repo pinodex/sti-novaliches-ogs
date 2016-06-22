@@ -30,7 +30,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies($gate);
 
         Auth::provider('multirole', function($app, array $config) {
-            $roles = Config::get('multirole.roles');
+            $roles = require app_path('roles.php');
 
             return new MultiRoleUserProvider($roles);
         });

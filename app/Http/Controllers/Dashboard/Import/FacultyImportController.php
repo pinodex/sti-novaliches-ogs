@@ -30,7 +30,7 @@ class FacultyImportController extends Controller
         parent::__construct();
 
         $this->middleware('auth');
-        $this->middleware('role:admin');
+        $this->middleware('acl');
     }
 
     /**
@@ -88,7 +88,7 @@ class FacultyImportController extends Controller
             $storageName = sprintf('/imports/faculty/%s.%s', uniqid(null, true), $file->guessExtension());
 
             Storage::put($storageName, file_get_contents($file->getPathname()));
-            Session::put('fw_uploaded_file', storage_path() . '/app' . $storageName);
+            Session::put('fw_uploaded_file', storage_path('app' . $storageName));
 
             return redirect()->route('dashboard.import.faculty.stepTwo');
         }

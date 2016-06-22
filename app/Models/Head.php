@@ -12,19 +12,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable;
+use App\Extensions\User\Roles\MultiRoleModelInterface;
 use App\Traits\HumanReadableDateTrait;
 use App\Traits\HashablePasswordTrait;
 use App\Traits\ConcatenateNameTrait;
 use App\Traits\SearchableTrait;
 use App\Traits\ChoosableTrait;
-use App\Services\Hash;
 
 /**
  * Head model
  * 
  * Model class for heads table
  */
-class Head extends Model
+class Head extends Model implements Authenticatable, MultiRoleModelInterface
 {
     use HumanReadableDateTrait,
         HashablePasswordTrait,
@@ -44,6 +45,37 @@ class Head extends Model
     protected $hidden = array(
         'password'
     );
+
+    public function getAuthIdentifierName()
+    {
+        return 'id';
+    }
+
+    public function getAuthIdentifier()
+    {
+        return 'head:' . $this->attributes['id'];
+    }
+
+    public function getAuthPassword()
+    {
+        return $this->attributes['password'];
+    }
+
+    public function getRememberToken() {}
+
+    public function setRememberToken($value) {}
+
+    public function getRememberTokenName() {}
+
+    public function getRedirectRoute()
+    {
+        return 'dashboard.index';
+    }
+
+    public function getRole()
+    {
+        return 'head';
+    }
 
     /**
      * Get department

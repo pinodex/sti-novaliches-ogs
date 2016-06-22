@@ -16,6 +16,7 @@
                 </div>
 
                 <form method="post" action="{{ app.request.getRequestUri }}">
+                    {{ csrf_field() }}
                     {{ form_widget(form) }}
 
                     <button type="submit" class="success">Send Memo</button>

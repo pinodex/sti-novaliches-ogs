@@ -6,16 +6,16 @@
     <div class="container">
         <h1>{{ page_title }}</h1>
 
-        {% if result.data is empty %}
+        {% if result is empty %}
             <div class="alert alert-neutral">No records found</div>
         {% else %}
             <select name="pages" class="print-invisible" @change="changePaginationPage" v-model="paginationPage">
-                {% for i in 1..result.last_page %}
+                {% for i in 1..result.lastPage %}
                     <option value="{{ i }}">Page {{ i }}</option>
                 {% endfor %}
             </select>
 
-            <p class="print-visible">Page {{ result.current_page ~ '/' ~ result.last_page }}, showing entry {{ result.from }} to {{ result.to }} out of {{ result.total }} total entries.</p>
+            <p class="print-visible">Page {{ result.currentPage ~ '/' ~ result.lastPage }}, showing entry {{ result.firstItem }} to {{ result.lastItem }} out of {{ result.total }} total entries.</p>
 
             <table class="center-align printable">
                 <thead>
@@ -82,7 +82,7 @@
                 </thead>
 
                 <tbody>
-                    {% for i, diff in result.data %}
+                    {% for i, diff in result %}
                         <tr>
                             <td>{{ diff.student_id }}</td>
                             <td>{{ diff.student ? diff.student.name : 'N/A '}}</td>
@@ -113,7 +113,7 @@
                 </tbody>
             </table>
 
-            <p>Page {{ result.current_page ~ '/' ~ result.last_page }}, showing entry {{ result.from }} to {{ result.to }} out of {{ result.total }} total entries.</p>
+            <p class="print-visible">Page {{ result.currentPage ~ '/' ~ result.lastPage }}, showing entry {{ result.firstItem }} to {{ result.lastItem }} out of {{ result.total }} total entries.</p>
 
             <button @click="printDocument()" class="print-invisible">Print document</button>
         {% endif %}

@@ -11,9 +11,9 @@
 
 namespace App\Extensions;
 
+use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Capsule\Manager as DB;
 use App\Models\Grade;
 
 /**

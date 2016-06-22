@@ -30,6 +30,13 @@ class Controller extends BaseController
         $this->user = Auth::user();
     }
 
+    /**
+     * Check if user's role
+     * 
+     * @param string $role
+     * 
+     * @return boolean
+     */
     protected function isRole($role)
     {
         return $this->user->getRole() == $role;

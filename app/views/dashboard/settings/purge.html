@@ -1,6 +1,6 @@
 {% extends '/_layout/main-default.html' %}
 
-{% set page_title = 'Clear ' ~ target %}
+{% set page_title = 'Purge ' ~ store_name %}
 
 {% block content %}
     <div class="container">
@@ -8,11 +8,11 @@
 
         <div class="grid">
             <div class="column-4">
-                <p>Confirm deletion of {{ target }} directory?</p>
+                <p>Are you sure you want to purge {{ store_name }}?</p>
                 <form method="post" action="{{ app.request.getRequestUri }}">
-                    {{ form_widget(form) }}
+                    {{ csrf_field() }}
                     
-                    <a href="{{ path('dashboard.settings.maintenance') }}" class="button neutral">Cancel</a>
+                    <a href="{{ route('dashboard.settings.maintenance') }}" class="button neutral">Cancel</a>
                     <button type="submit" class="danger">Confirm <span class="icon-navigate_next"></span></button>
                 </form>
             </div>

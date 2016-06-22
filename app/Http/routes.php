@@ -112,10 +112,29 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
         Route::get('/{student}', 'StudentController@view')->name('view');
     });
 
+    Route::group(['prefix' => 'grades', 'as' => 'grades.'], function () {
+        Route::get('/', 'GradeController@index')->name('index');
+        Route::get('/compare', 'GradeController@compare')->name('compare');
+
+        Route::group(['prefix' => 'compare', 'as' => 'compare.'], function () {
+            Route::match(['get', 'post'], '/upload', 'GradeCompareController@upload')->name('upload');
+
+            Route::get('/diff', 'GradeCompareController@diff')->name('diff');
+        });
+    });
+
+    Route::group(['prefix' => 'memo', 'as' => 'memo.'], function () {
+        Route::get('/', 'MemoController@index')->name('index');
+        Route::get('/{memo}/view', 'MemoController@view')->name('view');
+
+        Route::match(['get', 'post'], '/send', 'MemoController@send')->name('send');
+    });
+
     Route::group(['namespace' => 'Import', 'prefix' => 'import', 'as' => 'import.'], function () {
 
         Route::get('/faculty', 'FacultyImportController@index')->name('faculty');
         Route::get('/students', 'StudentImportController@index')->name('students');
+        Route::get('/grades', 'GradeImportController@index')->name('grades');
         
         Route::group(['prefix' => 'faculty', 'as' => 'faculty.'], function () {
             Route::match(['get', 'post'], '/upload', 'FacultyImportController@stepOne')->name('stepOne');
@@ -132,13 +151,22 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
             Route::get('/finish', 'StudentImportController@stepThree')->name('stepThree');
         });
 
+        Route::group(['prefix' => 'grades', 'as' => 'grades.'], function () {
+            Route::match(['get', 'post'], '/upload', 'GradeImportController@stepOne')->name('stepOne');
+            Route::match(['get', 'post'], '/select', 'GradeImportController@stepTwo')->name('stepTwo');
+            Route::match(['get', 'post'], '/confirm', 'GradeImportController@stepThree')->name('stepThree');
+
+            Route::get('/finish', 'GradeImportController@stepFour')->name('stepFour');
+        });
+
     });
 
-    Route::group(['prefix' => 'memo', 'as' => 'memo.'], function () {
-        Route::get('/', 'MemoController@index')->name('index');
-        Route::get('/{memo}/view', 'MemoController@view')->name('view');
+    Route::group(['prefix' => 'settings', 'as' => 'settings.'], function () {
+        Route::match(['get', 'post'], '/', 'SettingController@index')->name('index');
 
-        Route::match(['get', 'post'], '/send', 'MemoController@edit')->name('send');
+        Route::get('/maintenance', 'SettingController@maintenance')->name('maintenance');
+
+        Route::match(['get', 'post'], '/maintenance/purge', 'SettingController@maintenancePurge')->name('maintenancePurge');
     });
 
 });
