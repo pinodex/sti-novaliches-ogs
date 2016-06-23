@@ -76,7 +76,7 @@ class StudentImportController extends Controller
             if ($file->getError() != 0) {
                 Session::flash('flash_message', 'danger>>>' . $file->getErrorMessage());
                 
-                return $app->redirect($app->path('dashboard.import.students.stepOne'));
+                return redirect()->route('dashboard.import.students.stepOne');
             }
 
             $storageName = sprintf('/imports/students/%s.%s', uniqid(null, true), $file->guessExtension());
