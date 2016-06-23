@@ -17,12 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type;
 use App\Exceptions\AuthException;
 use App\Extensions\Form;
 
-/**
- * Main controller
- * 
- * Route controller for main pages.
- * Includes the root index and the login/logout routes
- */
 class MainController extends Controller
 {
     public function __construct()

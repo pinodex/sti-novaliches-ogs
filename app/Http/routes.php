@@ -170,3 +170,12 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
     });
 
 });
+
+Route::group(['namespace' => 'Api', 'prefix' => 'api', 'as' => 'api.', 'middleware' => ['api']], function () {
+
+    Route::group(['namespace' => 'V1', 'prefix' => 'v1', 'as' => '1.'], function () {
+        Route::resource('student', 'StudentController', ['only' => ['show']]);
+        Route::resource('grades', 'GradeController', ['only' => ['show']]);
+    });
+
+});

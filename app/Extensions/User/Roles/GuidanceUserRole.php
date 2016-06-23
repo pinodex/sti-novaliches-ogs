@@ -25,7 +25,15 @@ class GuidanceUserRole implements UserRoleInterface
 
     public function retrieveByCredentials(array $credentials)
     {
-        $user = Guidance::where('username', $credentials['id'])->first();
+        $id = null;
+
+        if (isset($credentials['id'])) {
+            $id = $credentials['id'];
+        } else if (isset($credentials['email'])) {
+            $id = $credentials['email'];
+        }
+
+        $user = Guidance::where('username', $id)->first();
 
         if ($user) {
             return $user;

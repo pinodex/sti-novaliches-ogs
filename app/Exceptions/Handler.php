@@ -54,6 +54,20 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if ($request->ajax() || strpos($request->getPathinfo(), '/api/') === 0) {
+            if ($e instanceof ModelNotFoundException) {
+                return response()->json([
+                    'error_message'   => 'The entity you requested was not found'
+                ], 404);
+            }
+
+            if ($e instanceof HttpException && $e->getStatusCode() == 403) {
+                return response()->json([
+                    'error_message'   => 'You have no permission to access this entity'
+                ], 403);
+            }
+        }
+
         return parent::render($request, $e);
     }
 }

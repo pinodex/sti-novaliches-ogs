@@ -23,12 +23,6 @@ use App\Extensions\Settings;
 use App\Extensions\Form;
 use App\Models\Grade;
 
-/**
- * Main controller
- * 
- * Route controller for main pages.
- * Includes the root index and the login/logout routes
- */
 class MainController extends Controller
 {
     public function __construct()
@@ -36,7 +30,7 @@ class MainController extends Controller
         parent::__construct();
 
         $this->middleware('auth');
-        $this->middleware('role:student');
+        $this->middleware('acl');
     }
 
     /**
@@ -190,6 +184,7 @@ class MainController extends Controller
             ])
         ]);
 
+        $form = $form->getForm();
         $form->handleRequest($request);
 
         if ($form->isValid()) {
