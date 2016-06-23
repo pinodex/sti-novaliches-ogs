@@ -158,12 +158,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\Form\ServiceProvider::class,
-        TwigBridge\ServiceProvider::class,
-
-        // Way\Generators\GeneratorsServiceProvider::class,
-        // Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class
+        TwigBridge\ServiceProvider::class
     ],
 
     /*
