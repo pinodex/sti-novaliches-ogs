@@ -26,7 +26,10 @@ return [
         App\Http\Controllers\Dashboard\MemoController::class,
         App\Http\Controllers\Dashboard\SectionController::class,
         App\Http\Controllers\Dashboard\SettingController::class,
-        App\Http\Controllers\Dashboard\StudentController::class
+        App\Http\Controllers\Dashboard\StudentController::class,
+        App\Http\Controllers\Dashboard\Import\FacultyImportController::class,
+        App\Http\Controllers\Dashboard\Import\GradeImportController::class,
+        App\Http\Controllers\Dashboard\Import\StudentImportController::class
     ],
 
     'head' => [
@@ -40,8 +43,8 @@ return [
     'faculty' => [
         App\Http\Controllers\Dashboard\MainController::class,
         App\Http\Controllers\Dashboard\StudentController::class => ['index', 'view'],
-        App\Http\Controllers\Dashboard\Import\GradeImportController::class,
-        App\Http\Controllers\Dashboard\MemoController::class
+        App\Http\Controllers\Dashboard\MemoController::class,
+        App\Http\Controllers\Dashboard\Import\GradeImportController::class
     ],
 
     'guidance' => [
