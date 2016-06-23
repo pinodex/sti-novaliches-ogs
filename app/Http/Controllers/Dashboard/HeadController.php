@@ -76,7 +76,7 @@ class HeadController extends Controller
         $form->add('department_id', Type\ChoiceType::class, [
             'label'         => 'Department',
             'choices'       => array_flip($departments),
-            'data'          => $head->department_id ?: '0',
+            'data'          => $head->department_id && in_array($head->department_id, $departments) ?: '0',
 
             'constraints'   => new CustomAssert\UniqueRecord([
                 'model'     => Head::class,

@@ -28,9 +28,12 @@ class GradeImporter implements ImporterInterface
     {
         foreach ($sheets as $sheet) {
             foreach ($sheet['students'] as $student) {
+                $student['student_id'] = parseStudentId($student['student_id']);
+                
                 $grade = Grade::where(array(
                     'student_id'    => $student['student_id'],
-                    'subject'       => $sheet['metadata']['subject']
+                    'subject'       => $sheet['metadata']['subject'],
+                    'section'       => $sheet['metadata']['section']
                 ))->first();
 
                 if (!$grade) {

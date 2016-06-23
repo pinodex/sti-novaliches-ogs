@@ -12,5 +12,7 @@
 return [
     'student' => App\Extensions\User\Roles\StudentUserRole::class,
     'admin' => App\Extensions\User\Roles\AdminUserRole::class,
-    'head' => App\Extensions\User\Roles\HeadUserRole::class
+    'head' => App\Extensions\User\Roles\HeadUserRole::class,
+    'faculty' => App\Extensions\User\Roles\FacultyUserRole::class,
+    'guidance' => App\Extensions\User\Roles\GuidanceUserRole::class
 ];

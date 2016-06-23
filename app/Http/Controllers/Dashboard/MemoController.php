@@ -81,7 +81,7 @@ class MemoController extends Controller
 
         return view('dashboard/memos/index', [
             'search_form'   => $searchForm->getForm()->createView(),
-            'compose_form'  => $composeForm ? $composeForm->getForm()->createView() : null,
+            'compose_form'  => isset($composeForm) ? $composeForm->getForm()->createView() : null,
             'result'        => Memo::search($subject, $adminId, $facultyId)
         ]);
     }

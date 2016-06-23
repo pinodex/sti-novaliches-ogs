@@ -74,7 +74,7 @@ class DepartmentController extends Controller
     public function view(Request $request, Department $department)
     {
         if ($this->isRole('head') && $this->user->department === null || (
-            $this->user->department !== null && $this->user->department->id != $id)) {
+            $this->user->department !== null && $this->user->department->id != $department->id)) {
             
             abort(403);
         }

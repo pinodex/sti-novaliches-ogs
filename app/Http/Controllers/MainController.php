@@ -34,11 +34,21 @@ class MainController extends Controller
         ]);
     }
 
+    /**
+     * Index page
+     * 
+     * URL: /
+     */
     public function index()
     {
         return redirect()->route('login');
     }
 
+    /**
+     * Login page
+     * 
+     * URL: /login
+     */
     public function login(Request $request)
     {
         $failedAttempts = session('failed_attempts') ?: 0;
@@ -116,6 +126,11 @@ class MainController extends Controller
         ]);
     }
 
+    /**
+     * Logout page
+     * 
+     * URL: /logout
+     */
     public function logout()
     {
         Auth::logout();
@@ -125,6 +140,11 @@ class MainController extends Controller
         return redirect('login');
     }
 
+    /**
+     * Credits page
+     * 
+     * URL: /credits
+     */
     public function credits()
     {
         return view('credits');

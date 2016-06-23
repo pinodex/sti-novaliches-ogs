@@ -12,6 +12,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable;
+use App\Extensions\User\Roles\MultiRoleModelInterface;
 use App\Traits\HumanReadableDateTrait;
 use App\Traits\HashablePasswordTrait;
 use App\Traits\ConcatenateNameTrait;
@@ -24,7 +26,7 @@ use App\Extensions\Settings;
  * 
  * Model class for faculty table
  */
-class Faculty extends Model
+class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
 {
     use HumanReadableDateTrait,
         HashablePasswordTrait,
@@ -50,6 +52,37 @@ class Faculty extends Model
         'status',
         'is_valid'
     );
+
+    public function getAuthIdentifierName()
+    {
+        return 'id';
+    }
+
+    public function getAuthIdentifier()
+    {
+        return 'faculty:' . $this->attributes['id'];
+    }
+
+    public function getAuthPassword()
+    {
+        return $this->attributes['password'];
+    }
+
+    public function getRememberToken() {}
+
+    public function setRememberToken($value) {}
+
+    public function getRememberTokenName() {}
+
+    public function getRedirectRoute()
+    {
+        return 'dashboard.index';
+    }
+
+    public function getRole()
+    {
+        return 'faculty';
+    }
 
     /**
      * Get department

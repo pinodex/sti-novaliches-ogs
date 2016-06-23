@@ -35,5 +35,17 @@ return [
         App\Http\Controllers\Dashboard\FacultyController::class => ['view'],
         App\Http\Controllers\Dashboard\StudentController::class => ['index', 'view'],
         App\Http\Controllers\Dashboard\SectionController::class
+    ],
+
+    'faculty' => [
+        App\Http\Controllers\Dashboard\MainController::class,
+        App\Http\Controllers\Dashboard\StudentController::class => ['index', 'view'],
+        App\Http\Controllers\Dashboard\Import\GradeImportController::class,
+        App\Http\Controllers\Dashboard\MemoController::class
+    ],
+
+    'guidance' => [
+        App\Http\Controllers\Dashboard\MainController::class,
+        App\Http\Controllers\Dashboard\StudentController::class => ['index', 'view']
     ]
 ];
