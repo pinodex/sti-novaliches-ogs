@@ -69,39 +69,39 @@ class SectionController extends Controller
             $grades->where('importer_id', $faculty);
         }
         
-        $aggregatedResults = array();
-        $periods = array('prelim', 'midterm', 'prefinal', 'final');
+        $aggregatedResults = [];
+        $periods = ['prelim', 'midterm', 'prefinal', 'final'];
 
         $all = $grades->get()->groupBy(function (Grade $grade) {
             return $grade->section . '/' . $grade->subject;
         });
 
         foreach ($all as $sectionSubject => $grades) {
-            $entry = array(
+            $entry = [
                 'section'   => explode('/', $sectionSubject)[0],
                 'subject'   => explode('/', $sectionSubject)[1],
                 'count'     => count($grades),
-                'dropped'   => array(
+                'dropped'   => [
                     'prelim'    => 0,
                     'midterm'   => 0,
                     'prefinal'  => 0,
                     'final'     => 0
-                ),
+                ],
 
-                'failed'    => array(
+                'failed'    => [
                     'prelim'    => 0,
                     'midterm'   => 0,
                     'prefinal'  => 0,
                     'final'     => 0
-                ),
+                ],
 
-                'nograde'   => array(
+                'nograde'   => [
                     'prelim'    => 0,
                     'midterm'   => 0,
                     'prefinal'  => 0,
                     'final'     => 0
-                )
-            );
+                ]
+            ];
 
             foreach ($grades as $grade) {
                 foreach ($periods as $period) {

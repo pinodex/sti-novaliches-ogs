@@ -36,7 +36,7 @@ class MainController extends Controller
      */
     public function index()
     {
-        $context = array();
+        $context = [];
 
         if ($this->isRole('faculty')) {
             $faculty = $this->user->getModel();
@@ -45,28 +45,28 @@ class MainController extends Controller
             $context['unread_memo_count'] = $faculty->getUnreadMemoCount();
             $context['department'] = $faculty->department;
             
-            $context['statuses'] = array(
+            $context['statuses'] = [
                 $faculty->getStatusAttribute('prelim'),
                 $faculty->getStatusAttribute('midterm'),
                 $faculty->getStatusAttribute('prefinal'),
                 $faculty->getStatusAttribute('final')
-            );
+            ];
 
-            $context['stats'] = array(
-                'failed' => array(
+            $context['stats'] = [
+                'failed' => [
                     'prelim'    => $faculty->getNumberOfFailsAttribute('prelim'),
                     'midterm'   => $faculty->getNumberOfFailsAttribute('midterm'),
                     'prefinal'  => $faculty->getNumberOfFailsAttribute('prefinal'),
                     'final'     => $faculty->getNumberOfFailsAttribute('final')
-                ),
+                ],
 
-                'dropped' => array(
+                'dropped' => [
                     'prelim'    => $faculty->getNumberOfDropsAttribute('prelim'),
                     'midterm'   => $faculty->getNumberOfDropsAttribute('midterm'),
                     'prefinal'  => $faculty->getNumberOfDropsAttribute('prefinal'),
                     'final'     => $faculty->getNumberOfDropsAttribute('final'),
-                )
-            );
+                ]
+            ];
         }
 
         return view('/dashboard/index', $context);
@@ -81,22 +81,22 @@ class MainController extends Controller
     {
         $form = Form::create();
 
-        $form->add('current_password', Type\PasswordType::class, array(
-            'constraints' => new CustomAssert\PasswordMatch(array(
-                'hash' => $this->user->getModel()->password
-            ))
-        ));
+        $form->add('current_password', Type\PasswordType::class, [
+            'constraints' => new CustomAssert\PasswordMatch([
+                'hash' => $this->user->password
+            ])
+        ]);
 
-        $form->add('password', Type\RepeatedType::class, array(
+        $form->add('password', Type\RepeatedType::class, [
             'type'              => Type\PasswordType::class,
-            'first_options'     => array('label' => 'New Password'),
-            'second_options'    => array('label' => 'Repeat Password'),
+            'first_options'     => ['label' => 'New Password'],
+            'second_options'    => ['label' => 'Repeat Password'],
             
-            'constraints'       => new Assert\Length(array(
+            'constraints'       => new Assert\Length([
                 'min'           => 8,
                 'minMessage'    => 'Password should be at least 8 characters long.'
-            ))
-        ));
+            ])
+        ]);
 
         $form = $form->getForm();
         $form->handleRequest($request);
@@ -110,8 +110,8 @@ class MainController extends Controller
             return redirect()->route('dashboard.index');
         }
 
-        return view('dashboard/account', array(
+        return view('dashboard/account', [
             'settings_form' => $form->createView()
-        ));
+        ]);
     }
 }

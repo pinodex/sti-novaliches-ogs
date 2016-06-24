@@ -20,7 +20,7 @@ class MasterGradingSheet extends Parser
 {
     public function getSheetContents($index)
     {
-        $output = array();
+        $output = [];
         $this->changeSheet($index);
 
         foreach ($this->spreadsheet as $i => $row) {
@@ -38,7 +38,7 @@ class MasterGradingSheet extends Parser
             $row[16] = parseGrade($row[16]);
             $row[25] = parseGrade($row[25]);
 
-            $output[] = array(
+            $output[] = [
                 'student_id'        => $row[8],
                 'subject'           => $row[6],
                 'section'           => $row[7],
@@ -46,7 +46,7 @@ class MasterGradingSheet extends Parser
                 'midterm_grade'     => $row[14],
                 'prefinal_grade'    => $row[22],
                 'final_grade'       => $row[25]
-            );
+            ];
         }
         
         return $output;

@@ -33,21 +33,17 @@ class Guidance extends Model implements Authenticatable, MultiRoleModelInterface
         ConcatenateNameTrait,
         SearchableTrait;
 
-    protected $fillable = array(
+    protected $fillable = [
         'username',
         'password',
         'last_name',
         'first_name',
         'middle_name',
-    );
+    ];
 
-    protected $hidden = array(
-        'password'
-    );
+    protected $hidden = ['password'];
 
-    protected $appends = array(
-        'name'
-    );
+    protected $appends = ['name'];
 
     public function getAuthIdentifierName()
     {
@@ -72,7 +68,7 @@ class Guidance extends Model implements Authenticatable, MultiRoleModelInterface
 
     public function getRedirectRoute()
     {
-        return 'dashboard.index';
+        return 'dashboard.students.index';
     }
 
     public function getRole()

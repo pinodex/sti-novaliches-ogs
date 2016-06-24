@@ -24,15 +24,17 @@ class StudentImporter implements ImporterInterface
         $chunks = array_chunk($data, 500);
 
         foreach ($chunks as $students) {
-            $values = array();
-            $bindings = array();
+            $values = [];
+            $bindings = [];
+
+            $tables = '(id, last_name, first_name, middle_name, course, created_at, updated_at)';
 
             foreach ($students as $i => $student) {
-                $values[] = '(?, ?, ?, ?, ?, null, null, null, null, null, null, null, null, "' . $timestamp . '", "' . $timestamp . '")';
+                $values[] = '(?, ?, ?, ?, ?, "' . $timestamp . '", "' . $timestamp . '")';
                 $bindings = array_merge($bindings, array_values($student));
             }
 
-            DB::insert('insert ignore into students values ' . implode(',', $values), $bindings);
+            DB::insert('insert ignore into students ' . $tables . ' values ' . implode(',', $values), $bindings);
         }
     }
 }

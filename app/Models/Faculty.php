@@ -34,24 +34,18 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
         SearchableTrait,
         ChoosableTrait;
 
-    protected $fillable = array(
+    protected $fillable = [
         'username',
         'password',
         'last_name',
         'first_name',
         'middle_name',
         'department_id'
-    );
+    ];
 
-    protected $hidden = array(
-        'password'
-    );
+    protected $hidden = ['password'];
 
-    protected $appends = array(
-        'name',
-        'status',
-        'is_valid'
-    );
+    protected $appends = ['name', 'status', 'is_valid'];
 
     public function getAuthIdentifierName()
     {
@@ -247,12 +241,12 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
 
         foreach ($gradeGroups as $id => $grades) {
             $totalCount = count($grades);
-            $withoutGradesCount = array(
+            $withoutGradesCount = [
                 'prelim'    => 0,
                 'midterm'   => 0,
                 'prefinal'  => 0,
                 'final'     => 0
-            );
+            ];
 
             foreach ($grades as $grade) {
                 if ($grade->getOriginal('prelim_grade') === null) {
@@ -363,10 +357,10 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
      */
     public function addSubmissionLogEntry()
     {
-        FacultyGradeImportLog::create(array(
+        FacultyGradeImportLog::create([
             'faculty_id'    => $this->id,
             'period'        => Settings::get('period', 'PRELIM'),
             'date'          => date('Y-m-d H:i:s')
-        ));
+        ]);
     }
 }

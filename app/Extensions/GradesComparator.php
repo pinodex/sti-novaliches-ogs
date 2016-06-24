@@ -32,7 +32,7 @@ class GradesComparator
     /**
      * @var array Array of columns to get from grades table
      */
-    protected $columns = array(
+    protected $columns = [
         'student_id',
         'importer_id',
         'subject',
@@ -41,7 +41,7 @@ class GradesComparator
         'midterm_grade',
         'prefinal_grade',
         'final_grade'
-    );
+    ];
 
     /**
      * Constructs GradesComparator
@@ -78,7 +78,7 @@ class GradesComparator
         )->having('hash', 'NOT IN', DB::raw($hashes))->get();
 
         $this->mismatches->transform(function (Grade $grade) use ($csvHashPair, $csvGrades) {
-            $mismatch = array(
+            $mismatch = [
                 'student_id'    => $grade->student_id,
                 'section'       => $grade->section,
                 'subject'       => $grade->subject,
@@ -86,15 +86,15 @@ class GradesComparator
                 'student'       => $grade->student,
                 'importer'      => $grade->importer,
                 
-                'target' => array(
+                'target' => [
                     'prelim_grade'      => $grade->prelim_grade,
                     'midterm_grade'     => $grade->midterm_grade,
                     'prefinal_grade'    => $grade->prefinal_grade,
                     'final_grade'       => $grade->final_grade
-                ),
+                ],
 
                 'source' => null
-            );
+            ];
 
             $idHash = hash('sha1', $grade->student_id . $grade->section . $grade->subject);
 

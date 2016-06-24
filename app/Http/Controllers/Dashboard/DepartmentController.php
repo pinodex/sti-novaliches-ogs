@@ -138,9 +138,9 @@ class DepartmentController extends Controller
                 $head->department_id = $department->id;
                 $head->save();
             } else {
-                $head = Head::where('department_id', $department->id)->update(array(
+                $head = Head::where('department_id', $department->id)->update([
                     'department_id' => null
-                ));
+                ]);
             }
 
             Session::flash('flash_message', 'success>>>Department has been saved');

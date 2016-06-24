@@ -33,18 +33,16 @@ class Head extends Model implements Authenticatable, MultiRoleModelInterface
         SearchableTrait,
         ChoosableTrait;
 
-    protected $fillable = array(
+    protected $fillable = [
         'username',
         'password',
         'last_name',
         'first_name',
         'middle_name',
         'department_id'
-    );
+    ];
 
-    protected $hidden = array(
-        'password'
-    );
+    protected $hidden = ['password'];
 
     public function getAuthIdentifierName()
     {
@@ -97,7 +95,7 @@ class Head extends Model implements Authenticatable, MultiRoleModelInterface
         return $this->hasMany('App\Models\Faculty', 'department_id', 'department_id');
     }
 
-    protected $appends = array(
+    protected $appends = [
         'name'
-    );
+    ];
 }

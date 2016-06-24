@@ -26,10 +26,7 @@ class Department extends Model
 
     public $timestamps = false;
 
-    protected $fillable = array(
-        'name',
-        'head'
-    );
+    protected $fillable = ['name', 'head'];
 
     /**
      * Get department head

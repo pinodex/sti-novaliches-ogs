@@ -118,10 +118,10 @@ class GradeImportController extends Controller
         }
 
         $gradingSheet = GradingSheet::parse($uploadedFile);
-        $sheets = array();
+        $sheets = [];
         
         foreach ($gradingSheet->getSheets() as $index => $sheet) {
-            if (in_array($sheet, array('Master', 'Info Sheet', 'Setup', 'Class 1'))) {
+            if (in_array($sheet, ['Master', 'Info Sheet', 'Setup', 'Class 1'])) {
                 continue;
             }
 
@@ -186,9 +186,9 @@ class GradeImportController extends Controller
 
         $form = Form::create();
         
-        $form->add('_confirm', Type\HiddenType::class, array(
+        $form->add('_confirm', Type\HiddenType::class, [
             'required' => false
-        ));
+        ]);
         
         $form = $form->getForm();
         $form->handleRequest($request);

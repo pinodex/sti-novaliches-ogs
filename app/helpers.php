@@ -52,7 +52,7 @@ if (!function_exists('formatStudentId')) {
      */
     function formatStudentId($id)
     {
-        $matches = array();
+        $matches = [];
         $match = preg_match_all('/([\d+]{3})([\d+]{4})([\d+]{4})/', $id, $matches);
 
         if (!$match) {
@@ -103,7 +103,7 @@ if (!function_exists('normalizeAccents')) {
             return $string;
         }
 
-        $chars = array(
+        $chars = [
             // Decompositions for Latin-1 Supplement
             chr(195).chr(128) => 'A', chr(195).chr(129) => 'A',
             chr(195).chr(130) => 'A', chr(195).chr(131) => 'A',
@@ -198,7 +198,7 @@ if (!function_exists('normalizeAccents')) {
             chr(197).chr(186) => 'z', chr(197).chr(187) => 'Z',
             chr(197).chr(188) => 'z', chr(197).chr(189) => 'Z',
             chr(197).chr(190) => 'z', chr(197).chr(191) => 's'
-        );
+        ];
 
         return strtr($string, $chars);
     }
@@ -306,7 +306,7 @@ if (!function_exists('formatBytes')) {
             return '0.00 B';
         }
 
-        $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
+        $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
         $conv = floor(log($bytes, 1024));
 
         return round($bytes / pow(1024, $conv), 2) . ' ' . $units[$conv];

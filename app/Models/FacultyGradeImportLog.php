@@ -22,11 +22,11 @@ class FacultyGradeImportLog extends Model
 {
     public $timestamps = false;
 
-    protected $fillable = array(
+    protected $fillable = [
         'faculty_id',
         'period',
         'date'
-    );
+    ];
 
     /**
      * Format date attribute

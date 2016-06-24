@@ -24,7 +24,7 @@ class Grade extends Model
 
     public $incrementing = false;
 
-    protected $fillable = array(
+    protected $fillable = [
         'student_id',
         'importer_id',
         'subject',
@@ -45,7 +45,7 @@ class Grade extends Model
         'final_grade',
         'final_attendance_hours',
         'final_absent_hours'
-    );
+    ];
 
     protected $primaryKey = 'student_id';
 
@@ -169,24 +169,24 @@ class Grade extends Model
     public static function getTopByTermAndSubject($period, $subject, $studentId)
     {
         // Retrieve student section first
-        $section = self::where(array(
+        $section = self::where([
             'student_id'    => $studentId,
             'subject'       => $subject
-        ))->first(array('section'));
+        ])->first(['section']);
 
         if (!$section) {
-            return array();
+            return [];
         }
 
         $section = $section->toArray()['section'];
         $period = $period . '_grade';
 
         return self::with('student')
-            ->where(array('section' => $section, 'subject' => $subject))
+            ->where(['section' => $section, 'subject' => $subject])
             ->whereNotNull($period)
             ->orderBy($period, 'DESC')
             ->take(5)
-            ->get(array($period, 'student_id'))
+            ->get([$period, 'student_id'])
             ->toArray();
     }
 }

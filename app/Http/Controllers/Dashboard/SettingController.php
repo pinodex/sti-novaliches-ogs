@@ -53,25 +53,25 @@ class SettingController extends Controller
             return $year . ' - ' . ($year + 1);
         })->toArray();
 
-        $semesters = array(
+        $semesters = [
             'FIRST'     => '1st semester',
             'SECOND'    => '2nd semester'
-        );
+        ];
 
-        $periods = array(
+        $periods = [
             'PRELIM',
             'MIDTERM',
             'PREFINAL',
             'FINAL'
-        );
+        ];
 
-        $dateOptions = array(
+        $dateOptions = [
             'required'      => false,
             'html5'         => true,
             'input'         => 'string',
             'date_widget'   => 'single_text',
             'time_widget'   => 'single_text'
-        );
+        ];
 
         $form->add('academic_year', Type\ChoiceType::class, [
             'choices' => array_combine($years, $years)
@@ -111,9 +111,9 @@ class SettingController extends Controller
             return redirect()->route('dashboard.settings.index');
         }
 
-        return view('dashboard/settings/index', array(
+        return view('dashboard/settings/index', [
             'form'  => $form->createView()
-        ));
+        ]);
     }
 
     /**
@@ -130,9 +130,9 @@ class SettingController extends Controller
             $importCacheSize += Storage::size($file);
         }
 
-        return view('dashboard/settings/maintenance', array(
-            'import_cache_size'    => formatBytes($importCacheSize)
-        ));
+        return view('dashboard/settings/maintenance', [
+            'import_cache_size' => formatBytes($importCacheSize)
+        ]);
     }
 
     /**

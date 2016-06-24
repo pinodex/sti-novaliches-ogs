@@ -26,7 +26,7 @@ abstract class Parser
     /**
      * @var array Sheets
      */
-    protected $sheets = array();
+    protected $sheets = [];
 
     /**
      * @param string $filePath Excel file path
@@ -78,7 +78,7 @@ abstract class Parser
      */
     public function getSheetContents($index)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -98,7 +98,7 @@ abstract class Parser
      */
     public function getSheetsContent($indices)
     {
-        $output = array();
+        $output = [];
 
         foreach ($indices as $index) {
             $output[$this->sheets[$index]] = $this->getSheetContents($index);

@@ -20,10 +20,10 @@ class GradingSheet extends Parser
 {
     public function getSheetContents($index)
     {
-        $output = array(
-            'metadata' => array(),
-            'students' => array()
-        );
+        $output = [
+            'metadata' => [],
+            'students' => []
+        ];
 
         $this->changeSheet($index);
 
@@ -44,7 +44,7 @@ class GradingSheet extends Parser
             }
 
             if ($i >= 10 && isStudentId($row[2])) {
-                $output['students'][] = array(
+                $output['students'][] = [
                     'student_id'            => $row[2],
                     'name'                  => $row[4],
                     'prelim_grade'          => $row[6],
@@ -55,7 +55,7 @@ class GradingSheet extends Parser
                     'midterm_absent_hours'  => $row[202],
                     'prefinal_absent_hours' => $row[218],
                     'final_absent_hours'    => $row[234],
-                );
+                ];
             }
         }
         

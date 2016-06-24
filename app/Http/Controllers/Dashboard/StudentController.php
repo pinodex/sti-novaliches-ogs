@@ -57,17 +57,17 @@ class StudentController extends Controller
             'required'  => false
         ]);
         
-        $query = array();
+        $query = [];
         $builderHook = null;
 
         $request->query->set('id', parseStudentId($request->query->get('id')));
 
         if ($id = $request->query->get('id')) {
-            $query[] = array('id', 'LIKE', $id);
+            $query[] = ['id', 'LIKE', $id];
         }
 
         if ($name = $request->query->get('name')) {
-            $query[] = array('name', 'LIKE', '%' . $name . '%');
+            $query[] = ['name', 'LIKE', '%' . $name . '%'];
         }
 
         $section = $request->query->get('section');
@@ -234,7 +234,7 @@ class StudentController extends Controller
             abort(404);
         }
 
-        $subjectSet = array();
+        $subjectSet = [];
 
         foreach ($grades as $grade) {
             $subjectSet[] = $grade['subject'];

@@ -33,21 +33,17 @@ class Admin extends Model implements Authenticatable, MultiRoleModelInterface
         SearchableTrait,
         ChoosableTrait;
     
-    protected $fillable = array(
+    protected $fillable = [
         'username',
         'password',
         'last_name',
         'first_name',
         'middle_name',
-    );
+    ];
 
-    protected $hidden = array(
-        'password'
-    );
+    protected $hidden = ['password'];
 
-    protected $appends = array(
-        'name'
-    );
+    protected $appends = ['name'];
 
     public function getAuthIdentifierName()
     {

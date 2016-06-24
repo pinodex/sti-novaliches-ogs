@@ -22,12 +22,12 @@ trait SearchableTrait
     /**
      * @var array Name concatenation variants
      */
-    private static $nameConcats = array(
+    private static $nameConcats = [
         "CONCAT(last_name, ' ', first_name, ' ', middle_name)",
         "CONCAT(last_name, ', ', first_name, ' ', middle_name)",
         "CONCAT(first_name, ' ', middle_name, ' ', last_name)",
         "CONCAT(first_name, ' ', last_name)"
-    );
+    ];
 
     /**
      * Search
@@ -44,7 +44,7 @@ trait SearchableTrait
         $model = static::orderBy('last_name', 'ASC')->orderBy('first_name', 'ASC')->orderBy('middle_name', 'ASC');
 
         if ($relations && count($relations) > 0) {
-            call_user_func_array(array($model, 'with'), $relations);
+            call_user_func_array([$model, 'with'], $relations);
         }
 
         if ($builderHook) {

@@ -20,18 +20,18 @@ class StudentSheet extends Parser
 {
     public function getSheetContents($index)
     {
-        $output = array();
+        $output = [];
         $this->changeSheet($index);
 
         foreach ($this->spreadsheet as $i => $row) {
             if ($i > 0 && isStudentId($row[0])) {
-                $output[] = array(
+                $output[] = [
                     'id'            => $row[0],
                     'last_name'     => $row[1],
                     'first_name'    => $row[2],
                     'middle_name'   => $row[3],
                     'course'        => $row[4]
-                );
+                ];
             }
         }
         

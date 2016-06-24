@@ -142,11 +142,11 @@ class MemoController extends Controller
             return redirect()->route('dashboard.memo.index');
         }
 
-        return view('dashboard/memos/send', array(
+        return view('dashboard/memos/send', [
             'form'              => $form->createView(),
             'recipient_name'    => $faculty->name,
             'use_medium_editor' => true
-        ));
+        ]);
     }
 
     /**
@@ -165,8 +165,8 @@ class MemoController extends Controller
             $memo->save();
         }
 
-        return view('dashboard/memos/view', array(
+        return view('dashboard/memos/view', [
             'memo' => $memo
-        ));
+        ]);
     }
 }

@@ -30,11 +30,11 @@ class GradeImporter implements ImporterInterface
             foreach ($sheet['students'] as $student) {
                 $student['student_id'] = parseStudentId($student['student_id']);
                 
-                $grade = Grade::where(array(
+                $grade = Grade::where([
                     'student_id'    => $student['student_id'],
                     'subject'       => $sheet['metadata']['subject'],
                     'section'       => $sheet['metadata']['section']
-                ))->first();
+                ])->first();
 
                 if (!$grade) {
                     $grade = new Grade();

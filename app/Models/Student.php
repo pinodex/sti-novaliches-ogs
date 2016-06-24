@@ -29,7 +29,7 @@ class Student extends Model implements Authenticatable, MultiRoleModelInterface
     
     public $incrementing = false;
 
-    protected $fillable = array(
+    protected $fillable = [
         'id',
         'last_name',
         'first_name',
@@ -43,12 +43,12 @@ class Student extends Model implements Authenticatable, MultiRoleModelInterface
         'guardian_contact_number',
         'other_info',
         'remarks'
-    );
+    ];
 
-    protected $appends = array(
+    protected $appends = [
         'is_required_info_filled',
         'name'
-    );
+    ];
 
     public function getAuthIdentifierName()
     {
@@ -126,10 +126,10 @@ class Student extends Model implements Authenticatable, MultiRoleModelInterface
     public function updateGrades($data)
     {
         foreach ($data as $row) {
-            $query = array(
+            $query = [
                 'student_id' => $this->id,
                 'subject'    => $row['subject'],
-            );
+            ];
 
             if ($grade = Grade::where($query)->first()) {
                 $grade->fill($row);

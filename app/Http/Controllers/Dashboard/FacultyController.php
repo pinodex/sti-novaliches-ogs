@@ -94,12 +94,12 @@ class FacultyController extends Controller
         });
 
         foreach ($gradeGroups as $id => $grades) {
-            $withoutGradesCount = array(
+            $withoutGradesCount = [
                 'prelim'    => 0,
                 'midterm'   => 0,
                 'prefinal'  => 0,
                 'final'     => 0
-            );
+            ];
 
             foreach ($grades as $grade) {
                 if ($grade->getOriginal('prelim_grade') === null) {
@@ -249,9 +249,9 @@ class FacultyController extends Controller
             return redirect()->route('dashboard.faculty.index');
         }
 
-        return view('dashboard/faculty/delete', array(
+        return view('dashboard/faculty/delete', [
             'form'      => $form->createView(),
             'faculty'   => $faculty
-        ));
+        ]);
     }
 }

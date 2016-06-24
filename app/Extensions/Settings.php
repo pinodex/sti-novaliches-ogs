@@ -55,7 +55,7 @@ class Settings
             return self::$values;
         }
 
-        self::$values = array();
+        self::$values = [];
 
         SettingModel::all()->map(function (SettingModel $setting) use (&$settings) {
             self::$values[$setting->id] = $setting->value;

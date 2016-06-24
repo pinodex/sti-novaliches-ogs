@@ -24,8 +24,8 @@ class Setting extends Model
 
     public $timestamps = false;
 
-    protected $fillable = array(
+    protected $fillable = [
         'id',
         'value'
-    );
+    ];
 }

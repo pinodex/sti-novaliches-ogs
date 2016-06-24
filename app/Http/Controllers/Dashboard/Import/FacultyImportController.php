@@ -65,9 +65,7 @@ class FacultyImportController extends Controller
             'label' => ' ',
             'constraints' => new Assert\File([
                 'mimeTypesMessage' => 'Please upload a valid XLSX file',
-                'mimeTypes' => array(
-                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-                )
+                'mimeTypes' => ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
             ])
         ]);
 
@@ -93,10 +91,10 @@ class FacultyImportController extends Controller
             return redirect()->route('dashboard.import.faculty.stepTwo');
         }
         
-        return view('dashboard/import/faculty/1', array(
+        return view('dashboard/import/faculty/1', [
             'upload_form'   => $form->createView(),
             'current_step'  => 1
-        ));
+        ]);
     }
 
     /**
@@ -112,12 +110,12 @@ class FacultyImportController extends Controller
         $sheets = FacultySheet::parse($uploadedFile)->getSheets();
         $form = Form::create();
         
-        $form->add('choices', Type\ChoiceType::class, array(
+        $form->add('choices', Type\ChoiceType::class, [
             'choices'   => array_flip($sheets),
             'label'     => 'Sheet Selection',
             'multiple'  => true,
             'expanded'  => true
-        ));
+        ]);
 
         $form = $form->getForm();
         $form->handleRequest($request);
@@ -136,10 +134,10 @@ class FacultyImportController extends Controller
             return redirect()->route('dashboard.import.faculty.stepThree');
         }
 
-        return view('dashboard/import/faculty/2', array(
+        return view('dashboard/import/faculty/2', [
             'choose_form'   => $form->createView(),
             'current_step'  => 2
-        ));
+        ]);
     }
 
     /**
@@ -167,9 +165,9 @@ class FacultyImportController extends Controller
 
         $form = Form::create();
         
-        $form->add('_confirm', Type\HiddenType::class, array(
+        $form->add('_confirm', Type\HiddenType::class, [
             'required' => false
-        ));
+        ]);
         
         $form = $form->getForm();
         $form->handleRequest($request);
@@ -181,11 +179,11 @@ class FacultyImportController extends Controller
             return redirect()->route('dashboard.import.faculty.stepFour');
         }
 
-        return view('dashboard/import/faculty/3', array(
+        return view('dashboard/import/faculty/3', [
             'current_step'          => 3,
             'confirm_form'          => $form->createView(),
             'spreadsheet_contents'  => $contents
-        ));
+        ]);
     }
 
     /**
@@ -215,8 +213,8 @@ class FacultyImportController extends Controller
         
         @unlink($uploadedFile);
         
-        return view('dashboard/import/faculty/4', array(
+        return view('dashboard/import/faculty/4', [
             'current_step' => 4
-        ));
+        ]);
     }
 }

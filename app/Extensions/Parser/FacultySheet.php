@@ -20,7 +20,7 @@ class FacultySheet extends Parser
 {
     public function getSheetContents($index)
     {
-        $output = array();
+        $output = [];
         $this->changeSheet($index);
 
         foreach ($this->spreadsheet as $i => $row) {
@@ -33,12 +33,12 @@ class FacultySheet extends Parser
                     continue;
                 }
 
-                $output[] = array(
+                $output[] = [
                     'last_name' => trim($row[3]),
                     'first_name' => trim($row[4]),
                     'middle_name' => trim($row[5]),
                     'department' => trim($row[8])
-                );
+                ];
             }
         }
         

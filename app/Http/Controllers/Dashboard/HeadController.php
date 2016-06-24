@@ -40,9 +40,9 @@ class HeadController extends Controller
     {
         $form = Form::create($request->query->all());
         
-        $form->add('name', Type\TextType::class, array(
+        $form->add('name', Type\TextType::class, [
             'required'  => false
-        ));
+        ]);
         
         $result = Head::search(
             [['name', 'LIKE', '%' . $request->query->get('name') . '%']],

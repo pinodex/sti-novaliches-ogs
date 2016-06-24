@@ -20,16 +20,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Memo extends Model
 {
-    protected $fillable = array(
+    protected $fillable = [
         'admin_id',
         'faculty_id',
         'subject',
         'content'
-    );
+    ];
 
-    protected $appends = array(
+    protected $appends = [
         'is_unread'
-    );
+    ];
 
     /**
      * Get admin associated with the memo

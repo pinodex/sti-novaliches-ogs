@@ -22,8 +22,8 @@ class FacultyImporter implements ImporterInterface
 {
     public static function import($sheets)
     {
-        $input = array();
-        $mappings = array(
+        $input = [];
+        $mappings = [
             'BM'    => 'Business Management',
             'BMAT'  => 'Business Management',
             'IT'    => 'Information Technology',
@@ -34,7 +34,7 @@ class FacultyImporter implements ImporterInterface
             'TH'    => 'Hotel and Restaurant Management',
             'HR/TM' => 'Hotel and Restaurant Management',
             'GE'    => 'General Education'
-        );
+        ];
 
         $departments = Department::all()->groupBy(function (Department $department) {
             return $department->name;
@@ -48,20 +48,20 @@ class FacultyImporter implements ImporterInterface
                     $departmentId = $departments->get($mappings[$data['department']])[0]->id;
                 }
 
-                $facultyIdentifer = array(
+                $facultyIdentifer = [
                     'last_name'     => $data['last_name'],
                     'first_name'    => $data['first_name'],
                     'middle_name'   => $data['middle_name']
-                );
+                ];
 
                 if (Faculty::where($facultyIdentifer)->count() == 0) {
-                    $input[] = array_merge($facultyIdentifer, array(
+                    $input[] = array_merge($facultyIdentifer, [
                         'department_id' => $departmentId,
                         'username'      => strtoupper(substr($data['first_name'], 0, 1) . $data['last_name']),
                         'password'      => Hash::make('stinova123'),
                         'created_at'    => date('Y-m-d H:i:s'),
                         'updated_at'    => date('Y-m-d H:i:s')
-                    ));
+                    ]);
                 }
             }
         }

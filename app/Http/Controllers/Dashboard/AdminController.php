@@ -37,8 +37,6 @@ class AdminController extends Controller
      */
     public function index(Request $request)
     {
-        $context = array();
-
         $form = Form::create($request->query->all());
         
         $form->add('name', Type\TextType::class, [

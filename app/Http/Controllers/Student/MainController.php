@@ -50,9 +50,7 @@ class MainController extends Controller
             'student'       => $this->user,
             'grades'        => $this->user->grades,
             'period'        => $period,
-            'active_period' => array_flip(
-                array('prelim', 'midterm', 'prefinal', 'final')
-            )[$period]
+            'active_period' => array_flip(['prelim', 'midterm', 'prefinal', 'final'])[$period]
         ]);
     }
 
@@ -63,24 +61,22 @@ class MainController extends Controller
      */
     public function top(Request $request, $period = null, $subject = null)
     {
-        $user = $this->user->getModel();
-
-        if (!$user->is_required_info_filled) {
+        if (!$this->user->is_required_info_filled) {
             return redirect()->route('student.account');
         }
         
-        if ($period && !in_array($period, array('prelim', 'midterm', 'prefinal', 'final'))) {
+        if ($period && !in_array($period, ['prelim', 'midterm', 'prefinal', 'final'])) {
             abort(404);
         }
 
-        $subjects = $user->subjects();
+        $subjects = $this->user->subjects();
 
         if ($subject && !in_array($subject, $subjects)) {
             abort(404);
         }
 
-        $subjectChoices = array();
-        $result = array();
+        $subjectChoices = [];
+        $result = [];
 
         foreach ($subjects as $choice) {
             $subjectChoices[$choice] = $choice;
@@ -106,6 +102,7 @@ class MainController extends Controller
             'label'             => ' '
         ]);
 
+        $form = $form->getForm();
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -113,7 +110,7 @@ class MainController extends Controller
         }
 
         if ($period && $subject) {
-            $result = Grade::getTopByTermAndSubject($period, $subject, $user->id);
+            $result = Grade::getTopByTermAndSubject($period, $subject, $this->user->id);
         }
         
         return view('student/top', [
@@ -160,10 +157,10 @@ class MainController extends Controller
             'label'         => 'Email address *',
             'constraints'   => [
                 new Assert\Email(),
-                new Assert\Regex(array(
+                new Assert\Regex([
                     'pattern'   => '/\@novaliches\.sti\.edu$/',
                     'message'   => 'You must use your @novaliches.sti.edu email'
-                ))
+                ])
             ]
         ]);
 
