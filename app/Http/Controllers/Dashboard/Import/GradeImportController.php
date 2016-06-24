@@ -22,6 +22,9 @@ use App\Extensions\Importer\GradeImporter;
 use App\Extensions\Parser\GradingSheet;
 use App\Http\Controllers\Controller;
 use App\Extensions\Form;
+use App\Jobs\ImportJob;
+use App\Jobs\ParallelJob;
+use App\Jobs\DeleteFileJob;
 
 class GradeImportController extends Controller
 {
@@ -52,7 +55,6 @@ class GradeImportController extends Controller
             @unlink($uploadedFile);
         }
 
-        // cleanup first
         Session::forget('gw_uploaded_file');
         Session::forget('gw_selected_sheets');
         Session::forget('gw_import_done');
@@ -175,12 +177,13 @@ class GradeImportController extends Controller
             return redirect()->route('dashboard.import.grades.stepTwo');
         }
 
-        /* Check if spreadsheet contents is cached in the session database
-           Used remove the need to load the spreadsheet file again, thus saving time */
+        $parser = GradingSheet::parse($uploadedFile);
+
         if (!$contents = Cache::get('grading_sheet')) {
             set_time_limit(0);
             
-            $contents = GradingSheet::parse($uploadedFile)->getSheetsContent($selectedSheets);
+            $contents = $parser->getSheetsContent($selectedSheets);
+            
             Cache::put('grading_sheet', $contents, 60);
         }
 
@@ -198,11 +201,16 @@ class GradeImportController extends Controller
 
             if ($this->isRole('faculty')) {
                 $this->user->addSubmissionLogEntry();
+                $importer = $this->user;
             }
             
-            GradeImporter::import($contents, $importer);
+            $this->dispatch(new ParallelJob([
+                new ImportJob(GradingSheet::class, GradeImporter::class, $uploadedFile, $selectedSheets, [$importer]),
+                new DeleteFileJob($uploadedFile)
+            ]));
+
             Session::put('gw_import_done', true);
-            
+
             return redirect()->route('dashboard.import.grades.stepFour');
         }
 
@@ -237,8 +245,6 @@ class GradeImportController extends Controller
         Session::forget('gw_import_done');
 
         Cache::forget('grading_sheet');
-        
-        @unlink($uploadedFile);
         
         return view('dashboard/import/grades/4', [
             'current_step' => 4

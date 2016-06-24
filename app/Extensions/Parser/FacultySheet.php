@@ -11,12 +11,10 @@
 
 namespace App\Extensions\Parser;
 
-use App\Extensions\Parser;
-
 /**
  * Faculty Sheet parser
  */
-class FacultySheet extends Parser
+class FacultySheet extends AbstractParser
 {
     public function getSheetContents($index)
     {

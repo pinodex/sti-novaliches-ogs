@@ -11,12 +11,10 @@
 
 namespace App\Extensions\Parser;
 
-use App\Extensions\Parser;
-
 /**
  * Grading Sheet parser
  */
-class GradingSheet extends Parser
+class GradingSheet extends AbstractParser
 {
     public function getSheetContents($index)
     {

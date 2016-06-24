@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Extensions;
+namespace App\Extensions\Parser;
 
 use SpreadsheetReader;
 
 /**
  * Base class for spreadsheet parsers.
  */
-abstract class Parser
+abstract class AbstractParser
 {
     /**
      * @var SpreadsheetReader
