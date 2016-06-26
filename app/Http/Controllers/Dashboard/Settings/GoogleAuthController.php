@@ -121,7 +121,7 @@ class GoogleAuthController extends Controller
         $client->addScope(\Google_Service_Oauth2::USERINFO_EMAIL);
         $client->addScope(\Google_Service_Gmail::GMAIL_SEND);
 
-        $client->setRedirectUri(route('dashboard.settings.googleauth.connect'));
+        $client->setRedirectUri($request->getSchemeAndHttpHost() . $request->getPathinfo());
 
         if ($request->query->get('error')) {
             Session::flash('flash_message', 'danger>>>Authorization error');
