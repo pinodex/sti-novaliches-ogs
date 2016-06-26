@@ -35,7 +35,7 @@ class GoogleAuthController extends Controller
         $client = app('google');
         $userInfo = null;
 
-        if ($client->getAccessToken()) {
+        if (!$client->isAccessTokenExpired()) {
             $user = $client->getService(\Google_Service_Oauth2::class);
 
             try {

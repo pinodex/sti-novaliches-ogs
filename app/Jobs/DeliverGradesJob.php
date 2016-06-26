@@ -67,7 +67,7 @@ class DeliverGradesJob extends Job implements ShouldQueue
 
         $client = app('google');
 
-        if (!$client->getAccessToken()) {
+        if ($client->isAccessTokenExpired()) {
             return;
         }
 
