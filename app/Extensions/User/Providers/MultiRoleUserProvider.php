@@ -83,7 +83,7 @@ class MultiRoleUserProvider implements UserProvider
             try {
                 return (new $roleClass)->validateCredentials($user, $credentials);
             } catch (AuthException $exception) {
-                if ($exception->getCode() != AuthException::USER_NOT_FOUND) {
+                if ($exception->getCode() == AuthException::ACCOUNT_LOCKED) {
                     throw $exception;
                 }
 
