@@ -16,19 +16,44 @@ namespace App\Extensions;
  */
 class EmailComposer
 {
+    /**
+     * @var array Array of email headers
+     */
     private $envelope = [];
 
+    /**
+     * @var array Array of file attachments
+     */
     private $attachments = [];
 
+    /**
+     * @var string Email body in text version
+     */
     private $textBody;
 
+    /**
+     * @var string Email body in html version
+     */
     private $htmlBody;
 
+    /**
+     * Set mail envelope From address
+     * 
+     * @param string $name Name
+     * @param string $email Email
+     */
     public function from($name, $email)
     {
         $this->envelope['From'] = sprintf('%s <%s>', $name, $email);
     }
 
+    /**
+     * Set mail envelope To address. For multiple recipients, just call this
+     * method for each recipient
+     * 
+     * @param string $name Name
+     * @param string $email Email
+     */
     public function to($name, $email)
     {
         if (!isset($this->envelope['To'])) {
@@ -38,21 +63,43 @@ class EmailComposer
         $this->envelope['To'][] = sprintf('%s <%s>', $name, $email);
     }
 
+    /**
+     * Set mail envelope subject
+     * 
+     * @param string $subject Email Subject
+     */
     public function subject($subject)
     {
         $this->envelope['Subject'] = $subject;
     }
 
+    /**
+     * Set body in plain text
+     * 
+     * @param string $string Email body text
+     */
     public function textBody($string)
     {
         $this->textBody = $string;
     }
 
+    /**
+     * Set body in html format
+     * 
+     * @param string $string Email body html text
+     */
     public function htmlBody($string)
     {
         $this->htmlBody = $string;
     }
 
+    /**
+     * Add file attachment
+     * 
+     * @param string $filePath Path to file
+     * @param stirng $fileName Name of the file
+     * @param string $mimeType MIME type of the file
+     */
     public function attach($filePath, $fileName, $mimeType)
     {
         $this->attachments[] = [
@@ -62,6 +109,11 @@ class EmailComposer
         ];
     }
 
+    /**
+     * Get the constructed MIME message
+     * 
+     * @return string
+     */
     public function getRaw()
     {
         $output = '';

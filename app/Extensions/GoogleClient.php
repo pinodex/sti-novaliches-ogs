@@ -16,6 +16,13 @@ namespace App\Extensions;
  */
 class GoogleClient extends \Google_Client
 {
+    /**
+     * Get client instance with added scope
+     * 
+     * @param string $scope Scope
+     * 
+     * @return GoogleClient
+     */
     public function withScope($scope)
     {
         $client = clone $this;
@@ -24,6 +31,13 @@ class GoogleClient extends \Google_Client
         return $client;
     }
 
+    /**
+     * Get client instance with added scopes
+     * 
+     * @param array $scopes Array of scopes
+     * 
+     * @return GoogleClient
+     */
     public function withScopes(array $scopes)
     {
         $client = clone $this;
@@ -35,6 +49,11 @@ class GoogleClient extends \Google_Client
         return $client;
     }
 
+    /**
+     * Get service instance with this Google client
+     * 
+     * @param string $className FQDN to a Google service class
+     */
     public function getService($className)
     {
         return new $className($this);
