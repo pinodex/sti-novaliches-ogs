@@ -32,6 +32,10 @@ class GoogleAuthController extends Controller
 
     public function index()
     {
+        if (!file_exists(storage_path('app/client_secret.json'))) {
+            return redirect()->route('dashboard.settings.googleauth.clientSecret');
+        }
+        
         $client = app('google');
         $userInfo = null;
 
@@ -43,10 +47,6 @@ class GoogleAuthController extends Controller
             } catch (\Exception $e) {
                 Session::flash('flash_message', 'warning>>>' . $e->getMessage());
             }
-        }
-
-        if (!file_exists(storage_path('app/client_secret.json'))) {
-            return redirect()->route('dashboard.settings.googleauth.clientSecret');
         }
 
         return view('dashboard/settings/googleauth/index', [
