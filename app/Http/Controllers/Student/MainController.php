@@ -11,14 +11,12 @@
 
 namespace App\Http\Controllers\Student;
 
-use Auth;
 use Session;
 use Redirect;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Http\Controllers\Controller;
-use App\Exceptions\AuthException;
 use App\Extensions\Settings;
 use App\Extensions\Form;
 use App\Models\Grade;

@@ -21,7 +21,6 @@ use App\Http\Controllers\Controller;
 use App\Extensions\Settings;
 use App\Extensions\Form;
 use App\Models\Student;
-use App\Models\Grade;
 
 class StudentController extends Controller
 {

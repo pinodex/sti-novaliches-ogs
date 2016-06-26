@@ -14,7 +14,6 @@ namespace App\Extensions\User\Providers;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
 use App\Exceptions\AuthException;
-use App\Models\Student;
 
 class MultiRoleUserProvider implements UserProvider
 {
