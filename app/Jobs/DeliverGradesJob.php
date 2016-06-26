@@ -95,6 +95,8 @@ class DeliverGradesJob extends Job implements ShouldQueue
         
         $message->setRaw(rtrim(strtr(base64_encode($composer->getRaw()), '+/', '-_'), '='));
 
-        $gmail->users_messages->send('me', $message);
+        try {
+            $gmail->users_messages->send('me', $message);
+        } catch (\Exception $ignored) {}
     }
 }
