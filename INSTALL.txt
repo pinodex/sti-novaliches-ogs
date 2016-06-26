@@ -20,15 +20,17 @@
     
     composer install
 
-4. After installing dependencies, create a database, and import the
-   "schema.sql" file found at the root directory of this software.
-
-5. Rename ".env.example" to ".env" found at the root directory, and
+4. Rename ".env.example" to ".env" found at the root directory, and
    edit the file.
 
-6. Change the database connection parameters inside the file to match your
+5. Change the database connection parameters inside the file to match your
    database configuration such as hostname, username, password, and database
    name.
+
+6. Open a console from the application's base path, then run the following commands:
+    
+    php artisan migrate
+    php artisan db:seed
 
 7. Configure your webserver to use the directory public/ as the document root.
 
