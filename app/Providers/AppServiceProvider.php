@@ -28,13 +28,21 @@ class AppServiceProvider extends ServiceProvider
             $client = new GoogleClient();
 
             $configFile = storage_path('app/client_secret.json');
+            $accessToken = Settings::get('google_access_token');
+            $refreshToken = Settings::get('google_refresh_token');
 
             if (file_exists($configFile)) {
                 $client->setAuthConfigFile($configFile);
             }
 
-            if ($accessToken = Settings::get('google_access_token')) {
+            if ($accessToken) {
                 $client->setAccessToken($accessToken);
+            }
+
+            if ($client->isAccessTokenExpired() && $refreshToken) {
+                $client->refreshToken($refreshToken);
+
+                Settings::set('google_access_token', $client->getAccessToken());
             }
 
             $client->setAccessType('offline');

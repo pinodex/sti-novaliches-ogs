@@ -138,7 +138,13 @@ class GoogleAuthController extends Controller
                 return redirect()->route('dashboard.settings.googleauth.index');
             }
 
+            $tokenData = json_decode($token);
+
             Settings::set('google_access_token', $token);
+
+            if (isset($tokenData->refresh_token)) {
+                Settings::set('google_refresh_token', $tokenData->refresh_token);
+            }
 
             return redirect()->route('dashboard.settings.googleauth.index');
         }
