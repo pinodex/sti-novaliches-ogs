@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
             $configFile = storage_path('app/client_secret.json');
 
             if (file_exists($configFile)) {
-                $client->setAuthConfigFile();
+                $client->setAuthConfigFile($configFile);
             }
 
             if ($accessToken = Settings::get('google_access_token')) {
