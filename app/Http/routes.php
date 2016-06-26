@@ -161,12 +161,24 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
 
     });
 
-    Route::group(['prefix' => 'settings', 'as' => 'settings.'], function () {
-        Route::match(['get', 'post'], '/', 'SettingController@index')->name('index');
+    Route::group(['namespace' => 'Settings', 'prefix' => 'settings', 'as' => 'settings.'], function () {
+        Route::match(['get', 'post'], '/', 'MainController@index')->name('index');
 
-        Route::get('/maintenance', 'SettingController@maintenance')->name('maintenance');
+        Route::get('/maintenance', 'MainController@maintenance')->name('maintenance');
 
-        Route::match(['get', 'post'], '/maintenance/purge', 'SettingController@maintenancePurge')->name('maintenancePurge');
+        Route::match(['get', 'post'], '/maintenance/purge', 'MainController@maintenancePurge')->name('maintenancePurge');
+
+        Route::group(['prefix' => 'google-auth', 'as' => 'googleauth.'], function () {
+            Route::get('/', 'GoogleAuthController@index')->name('index');
+            Route::get('/connect', 'GoogleAuthController@connect')->name('connect');
+            Route::get('/disconnect', 'GoogleAuthController@disconnect')->name('disconnect');
+
+            Route::match(['get', 'post'], '/client-secret', 'GoogleAuthController@clientSecret')->name('clientSecret');
+        });
+
+        Route::group(['prefix' => 'email-delivery', 'as' => 'emaildelivery.'], function () {
+            Route::match(['get', 'post'], '/', 'EmailDeliveryController@index')->name('index');
+        });
     });
 
 });

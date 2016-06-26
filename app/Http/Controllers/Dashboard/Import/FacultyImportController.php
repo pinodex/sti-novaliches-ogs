@@ -17,7 +17,6 @@ use Storage;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Extensions\Constraints as CustomAssert;
 use App\Extensions\Parser\FacultySheet;
 use App\Extensions\Importer\FacultyImporter;
 use App\Http\Controllers\Controller;

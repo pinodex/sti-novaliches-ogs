@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Extensions\Symfony\Form\FormValidatorExtension;
+use App\Extensions\GoogleClient;
+use App\Extensions\Settings;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,24 @@ class AppServiceProvider extends ServiceProvider
             $extensions[] = new FormValidatorExtension();
 
             return $extensions;
+        });
+
+        $this->app->bind('google', function () {
+            $client = new GoogleClient();
+
+            $configFile = storage_path('app/client_secret.json');
+
+            if (file_exists($configFile)) {
+                $client->setAuthConfigFile();
+            }
+
+            if ($accessToken = Settings::get('google_access_token')) {
+                $client->setAccessToken($accessToken);
+            }
+
+            $client->setAccessType('offline');
+
+            return $client;
         });
     }
 

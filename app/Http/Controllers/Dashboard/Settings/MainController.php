@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Controllers\Dashboard;
+namespace App\Http\Controllers\Dashboard\Settings;
 
 use Artisan;
 use Storage;
@@ -22,7 +22,7 @@ use App\Http\Controllers\Controller;
 use App\Extensions\Settings;
 use App\Extensions\Form;
 
-class SettingController extends Controller
+class MainController extends Controller
 {
     public function __construct()
     {

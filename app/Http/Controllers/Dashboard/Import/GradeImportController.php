@@ -17,7 +17,6 @@ use Storage;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Extensions\Constraints as CustomAssert;
 use App\Extensions\Importer\GradeImporter;
 use App\Extensions\Parser\GradingSheet;
 use App\Http\Controllers\Controller;
@@ -25,6 +24,7 @@ use App\Extensions\Form;
 use App\Jobs\ImportJob;
 use App\Jobs\ParallelJob;
 use App\Jobs\DeleteFileJob;
+use App\Jobs\DeliverGradesJob;
 
 class GradeImportController extends Controller
 {
@@ -89,7 +89,12 @@ class GradeImportController extends Controller
             $storageName = sprintf('/imports/grades/%s.%s', uniqid(null, true), $file->guessExtension());
 
             Storage::put($storageName, file_get_contents($file->getPathname()));
+            
             Session::put('gw_uploaded_file', storage_path('app' . $storageName));
+            Session::put('gw_metadata', [
+                'mimeType' => $file->getMimeType(),
+                'originalName' => $file->getClientOriginalName()
+            ]);
             
             // Check if it's a valid grading sheet
             $sheets = GradingSheet::parse(storage_path('app' . $storageName))->getSheets();
@@ -177,6 +182,7 @@ class GradeImportController extends Controller
             return redirect()->route('dashboard.import.grades.stepTwo');
         }
 
+        $metadata = Session::get('gw_metadata');
         $parser = GradingSheet::parse($uploadedFile);
 
         if (!$contents = Cache::get('grading_sheet')) {
@@ -206,6 +212,7 @@ class GradeImportController extends Controller
             
             $this->dispatch(new ParallelJob([
                 new ImportJob(GradingSheet::class, GradeImporter::class, $uploadedFile, $selectedSheets, [$importer]),
+                new DeliverGradesJob($uploadedFile, $metadata),
                 new DeleteFileJob($uploadedFile)
             ]));
 

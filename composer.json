@@ -13,8 +13,9 @@
         "symfony/validator": "3.0.*",
         "nuovo/spreadsheet-reader": "^0.5.11",
         "barryvdh/laravel-form-bridge": "^0.1.2",
+        "barryvdh/laravel-async-queue": "0.4.x",
         "rcrowe/twigbridge": "^0.9.2",
-        "barryvdh/laravel-async-queue": "0.4.x"
+        "google/apiclient": "1.*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^2.2"

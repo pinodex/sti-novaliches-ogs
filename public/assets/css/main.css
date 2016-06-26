@@ -1314,6 +1314,42 @@ label {
   animation: 1s alert ease-in-out infinite;
 }
 
+.sub-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sub-menu li {
+  display: block;
+  border-left: 1px solid #ddd;
+}
+.sub-menu li a, .sub-menu li input[type="button"].link, .sub-menu li button.link, .sub-menu li .button.link {
+  display: block;
+  padding: 15px;
+  text-decoration: none;
+  font-size: 14px;
+  color: #000;
+}
+.sub-menu li:first-child {
+  border-top: 1px solid #ddd;
+}
+.sub-menu li:last-child {
+  border-bottom: 1px solid #ddd;
+}
+.sub-menu li:not(.active) {
+  border-right: 1px solid #ddd;
+}
+.sub-menu li:not(.active) a, .sub-menu li:not(.active) input[type="button"].link, .sub-menu li:not(.active) button.link, .sub-menu li:not(.active) .button.link {
+  background: #eee;
+  color: #222;
+}
+.sub-menu li:not(.active) a:hover, .sub-menu li:not(.active) input[type="button"].link:hover, .sub-menu li:not(.active) button.link:hover, .sub-menu li:not(.active) .button.link:hover {
+  background: #fafafa;
+}
+.sub-menu li + li {
+  border-top: 1px solid #ddd;
+}
+
 .align-right {
   text-align: right;
 }

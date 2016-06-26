@@ -97,6 +97,18 @@ class Settings
     }
 
     /**
+     * Remove setting entry
+     * 
+     * @param string $id Setting entry identifier
+     */
+    public static function remove($id)
+    {
+        if ($entry = SettingModel::find($id)) {
+            $entry->delete();
+        }
+    }
+
+    /**
      * Get current deadline
      * 
      * @return string
