@@ -66,6 +66,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if ($this->isHttpException($e)) {
+            return $this->renderHttpException($e);
+        } else if (app()->environment() == 'production') {
+            return response()->view('errors.500', [], 500);
+        }
+
         if ($request->ajax() || strpos($request->getPathinfo(), '/api/') === 0) {
             if ($e instanceof ModelNotFoundException) {
                 return response()->json([
