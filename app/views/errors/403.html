@@ -1,0 +1,18 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'Access denied' %}
+
+{% block content %}
+    <div class="container">
+        <div class="grid">
+            <div class="column-6">
+                <h1>Access denied</h1>
+                <p>You have no permission to access this page.</p>
+                
+                <p>Wag ipagpilitan ang mga bagay kung hindi naman talaga pwede.</p>
+
+                <p><a href="{{ route('index') }}">Go to homepage.</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

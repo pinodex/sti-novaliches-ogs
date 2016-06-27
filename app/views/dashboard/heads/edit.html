@@ -1,0 +1,41 @@
+{% extends '/_layout/main-default.html' %}
+
+{% form_theme form '/_layout/form-default.html' %}
+
+{% set page_title = 'Edit head account' %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ page_title }}</h1>
+
+        <div class="grid">
+            <div class="column-4">
+                <form method="post" action="{{ app.request.getRequestUri }}">
+                    {{ csrf_field() }}
+                    {{ form_widget(form) }}
+                    
+                    <button type="submit" class="success">Save <span class="icon-navigate_next"></span></button>
+                    <a href="{{ route('dashboard.heads.delete', {id: head.id}) }}" class="button link" @click.prevent="modals.confirm = true">Delete Account</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <modal :show.sync="modals.confirm">
+        <h3 slot="header">Confirm action</h3>
+        
+        <div slot="body">
+            <p>Are you sure you want to delete this head?</p>
+        </div>
+
+        <div slot="footer">
+            <form method="post" action="{{ route('dashboard.heads.delete', {id: head.id}) }}">
+                {{ csrf_field() }}
+                <input type="hidden" name="_confirm" />
+                    
+                <button type="button" class="neutral" @click="modals.confirm = false">Cancel</button>
+                <button type="submit" class="danger">Delete Head <span class="icon-navigate_next"></span></button>
+            </form>
+        </div>
+    </modal>
+{% endblock %}

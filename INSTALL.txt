@@ -1,0 +1,58 @@
+-- REQUIREMENTS --
+
+- PHP >=5.5.9
+- php-zip extension
+- php-mbstring extension
+- php-xml extension
+- MySQL >=5.5
+
+-- INSTRUCTIONS --
+
+1. This software uses Composer as a dependency manager. If you are unfamiliar
+   of it, it is like NuGet for Microsoft development platform. Before running
+   the software, be sure to install the dependencies first [3].
+
+2. Install Composer package manager. Instructions are provided at
+   https://getcomposer.org/doc/00-intro.md
+
+3. Open the command line interface, change directory to the root directory of
+   this software and run the following command:
+    
+    composer install
+
+4. Rename ".env.example" to ".env" found at the root directory, and
+   edit the file.
+
+5. Change the database connection parameters inside the file to match your
+   database configuration such as hostname, username, password, and database
+   name.
+
+6. Open a console from the application's base path, then run the following commands:
+    
+    php artisan migrate
+    php artisan db:seed
+
+7. Configure your webserver to use the directory public/ as the document root.
+
+8. You should now be able to access the website. The default administrator
+   credentials are:
+    Username: admin
+    Password: stinova123
+
+-- POST INSTALL INSTRUCTIONS --
+
+1. Make sure that the storage/ directories are writable by the
+   web server or PHP FastCGI.
+
+2. Increase post_max_size and upload_max_filesize in PHP configuration.
+   Something like 32M.
+
+===============================================================================
+
+OPTIONAL INFORMATION FOR MODIFICATION OF CSS AND JS FILES
+
+1. Asset management is done by using Grunt. Installation instructions can be
+found at http://gruntjs.com/getting-started
+
+2. Make your changes at public/assets/scss/main.scss then run the command
+   "grunt compile" to compile the file for web use.

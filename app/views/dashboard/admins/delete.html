@@ -1,0 +1,22 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'Delete admin account' %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ page_title }}</h1>
+
+        <div class="grid">
+            <div class="column-4">
+                <p>Are you sure you want to delete <strong>{{ admin.name }}</strong>?</p>
+                <form method="post" action="{{ app.request.getRequestUri }}">
+                    {{ csrf_field() }}
+                    {{ form_widget(form) }}
+                    
+                    <a href="{{ route('dashboard.admins.edit', {id: admin.id}) }}" class="button neutral">Cancel</a>
+                    <button type="submit" class="danger">Delete Admin <span class="icon-navigate_next"></span></button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

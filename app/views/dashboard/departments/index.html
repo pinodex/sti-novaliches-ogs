@@ -1,0 +1,61 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'Departments' %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ page_title }}</h1>
+
+        <div class="grid">
+            <div class="column-4">
+                <div class="panel">
+                    <div class="panel-heading">Actions</div>
+                    <div class="panel-body">
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="{{ route('dashboard.departments.add') }}">Add department</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column-8">
+                {% if departments is empty %}
+                    <div class="alert alert-neutral">No records found</div>
+                {% else %}
+                    <table class="center-align">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="long">Name</span>
+                                    <span class="short">N</span>
+                                </th>
+                                <th>
+                                    <span class="long">Head</span>
+                                    <span class="short">H</span>
+                                </th>
+                                <th>
+                                    <span class="long">Actions</span>
+                                    <span class="short">A</span>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for department in departments %}
+                                <tr>
+                                    <td>{{ department.name }}</td>
+                                    <td>{{ department.head ? department.head.name : 'N/A' }}</td>
+                                    <td>
+                                        <a href="{{ route('dashboard.departments.view', {id: department.id}) }}">View</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

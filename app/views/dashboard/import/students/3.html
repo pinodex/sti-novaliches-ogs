@@ -1,0 +1,24 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'Students import wizard' %}
+
+{% block content %}
+    <div class="container">
+        <h1><span class="icon-file_upload"></span> {{ page_title }}</h1>
+
+        <div class="grid">
+            {% include '/dashboard/import/students/steps.html' %}
+
+            <div class="column-8">
+                <div class="panel">
+                    <div class="panel-heading">Finished</div>
+                    <div class="panel-body">
+                        <div>Import finished.</div>
+
+                        <p><a href="{{ route('dashboard.students.index') }}">View student list</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

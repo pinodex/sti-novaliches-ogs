@@ -1,0 +1,31 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'Maintenance' %}
+
+{% block content %}
+    <div class="container">
+        <h1>Maintenance</h1>
+
+        <div class="grid">
+            <div class="column-4">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Import cache size</td>
+                            <td>{{ import_cache_size }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <ul class="list-unstyled">
+            <li>
+                <a href="{{ route('dashboard.settings.maintenancePurge', {store: 'importCache'}) }}">Purge import cache</a>
+            </li>
+            <li>
+                <a href="{{ route('dashboard.settings.maintenancePurge', {store: 'appCache'}) }}">Purge application cache</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'Grades import wizard' %}
+
+{% block content %}
+    <div class="container">
+        <h1><span class="icon-file_upload"></span> {{ page_title }}</h1>
+
+        <div class="grid">
+            {% include '/dashboard/import/grades/steps.html' %}
+
+            <div class="column-8">
+                <div class="panel">
+                    <div class="panel-heading">Confirm imports</div>
+                    <div class="panel-body">
+                        <ul class="tabs">
+                            {% set index = 0 %}
+                            {% for name,rows in spreadsheet_contents %}
+                                <li @click="activateTab({{ index }})" :class="{'active': activeTab == {{ index }}}">{{ name }}</li>
+                                {% set index = index + 1 %}
+                            {% endfor %}
+                        </ul>
+
+                        {% set index = 0 %}
+                        {% for name,rows in spreadsheet_contents %}
+                            <div class="sheet" v-show="activeTab == {{ index }}">
+                                <table class="center-align">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <span class="long">Student #</span>
+                                                <span class="short">#</span>
+                                            </th>
+                                            <th>
+                                                <span class="long">Name</span>
+                                                <span class="short">N</span>
+                                            </th>
+                                            <th>
+                                                <span class="long">Prelim</span>
+                                                <span class="short">1</span>
+                                            </th>
+                                            <th>
+                                                <span class="long">Midterm</span>
+                                                <span class="short">2</span>
+                                            </th>
+                                            <th>
+                                                <span class="long">Pre-final</span>
+                                                <span class="short">3</span>
+                                            </th>
+                                            <th>
+                                                <span class="long">Final</span>
+                                                <span class="short">4</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for row in rows.students %}
+                                            <tr>
+                                                <td>{{ row.student_id|format_student_id }}</td>
+                                                <td>{{ row.name }}</td>
+                                                <td class="{{ row.prelim_grade|grade_class }}">{{ row.prelim_grade|format_grade }}</td>
+                                                <td class="{{ row.midterm_grade|grade_class }}">{{ row.midterm_grade|format_grade }}</td>
+                                                <td class="{{ row.prefinal_grade|grade_class }}">{{ row.prefinal_grade|format_grade }}</td>
+                                                <td class="{{ row.final_grade|grade_class }}">{{ row.final_grade|format_grade }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% set index = index + 1 %}
+                        {% endfor %}
+
+                        <p><em>Importing to database may take several seconds depending on the amount of records to be imported. Please don't close this window/tab while importing.</em></p>
+
+                        <form method="post" action="{{ app.request.getRequestUri }}" @submit="disableAction = true">
+                            {{ csrf_field() }}
+                            {{ form_widget(confirm_form) }}
+
+                            <div class="buttons">
+                                <a href="{{ route('dashboard.import.grades.stepTwo') }}" class="button neutral" :disabled="disableAction"><span class="icon-navigate_before"></span> Back</a>
+                                <button type="submit" class="success" :disabled="disableAction">Confirm and save changes <span class="icon-navigate_next"></span></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
