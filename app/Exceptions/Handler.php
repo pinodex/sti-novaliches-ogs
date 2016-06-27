@@ -45,15 +45,17 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
-        if (!config('app.debug') && config('bugsnag.api_key') && app()->bound('bugsnag')) {
-            if ($user = Auth::user()) {
-                app('bugsnag')->setUser([
-                    'id'    => $user->getAuthIdentifier(),
-                    'name'  => $user->name
-                ]);
-            }
+        if (!in_array(get_class($e), $this->dontReport)) {
+            if (!config('app.debug') && config('bugsnag.api_key') && app()->bound('bugsnag')) {
+                if ($user = Auth::user()) {
+                    app('bugsnag')->setUser([
+                        'id'    => $user->getAuthIdentifier(),
+                        'name'  => $user->name
+                    ]);
+                }
 
-            app('bugsnag')->notifyException($e, null, 'error');
+                app('bugsnag')->notifyException($e, null, 'error');
+            }
         }
 
         parent::report($e);
