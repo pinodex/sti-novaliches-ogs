@@ -36,7 +36,7 @@ class MainController extends Controller
      */
     public function index()
     {
-        $context = [];
+        //$context = [];
 
         if ($this->isRole('faculty')) {
             $faculty = $this->user->getModel();

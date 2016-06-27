@@ -11,6 +11,7 @@
 
 namespace App\Exceptions;
 
+use Auth;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -42,6 +43,17 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
+        if (!config('app.debug') && config('bugsnag.api_key') && app()->bound('bugsnag')) {
+            if ($user = Auth::user()) {
+                app('bugsnag')->setUser([
+                    'id'    => $user->getAuthIdentifier(),
+                    'name'  => $user->name
+                ]);
+            }
+
+            app('bugsnag')->notifyException($e, null, 'error');
+        }
+
         parent::report($e);
     }
 

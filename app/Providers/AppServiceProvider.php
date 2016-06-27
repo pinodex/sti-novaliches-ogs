@@ -73,5 +73,12 @@ class AppServiceProvider extends ServiceProvider
         if (class_exists('Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider')) {
             $this->app->register('Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider');
         }
+
+        /**
+         * "bugsnag/bugsnag-laravel": "1.*"
+         */
+        if (class_exists('Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider')) {
+            $this->app->register('Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider');
+        }
     }
 }
