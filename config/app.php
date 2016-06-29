@@ -155,6 +155,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+        Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -163,6 +165,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\Form\ServiceProvider::class,
         TwigBridge\ServiceProvider::class
     ],

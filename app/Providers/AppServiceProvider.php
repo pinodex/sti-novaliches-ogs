@@ -58,10 +58,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (class_exists('Barryvdh\Debugbar\ServiceProvider')) {
-            $this->app->register('Barryvdh\Debugbar\ServiceProvider');
-        }
-
         /**
          * "xethron/migrations-generator": "dev-l5"
          * "way/generators": "dev-feature/laravel-five-stable"
@@ -72,13 +68,6 @@ class AppServiceProvider extends ServiceProvider
         
         if (class_exists('Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider')) {
             $this->app->register('Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider');
-        }
-
-        /**
-         * "bugsnag/bugsnag-laravel": "1.*"
-         */
-        if (class_exists('Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider')) {
-            $this->app->register('Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider');
         }
     }
 }
