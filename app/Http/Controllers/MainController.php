@@ -24,7 +24,7 @@ class MainController extends Controller
         parent::__construct();
         
         $this->middleware('guest', [
-            'except' => ['logout']
+            'except' => ['logout', 'credits']
         ]);
     }
 
