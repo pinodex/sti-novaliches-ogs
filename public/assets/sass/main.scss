@@ -477,13 +477,15 @@ a.button {
     min-height: 100%;
     height: auto !important;
     height: 100%;
-    margin: 0 auto 0;
+    margin: 0 auto -15px;
+    padding-bottom: 30px;
 }
 
 .body-footer {
-    padding: 15px 0;
     text-align: right;
     font-size: 12px;
+    margin-bottom: 15px;
+    height: 15px;
     color: #555;
 
     .inline-separation {
