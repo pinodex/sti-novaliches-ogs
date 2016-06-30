@@ -24,10 +24,12 @@ Route::match(['get', 'post'], '/logout', [
     'uses' => 'MainController@logout'
 ]);
 
-Route::get('/credits', [
-    'as'    => 'credits',
-    'uses'  => 'MainController@credits'
-]);
+Route::group(['namespace' => 'Help', 'prefix' => 'help', 'as' => 'help.'], function () {
+
+    Route::get('/', 'MainController@index')->name('index');
+    Route::get('/about', 'MainController@about')->name('about');
+
+});
 
 Route::group(['namespace' => 'Student', 'prefix' => 'student', 'as' => 'student.'], function () {
 

@@ -504,6 +504,7 @@ html {
 html, body {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
+  height: 100%;
 }
 
 *,
@@ -1144,6 +1145,28 @@ a.button, input.button[type="button"].link, .button.link {
   }
 }
 
+#page-content {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto 0;
+}
+
+.body-footer {
+  padding: 15px 0;
+  text-align: right;
+  font-size: 12px;
+  color: #555;
+}
+.body-footer .inline-separation {
+  display: inline-block;
+}
+.body-footer .inline-separation + .inline-separation {
+  border-left: 1px solid #ccc;
+  padding-left: 15px;
+  margin-left: 10px;
+}
+
 .alert {
   padding: 15px;
   margin-bottom: 15px;
@@ -1260,10 +1283,10 @@ label {
   margin: 0;
 }
 
-.credit-item h2, .credit-item p:last-child {
+.credit-item h3, .credit-item p:last-child {
   margin-bottom: 0;
 }
-.credit-item h2 + p {
+.credit-item h3 + p {
   margin-top: 5px;
 }
 .credit-item + .credit-item {
@@ -1315,13 +1338,13 @@ label {
 }
 
 .sub-menu {
+  border: 1px solid #ddd;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 .sub-menu li {
   display: block;
-  border-left: 1px solid #ddd;
 }
 .sub-menu li a, .sub-menu li input[type="button"].link, .sub-menu li button.link, .sub-menu li .button.link {
   display: block;
@@ -1330,21 +1353,16 @@ label {
   font-size: 14px;
   color: #000;
 }
-.sub-menu li:first-child {
-  border-top: 1px solid #ddd;
-}
-.sub-menu li:last-child {
-  border-bottom: 1px solid #ddd;
-}
-.sub-menu li:not(.active) {
-  border-right: 1px solid #ddd;
-}
 .sub-menu li:not(.active) a, .sub-menu li:not(.active) input[type="button"].link, .sub-menu li:not(.active) button.link, .sub-menu li:not(.active) .button.link {
   background: #eee;
   color: #222;
 }
 .sub-menu li:not(.active) a:hover, .sub-menu li:not(.active) input[type="button"].link:hover, .sub-menu li:not(.active) button.link:hover, .sub-menu li:not(.active) .button.link:hover {
   background: #fafafa;
+}
+.sub-menu li.active a, .sub-menu li.active input[type="button"].link, .sub-menu li.active button.link, .sub-menu li.active .button.link {
+  background: #607D8B;
+  color: #fff;
 }
 .sub-menu li + li {
   border-top: 1px solid #ddd;
@@ -1483,6 +1501,32 @@ table.simple td {
 }
 .tabs li:hover {
   background: #3071a9;
+}
+
+.faq-entry {
+  border: 1px solid #ccc;
+}
+.faq-entry > h3 {
+  background: #eee;
+  padding: 10px 15px;
+  margin: 0;
+}
+.faq-entry > h3 .anchor {
+  color: #999;
+  text-decoration: none;
+  visibility: hidden;
+}
+.faq-entry > div {
+  padding: 10px 15px;
+}
+.faq-entry > div p:last-child {
+  margin-bottom: 0;
+}
+.faq-entry:hover .anchor {
+  visibility: visible;
+}
+.faq-entry + .faq-entry {
+  margin-top: 15px;
 }
 
 .grade-edit-input {

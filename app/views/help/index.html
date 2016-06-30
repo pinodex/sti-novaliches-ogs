@@ -1,0 +1,68 @@
+{% extends '/_layout/main-default.html' %}
+
+{% set page_title = 'Help' %}
+
+{% set active_menu = 'index' %}
+
+{% block content %}
+    <div class="container">
+        <div class="grid">
+            {% include '/help/menu.html' %}
+
+            <div class="column-9">
+                <h1>Frequently Asked Questions</h1>
+
+                <div class="faq-entry" id="faq-1">
+                    <h3>How can I login to my account? <a href="#faq-1" class="anchor">#</a></h3>
+                    <div>
+                        <p>Login to your account by entering your student number and your middle name as your password.</p>
+                        <p>If your middle name contains accented letters (e.g. <strong>&#xF1;</strong> [enye]), you may use the non-accented one in place of it (e.g. <strong>n</strong>).</p>
+                    </div>
+                </div>
+
+                <div class="faq-entry" id="faq-2">
+                    <h3>Can I change my password? <a href="#faq-2" class="anchor">#</a></h3>
+                    <div>
+                        <p><img src="/assets/img/no.jpg" alt="No" style="height: 200px;" /></p>
+                        <p>You can&rsquo;t. Unless you change your middle name.</p>
+                    </div>
+                </div>
+
+                <div class="faq-entry" id="faq-3">
+                    <h3>My account is temporarily locked. What do I do? <a href="#faq-3" class="anchor">#</a></h3>
+                    <div>
+                        <p>Don&rsquo;t panic. Raise your concern to your professor/instructor to get your account information updated.</p>
+                    </div>
+                </div>
+
+                <div class="faq-entry" id="faq-4">
+                    <h3>Why are some of my subjects missing? <a href="#faq-4" class="anchor">#</a></h3>
+                    <div>
+                        <p>Your subject professor/instructor has not updated your account yet.</p>
+                    </div>
+                </div>
+
+                <div class="faq-entry" id="faq-5">
+                    <h3>Why are some of my subjects missing? <a href="#faq-5" class="anchor">#</a></h3>
+                    <div>
+                        <p>Your subject professor/instructor has not updated your account yet.</p>
+                    </div>
+                </div>
+
+                <div class="faq-entry" id="faq-5">
+                    <h3>Why can&rsquo;t I see my grade in finals? <a href="#faq-5" class="anchor">#</a></h3>
+                    <div>
+                        <p>Grades in finals can be obtained only after the semester when claiming your grading sheet. It is also intended to excite you.</p>
+                    </div>
+                </div>
+
+                <div class="faq-entry" id="faq-6">
+                    <h3>I found a bug. What do I do? <a href="#faq-6" class="anchor">#</a></h3>
+                    <div>
+                        <p>Let&rsquo;s catch it! Please visit the <a href="#">bug reporting page</a> to report errors, issues, or security vulnerabilities you found.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -24,6 +24,7 @@ html {
 html, body {
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
+    height: 100%;
 }
 
 *,
@@ -472,6 +473,30 @@ a.button {
     }
 }
 
+#page-content {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto 0;
+}
+
+.body-footer {
+    padding: 15px 0;
+    text-align: right;
+    font-size: 12px;
+    color: #555;
+
+    .inline-separation {
+        display: inline-block;
+
+        & + .inline-separation {
+            border-left: 1px solid #ccc;
+            padding-left: 15px;
+            margin-left: 10px;
+        }
+    }
+}
+
 .alert {
     padding: 15px;
     margin-bottom: 15px;
@@ -615,11 +640,11 @@ label {
 }
 
 .credit-item {
-    h2, p:last-child {
+    h3, p:last-child {
         margin-bottom: 0;
     }
 
-    h2 + p {
+    h3 + p {
         margin-top: 5px;
     }
 
@@ -682,13 +707,13 @@ label {
 }
 
 .sub-menu {
+    border: 1px solid #ddd;
     list-style: none;
     margin: 0;
     padding: 0;
 
     li {
         display: block;
-        border-left: 1px solid #ddd;
 
         a {
             display: block;
@@ -698,17 +723,7 @@ label {
             color: #000;
         }
 
-        &:first-child {
-            border-top: 1px solid #ddd;
-        }
-
-        &:last-child {
-            border-bottom: 1px solid #ddd;
-        }
-
         &:not(.active) {
-            border-right: 1px solid #ddd;
-
             a {
                 background: #eee;
                 color: #222;
@@ -717,6 +732,11 @@ label {
                     background: #fafafa;
                 }
             }
+        }
+
+        &.active a {
+            background: #607D8B;
+            color: #fff;
         }
     }
 
@@ -900,6 +920,38 @@ table {
         &:hover {
             background: $brand-primary-hover;
         }
+    }
+}
+
+.faq-entry {
+    border: 1px solid #ccc;
+
+    & > h3 {
+        background: #eee;
+        padding: 10px 15px;
+        margin: 0;
+
+        .anchor {
+            color: #999;
+            text-decoration: none;
+            visibility: hidden;
+        }
+    }
+
+    & > div {
+        padding: 10px 15px;
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &:hover .anchor {
+        visibility: visible;
+    }
+
+    & + .faq-entry {
+        margin-top: 15px;
     }
 }
 

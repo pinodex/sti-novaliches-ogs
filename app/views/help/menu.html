@@ -1,0 +1,10 @@
+            <div class="column-3">
+                <ul class="sub-menu">
+                    <li{{ active_menu == 'index' ? ' class="active"' : '' }}>
+                        <a href="{{ route('help.index') }}">Help</a>
+                    </li>
+                    <li{{ active_menu == 'about' ? ' class="active"' : '' }}>
+                        <a href="{{ route('help.about') }}">About</a>
+                    </li>
+                </ul>
+            </div>
