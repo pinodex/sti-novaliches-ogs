@@ -1008,6 +1008,34 @@ table {
     transform: scale(1.1);
 }
 
+.spinner {
+    margin: 100px auto 0;
+    text-align: center;
+    width: 70px;
+
+     & > div {
+        display: inline-block;
+        background: #fff;
+        border-radius: 100%;
+        width: 18px;
+        height: 18px;
+
+        -webkit-animation: bouncedelay 1.4s infinite ease-in-out both;
+        animation: bouncedelay 1.4s infinite ease-in-out both;
+    }
+
+
+    .bounce-1 {
+        -webkit-animation-delay: -0.32s;
+        animation-delay: -0.32s;
+    }
+
+    .bounce-2 {
+        -webkit-animation-delay: -0.16s;
+        animation-delay: -0.16s;
+    }
+}
+
 .modal-mask {
     position: fixed;
     top: 0;
@@ -1127,5 +1155,27 @@ table {
     100% {
         background: #fff;
         border-color: #ccc;
+    }
+}
+
+@-webkit-keyframes bouncedelay {
+    0%, 80%, 100% {
+        -webkit-transform: scale(0);
+    }
+
+    40% {
+        -webkit-transform: scale(1.0);
+    }
+}
+
+@keyframes bouncedelay {
+    0%, 80%, 100% { 
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+
+    40% { 
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
     }
 }

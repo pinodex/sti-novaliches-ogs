@@ -69,7 +69,8 @@
         
         modals: {
             confirm: false,
-            helpBox: false
+            helpBox: false,
+            loading: false
         }
     };
 
@@ -142,9 +143,26 @@
         methods: appMethods
     });
 
+    var showLoader = function(e) {
+        if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
+            app.$set('modals.loading', true);            
+        }
+    };
+
     var currentPage = getQueryVar('page');
     var tabSwitcher = document.querySelector('[data-activated-tab]');
     var mediumEditable = document.querySelector('.medium-editable');
+    
+    var links = document.querySelectorAll('a[href]');
+    var forms = document.querySelectorAll('form');
+
+    for (var i = links.length - 1; i >= 0; i--) {
+        links[i].addEventListener('click', showLoader, false);
+    };
+
+    for (var i = forms.length - 1; i >= 0; i--) {
+        forms[i].addEventListener('submit', showLoader, false);
+    };
 
     if (currentPage) {
         app.$set('paginationPage', currentPage);
