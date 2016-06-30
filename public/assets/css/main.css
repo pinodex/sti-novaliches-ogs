@@ -1511,11 +1511,6 @@ table.simple td {
   padding: 10px 15px;
   margin: 0;
 }
-.faq-entry > h3 .anchor {
-  color: #999;
-  text-decoration: none;
-  visibility: hidden;
-}
 .faq-entry > div {
   padding: 10px 15px;
 }
