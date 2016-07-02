@@ -79,24 +79,6 @@
             this.isNavActive = !this.isNavActive;
         },
 
-        showLoginBox: function() {
-            var _self = this;
-            this.isHelpBoxShowed = false;
-
-            setTimeout(function() {
-                _self.isLoginBoxShowed = true;
-            }, 500);
-        },
-
-        showHelpBox: function() {
-            var _self = this;
-            this.isLoginBoxShowed = false;
-
-            setTimeout(function() {
-                _self.isHelpBoxShowed = true;
-            }, 500);
-        },
-
         changePaginationPage: function() {
             var params = getUrlParams();
             params.page = this.paginationPage;
@@ -143,26 +125,15 @@
         methods: appMethods
     });
 
-    var showLoader = function(e) {
+    window.addEventListener('beforeunload', function(e) {
         if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
             app.$set('modals.loading', true);            
         }
-    };
+    }, false);
 
     var currentPage = getQueryVar('page');
     var tabSwitcher = document.querySelector('[data-activated-tab]');
     var mediumEditable = document.querySelector('.medium-editable');
-    
-    var links = document.querySelectorAll('a[href]');
-    var forms = document.querySelectorAll('form');
-
-    for (var i = links.length - 1; i >= 0; i--) {
-        links[i].addEventListener('click', showLoader, false);
-    };
-
-    for (var i = forms.length - 1; i >= 0; i--) {
-        forms[i].addEventListener('submit', showLoader, false);
-    };
 
     if (currentPage) {
         app.$set('paginationPage', currentPage);
