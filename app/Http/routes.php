@@ -9,20 +9,11 @@
  * file that was distributed with this source code.
  */
 
-Route::get('/', [
-    'as'    => 'index',
-    'uses'  => 'MainController@index'
-]);
+Route::get('/', ['as' => 'index', 'uses'  => 'MainController@index']);
 
-Route::match(['get', 'post'], '/login', [
-    'as' => 'login',
-    'uses' => 'MainController@login'
-]);
+Route::match(['get', 'post'], '/login', ['as' => 'auth.login', 'uses' => 'AuthController@login']);
 
-Route::match(['get', 'post'], '/logout', [
-    'as' => 'logout',
-    'uses' => 'MainController@logout'
-]);
+Route::match(['get', 'post'], '/logout', ['as' => 'auth.logout', 'uses' => 'AuthController@logout']);
 
 Route::group(['namespace' => 'Help', 'prefix' => 'help', 'as' => 'help.'], function () {
 
