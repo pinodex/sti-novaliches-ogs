@@ -41,7 +41,8 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:60,1',
+            \App\Http\Middleware\StatelessApi::class,
+            \App\Http\Middleware\ApiThrottle::class,
             \App\Http\Middleware\ApiAuthentication::class
         ],
     ];
@@ -56,7 +57,6 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'acl' => \App\Http\Middleware\AccessControlList::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class
     ];
 }

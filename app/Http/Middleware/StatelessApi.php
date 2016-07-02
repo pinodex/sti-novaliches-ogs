@@ -13,10 +13,8 @@ namespace App\Http\Middleware;
 
 use Config;
 use Closure;
-use Illuminate\Support\Facades\Auth;
-use App\Exceptions\AuthException;
 
-class ApiAuthentication
+class StatelessApi
 {
     /**
      * Handle an incoming request.
@@ -27,13 +25,8 @@ class ApiAuthentication
      */
     public function handle($request, Closure $next)
     {
-        try {
-            Auth::onceBasic();
-        } catch (AuthException $e) {
-            return response()->json([
-                'error_message' => 'You are not authorized to access this resource'
-            ], 401);
-        }
+        Config::set('session.driver', 'array');
+        Config::set('cookie.driver', 'array');
 
         return $next($request);
     }

@@ -39,7 +39,7 @@ class AuthController extends Controller
 
     public function getThrottleKey(Request $request)
     {
-        return $request->cookies->get('laravel_session') ?: $request->ip();
+        return $request->fingerprint();
     }
 
     /**
