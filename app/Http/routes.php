@@ -183,4 +183,6 @@ Route::group(['namespace' => 'Api', 'prefix' => 'api', 'as' => 'api.', 'middlewa
         Route::resource('grades', 'GradeController', ['only' => ['show']]);
     });
 
+    Route::get('/', 'MainController@index');
+
 });

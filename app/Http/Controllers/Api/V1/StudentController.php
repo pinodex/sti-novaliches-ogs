@@ -15,25 +15,21 @@ use Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
 
-/**
- * Main controller
- * 
- * Route controller for main pages.
- * Includes the root index and the login/logout routes
- */
 class StudentController extends Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
+    /**
+     * Show record
+     * 
+     * @param Student $student Student model
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function show(Student $student)
     {
-        if ($student->id != Auth::user()->id) {
+        if (Auth::user()->id != $student->id) {
             abort(403);
         }
 
-        return response()->json($student);
+        return $this->json($student);
     }
 }

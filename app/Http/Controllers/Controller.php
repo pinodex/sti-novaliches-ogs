@@ -41,4 +41,17 @@ class Controller extends BaseController
     {
         return $this->user->getRole() == $role;
     }
+
+    /**
+     * Return a pretty formatted JSON
+     * 
+     * @param \JsonSerializable $data Data to JSON encode
+     * @param int $code HTTP status code
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function json($data, $code = 200)
+    {
+        return response()->json($data, $code, [], JSON_PRETTY_PRINT);
+    }
 }

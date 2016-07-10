@@ -11,28 +11,29 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Grade;
 
-/**
- * Main controller
- * 
- * Route controller for main pages.
- * Includes the root index and the login/logout routes
- */
 class GradeController extends Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
+    /**
+     * Show record
+     * 
+     * @param int $studentId Student ID
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function show($studentId)
     {
+        if (Auth::user()->id != $studentId) {
+            abort(403);
+        }
+
         $grade = Grade::where('student_id', $studentId)->get([
             'subject', 'section', 'prelim_grade', 'midterm_grade', 'prefinal_grade', 'final_grade'
         ]);
 
-        return response()->json($grade);
+        return $this->json($grade);
     }
 }

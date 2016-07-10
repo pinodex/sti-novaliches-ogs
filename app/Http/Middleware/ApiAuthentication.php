@@ -30,9 +30,7 @@ class ApiAuthentication
         try {
             Auth::onceBasic();
         } catch (AuthException $e) {
-            return response()->json([
-                'error_message' => 'You are not authorized to access this resource'
-            ], 401);
+            abort(401);
         }
 
         return $next($request);
