@@ -15,7 +15,7 @@
                     {{ form_widget(form) }}
                     
                     <button type="submit" class="success">Save <span class="icon-navigate_next"></span></button>
-                    <a href="{{ route('dashboard.guidance.delete', {id: guidance.id}) }}" class="button link" @click.prevent="modals.confirm = true">Delete Account</a>
+                    <a href="{{ route('dashboard.guidance.delete', {id: guidance.id}, false) }}" class="button link" @click.prevent="modals.confirm = true">Delete Account</a>
                 </form>
             </div>
         </div>
@@ -29,7 +29,7 @@
         </div>
 
         <div slot="footer">
-            <form method="post" action="{{ route('dashboard.guidance.delete', {id: guidance.id}) }}">
+            <form method="post" action="{{ route('dashboard.guidance.delete', {id: guidance.id}, false) }}">
                 {{ csrf_field() }}
                 <input type="hidden" name="_confirm" />
                     

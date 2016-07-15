@@ -17,7 +17,7 @@
                 <div class="panel">
                     <div class="panel-heading"><span class="icon-search"></span> Search Student</div>
                     <div class="panel-body">
-                        <form method="get" action="{{ route('dashboard.students.index') }}">
+                        <form method="get" action="{{ route('dashboard.students.index', {}, false) }}">
                             {{ form_widget(search_form) }}
                             <button type="submit"><span class="icon-search"></span> Search</button>
                         </form>
@@ -30,10 +30,10 @@
                         <div class="panel-body">
                             <ul class="list-unstyled">
                                 <li>
-                                    <a href="{{ route('dashboard.import.students') }}">Import Master List</a>
+                                    <a href="{{ route('dashboard.import.students', {}, false) }}">Import Master List</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('dashboard.students.add') }}">Add Student</a>
+                                    <a href="{{ route('dashboard.students.add', {}, false) }}">Add Student</a>
                                 </li> 
                             </ul>
                         </div>
@@ -86,7 +86,7 @@
                                     <td>{{ row.last_name ~ ', ' ~ row.first_name ~ ' ' ~ row.middle_name }}</td>
                                     <td>{{ row.course }}</td>
                                     <td>
-                                        <a href="{{ route('dashboard.students.view', {id: row.id}) }}">View</a>
+                                        <a href="{{ route('dashboard.students.view', {id: row.id}, false) }}">View</a>
                                     </td>
                                 </tr>
                             {% endfor %}

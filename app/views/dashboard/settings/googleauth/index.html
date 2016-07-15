@@ -14,12 +14,12 @@
 
                 {% if user_info is not null %}
                     <p>Connected as {{ user_info.name }} ({{ user_info.email }}).</p>
-                    <p><a href="{{ route('dashboard.settings.googleauth.disconnect') }}">Disconnect Google account</a></p>
+                    <p><a href="{{ route('dashboard.settings.googleauth.disconnect', {}, false) }}">Disconnect Google account</a></p>
                 {% else %}
-                    <p><a href="{{ route('dashboard.settings.googleauth.connect') }}">Connect Google account</a></p>
+                    <p><a href="{{ route('dashboard.settings.googleauth.connect', {}, false) }}">Connect Google account</a></p>
                 {% endif %}
 
-                <p><a href="{{ route('dashboard.settings.googleauth.clientSecret') }}">Client secret settings</a></p>
+                <p><a href="{{ route('dashboard.settings.googleauth.clientSecret', {}, false) }}">Client secret settings</a></p>
             </div>
         </div>
     </div>

@@ -20,7 +20,7 @@
                             {{ form_widget(choose_form) }}
 
                             <div class="buttons">
-                                <a href="{{ route('dashboard.import.faculty.stepOne') }}" class="button neutral" :disabled="disableAction"><span class="icon-navigate_before"></span> Back</a>
+                                <a href="{{ route('dashboard.import.faculty.stepOne', {}, false) }}" class="button neutral" :disabled="disableAction"><span class="icon-navigate_before"></span> Back</a>
                                 <button type="submit" class="success" :disabled="disableAction">Next <span class="icon-navigate_next"></span></button>
                             </div>
                         </form>

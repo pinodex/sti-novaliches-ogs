@@ -13,7 +13,7 @@
                 <div class="panel">
                     <div class="panel-heading"><span class="icon-search"></span> Search Guidance account</div>
                     <div class="panel-body">
-                        <form method="get" action="{{ route('dashboard.guidance.index') }}">
+                        <form method="get" action="{{ route('dashboard.guidance.index', {}, false) }}">
                             {{ form_widget(search_form) }}
 
                             <button type="submit"><span class="icon-search"></span> Search</button>
@@ -24,7 +24,7 @@
                 <div class="panel">
                     <div class="panel-heading">Actions</div>
                     <div class="panel-body">
-                        <a href="{{ route('dashboard.guidance.add') }}">Add new guidance account</a>
+                        <a href="{{ route('dashboard.guidance.add', {}, false) }}">Add new guidance account</a>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                                     <td>{{ row.name }}</td>
                                     <td>{{ row.last_login_at }}</td>
                                     <td>
-                                        <a href="{{ route('dashboard.guidance.edit', {id: row.id}) }}">Edit</a>
+                                        <a href="{{ route('dashboard.guidance.edit', {id: row.id}, false) }}">Edit</a>
                                     </td>
                                 </tr>
                             {% endfor %}

@@ -15,11 +15,11 @@
                     {{ form_widget(form) }}
 
                     {% if auth_user().id == admin.id %}
-                        <p><a href="{{ route('dashboard.account') }}">Click here</a> to change your account password.</p>
+                        <p><a href="{{ route('dashboard.account', {}, false) }}">Click here</a> to change your account password.</p>
                     {% endif %}
                     
                     <button type="submit" class="success">Save <span class="icon-navigate_next"></span></button>
-                    <a href="{{ route('dashboard.admins.delete', {id: admin.id}) }}" class="button link" @click.prevent="modals.confirm = true">Delete Admin</a>
+                    <a href="{{ route('dashboard.admins.delete', {id: admin.id}, false) }}" class="button link" @click.prevent="modals.confirm = true">Delete Admin</a>
                 </form>
             </div>
         </div>
@@ -33,7 +33,7 @@
         </div>
 
         <div slot="footer">
-            <form method="post" action="{{ route('dashboard.admins.delete', {id: admin.id}) }}">
+            <form method="post" action="{{ route('dashboard.admins.delete', {id: admin.id}, false) }}">
                 {{ csrf_field() }}
                 <input type="hidden" name="_confirm" />
                     

@@ -21,10 +21,10 @@
 
         <ul class="list-unstyled">
             <li>
-                <a href="{{ route('dashboard.settings.maintenancePurge', {store: 'importCache'}) }}">Purge import cache</a>
+                <a href="{{ route('dashboard.settings.maintenancePurge', {store: 'importCache'}, false) }}">Purge import cache</a>
             </li>
             <li>
-                <a href="{{ route('dashboard.settings.maintenancePurge', {store: 'appCache'}) }}">Purge application cache</a>
+                <a href="{{ route('dashboard.settings.maintenancePurge', {store: 'appCache'}, false) }}">Purge application cache</a>
             </li>
         </ul>
     </div>

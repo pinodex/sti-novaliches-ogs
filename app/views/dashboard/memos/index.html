@@ -17,7 +17,7 @@
                 <div class="panel">
                     <div class="panel-heading"><span class="icon-search"></span> Search Memo</div>
                     <div class="panel-body">
-                        <form method="get" action="{{ route('dashboard.memo.index') }}">
+                        <form method="get" action="{{ route('dashboard.memo.index', {}, false) }}">
                             {{ form_widget(search_form) }}
 
                             <button type="submit"><span class="icon-search"></span> Search</button>
@@ -29,7 +29,7 @@
                     <div class="panel">
                         <div class="panel-heading">Create memo</div>
                         <div class="panel-body">
-                            <form method="get" action="{{ route('dashboard.memo.send') }}">
+                            <form method="get" action="{{ route('dashboard.memo.send', {}, false) }}">
                                 {{ form_widget(compose_form) }}
 
                                 <button type="submit">Compose</button>
@@ -89,7 +89,7 @@
                                     {% endif %}
                                     
                                     <td>
-                                        <a href="{{ route('dashboard.memo.view', {id: row.id}) }}">View</a>
+                                        <a href="{{ route('dashboard.memo.view', {id: row.id}, false) }}">View</a>
                                     </td>
                                 </tr>
                             {% endfor %}

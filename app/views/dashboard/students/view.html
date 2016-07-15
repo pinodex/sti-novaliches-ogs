@@ -66,11 +66,11 @@
                         <div class="panel-body">
                             <ul class="list-unstyled">
                                 <li>
-                                    <a href="{{ route('dashboard.students.edit', {id: student.id}) }}">Edit Student</a>   
+                                    <a href="{{ route('dashboard.students.edit', {id: student.id}, false) }}">Edit Student</a>   
                                 </li>
                                 {% if grades is not empty %}
                                     <li>
-                                        <a href="{{ route('dashboard.students.grades.edit', {id: student.id}) }}">Edit Grades</a>
+                                        <a href="{{ route('dashboard.students.grades.edit', {id: student.id}, false) }}">Edit Grades</a>
                                     </li>
                                 {% endif %}
                             </ul>

@@ -66,32 +66,32 @@
                     <ul class="left">
                         {% if auth_user().getRole() != 'student' %}
                             <li>
-                                <a href="{{ route('dashboard.index') }}">Dashboard</a>
+                                <a href="{{ route('dashboard.index', {}, false) }}">Dashboard</a>
                             </li>
                         {% elseif auth_user().getRole() == 'student' %}
                             <li>
-                                <a href="{{ route('student.index') }}">Student</a>
+                                <a href="{{ route('student.index', {}, false) }}">Student</a>
                             </li>
                         {% endif %}
                     </ul>
                     <ul class="right">
                         {% if auth_user().getRole() != 'student' %}
                             <li>
-                                <a href="{{ route('dashboard.account') }}">
+                                <a href="{{ route('dashboard.account', {}, false) }}">
                                     <span class="icon-settings"></span>
                                     <strong>{{ auth_user().name }}</strong>
                                 </a>
                             </li>
                         {% else %}
                             <li>
-                                <a href="{{ route('student.account') }}">
+                                <a href="{{ route('student.account', {}, false) }}">
                                     <span class="icon-settings"></span>
                                     <strong>{{ auth_user().name }}</strong>
                                 </a>
                             </li>
                         {% endif %}
                         <li>
-                            <a href="{{ route('auth.logout') }}">Logout</a>
+                            <a href="{{ route('auth.logout', {}, false) }}">Logout</a>
                         </li>
                     </ul>
                 {% endif %}
@@ -111,7 +111,7 @@
 
     <footer class="body-footer">
         <div class="container">
-            <span class="inline-separation"><a href="{{ route('help.index') }}">Help &amp; About</a></span>
+            <span class="inline-separation"><a href="{{ route('help.index', {}, false) }}">Help &amp; About</a></span>
             <span class="inline-separation">STI College Novaliches</span>
         </div>
     </footer>

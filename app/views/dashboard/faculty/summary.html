@@ -74,7 +74,7 @@
                                     <td>{{ faculty.is_valid ? 'Valid' : 'Invalid' }}</td>
                                     <td>{{ faculty.getNumberOfFailsAttribute(period) }}</td>
                                     <td>{{ faculty.getNumberOfDropsAttribute(period) }}</td>
-                                    <td class="print-invisible"><a href="{{ route('dashboard.faculty.view', {id: faculty.id}) }}">View</a></td>
+                                    <td class="print-invisible"><a href="{{ route('dashboard.faculty.view', {id: faculty.id}, false) }}">View</a></td>
                                 </tr>
                             {% endfor %}
                         </tbody>

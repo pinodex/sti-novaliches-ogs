@@ -13,7 +13,7 @@
                     <div class="panel-body">
                         <ul class="list-unstyled">
                             <li>
-                                <a href="{{ route('dashboard.departments.add') }}">Add department</a>
+                                <a href="{{ route('dashboard.departments.add', {}, false) }}">Add department</a>
                             </li>
                         </ul>
                     </div>
@@ -48,7 +48,7 @@
                                     <td>{{ department.name }}</td>
                                     <td>{{ department.head ? department.head.name : 'N/A' }}</td>
                                     <td>
-                                        <a href="{{ route('dashboard.departments.view', {id: department.id}) }}">View</a>
+                                        <a href="{{ route('dashboard.departments.view', {id: department.id}, false) }}">View</a>
                                     </td>
                                 </tr>
                             {% endfor %}

@@ -79,14 +79,14 @@
                         <ul class="list-unstyled">
                             {% if auth_user().getRole() == 'admin' %}
                                 <li>
-                                    <a href="{{ route('dashboard.faculty.edit', {id: faculty.id}) }}">Edit Faculty</a>
+                                    <a href="{{ route('dashboard.faculty.edit', {id: faculty.id}, false) }}">Edit Faculty</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('dashboard.memo.send', {recipient: faculty.id}) }}">Send Memo</a>
+                                    <a href="{{ route('dashboard.memo.send', {recipient: faculty.id}, false) }}">Send Memo</a>
                                 </li>
                             {% endif %}
                             <li>
-                                <a href="{{ route('dashboard.sections.index', {faculty: faculty.id}) }}">View sections summary</a>
+                                <a href="{{ route('dashboard.sections.index', {faculty: faculty.id}, false) }}">View sections summary</a>
                             </li>
                         </ul>
                     </div>

@@ -12,7 +12,7 @@
                 <form method="post" action="{{ app.request.getRequestUri }}">
                     {{ csrf_field() }}
                     
-                    <a href="{{ route('dashboard.settings.maintenance') }}" class="button neutral">Cancel</a>
+                    <a href="{{ route('dashboard.settings.maintenance', {}, false) }}" class="button neutral">Cancel</a>
                     <button type="submit" class="danger">Confirm <span class="icon-navigate_next"></span></button>
                 </form>
             </div>

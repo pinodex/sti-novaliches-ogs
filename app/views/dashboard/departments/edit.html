@@ -16,7 +16,7 @@
                     
                     <button type="submit" class="success">Save <span class="icon-navigate_next"></span></button>
                     {% if auth_user().getRole() == 'admin' %}
-                        <a href="{{ route('dashboard.departments.delete', {id: department.id}) }}" class="button link" @click.prevent="modals.confirm = true">Delete Department</a>
+                        <a href="{{ route('dashboard.departments.delete', {id: department.id}, false) }}" class="button link" @click.prevent="modals.confirm = true">Delete Department</a>
                     {% endif %}
                 </form>
             </div>
@@ -31,7 +31,7 @@
         </div>
 
         <div slot="footer">
-            <form method="post" action="{{ route('dashboard.departments.delete', {id: department.id}) }}">
+            <form method="post" action="{{ route('dashboard.departments.delete', {id: department.id}, false) }}">
                 {{ csrf_field() }}
                 <input type="hidden" name="_confirm" />
                     

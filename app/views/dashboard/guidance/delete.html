@@ -13,7 +13,7 @@
                     {{ csrf_field() }}
                     {{ form_widget(form) }}
                     
-                    <a href="{{ route('dashboard.guidance.edit', {id: guidance.id}) }}" class="button neutral">Cancel</a>
+                    <a href="{{ route('dashboard.guidance.edit', {id: guidance.id}, false) }}" class="button neutral">Cancel</a>
                     <button type="submit" class="danger">Delete Account <span class="icon-navigate_next"></span></button>
                 </form>
             </div>

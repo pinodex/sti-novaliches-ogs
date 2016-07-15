@@ -29,7 +29,7 @@
                             {% if auth_user().getRole() == 'admin' %}
                                 <ul class="list-unstyled">
                                     <li>
-                                        <a href="{{ route('dashboard.heads.edit', {id: department.head.id}) }}">Edit head</a>
+                                        <a href="{{ route('dashboard.heads.edit', {id: department.head.id}, false) }}">Edit head</a>
                                     </li>
                                 </ul>
                             {% endif %}
@@ -42,7 +42,7 @@
                 <div class="panel">
                     <div class="panel-heading"><span class="icon-search"></span> Search Faculty</div>
                     <div class="panel-body">
-                        <form method="get" action="{{ route('dashboard.departments.view', {id: department.id}) }}">
+                        <form method="get" action="{{ route('dashboard.departments.view', {id: department.id}, false) }}">
                             {{ form_widget(search_form) }}
 
                             <button type="submit"><span class="icon-search"></span> Search</button>
@@ -56,7 +56,7 @@
                         <div class="panel-body">
                             <ul class="list-unstyled">
                                 <li>
-                                    <a href="{{ route('dashboard.departments.edit', {id: department.id}) }}">Edit department</a>
+                                    <a href="{{ route('dashboard.departments.edit', {id: department.id}, false) }}">Edit department</a>
                                 </li>
                             </ul>
                         </div>
@@ -99,7 +99,7 @@
                                             <td>{{ faculty.name }}</td>
                                             <td>{{ faculty.last_login_at }}</td>
                                             <td>
-                                                <a href="{{ route('dashboard.faculty.view', {id: faculty.id}) }}">View</a>
+                                                <a href="{{ route('dashboard.faculty.view', {id: faculty.id}, false) }}">View</a>
                                             </td>
                                         </tr>
                                     {% endfor %}

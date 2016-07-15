@@ -24,7 +24,7 @@
                             {{ form_widget(confirm_form) }}
 
                             <div class="buttons">
-                                <a href="{{ route('dashboard.import.students.stepOne') }}" class="button neutral" :disabled="disableAction"><span class="icon-navigate_before"></span> Back</a>
+                                <a href="{{ route('dashboard.import.students.stepOne', {}, false) }}" class="button neutral" :disabled="disableAction"><span class="icon-navigate_before"></span> Back</a>
                                 <button type="submit" class="success" :disabled="disableAction">Confirm and save changes <span class="icon-navigate_next"></span></button>
                             </div>
                         </form>

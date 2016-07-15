@@ -1,13 +1,13 @@
             <div class="column-3">
                 <ul class="sub-menu">
                     <li{{ active_menu == 'general' ? ' class="active"' : '' }}>
-                        <a href="{{ route('dashboard.settings.index') }}">General</a>
+                        <a href="{{ route('dashboard.settings.index', {}, false) }}">General</a>
                     </li>
                     <li{{ active_menu == 'googleauth' ? ' class="active"' : '' }}>
-                        <a href="{{ route('dashboard.settings.googleauth.index') }}">Google Auth</a>
+                        <a href="{{ route('dashboard.settings.googleauth.index', {}, false) }}">Google Auth</a>
                     </li>
                     <li{{ active_menu == 'emaildelivery' ? ' class="active"' : '' }}>
-                        <a href="{{ route('dashboard.settings.emaildelivery.index') }}">Email Delivery</a>
+                        <a href="{{ route('dashboard.settings.emaildelivery.index', {}, false) }}">Email Delivery</a>
                     </li>
                 </ul>
             </div>

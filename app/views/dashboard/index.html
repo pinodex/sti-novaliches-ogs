@@ -14,21 +14,21 @@
                     <div class="dashboard-menu">
                         <div class="grid">
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ route('dashboard.admins.index') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.admins.index', {}, false) }}">
                                     <span class="icon-user"></span>
                                     <p>Site admins</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ route('dashboard.heads.index') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.heads.index', {}, false) }}">
                                     <span class="icon-head"></span>
                                     <p>Head accounts</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ route('dashboard.faculty.index') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.faculty.index', {}, false) }}">
                                     <span class="icon-faculty"></span>
                                     <p>Faculty accounts</p>
                                 </a>
@@ -37,21 +37,21 @@
 
                         <div class="grid">
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ route('dashboard.guidance.index') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.guidance.index', {}, false) }}">
                                     <span class="icon-guidance"></span>
                                     <p>Guidance accounts</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ route('dashboard.departments.index') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.departments.index', {}, false) }}">
                                     <span class="icon-departments"></span>
                                     <p>Departments</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ route('dashboard.sections.index') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.sections.index', {}, false) }}">
                                     <span class="icon-sections"></span>
                                     <p>Sections</p>
                                 </a>
@@ -60,21 +60,21 @@
 
                         <div class="grid">
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ route('dashboard.students.index') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.students.index', {}, false) }}">
                                     <span class="icon-students"></span>
                                     <p>Students</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ route('dashboard.grades.index') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.grades.index', {}, false) }}">
                                     <span class="icon-grades"></span>
                                     <p>Grades</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ route('dashboard.memo.index') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.memo.index', {}, false) }}">
                                     <span class="icon-memos"></span>
                                     <p>Memos</p>
                                 </a>
@@ -83,14 +83,14 @@
 
                         <div class="grid">
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ route('dashboard.settings.index') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.settings.index', {}, false) }}">
                                     <span class="icon-wrench"></span>
                                     <p>Settings</p>
                                 </a>
                             </div>
                             
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ route('dashboard.settings.maintenance') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.settings.maintenance', {}, false) }}">
                                     <span class="icon-maintenance"></span>
                                     <p>Maintenance</p>
                                 </a>
@@ -103,21 +103,21 @@
                     <div class="dashboard-menu">
                         <div class="grid">
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ route('dashboard.departments.self') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.departments.self', {}, false) }}">
                                     <span class="icon-departments"></span>
                                     <p>My Department</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ route('dashboard.sections.index') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.sections.index', {}, false) }}">
                                     <span class="icon-sections"></span>
                                     <p>Sections</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ route('dashboard.students.index') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.students.index', {}, false) }}">
                                     <span class="icon-students"></span>
                                     <p>Students</p>
                                 </a>
@@ -130,21 +130,21 @@
                     <div class="dashboard-menu">
                         <div class="grid">
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ route('dashboard.students.index') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.students.index', {}, false) }}">
                                     <span class="icon-students"></span>
                                     <p>My Students</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item" href="{{ route('dashboard.import.grades') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.import.grades', {}, false) }}">
                                     <span class="icon-file_upload"></span>
                                     <p>Import Grades</p>
                                 </a>
                             </div>
 
                             <div class="column-4">
-                                <a class="dashboard-item{{ unread_memo_count > 0 ? ' has-notification' : '' }}" href="{{ route('dashboard.memo.index') }}">
+                                <a class="dashboard-item{{ unread_memo_count > 0 ? ' has-notification' : '' }}" href="{{ route('dashboard.memo.index', {}, false) }}">
                                     {% if unread_memo_count > 0 %}
                                         <span class="notification-count">{{ unread_memo_count }}</span>
                                     {% endif %}
@@ -160,7 +160,7 @@
                     <div class="dashboard-menu">
                         <div class="grid">
                             <div class="column-6">
-                                <a class="dashboard-item" href="{{ route('dashboard.students.index') }}">
+                                <a class="dashboard-item" href="{{ route('dashboard.students.index', {}, false) }}">
                                     <span class="icon-students"></span>
                                     <p>Student List</p>
                                 </a>
