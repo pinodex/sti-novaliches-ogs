@@ -13,6 +13,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
+use Illuminate\Session\TokenMismatchException;
 
 class VerifyCsrfToken extends BaseVerifier
 {
@@ -29,8 +30,6 @@ class VerifyCsrfToken extends BaseVerifier
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed
-     *
-     * @throws \Illuminate\Session\TokenMismatchException
      */
     public function handle($request, Closure $next)
     {
@@ -38,6 +37,10 @@ class VerifyCsrfToken extends BaseVerifier
             return $next($request);
         }
 
-        return parent::handle($request, $next);
+        try {
+            return parent::handle($request, $next);
+        } catch (TokenMismatchException $e) {
+            abort(403);
+        }
     }
 }
