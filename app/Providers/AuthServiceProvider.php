@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Auth;
-use App\Extensions\User\Providers\MultiRoleUserProvider;
+use App\Extensions\User\MultiRoleUserProvider;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 

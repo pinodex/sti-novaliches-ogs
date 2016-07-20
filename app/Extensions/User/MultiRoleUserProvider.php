@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Extensions\User\Providers;
+namespace App\Extensions\User;
 
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
