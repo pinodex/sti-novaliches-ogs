@@ -1,0 +1,27 @@
+{% extends '/_layout/main-default.html' %}
+
+{% form_theme form '/_layout/form-default.html' %}
+
+{% set page_title = 'Grading Sheet Settings' %}
+
+{% set active_menu = 'gradingsheet' %}
+
+{% block content %}
+    <div class="container">
+        <div class="grid">
+            {% include '/dashboard/settings/menu.html' %}
+
+            <div class="column-4">
+                <h1>Grading Sheet Settings</h1>
+                <p>Configure by entering cell address. E.g. <em>A1, AA2, AB25</em>.</p>
+
+                <form method="post" action="{{ app.request.getRequestUri }}">
+                    {{ csrf_field() }}
+                    {{ form_widget(form) }}
+
+                    <button type="submit" class="success">Save <span class="icon-navigate_next"></span></button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -161,6 +161,10 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
 
         Route::match(['get', 'post'], '/maintenance/purge', 'MainController@maintenancePurge')->name('maintenancePurge');
 
+        Route::group(['prefix' => 'grading-sheet', 'as' => 'gradingsheet.'], function () {
+            Route::match(['get', 'post'], '/', 'GradingSheetController@index')->name('index');
+        });
+
         Route::group(['prefix' => 'google-auth', 'as' => 'googleauth.'], function () {
             Route::get('/', 'GoogleAuthController@index')->name('index');
             Route::get('/connect', 'GoogleAuthController@connect')->name('connect');
