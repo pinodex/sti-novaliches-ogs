@@ -27,7 +27,6 @@ return [
         App\Http\Controllers\Dashboard\SectionController::class,
         App\Http\Controllers\Dashboard\StudentController::class,
         App\Http\Controllers\Dashboard\Settings\MainController::class,
-        App\Http\Controllers\Dashboard\Settings\GradingSheetController::class,
         App\Http\Controllers\Dashboard\Settings\GoogleAuthController::class,
         App\Http\Controllers\Dashboard\Settings\EmailDeliveryController::class,
         App\Http\Controllers\Dashboard\Import\FacultyImportController::class,

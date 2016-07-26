@@ -3,9 +3,6 @@
                     <li{{ active_menu == 'general' ? ' class="active"' : '' }}>
                         <a href="{{ route('dashboard.settings.index', {}, false) }}">General</a>
                     </li>
-                    <li{{ active_menu == 'gradingsheet' ? ' class="active"' : '' }}>
-                        <a href="{{ route('dashboard.settings.gradingsheet.index', {}, false) }}">Grading Sheet</a>
-                    </li>
                     <li{{ active_menu == 'googleauth' ? ' class="active"' : '' }}>
                         <a href="{{ route('dashboard.settings.googleauth.index', {}, false) }}">Google Auth</a>
                     </li>
