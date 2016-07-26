@@ -69,11 +69,11 @@ class GradeSpreadsheet extends AbstractSpreadsheet
 
         foreach ($this->spreadsheet as $row => $col) {
             if ($row == 2) {
-                $content['metadata']['subject'] = $col[16];
+                $contents['metadata']['subject'] = $col[16];
             }
 
             if ($row == 3) {
-                $content['metadata']['section'] = $col[16];
+                $contents['metadata']['section'] = $col[16];
             }
         }
 
@@ -85,10 +85,10 @@ class GradeSpreadsheet extends AbstractSpreadsheet
             }
 
             if ($row == 7) {
-                $content['metadata']['prelim_presences'] = $col[19];
-                $content['metadata']['midterm_presences'] = $col[20];
-                $content['metadata']['prefinal_presences'] = $col[21];
-                $content['metadata']['final_presences'] = $col[22];
+                $contents['metadata']['prelim_presences'] = $col[19];
+                $contents['metadata']['midterm_presences'] = $col[20];
+                $contents['metadata']['prefinal_presences'] = $col[21];
+                $contents['metadata']['final_presences'] = $col[22];
 
                 continue;
             }
@@ -99,7 +99,7 @@ class GradeSpreadsheet extends AbstractSpreadsheet
                 continue;
             }
 
-            $content['students'][] = [
+            $contents['students'][] = [
                 'student_id'        => $studentId,
                 'name'              => $col[4],
 
@@ -115,7 +115,7 @@ class GradeSpreadsheet extends AbstractSpreadsheet
             ];
         }
 
-        return $content;
+        return $contents;
     }
 
     public function importToDatabase()
