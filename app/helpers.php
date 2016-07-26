@@ -236,7 +236,11 @@ if (!function_exists('parseGrade')) {
      */
     function parseGrade($grade)
     {
-        if (trim($grade) == '') {
+        if (is_integer($grade)) {
+            return $grade;
+        }
+
+        if (trim($grade) == '' || trim($grade) == '-') {
             return null;
         }
 
@@ -258,7 +262,7 @@ if (!function_exists('parseGrade')) {
             return -2;
         }
 
-        return intval($grade);
+        return intval(round(floatval($grade)));
     }
 }
 

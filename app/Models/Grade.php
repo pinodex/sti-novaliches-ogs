@@ -31,20 +31,20 @@ class Grade extends Model
         'section',
 
         'prelim_grade',
-        'prelim_attendance_hours',
-        'prelim_absent_hours',
+        'prelim_presences',
+        'prelim_absences',
 
         'midterm_grade',
-        'midterm_attendance_hours',
-        'midterm_absent_hours',
+        'midterm_presences',
+        'midterm_absences',
 
         'prefinal_grade',
-        'prefinal_attendance_hours',
-        'prefinal_absent_hours',
+        'prefinal_presences',
+        'prefinal_absences',
 
         'final_grade',
-        'final_attendance_hours',
-        'final_absent_hours'
+        'final_presences',
+        'final_absences'
     ];
 
     protected $primaryKey = 'student_id';
