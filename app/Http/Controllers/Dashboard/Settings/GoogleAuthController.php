@@ -36,17 +36,17 @@ class GoogleAuthController extends Controller
             return redirect()->route('dashboard.settings.googleauth.clientSecret');
         }
         
-        $client = app('google');
         $userInfo = null;
 
-        if (!$client->isAccessTokenExpired()) {
-            $user = $client->getService(\Google_Service_Oauth2::class);
+        try {
+            $client = app('google');
 
-            try {
+            if (!$client->isAccessTokenExpired()) {
+                $user = $client->getService(\Google_Service_Oauth2::class);
                 $userInfo = $user->userinfo->get();
-            } catch (\Exception $e) {
-                Session::flash('flash_message', 'warning>>>' . $e->getMessage());
             }
+        } catch (\Exception $e) {
+            Session::flash('flash_message', 'warning>>>' . $e->getMessage());
         }
 
         return view('dashboard/settings/googleauth/index', [
@@ -115,6 +115,9 @@ class GoogleAuthController extends Controller
 
     public function connect(Request $request)
     {
+        Settings::set('google_access_token', null);
+        Settings::set('google_refresh_token', null);
+
         $client = app('google');
         
         $client->addScope(\Google_Service_Oauth2::USERINFO_PROFILE);
