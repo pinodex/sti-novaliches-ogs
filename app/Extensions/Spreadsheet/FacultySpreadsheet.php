@@ -11,7 +11,6 @@
 
 namespace App\Extensions\Spreadsheet;
 
-use DB;
 use Hash;
 use App\Models\Faculty;
 use App\Models\Department;

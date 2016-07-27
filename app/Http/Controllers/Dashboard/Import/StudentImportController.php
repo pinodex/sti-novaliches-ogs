@@ -16,8 +16,7 @@ use Session;
 use Storage;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
-use App\Extensions\Importer\StudentImporter;
-use App\Extensions\Parser\StudentSheet;
+use App\Extensions\Spreadsheet\StudentSpreadsheet;
 use App\Http\Controllers\Controller;
 use App\Extensions\Form;
 use App\Models\Student;
@@ -44,7 +43,7 @@ class StudentImportController extends Controller
     /**
      * Student import wizard step 1
      * 
-     * URL: /dashboard/import/students/1
+     * URL: /dashboard/import/students/upload
      */
     public function stepOne(Request $request) {
         if ($uploadedFile = Session::get('sw_uploaded_file')) {
@@ -53,7 +52,6 @@ class StudentImportController extends Controller
 
         // cleanup first
         Session::forget('sw_uploaded_file');
-        Session::forget('sw_selected_sheets');
         Session::forget('sw_import_done');
 
         Cache::forget('omega_sheet');
@@ -100,19 +98,21 @@ class StudentImportController extends Controller
     /**
      * Student import wizard step 2
      * 
-     * URL: /dashboard/import/students/2
+     * URL: /dashboard/import/students/confirm
      */
     public function stepTwo(Request $request) {
         if (!$uploadedFile = Session::get('sw_uploaded_file')) {
             return redirect()->route('dashboard.import.students.stepOne');
         }
 
+        $spreadsheet = new StudentSpreadsheet($uploadedFile);
+
         /* Check if spreadsheet contents is cached in the session database
            Used remove the need to load the spreadsheet file again, thus saving time */
         if (!$contents = Cache::get('omega_sheet')) {
             set_time_limit(0);
             
-            $contents = StudentSheet::parse($uploadedFile)->getSheetContents(0);
+            $contents = $spreadsheet->getParsedContents();
             Cache::put('omega_sheet', $contents, 60);
         }
 
@@ -135,7 +135,7 @@ class StudentImportController extends Controller
                 Student::truncate();
             }
 
-            StudentImporter::import($contents);
+            $spreadsheet->importToDatabase();
             Session::put('sw_import_done', true);
 
             return redirect()->route('dashboard.import.students.stepThree');
@@ -151,7 +151,7 @@ class StudentImportController extends Controller
     /**
      * Student import wizard step 3
      * 
-     * URL: /dashboard/import/students/3
+     * URL: /dashboard/import/students/finish
      */
     public function stepThree() {
         if (!$uploadedFile = Session::get('sw_uploaded_file')) {

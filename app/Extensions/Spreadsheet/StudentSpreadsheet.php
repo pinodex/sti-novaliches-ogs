@@ -9,19 +9,42 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Extensions\Importer;
+namespace App\Extensions\Spreadsheet;
 
 use DB;
+use App\Models\Faculty;
+use App\Models\Department;
 
-/**
- * Student Sheet importer
- */
-class StudentImporter implements ImporterInterface
+class StudentSpreadsheet extends AbstractSpreadsheet
 {
-    public static function import($data)
+    public function isValid()
+    {
+        return true;
+    }
+
+    public function getParsedContents()
+    {
+        $contents = [];
+
+        foreach ($this->spreadsheet as $i => $row) {
+            if ($i > 0 && isStudentId($row[0])) {
+                $contents[] = [
+                    'id'            => $row[0],
+                    'last_name'     => $row[1],
+                    'first_name'    => $row[2],
+                    'middle_name'   => $row[3],
+                    'course'        => $row[4]
+                ];
+            }
+        }
+
+        return $contents;
+    }
+
+    public function importToDatabase()
     {
         $timestamp = date('Y-m-d H:i:s');
-        $chunks = array_chunk($data, 500);
+        $chunks = array_chunk($this->getParsedContents(), 500);
 
         foreach ($chunks as $students) {
             $values = [];
