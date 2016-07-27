@@ -143,11 +143,11 @@
                                     <span class="short">Subj</span>
                                 </th>
                                 <th>
-                                    <span class="long">Total class hours</span>
+                                    <span class="long">Total days</span>
                                     <span class="short">TH</span>
                                 </th>
                                 <th>
-                                    <span class="long">Hours absent</span>
+                                    <span class="long">Absences</span>
                                     <span class="short">HA</span>
                                 </th>
                             </tr>
@@ -157,8 +157,8 @@
                             {% for grade in grades %}
                                 <tr>
                                     <th>{{ grade.subject }}</th>
-                                    <td>{{ grade.prelim_attendance_hours }}</td>
-                                    <td>{{ grade.prelim_absent_hours }}</td>
+                                    <td>{{ grade.prelim_presences }}</td>
+                                    <td>{{ grade.prelim_absences }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -167,8 +167,8 @@
                             {% for grade in grades %}
                                 <tr>
                                     <th>{{ grade.subject }}</th>
-                                    <td>{{ grade.midterm_attendance_hours }}</td>
-                                    <td>{{ grade.midterm_absent_hours }}</td>
+                                    <td>{{ grade.midterm_presences }}</td>
+                                    <td>{{ grade.midterm_absences }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -177,8 +177,8 @@
                             {% for grade in grades %}
                                 <tr>
                                     <th>{{ grade.subject }}</th>
-                                    <td>{{ grade.prefinal_attendance_hours }}</td>
-                                    <td>{{ grade.prefinal_absent_hours }}</td>
+                                    <td>{{ grade.prefinal_presences }}</td>
+                                    <td>{{ grade.prefinal_absences }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -187,8 +187,8 @@
                             {% for grade in grades %}
                                 <tr>
                                     <th>{{ grade.subject }}</th>
-                                    <td>{{ grade.final_attendance_hours }}</td>
-                                    <td>{{ grade.final_absent_hours }}</td>
+                                    <td>{{ grade.final_presences }}</td>
+                                    <td>{{ grade.final_absences }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
