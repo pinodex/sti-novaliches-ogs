@@ -16,14 +16,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $extensions = $this->app['form.extensions'];
-
-        $this->app->bind('form.extensions', function () use ($extensions) {
-            $extensions[] = new FormValidatorExtension();
-
-            return $extensions;
-        });
-
         $this->app->bind('google', function () {
             $client = new GoogleClient();
 
