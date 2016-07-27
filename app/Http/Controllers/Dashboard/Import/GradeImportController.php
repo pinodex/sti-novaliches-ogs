@@ -134,12 +134,12 @@ class GradeImportController extends Controller
             $queue = new ParallelJob();
             $importer = null;
 
-            $queue->add($spreadsheet->createImportToDatabaseJob($importer));
-
             if ($this->isRole('faculty')) {
                 $this->user->addSubmissionLogEntry();
                 $importer = $this->user;
             }
+
+            $queue->add($spreadsheet->createImportToDatabaseJob($importer));
 
             try {
                 $email = new GradeDelivery();
