@@ -131,10 +131,9 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
         
         Route::group(['prefix' => 'faculty', 'as' => 'faculty.'], function () {
             Route::match(['get', 'post'], '/upload', 'FacultyImportController@stepOne')->name('stepOne');
-            Route::match(['get', 'post'], '/select', 'FacultyImportController@stepTwo')->name('stepTwo');
-            Route::match(['get', 'post'], '/confirm', 'FacultyImportController@stepThree')->name('stepThree');
+            Route::match(['get', 'post'], '/confirm', 'FacultyImportController@stepTwo')->name('stepTwo');
 
-            Route::get('/finish', 'FacultyImportController@stepFour')->name('stepFour');
+            Route::get('/finish', 'FacultyImportController@stepThree')->name('stepThree');
         });
 
         Route::group(['prefix' => 'students', 'as' => 'students.'], function () {

@@ -1,7 +1,5 @@
 {% extends '/_layout/main-default.html' %}
 
-{% form_theme choose_form '/_layout/form-default.html' %}
-
 {% set page_title = 'Faculty import wizard' %}
 
 {% block content %}
@@ -13,15 +11,46 @@
 
             <div class="column-8">
                 <div class="panel">
-                    <div class="panel-heading">Choose sheets to import</div>
+                    <div class="panel-heading">Confirm imports</div>
                     <div class="panel-body">
+                        <table class="center-align">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span class="long">Last Name</span>
+                                        <span class="short">L</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">First Name</span>
+                                        <span class="short">F</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Middle Name</span>
+                                        <span class="short">M</span>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for row in contents %}
+                                    <tr>
+                                        <td>{{ row.last_name }}</td>
+                                        <td>{{ row.first_name }}</td>
+                                        <td>{{ row.middle_name }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <p><em>Importing to database may take several seconds depending on the amount of records to be imported. Please don't close this window/tab while importing.</em></p>
+
                         <form method="post" action="{{ app.request.getRequestUri }}" @submit="disableAction = true">
                             {{ csrf_field() }}
-                            {{ form_widget(choose_form) }}
+                            {{ form_widget(confirm_form) }}
 
                             <div class="buttons">
-                                <a href="{{ route('dashboard.import.faculty.stepOne', {}, false) }}" class="button neutral" :disabled="disableAction"><span class="icon-navigate_before"></span> Back</a>
-                                <button type="submit" class="success" :disabled="disableAction">Next <span class="icon-navigate_next"></span></button>
+                                <a href="{{ route('dashboard.import.faculty.stepTwo', {}, false) }}" class="button neutral" :disabled="disableAction"><span class="icon-navigate_before"></span> Back</a>
+                                <button type="submit" class="success" :disabled="disableAction">Confirm and save changes <span class="icon-navigate_next"></span></button>
                             </div>
                         </form>
                     </div>
