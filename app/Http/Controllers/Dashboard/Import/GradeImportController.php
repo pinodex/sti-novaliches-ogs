@@ -41,7 +41,9 @@ class GradeImportController extends Controller
      * URL: /dashboard/import/grades
      */
     public function index() {
-        return redirect()->route('dashboard.import.grades.stepOne');
+        return redirect()->route('dashboard.import.grades.stepOne', [
+            'session' => sha1(uniqid(null, true))
+        ]);
     }
 
     /**
@@ -50,16 +52,18 @@ class GradeImportController extends Controller
      * URL: /dashboard/import/grades/upload
      */
     public function stepOne(Request $request) {
+        if (!$sessionId = $request->query->get('session')) {
+            return redirect()->route('dashboard.import.grades');
+        }
+
         if ($uploadedFile = Session::get('gw_uploaded_file')) {
             @unlink($uploadedFile);
         }
 
-        // Clean up before starting new session
-        Session::forget('gw_uploaded_file');
-        Session::forget('gw_selected_sheets');
-        Session::forget('gw_import_done');
+        Session::forget($sessionId . 'gw_file');
+        Session::forget($sessionId . 'gw_import_done');
 
-        Cache::forget('grading_sheet');
+        Cache::forget($sessionId . 'grading_sheet');
 
         $form = Form::create();
 
@@ -76,22 +80,27 @@ class GradeImportController extends Controller
             if ($file->getError() > 0) {
                 Session::flash('flash_message', 'danger>>>' . $file->getErrorMessage());
 
-                return redirect()->route('dashboard.import.grades.stepOne');
+                return redirect()->route('dashboard.import.grades.stepOne', [
+                    'session' => $sessionId
+                ]);
             }
 
             $storageName = sprintf('/imports/grades/%s.xlsx', uniqid(null, true));
 
             Storage::put($storageName, file_get_contents($file->getPathname()));
             
-            Session::put('gw_file', [
+            Session::put($sessionId . 'gw_file', [
                 'name' => $file->getClientOriginalName(),
                 'path' => storage_path('app' . $storageName)
             ]);
             
-            return redirect()->route('dashboard.import.grades.stepTwo');
+            return redirect()->route('dashboard.import.grades.stepTwo', [
+                'session' => $sessionId
+            ]);
         }
         
         return view('dashboard/import/grades/1', [
+            'session_id'    => $sessionId,
             'upload_form'   => $form->createView(),
             'current_step'  => 1
         ]);
@@ -103,7 +112,11 @@ class GradeImportController extends Controller
      * URL: /dashboard/import/grades/confirm
      */
     public function stepTwo(Request $request) {
-        if (!$file = Session::get('gw_file')) {
+        if (!$sessionId = $request->query->get('session')) {
+            return redirect()->route('dashboard.import.grades');
+        }
+
+        if (!$file = Session::get($sessionId . 'gw_file')) {
             return redirect()->route('dashboard.import.grades.stepOne');
         }
 
@@ -114,11 +127,11 @@ class GradeImportController extends Controller
             return redirect()->route('dashboard.import.grades.stepOne');
         }
 
-        if (!$contents = Cache::get('grading_sheet')) {
+        if (!$contents = Cache::get($sessionId . 'grading_sheet')) {
             set_time_limit(0);
             
             $contents = $spreadsheet->getParsedContents();
-            Cache::put('grading_sheet', $contents, 60);
+            Cache::put($sessionId . 'grading_sheet', $contents, 60);
         }
 
         $form = Form::create();
@@ -152,15 +165,18 @@ class GradeImportController extends Controller
             
             $this->dispatch($queue);
 
-            Session::put('gw_import_done', true);
+            Session::put($sessionId . 'gw_import_done', true);
 
-            return redirect()->route('dashboard.import.grades.stepThree');
+            return redirect()->route('dashboard.import.grades.stepThree', [
+                'session' => $sessionId
+            ]);
         }
 
         return view('dashboard/import/grades/2', [
-            'current_step'  => 2,
+            'session_id'    => $sessionId,
             'confirm_form'  => $form->createView(),
-            'contents'      => $contents
+            'contents'      => $contents,
+            'current_step'  => 2
         ]);
     }
 
@@ -169,23 +185,27 @@ class GradeImportController extends Controller
      * 
      * URL: /dashboard/import/grades/finish
      */
-    public function stepThree() {
-        if (!Session::get('gw_file')) {
+    public function stepThree(Request $request) {
+        if (!$sessionId = $request->query->get('session')) {
+            return redirect()->route('dashboard.import.grades');
+        }
+
+        if (!Session::get($sessionId . 'gw_file')) {
             return redirect()->route('dashboard.import.grades.stepOne');
         }
 
-        if (!Session::get('gw_import_done')) {
+        if (!Session::get($sessionId . 'gw_import_done')) {
             return redirect()->route('dashboard.import.grades.stepTwo');
         }
 
         // cleanup
-        Session::forget('gw_file');
-        Session::forget('gw_selected_sheets');
-        Session::forget('gw_import_done');
+        Session::forget($sessionId . 'gw_file');
+        Session::forget($sessionId . 'gw_import_done');
 
-        Cache::forget('grading_sheet');
+        Cache::forget($sessionId . 'grading_sheet');
         
         return view('dashboard/import/grades/3', [
+            'session_id'    => $sessionId,
             'current_step' => 3
         ]);
     }
