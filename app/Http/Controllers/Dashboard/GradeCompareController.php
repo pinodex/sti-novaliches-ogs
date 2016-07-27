@@ -16,11 +16,11 @@ use Session;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Symfony\Component\Form\Extension\Core\Type;
-use App\Http\Controllers\Controller;
-use App\Extensions\Parser\MasterGradingSheet;
-use App\Extensions\GradesComparator;
-use App\Extensions\Form;
 use App\Models\Grade;
+use App\Extensions\Form;
+use App\Extensions\GradesComparator;
+use App\Extensions\Spreadsheet\GradeMasterSpreadsheet;
+use App\Http\Controllers\Controller;
 
 class GradeCompareController extends Controller
 {
@@ -60,10 +60,9 @@ class GradeCompareController extends Controller
                 return redirect()->route('dashboard.grades.compare.upload');
             }
 
-            $gradingSheet = MasterGradingSheet::parse($file->getPathname());
+            $spreadsheet = new GradeMasterSpreadsheet($file->getPathname());
             
-            Cache::put('master_grading_sheet', $gradingSheet->getSheetContents(0), 60);
-
+            Cache::put('master_grading_sheet', $spreadsheet->getParsedContents(), 60);
             return redirect()->route('dashboard.grades.compare.diff');
         }
 
