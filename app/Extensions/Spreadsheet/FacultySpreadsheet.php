@@ -36,13 +36,7 @@ class FacultySpreadsheet extends AbstractSpreadsheet
 
     public function isValid()
     {
-        $initialCheckOk =
-            $this->mode !== null &&
-            $this->spreadsheet !== null &&
-            $this->getSheetIndexByName('SETTINGS') !== false &&
-            $this->getSheetIndexByName('Summary') !== false;
-
-        return $initialCheckOk;
+        return true;
     }
 
     public function getParsedContents()
