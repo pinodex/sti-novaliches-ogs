@@ -108,10 +108,10 @@ class GradeSpreadsheet extends AbstractSpreadsheet
                 'prefinal_grade'    => parseGrade($col[9]),
                 'final_grade'       => parseGrade($col[11]),
 
-                'prelim_absences'   => intval(round($col[19])),
-                'midterm_absences'  => intval(round($col[20])),
-                'prefinal_absences' => intval(round($col[21])),
-                'final_absences'    => intval(round($col[22]))
+                'prelim_absences'   => $col[19],
+                'midterm_absences'  => $col[20],
+                'prefinal_absences' => $col[21],
+                'final_absences'    => $col[22]
             ];
         }
 

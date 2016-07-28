@@ -22,14 +22,14 @@ class CreateGradesTable extends Migration {
 			$table->integer('midterm_grade')->nullable();
 			$table->integer('prefinal_grade')->nullable();
 			$table->integer('final_grade')->nullable();
-			$table->integer('prelim_presences');
-			$table->integer('midterm_presences');
-			$table->integer('prefinal_presences');
-			$table->integer('final_presences');
-			$table->integer('prelim_absences');
-			$table->integer('midterm_absences');
-			$table->integer('prefinal_absences');
-			$table->integer('final_absences');
+			$table->decimal('prelim_presences', 5, 2);
+			$table->decimal('midterm_presences', 5, 2);
+			$table->decimal('prefinal_presences', 5, 2);
+			$table->decimal('final_presences', 5, 2);
+			$table->decimal('prelim_absences', 5, 2);
+			$table->decimal('midterm_absences', 5, 2);
+			$table->decimal('prefinal_absences', 5, 2);
+			$table->decimal('final_absences', 5, 2);
 			$table->primary(['student_id','subject','section']);
 		});
 	}
