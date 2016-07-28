@@ -30,10 +30,40 @@ class GradeController extends Controller
             abort(403);
         }
 
-        $grade = Grade::where('student_id', $studentId)->get([
-            'subject', 'section', 'prelim_grade', 'midterm_grade', 'prefinal_grade', 'final_grade'
-        ]);
+        $output = [];
 
-        return $this->json($grade);
+        Grade::where('student_id', $studentId)->each(function (Grade $grade) use (&$output) {
+            $output[] = [
+                'subject' => $grade->subject,
+                'section' => $grade->section,
+                'records' => [
+                    'prelim' => [
+                        'grade'         => $grade->getOriginal('prelim_grade'),
+                        'class_hours'   => (double) $grade->getOriginal('prelim_presences'),
+                        'hours_absent'  => (double) $grade->getOriginal('prelim_absences')
+                    ],
+
+                    'midterm' => [
+                        'grade'         => $grade->getOriginal('midterm_grade'),
+                        'class_hours'   => (double) $grade->getOriginal('midterm_presences'),
+                        'hours_absent'  => (double) $grade->getOriginal('midterm_absences')
+                    ],
+
+                    'prefinal' => [
+                        'grade'         => $grade->getOriginal('prefinal_grade'),
+                        'class_hours'   => (double)$grade->getOriginal('prefinal_presences'),
+                        'hours_absent'  => (double)$grade->getOriginal('prefinal_absences')
+                    ],
+
+                    'final' => [
+                        'grade'         => $grade->getOriginal('final_grade'),
+                        'class_hours'   => (double)$grade->getOriginal('final_presences'),
+                        'hours_absent'  => (double)$grade->getOriginal('final_absences')
+                    ]
+                ]
+            ];
+        });
+
+        return $this->json($output);
     }
 }
