@@ -85,15 +85,15 @@ class GradeSpreadsheet extends AbstractSpreadsheet
             }
 
             if ($row == 7) {
-                $contents['metadata']['prelim_presences'] = $col[19];
-                $contents['metadata']['midterm_presences'] = $col[20];
-                $contents['metadata']['prefinal_presences'] = $col[21];
-                $contents['metadata']['final_presences'] = $col[22];
+                $contents['metadata']['prelim_presences'] = $this->parseHours($col[19]);
+                $contents['metadata']['midterm_presences'] = $this->parseHours($col[20]);
+                $contents['metadata']['prefinal_presences'] = $this->parseHours($col[21]);
+                $contents['metadata']['final_presences'] = $this->parseHours($col[22]);
 
                 continue;
             }
 
-            $studentId = $this->fixStudentId($col[2]);
+            $studentId = $this->parseStudentId($col[2]);
 
             if (empty($col[2]) || !isStudentId($studentId)) {
                 continue;
@@ -108,10 +108,10 @@ class GradeSpreadsheet extends AbstractSpreadsheet
                 'prefinal_grade'    => parseGrade($col[9]),
                 'final_grade'       => parseGrade($col[11]),
 
-                'prelim_absences'   => $col[19],
-                'midterm_absences'  => $col[20],
-                'prefinal_absences' => $col[21],
-                'final_absences'    => $col[22]
+                'prelim_absences'   => $this->parseHours($col[19]),
+                'midterm_absences'  => $this->parseHours($col[20]),
+                'prefinal_absences' => $this->parseHours($col[21]),
+                'final_absences'    => $this->parseHours($col[22])
             ];
         }
 
@@ -151,7 +151,7 @@ class GradeSpreadsheet extends AbstractSpreadsheet
     }
 
     /**
-     * Method to fix student ID formatting. The spreadsheet stores it as
+     * Method to parse student ID. The spreadsheet stores it as
      * a floating point. Leading zeroes are discarded. This method will
      * correct that sucker.
      * 
@@ -159,7 +159,7 @@ class GradeSpreadsheet extends AbstractSpreadsheet
      * 
      * @return string
      */
-    private function fixStudentId($id)
+    protected function parseStudentId($id)
     {
         if (is_numeric($id)) {
             if (!is_integer($id)) {
@@ -171,5 +171,23 @@ class GradeSpreadsheet extends AbstractSpreadsheet
 
         // 11 is the length of our student IDs.
         return str_pad($id, 11, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * Parse hours to double
+     * 
+     * @param string $hour Hour
+     * 
+     * @return double
+     */
+    protected function parseHours($hour)
+    {
+        $hour = (double) $hour;
+
+        if ($hour < 0) {
+            $hour = 0.0;
+        }
+
+        return $hour;
     }
 }
