@@ -43,9 +43,13 @@ class SendEmailJob extends Job implements ShouldQueue
      */
     public function handle()
     {
-        $client = app('google');
+        try {
+            $client = app('google');
 
-        if ($client->isAccessTokenExpired()) {
+            if ($client->isAccessTokenExpired()) {
+                return;
+            }
+        } catch (\Exception $e) {
             return;
         }
 
