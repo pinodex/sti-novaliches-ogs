@@ -38,7 +38,7 @@ class Memo extends Model
      */
     public function admin()
     {
-        return $this->belongsTo('App\Models\Admin');
+        return $this->belongsTo(Admin::class);
     }
 
     /**
@@ -48,7 +48,7 @@ class Memo extends Model
      */
     public function faculty()
     {
-        return $this->belongsTo('App\Models\Faculty');
+        return $this->belongsTo(Faculty::class);
     }
 
     /**

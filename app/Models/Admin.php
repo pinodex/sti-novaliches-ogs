@@ -83,6 +83,6 @@ class Admin extends Model implements Authenticatable, MultiRoleModelInterface
      */
     public function memos()
     {
-        return $this->hasMany('App\Models\Memo');
+        return $this->hasMany(Memo::class);
     }
 }

@@ -88,7 +88,7 @@ class Student extends Model implements Authenticatable, MultiRoleModelInterface
      */
     public function grades()
     {
-        return $this->hasMany('App\Models\Grade');
+        return $this->hasMany(Grade::class);
     }
 
     /**

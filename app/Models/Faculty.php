@@ -85,7 +85,7 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
      */
     public function department()
     {
-        return $this->belongsTo('App\Models\Department');
+        return $this->belongsTo(Department::class);
     }
 
     /**
@@ -95,7 +95,7 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
      */
     public function head()
     {
-        return $this->belongsTo('App\Models\Head', 'department_id', 'department_id');
+        return $this->belongsTo(Head::class, 'department_id', 'department_id');
     }
 
     /**
@@ -105,7 +105,7 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
      */
     public function memos()
     {
-        return $this->hasMany('App\Models\Memo');
+        return $this->hasMany(Memo::class);
     }
 
     /**
@@ -115,7 +115,7 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
      */
     public function submissionLogs()
     {
-        return $this->hasMany('App\Models\FacultyGradeImportLog');
+        return $this->hasMany(FacultyGradeImportLog::class);
     }
 
     /**
@@ -125,7 +125,7 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
      */
     public function submittedGrades()
     {
-        return $this->hasMany('App\Models\Grade', 'importer_id');
+        return $this->hasMany(Grade::class, 'importer_id');
     }
 
     /**

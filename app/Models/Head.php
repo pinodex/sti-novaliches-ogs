@@ -82,7 +82,7 @@ class Head extends Model implements Authenticatable, MultiRoleModelInterface
      */
     public function department()
     {
-        return $this->belongsTo('App\Models\Department');
+        return $this->belongsTo(Department::class);
     }
 
     /**
@@ -92,7 +92,7 @@ class Head extends Model implements Authenticatable, MultiRoleModelInterface
      */
     public function faculty()
     {
-        return $this->hasMany('App\Models\Faculty', 'department_id', 'department_id');
+        return $this->hasMany(Faculty::class, 'department_id', 'department_id');
     }
 
     protected $appends = [

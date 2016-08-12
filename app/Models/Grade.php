@@ -56,7 +56,7 @@ class Grade extends Model
      */
     public function student()
     {
-        return $this->belongsTo('App\Models\Student');
+        return $this->belongsTo(Student::class);
     }
 
     /**
@@ -66,7 +66,7 @@ class Grade extends Model
      */
     public function importer()
     {
-        return $this->belongsTo('App\Models\Faculty');
+        return $this->belongsTo(Faculty::class);
     }
 
     /**

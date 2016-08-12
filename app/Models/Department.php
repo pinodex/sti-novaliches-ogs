@@ -35,7 +35,7 @@ class Department extends Model
      */
     public function head()
     {
-        return $this->hasOne('App\Models\Head');
+        return $this->hasOne(Head::class);
     }
 
     /**
@@ -45,6 +45,6 @@ class Department extends Model
      */
     public function faculty()
     {
-        return $this->hasMany('App\Models\Faculty');
+        return $this->hasMany(Faculty::class);
     }
 }
