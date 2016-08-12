@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * Model class for faculty_submission_log table
  */
-class FacultyGradeImportLog extends Model
+class GradeImportLog extends Model
 {
     public $timestamps = false;
 

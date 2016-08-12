@@ -12,6 +12,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\Authenticatable;
 use App\Extensions\User\Roles\MultiRoleModelInterface;
 use App\Traits\HumanReadableDateTrait;
@@ -28,7 +29,8 @@ use App\Extensions\Settings;
  */
 class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
 {
-    use HumanReadableDateTrait,
+    use SoftDeletes,
+        HumanReadableDateTrait,
         HashablePasswordTrait,
         ConcatenateNameTrait,
         SearchableTrait,
@@ -115,7 +117,7 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
      */
     public function submissionLogs()
     {
-        return $this->hasMany(FacultyGradeImportLog::class);
+        return $this->hasMany(GradeImportLog::class);
     }
 
     /**
@@ -357,7 +359,7 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
      */
     public function addSubmissionLogEntry()
     {
-        FacultyGradeImportLog::create([
+        GradeImportLog::create([
             'faculty_id'    => $this->id,
             'period'        => Settings::get('period', 'PRELIM'),
             'date'          => date('Y-m-d H:i:s')

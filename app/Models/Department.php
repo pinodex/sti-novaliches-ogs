@@ -12,6 +12,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Capsule\Manager as DB;
 use App\Traits\ChoosableTrait;
 
@@ -22,7 +23,7 @@ use App\Traits\ChoosableTrait;
  */
 class Department extends Model
 {
-    use ChoosableTrait;
+    use SoftDeletes, ChoosableTrait;
 
     public $timestamps = false;
 

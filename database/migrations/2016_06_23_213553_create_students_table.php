@@ -19,6 +19,7 @@ class CreateStudentsTable extends Migration {
 			$table->string('first_name');
 			$table->string('middle_name');
 			$table->string('course', 32);
+			$table->string('section', 32);
 			$table->string('mobile_number', 16)->nullable();
 			$table->string('landline', 16)->nullable();
 			$table->string('email_address')->nullable();

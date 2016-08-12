@@ -16,6 +16,7 @@ class CreateDepartmentsTable extends Migration {
 		{
 			$table->integer('id', true);
 			$table->string('name');
+			$table->softDeletes();
 		});
 	}
 
