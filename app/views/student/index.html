@@ -28,6 +28,11 @@
                             </div>
 
                             <div class="info-item">
+                                <p class="title">Section</p>
+                                <p>{{ student.section }}</p>
+                            </div>
+
+                            <div class="info-item">
                                 <p class="title">Mobile number</p>
                                 <p>{{ student.mobile_number|default('N/A') }}</p>
                             </div>
@@ -62,7 +67,15 @@
             </div>
 
             <div class="column-8">
-                {% if grades is not empty %}
+                {% if grades is not empty and student.payment is not null %}
+                    {% set status = student.payment.getBooleanValues() %}
+
+                    {% if not status.prelim or not status.midterm or not status.prefinal %}
+                        <div class="alert alert-warning">
+                            Settle your payment to view grades on a particular period.
+                        </div>
+                    {% endif %}
+
                     <div class="panel">
                         <div class="panel-heading">Grades</div>
                     </div>
@@ -93,9 +106,9 @@
                             {% for grade in grades %}
                                 <tr>
                                     <th>{{ grade.subject }}</th>
-                                    <td class="{{ grade.prelim_grade|grade_class }}">{{ grade.prelim_grade }}</td>
-                                    <td class="{{ grade.midterm_grade|grade_class }}">{{ grade.midterm_grade }}</td>
-                                    <td class="{{ grade.prefinal_grade|grade_class }}">{{ grade.prefinal_grade }}</td>
+                                    <td class="{{ grade.prelim_grade|grade_class }}">{{ status.prelim ? grade.prelim_grade : '?' }}</td>
+                                    <td class="{{ grade.midterm_grade|grade_class }}">{{ status.midterm ? grade.midterm_grade : '?' }}</td>
+                                    <td class="{{ grade.prefinal_grade|grade_class }}">{{ status.prefinal ? grade.prefinal_grade : '?' }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -173,9 +186,15 @@
                     
                     <a href="{{ route('student.top', {}, false) }}" class="button neutral">View top students by subject</a>
                 {% else %}
-                    <div class="alert alert-info">
-                        Your grades are not yet available at this moment.
-                    </div>
+                    {% if student.payment is null %}
+                        <div class="alert alert-warning">
+                            Your grades are currently unavailable. Please settle your payment for the {{ period }} period.
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            Your grades are not yet available at this moment.
+                        </div>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

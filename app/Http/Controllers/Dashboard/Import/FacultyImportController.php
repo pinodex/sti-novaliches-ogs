@@ -80,7 +80,7 @@ class FacultyImportController extends Controller
                 return redirect()->route('dashboard.import.faculty.stepOne');
             }
 
-            $storageName = sprintf('/imports/faculty/%s.%s', uniqid(null, true), $file->guessExtension());
+            $storageName = sprintf('/imports/faculty/%s.xlsx', uniqid(null, true));
 
             Storage::put($storageName, file_get_contents($file->getPathname()));
             Session::put('fw_uploaded_file', storage_path('app' . $storageName));

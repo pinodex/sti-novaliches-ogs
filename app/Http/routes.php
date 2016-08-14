@@ -101,6 +101,7 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
         Route::match(['get', 'post'], '/{student}/edit', 'StudentController@edit')->name('edit');
         Route::match(['get', 'post'], '/{student}/delete', 'StudentController@delete')->name('delete');
         Route::match(['get', 'post'], '/{student}/grades/edit', 'StudentController@gradesEdit')->name('grades.edit');
+        Route::match(['get', 'post'], '/{student}/payment/edit', 'StudentController@paymentEdit')->name('payment.edit');
 
         Route::get('/{student}', 'StudentController@view')->name('view');
     });
@@ -141,6 +142,13 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
             Route::match(['get', 'post'], '/confirm', 'StudentImportController@stepTwo')->name('stepTwo');
 
             Route::get('/finish', 'StudentImportController@stepThree')->name('stepThree');
+        });
+
+        Route::group(['prefix' => 'students-status', 'as' => 'studentsstatus.'], function () {
+            Route::match(['get', 'post'], '/upload', 'StudentStatusImportController@stepOne')->name('stepOne');
+            Route::match(['get', 'post'], '/confirm', 'StudentStatusImportController@stepTwo')->name('stepTwo');
+
+            Route::get('/finish', 'StudentStatusImportController@stepThree')->name('stepThree');
         });
 
         Route::group(['prefix' => 'grades', 'as' => 'grades.'], function () {

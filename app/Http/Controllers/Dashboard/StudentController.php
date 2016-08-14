@@ -21,6 +21,7 @@ use App\Http\Controllers\Controller;
 use App\Extensions\Settings;
 use App\Extensions\Form;
 use App\Models\Student;
+use App\Models\StudentStatus;
 
 class StudentController extends Controller
 {
@@ -72,10 +73,6 @@ class StudentController extends Controller
         $section = $request->query->get('section');
 
         $builderHook = function (Builder $builder) use ($section) {
-            if ($this->isRole('faculty') || $section) {
-                $builder->leftJoin('grades', 'students.id', '=', 'grades.student_id');
-            }
-
             if ($this->isRole('faculty')) {
                 $builder->where('importer_id', $this->user->getModel()->id);
             }
@@ -259,6 +256,46 @@ class StudentController extends Controller
         return view('dashboard/students/grades_edit', [
             'student'   => $student,
             'grades'    => $grades
+        ]);
+    }
+
+    /**
+     * Payment edit
+     * 
+     * URL: /dashboard/students/{id}/payment/edit
+     */
+    public function paymentEdit(Request $request, Student $student)
+    {
+        $formData = [];
+
+        if ($student->payment) {
+            $formData = $student->payment->getBooleanValues();
+        }
+
+        $form = Form::create($formData);
+
+        $form->add('dummy', Type\HiddenType::class);
+
+        $form->add('prelim', Type\CheckBoxType::class, ['required' => false]);
+        $form->add('midterm', Type\CheckBoxType::class, ['required' => false]);
+        $form->add('prefinal', Type\CheckBoxType::class, ['required' => false]);
+        $form->add('final', Type\CheckBoxType::class, ['required' => false]);
+
+        $form = $form->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $student->updatePayment($form->getData());
+
+            return redirect()->route('dashboard.students.view', [
+                'id' => $student->id
+            ]);
+        }
+
+        return view('dashboard/students/payment_edit', [
+            'form'      => $form->createView(),
+            'student'   => $student,
+            'payment'   => $student->payment
         ]);
     }
 

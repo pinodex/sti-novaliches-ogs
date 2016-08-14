@@ -106,6 +106,16 @@ class Student extends Model implements Authenticatable, MultiRoleModelInterface
     }
 
     /**
+     * Get payment status
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\Relation
+     */
+    public function payment()
+    {
+        return $this->hasOne(StudentStatus::class);
+    }
+
+    /**
      * Check if required informations are filled
      * 
      * @return boolean
@@ -123,7 +133,7 @@ class Student extends Model implements Authenticatable, MultiRoleModelInterface
      * 
      * @return boolean
      */
-    public function updateGrades($data)
+    public function updateGrades(array $data)
     {
         foreach ($data as $row) {
             $query = [
@@ -136,5 +146,22 @@ class Student extends Model implements Authenticatable, MultiRoleModelInterface
                 $grade->save();
             }
         }
+    }
+
+    /**
+     * Update payment statusi for student
+     * 
+     * @param array $values Array of each period with its corresponding value
+     */
+    public function updatePayment(array $values)
+    {
+        if ($this->payment === null) {
+            $this->payment()->save(new StudentStatus($values));
+
+            return;
+        }
+
+        $this->payment->fill($values);
+        $this->payment->save();
     }
 }

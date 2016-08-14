@@ -28,6 +28,11 @@
                             </div>
 
                             <div class="info-item">
+                                <p class="title">Section</p>
+                                <p>{{ student.section }}</p>
+                            </div>
+
+                            <div class="info-item">
                                 <p class="title">Mobile number</p>
                                 <p>{{ student.mobile_number|default('N/A') }}</p>
                             </div>
@@ -57,6 +62,31 @@
                                 <p>{{ student.guardian_contact_number|default('N/A') }}</p>
                             </div>
                         </div>
+
+                        {% if student.payment is not null %}
+                            <h3>Payment status</h3>
+
+                            <table class="small">
+                                <tbody>
+                                    <tr>
+                                        <td>Prelim</td>
+                                        <td>{{ student.payment.prelim }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Midterm</td>
+                                        <td>{{ student.payment.midterm }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pre-final</td>
+                                        <td>{{ student.payment.prefinal }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Final</td>
+                                        <td>{{ student.payment.final }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -67,6 +97,9 @@
                             <ul class="list-unstyled">
                                 <li>
                                     <a href="{{ route('dashboard.students.edit', {id: student.id}, false) }}">Edit Student</a>   
+                                </li>
+                                <li>
+                                    <a href="{{ route('dashboard.students.payment.edit', {id: student.id}, false) }}">Edit Payment Status</a>   
                                 </li>
                                 {% if grades is not empty %}
                                     <li>

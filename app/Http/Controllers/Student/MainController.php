@@ -48,7 +48,7 @@ class MainController extends Controller
             'student'       => $this->user,
             'grades'        => $this->user->grades,
             'period'        => $period,
-            'active_period' => array_flip(['prelim', 'midterm', 'prefinal', 'final'])[$period]
+            'active_period' => array_flip(['prelim', 'midterm', 'prefinal', 'final'])[$period],
         ]);
     }
 

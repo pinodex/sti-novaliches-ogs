@@ -218,7 +218,7 @@ if (!function_exists('getGradeClass')) {
             return 'color-neutral';
         }
 
-        if ($grade === 0 || $grade === 'INC' || $grade === -1 || $grade === 'DRP' || $grade < 75) {
+        if ($grade === 0 || $grade === 'INC' || $grade === -1 || $grade === 'DRP' || $grade > 3.0) {
             return 'color-danger';
         }
 
@@ -232,11 +232,11 @@ if (!function_exists('parseGrade')) {
      * 
      * @param string $grade Grade
      * 
-     * @return int
+     * @return double
      */
     function parseGrade($grade)
     {
-        if (is_integer($grade)) {
+        if (is_double($grade)) {
             return $grade;
         }
 
@@ -262,7 +262,7 @@ if (!function_exists('parseGrade')) {
             return -2;
         }
 
-        return intval(round(floatval($grade)));
+        return doubleval($grade);
     }
 }
 
@@ -270,9 +270,9 @@ if (!function_exists('formatGrade')) {
     /**
      * Format grade for view
      * 
-     * @param int $grade Grade
+     * @param mixed $grade Grade
      * 
-     * @return string|int
+     * @return string|double
      */
     function formatGrade($grade)
     {

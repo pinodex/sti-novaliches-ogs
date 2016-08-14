@@ -2,14 +2,14 @@
 
 {% form_theme upload_form '/_layout/form-default.html' %}
 
-{% set page_title = 'Students import wizard' %}
+{% set page_title = 'Students status import wizard' %}
 
 {% block content %}
     <div class="container">
         <h1><span class="icon-file_upload"></span> {{ page_title }}</h1>
 
         <div class="grid">
-            {% include '/dashboard/import/students/steps.html' %}
+            {% include '/dashboard/import/students-status/steps.html' %}
 
             <div class="column-8">
                 <div class="panel">
