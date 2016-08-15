@@ -78,9 +78,13 @@ class StudentStatusSpreadsheet extends AbstractSpreadsheet
                 $bindings = array_merge($bindings, array_values($student));
             }
 
-            $query = 'INSERT INTO ' . $tableName . ' ' . $tables . ' VALUES' . implode(',', $values) . ' ' .
-                'ON DUPLICATE KEY UPDATE prelim = VALUES(prelim), midterm = VALUES(midterm), ' .
-                'prefinal = VALUES(prefinal), final = VALUES(final)';
+            $values = implode(',', $values);
+
+            $query = "INSERT INTO {$tableName} {$tables} VALUES {$values} ON DUPLICATE KEY UPDATE " .
+                'prelim = VALUES(prelim),' .
+                'midterm = VALUES(midterm),' .
+                'prefinal = VALUES(prefinal),' .
+                'final = VALUES(final)';
 
             DB::insert($query, $bindings);
         }

@@ -60,7 +60,9 @@ class StudentSpreadsheet extends AbstractSpreadsheet
                 $bindings = array_merge($bindings, array_values($student));
             }
 
-            DB::insert('INSERT IGNORE INTO ' . $tableName . ' ' . $tables . ' VALUES ' . implode(',', $values), $bindings);
+            $values = implode(',', $values);
+
+            DB::insert("INSERT IGNORE INTO {$tableName} {$tables} VALUES {$values}", $bindings);
         }
     }
 
