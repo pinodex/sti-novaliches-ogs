@@ -128,6 +128,7 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
 
         Route::get('/faculty', 'FacultyImportController@index')->name('faculty');
         Route::get('/students', 'StudentImportController@index')->name('students');
+        Route::get('/students-status', 'StudentStatusImportController@index')->name('studentsstatus');
         Route::get('/grades', 'GradeImportController@index')->name('grades');
         
         Route::group(['prefix' => 'faculty', 'as' => 'faculty.'], function () {
