@@ -236,33 +236,15 @@ if (!function_exists('parseGrade')) {
      */
     function parseGrade($grade)
     {
-        if (is_double($grade)) {
-            return $grade;
-        }
-
-        if (trim($grade) == '' || trim($grade) == '-') {
+        if (!is_numeric($grade)) {
             return null;
         }
 
-        $grade = strtoupper($grade);
-
-        if ($grade == 'N/A') {
-            return null;
+        if (!is_double($grade)) {
+            return doubleval($grade);
         }
 
-        if ($grade == 'INC') {
-            return 0;
-        }
-
-        if ($grade == 'DRP') {
-            return -1;
-        }
-
-        if ($grade == 'TRF') {
-            return -2;
-        }
-
-        return doubleval($grade);
+        return $grade;
     }
 }
 
@@ -276,20 +258,8 @@ if (!function_exists('formatGrade')) {
      */
     function formatGrade($grade)
     {
-        if ($grade === null || $grade === '') {
+        if (!is_numeric($grade) || $grade === null || $grade === '') {
             return 'N/A';
-        }
-
-        if ($grade === 0 || $grade === 'INC') {
-            return 'INC';
-        }
-
-        if ($grade === -1 || $grade === 'DRP') {
-            return 'DRP';
-        }
-
-        if ($grade === -2 || $grade === 'TRF') {
-            return 'TRF';
         }
 
         return $grade;
