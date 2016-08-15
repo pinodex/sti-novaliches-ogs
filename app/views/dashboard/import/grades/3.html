@@ -11,11 +11,63 @@
 
             <div class="column-8">
                 <div class="panel">
-                    <div class="panel-heading">Finished</div>
+                    <div class="panel-heading">Report</div>
                     <div class="panel-body">
-                        <div>Import task has been added to queue. Changes will take effect shortly.</div>
-                        <p><a href="{{ route('dashboard.index', {}, false) }}">Back to home</a></p>
-                        <p><a href="{{ route('dashboard.import.grades', {}, false) }}">Import another grades</a></p>
+                        <div class="alert alert-info">
+                            Your grading sheet was successfully uploaded. Below is the upload report.
+                        </div>
+
+                        <table class="center-align">
+                            <tbody>
+                                <tr>
+                                    <td>Subject: {{ report.getSubject() }}</td>
+                                    <td>Section: {{ report.getSection() }}</td>
+                                    <td>Records Uploaded: {{ uploaded }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        {% if report.getNoGrades() %}
+                            <h3>Invalid records:</h3>
+
+                            <table class="center-align">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <span class="long">Student #</span>
+                                            <span class="short">#</span>
+                                        </th>
+                                        <th>
+                                            <span class="long">Name</span>
+                                            <span class="short">N</span>
+                                        </th>
+                                        <th>
+                                            <span class="long">Remark</span>
+                                            <span class="short">R</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for row in report.getNoGrades() %}
+                                        <tr>
+                                            <td>{{ row.id|format_student_id }}</td>
+                                            <td>{{ row.name }}</td>
+                                            <td>{{ row.remark }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    {% for row in report.getNoStudents() %}
+                                        <tr>
+                                            <td>{{ row.id|format_student_id }}</td>
+                                            <td>{{ row.name }}</td>
+                                            <td>{{ row.remark }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+
+                        <a href="{{ route('dashboard.import.grades.stepFour', {'session': session_id}, false) }}" class="button success">Continue</a>
                     </div>
                 </div>
             </div>

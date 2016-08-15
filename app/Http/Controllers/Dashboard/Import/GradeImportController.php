@@ -23,6 +23,7 @@ use App\Jobs\ParallelJob;
 use App\Jobs\DeleteFileJob;
 use App\Jobs\SendEmailJob;
 use App\Extensions\Form;
+use App\Extensions\SgrReporter;
 use App\Extensions\Email\GradeDelivery;
 
 class GradeImportController extends Controller
@@ -152,7 +153,7 @@ class GradeImportController extends Controller
                 $importer = $this->user;
             }
 
-            $queue->add($spreadsheet->createImportToDatabaseJob($importer));
+            $spreadsheet->importToDatabase();
 
             try {
                 $email = new GradeDelivery();
@@ -162,7 +163,6 @@ class GradeImportController extends Controller
             } catch (\Exception $ignored) {}
 
             $queue->add(new DeleteFileJob($file['path']));
-            
             $this->dispatch($queue);
 
             Session::put($sessionId . 'gw_import_done', true);
@@ -183,9 +183,38 @@ class GradeImportController extends Controller
     /**
      * Grade import wizard step 3
      * 
-     * URL: /dashboard/import/grades/finish
+     * URL: /dashboard/import/grades/report
      */
     public function stepThree(Request $request) {
+        if (!$sessionId = $request->query->get('session')) {
+            return redirect()->route('dashboard.import.grades');
+        }
+
+        if (!$file = Session::get($sessionId . 'gw_file')) {
+            return redirect()->route('dashboard.import.grades.stepOne');
+        }
+
+        if (!Session::get($sessionId . 'gw_import_done')) {
+            return redirect()->route('dashboard.import.grades.stepTwo');
+        }
+
+        $spreadsheet = new GradeSpreadsheet($file['path']);
+        $report = SgrReporter::check($spreadsheet);
+
+        return view('dashboard/import/grades/3', [
+            'report'        => $report,
+            'uploaded'      => $report->getTotalImports() - count($report->getNoStudents()),
+            'session_id'    => $sessionId,
+            'current_step'  => 3
+        ]);
+    }
+
+    /**
+     * Grade import wizard step 4
+     * 
+     * URL: /dashboard/import/grades/finish
+     */
+    public function stepFour(Request $request) {
         if (!$sessionId = $request->query->get('session')) {
             return redirect()->route('dashboard.import.grades');
         }
@@ -204,9 +233,9 @@ class GradeImportController extends Controller
 
         Cache::forget($sessionId . 'grading_sheet');
         
-        return view('dashboard/import/grades/3', [
+        return view('dashboard/import/grades/4', [
             'session_id'    => $sessionId,
-            'current_step' => 3
+            'current_step' => 4
         ]);
     }
 }
