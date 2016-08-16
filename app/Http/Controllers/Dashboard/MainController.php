@@ -44,29 +44,6 @@ class MainController extends Controller
             $context['faculty'] = $faculty->toArray();
             $context['unread_memo_count'] = $faculty->getUnreadMemoCount();
             $context['department'] = $faculty->department;
-            
-            $context['statuses'] = [
-                $faculty->getStatusAttribute('prelim'),
-                $faculty->getStatusAttribute('midterm'),
-                $faculty->getStatusAttribute('prefinal'),
-                $faculty->getStatusAttribute('final')
-            ];
-
-            $context['stats'] = [
-                'failed' => [
-                    'prelim'    => $faculty->getNumberOfFailsAttribute('prelim'),
-                    'midterm'   => $faculty->getNumberOfFailsAttribute('midterm'),
-                    'prefinal'  => $faculty->getNumberOfFailsAttribute('prefinal'),
-                    'final'     => $faculty->getNumberOfFailsAttribute('final')
-                ],
-
-                'dropped' => [
-                    'prelim'    => $faculty->getNumberOfDropsAttribute('prelim'),
-                    'midterm'   => $faculty->getNumberOfDropsAttribute('midterm'),
-                    'prefinal'  => $faculty->getNumberOfDropsAttribute('prefinal'),
-                    'final'     => $faculty->getNumberOfDropsAttribute('final'),
-                ]
-            ];
         }
 
         return view('/dashboard/index', $context);

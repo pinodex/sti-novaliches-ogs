@@ -62,6 +62,7 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
 
     Route::group(['prefix' => 'faculty', 'as' => 'faculty.'], function () {
         Route::get('/', 'FacultyController@index')->name('index');
+        Route::get('/me', 'FacultyController@me')->name('me');
 
         Route::match(['get', 'post'], '/add', 'FacultyController@edit')->name('add');
         Route::match(['get', 'post'], '/{faculty}/edit', 'FacultyController@edit')->name('edit');

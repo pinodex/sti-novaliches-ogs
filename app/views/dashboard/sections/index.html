@@ -51,20 +51,12 @@
                                     <span class="short">S</span>
                                 </th>
                                 <th>
-                                    <span class="long">Students</span>
-                                    <span class="short">S</span>
+                                    <span class="long">Total</span>
+                                    <span class="short">T</span>
                                 </th>
                                 <th>
                                     <span class="long">Failed</span>
                                     <span class="short">F</span>
-                                </th>
-                                <th>
-                                    <span class="long">Dropped</span>
-                                    <span class="short">D</span>
-                                </th>
-                                <th>
-                                    <span class="long">No grade</span>
-                                    <span class="short">N</span>
                                 </th>
                             </tr>
                         </thead>
@@ -80,18 +72,6 @@
                                         <span v-show="activeTab == 1">{{ entry.failed.midterm }}</span>
                                         <span v-show="activeTab == 2">{{ entry.failed.prefinal }}</span>
                                         <span v-show="activeTab == 3">{{ entry.failed.final }}</span>
-                                    </td>
-                                    <td>
-                                        <span v-show="activeTab == 0">{{ entry.dropped.prelim }}</span>
-                                        <span v-show="activeTab == 1">{{ entry.dropped.midterm }}</span>
-                                        <span v-show="activeTab == 2">{{ entry.dropped.prefinal }}</span>
-                                        <span v-show="activeTab == 3">{{ entry.dropped.final }}</span>
-                                    </td>
-                                    <td>
-                                        <span v-show="activeTab == 0">{{ entry.nograde.prelim }}</span>
-                                        <span v-show="activeTab == 1">{{ entry.nograde.midterm }}</span>
-                                        <span v-show="activeTab == 2">{{ entry.nograde.prefinal }}</span>
-                                        <span v-show="activeTab == 3">{{ entry.nograde.final }}</span>
                                     </td>
                                 </tr>
                             {% endfor %}

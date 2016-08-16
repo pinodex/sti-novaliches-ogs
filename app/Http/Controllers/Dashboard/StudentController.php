@@ -74,11 +74,13 @@ class StudentController extends Controller
 
         $builderHook = function (Builder $builder) use ($section) {
             if ($this->isRole('faculty')) {
+                $builder->leftJoin('grades', 'students.id', '=', 'grades.student_id');
+                $builder->select('students.*', 'grades.importer_id');
                 $builder->where('importer_id', $this->user->getModel()->id);
             }
 
             if ($section) {
-                $builder->where('section', $section);
+                $builder->where('students.section', $section);
             }
 
             $builder->groupBy('id');

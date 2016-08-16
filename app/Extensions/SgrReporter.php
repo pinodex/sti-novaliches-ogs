@@ -173,6 +173,16 @@ class SgrReporter
     }
 
     /**
+     * Check if records are valid
+     * 
+     * @return bool
+     */
+    public function isValid()
+    {
+        return count($this->noGrades) == 0 && count($this->noStudents) == 0;
+    }
+
+    /**
      * Search student name by ID
      * 
      * @param string $id Student ID

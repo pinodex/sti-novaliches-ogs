@@ -46,6 +46,7 @@ return [
     'faculty' => [
         App\Http\Controllers\Dashboard\MainController::class,
         App\Http\Controllers\Dashboard\StudentController::class => ['index', 'view'],
+        App\Http\Controllers\Dashboard\FacultyController::class => ['me'],
         App\Http\Controllers\Dashboard\MemoController::class,
         App\Http\Controllers\Dashboard\Import\GradeImportController::class
     ],

@@ -18,6 +18,7 @@ class CreateGradeImportLogsTable extends Migration {
 			$table->integer('faculty_id');
 			$table->enum('period', ['PRELIM','MIDTERM','PREFINAL','FINAL'])->nullable();
 			$table->dateTime('date');
+			$table->boolean('prelim')->default(true);
 		});
 	}
 

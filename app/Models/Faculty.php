@@ -47,7 +47,7 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
 
     protected $hidden = ['password'];
 
-    protected $appends = ['name', 'status', 'is_valid'];
+    protected $appends = ['name'];
 
     public function getAuthIdentifierName()
     {
@@ -141,21 +141,23 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
     }
 
     /**
-     * Get status attribute
+     * Get faculty status
+     * 
+     * @param string $period Grading period
      * 
      * @return string
      */
-    public function getStatusAttribute($period = null)
+    public function getStatus($period = null)
     {
-        if ($this->getIsNeverSubmittedAttribute($period)) {
+        if ($this->isNeverSubmitted($period)) {
             return 'Never submitted';
         }
 
-        if ($this->getIsIncompleteAttribute($period)) {
+        if ($this->isIncomplete($period)) {
             return 'Incomplete';
         }
 
-        if ($this->getIsSubmittedLateAttribute($period)) {
+        if ($this->isSubmittedLate($period)) {
             return 'Submitted late';
         }
 
@@ -163,155 +165,108 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
     }
 
     /**
-     * Get date of first grade import
+     * Check if faculty has never submitted a grade
      * 
-     * @return string
+     * @param string $period Grading period
+     * 
+     * @return boolean
      */
-    public function getFirstGradeImportAtAttribute($period = null)
+    public function isNeverSubmitted($period = null)
     {
         if ($period === null) {
             $period = Settings::get('period', 'prelim');
         }
 
-        if ($first = $this->submissionLogs()->getQuery()->where('period', $period)->first()) {
-            
-            return $first->date;
-        }
+        $status = true;
 
-        return 'N/A';
-    }
+        $this->submissionLogs->each(function (GradeImportLog $log) use (&$status, $period) {
+            if (strtolower($log->period) == strtolower($period)) {
+                $status = false;
 
-    /**
-     * Get is_never_submitted attribute
-     * 
-     * @return boolean
-     */
-    public function getIsNeverSubmittedAttribute($period = null)
-    {
-        if ($period === null) {
-            $period = Settings::get('period', 'prelim');
-        }
-
-        return $this->submissionLogs()->getQuery()->where('period', $period)->count() == 0;
-    }
-
-    /**
-     * Get is_incomplete attribute
-     * 
-     * @return boolean
-     */
-    public function getIsIncompleteAttribute($period = null)
-    {
-        $isIncomplete = false;
-        $period = strtolower($period ?: Settings::get('period', 'prelim')) . '_grade';
-
-        $sheets = $this->submittedGrades->groupBy(function (Grade $grade) {
-            return $grade->subject . ' ' . $grade->section;
+                return;
+            }
         });
 
-        foreach ($sheets as $grades) {
-            $incompletes = 0;
+        return $status;
+    }
 
-            foreach ($grades as $grade) {
-                if ($grade->getOriginal($period) === null) {
-                    $incompletes++;
-                }
-            }
-
-            if ($incompletes == count($grades)) {
-                $isIncomplete = true;
-                
-                break;
-            }
-        }
+    /**
+     * Check if faculty is incomplete
+     * 
+     * @param string $period Grading period
+     * 
+     * @return boolean
+     */
+    public function isIncomplete($period = null)
+    {
+        $isIncomplete = false;
 
         return $isIncomplete;
     }
 
     /**
-     * Get is_invalid attribute
+     * Check if faculty submission is valid
+     * 
+     * @param string $period Grading period
      * 
      * @return boolean
      */
-    public function getIsValidAttribute()
-    {
-        $isValid = true;
-
-        $gradeGroups = $this->submittedGrades()->getQuery()->groupBy(function (Grade $grade) {
-            return $grade->subject . ' ' . $grade->section;
-        });
-
-        foreach ($gradeGroups as $id => $grades) {
-            $totalCount = count($grades);
-            $withoutGradesCount = [
-                'prelim'    => 0,
-                'midterm'   => 0,
-                'prefinal'  => 0,
-                'final'     => 0
-            ];
-
-            foreach ($grades as $grade) {
-                if ($grade->getOriginal('prelim_grade') === null) {
-                    $withoutGradesCount['prelim']++;
-                }
-
-                if ($grade->getOriginal('midterm_grade') === null) {
-                    $withoutGradesCount['midterm']++;
-                }
-
-                if ($grade->getOriginal('prefinal_grade') === null) {
-                    $withoutGradesCount['prefinal']++;
-                }
-
-                if ($grade->getOriginal('final_grade') === null) {
-                    $withoutGradesCount['final']++;
-                }
-            }
-
-            if (($withoutGradesCount['prelim'] != $totalCount && round($withoutGradesCount['prelim'] / $totalCount) >= 0.5) ||
-                ($withoutGradesCount['midterm'] != $totalCount && round($withoutGradesCount['midterm'] / $totalCount) >= 0.5) ||
-                ($withoutGradesCount['prefinal'] != $totalCount && round($withoutGradesCount['prefinal'] / $totalCount) >= 0.5) ||
-                ($withoutGradesCount['final'] != $totalCount && round($withoutGradesCount['final'] / $totalCount) >= 0.5)) {
-
-                $isValid = false;
-            }
-        }
-
-        return $isValid;
-    }
-
-    /**
-     * Get is_submitted_late attribute
-     * 
-     * @return boolean
-     */
-    public function getIsSubmittedLateAttribute($period = null)
+    public function isValid($period = null)
     {
         if ($period === null) {
             $period = Settings::get('period', 'prelim');
         }
 
-        $firstLog = $this->submissionLogs()->getQuery()->where('period', $period)->take(1)->first();
+        $period = strtoupper($period);
 
-        if ($firstLog) {
-            $deadline = Settings::getCurrentDeadline($period);
+        // Get latest submission from import logs
+        $latestSubmission = $this->submissionLogs->where('period', $period)->sortByDesc('date');
 
-            if (!$deadline || $deadline == 'N/A') {
-                return false;
-            }
-
-            return strtotime($deadline) < strtotime($firstLog->getOriginal('date'));
+        if ($entry = $latestSubmission->first()) {
+            return $entry->is_valid;
         }
 
         return false;
     }
 
     /**
-     * Get number_of_fails attribute
+     * Check if faculty has submitted late
+     * 
+     * @param string $period Grading period
+     * 
+     * @return boolean
+     */
+    public function isSubmittedLate($period = null)
+    {
+        if ($period === null) {
+            $period = Settings::get('period', 'prelim');
+        }
+
+        $period = strtoupper($period);
+        $submissions = $this->submissionLogs->groupBy('period')->sortByDesc('date');
+
+        if ($entries = $submissions->get($period)) {
+            $deadline = Settings::getCurrentDeadline($period);
+            $latest = $entries->first();
+
+            if (!$deadline || $deadline == 'N/A') {
+                return false;
+            }
+
+            return strtotime($deadline) < strtotime($latest->getOriginal('date'));
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the number of failed students
+     * 
+     * @param string $period Grading period
      * 
      * @return integer
      */
-    public function getNumberOfFailsAttribute($period = null)
+    public function getFailedCount($period = null)
     {
         if ($period === null) {
             $period = Settings::get('period', 'prelim');
@@ -321,7 +276,7 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
         $count = 0;
 
         foreach ($this->submittedGrades as $grade) {
-            if ($grade->getOriginal($period) !== null && $grade->getOriginal($period) < 75) {
+            if ($grade->getOriginal($period) !== null && $grade->getOriginal($period) >= 5.0) {
                 $count++;
             }
         }
@@ -330,13 +285,13 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
     }
 
     /**
-     * Get number_of_drops attribute
+     * Get the number of dropped students
      * 
      * @param string $period Period
      * 
      * @return integer
      */
-    public function getNumberOfDropsAttribute($period = null)
+    public function getDroppedCount($period = null)
     {
         if ($period === null) {
             $period = Settings::get('period', 'prelim');
@@ -357,12 +312,13 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
     /**
      * Add submission log entry
      */
-    public function addSubmissionLogEntry()
+    public function addSubmissionLogEntry($valid = true)
     {
         GradeImportLog::create([
             'faculty_id'    => $this->id,
             'period'        => Settings::get('period', 'PRELIM'),
-            'date'          => date('Y-m-d H:i:s')
+            'date'          => date('Y-m-d H:i:s'),
+            'is_valid'      => $valid
         ]);
     }
 }

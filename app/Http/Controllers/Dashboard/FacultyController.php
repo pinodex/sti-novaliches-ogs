@@ -58,6 +58,20 @@ class FacultyController extends Controller
     }
 
     /**
+     * My faculty page
+     * 
+     * URL: /dashboard/faculty/me
+     */
+    public function me()
+    {
+        if (!$this->isRole('faculty')) {
+            abort(404);
+        }
+
+        return $this->view($this->user);
+    }
+
+    /**
      * Manage faculty summary accounts page
      * 
      * URL: /dashboard/faculty/summary
@@ -87,72 +101,26 @@ class FacultyController extends Controller
 
         $period = strtolower(Settings::get('period', 'prelim'));
         $activePeriod = array_flip(['prelim', 'midterm', 'prefinal', 'final'])[$period];
-        $sections = [];
-
-        $gradeGroups = $faculty->submittedGrades->groupBy(function (Grade $grade) {
-            return $grade->subject . ' ' . $grade->section;
-        });
-
-        foreach ($gradeGroups as $id => $grades) {
-            $withoutGradesCount = [
-                'prelim'    => 0,
-                'midterm'   => 0,
-                'prefinal'  => 0,
-                'final'     => 0
-            ];
-
-            foreach ($grades as $grade) {
-                if ($grade->getOriginal('prelim_grade') === null) {
-                    $withoutGradesCount['prelim']++;
-                }
-
-                if ($grade->getOriginal('midterm_grade') === null) {
-                    $withoutGradesCount['midterm']++;
-                }
-
-                if ($grade->getOriginal('prefinal_grade') === null) {
-                    $withoutGradesCount['prefinal']++;
-                }
-
-                if ($grade->getOriginal('final_grade') === null) {
-                    $withoutGradesCount['final']++;
-                }
-            }
-
-            $sections[] = [
-                'id'                            => $id,
-                'student_count'                 => count($grades),
-                'student_without_grades_count'  => $withoutGradesCount
-            ];
-        }
 
         return view('dashboard/faculty/view', [
-            'period'    => $period,
+            'period'        => $period,
             'active_period' => $activePeriod,
-            'sections'      => $sections,
             'faculty'       => $faculty,
             'logs'          => $faculty->submissionLogs->reverse(),
 
             'statuses'      => [
-                $faculty->getStatusAttribute('prelim'),
-                $faculty->getStatusAttribute('midterm'),
-                $faculty->getStatusAttribute('prefinal'),
-                $faculty->getStatusAttribute('final')
+                $faculty->getStatus('prelim'),
+                $faculty->getStatus('midterm'),
+                $faculty->getStatus('prefinal'),
+                $faculty->getStatus('final')
             ],
 
             'stats'         => [
                 'failed' => [
-                    'prelim'    => $faculty->getNumberOfFailsAttribute('prelim'),
-                    'midterm'   => $faculty->getNumberOfFailsAttribute('midterm'),
-                    'prefinal'  => $faculty->getNumberOfFailsAttribute('prefinal'),
-                    'final'     => $faculty->getNumberOfFailsAttribute('final')
-                ],
-
-                'dropped' => [
-                    'prelim'    => $faculty->getNumberOfDropsAttribute('prelim'),
-                    'midterm'   => $faculty->getNumberOfDropsAttribute('midterm'),
-                    'prefinal'  => $faculty->getNumberOfDropsAttribute('prefinal'),
-                    'final'     => $faculty->getNumberOfDropsAttribute('final'),
+                    'prelim'    => $faculty->submittedGrades->whereInLoose('prelim_grade', [5])->count(),
+                    'midterm'   => $faculty->submittedGrades->whereInLoose('midterm_grade', [5])->count(),
+                    'prefinal'  => $faculty->submittedGrades->whereInLoose('prefinal_grade', [5])->count(),
+                    'final'     => $faculty->submittedGrades->whereInLoose('final_grade', [5])->count()
                 ]
             ]
         ]);

@@ -78,21 +78,8 @@ class SectionController extends Controller
                 'section'   => explode('/', $sectionSubject)[0],
                 'subject'   => explode('/', $sectionSubject)[1],
                 'count'     => count($grades),
-                'dropped'   => [
-                    'prelim'    => 0,
-                    'midterm'   => 0,
-                    'prefinal'  => 0,
-                    'final'     => 0
-                ],
 
                 'failed'    => [
-                    'prelim'    => 0,
-                    'midterm'   => 0,
-                    'prefinal'  => 0,
-                    'final'     => 0
-                ],
-
-                'nograde'   => [
                     'prelim'    => 0,
                     'midterm'   => 0,
                     'prefinal'  => 0,
@@ -104,16 +91,8 @@ class SectionController extends Controller
                 foreach ($periods as $period) {
                     $value = $grade->getOriginal($period . '_grade');
 
-                    if ($value === null) {
-                        $entry['nograde'][$period]++;
-                    }
-
-                    if ($value !== null && $value < 75) {
+                    if ($value !== null && $value >= 5.0) {
                         $entry['failed'][$period]++;
-                    }
-
-                    if ($value !== null && $value == -1) {
-                        $entry['dropped'][$period]++;
                     }
                 }
             }

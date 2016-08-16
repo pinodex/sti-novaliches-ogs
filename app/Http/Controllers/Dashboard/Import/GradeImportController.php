@@ -149,7 +149,6 @@ class GradeImportController extends Controller
             $importer = null;
 
             if ($this->isRole('faculty')) {
-                $this->user->addSubmissionLogEntry();
                 $importer = $this->user;
             }
 
@@ -200,6 +199,10 @@ class GradeImportController extends Controller
 
         $spreadsheet = new GradeSpreadsheet($file['path']);
         $report = SgrReporter::check($spreadsheet);
+
+        if ($this->isRole('faculty')) {
+            $this->user->addSubmissionLogEntry($report->isValid());
+        }
 
         return view('dashboard/import/grades/3', [
             'report'        => $report,

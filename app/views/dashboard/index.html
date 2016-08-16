@@ -197,49 +197,6 @@
                                         <td>Last login</td>
                                         <td>{{ faculty.last_login_at }}</td>
                                     </tr>
-                                    <tr>
-                                        <td>Remarks</td>
-                                        <td>{{ faculty.is_valid ? 'Valid' : 'Invalid' }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <h3>Submission status:</h3>
-
-                            <table class="center-align small">
-                                <thead>
-                                    <tr>
-                                        <th>Period</th>
-                                        <th>Status</th>
-                                        <th>Failed</th>
-                                        <th>Dropped</th>
-                                    </tr>  
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Prelim</td>
-                                        <td>{{ statuses[0] }}</td>
-                                        <td>{{ stats.failed.prelim }}</td>
-                                        <td>{{ stats.dropped.prelim }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Midterm</td>
-                                        <td>{{ statuses[1] }}</td>
-                                        <td>{{ stats.failed.midterm }}</td>
-                                        <td>{{ stats.dropped.midterm }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pre-final</td>
-                                        <td>{{ statuses[2] }}</td>
-                                        <td>{{ stats.failed.prefinal }}</td>
-                                        <td>{{ stats.dropped.prefinal }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Final</td>
-                                        <td>{{ statuses[3] }}</td>
-                                        <td>{{ stats.failed.final }}</td>
-                                        <td>{{ stats.dropped.final }}</td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
