@@ -14,7 +14,7 @@
                         <ul class="list-unstyled" style="margin-top: 15px;">
                             <li>Sender: {{ memo.admin ? memo.admin.name : 'N/A' }}</li>
                             <li>Date sent: {{ memo.created_at|date('M d, Y h:i A') }}</li>
-                            <li>Status: {{ memo.is_unread ? 'Unread' : 'Read on ' ~ memo.opened_at|date('M d, Y h:i A') }}</li>
+                            <li>Status: {{ memo.is_unread ? 'Unread' : 'Opened on ' ~ memo.opened_at|date('M d, Y h:i A') }}</li>
                         </ul>
                     </div>
                 {% endif %}
