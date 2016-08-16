@@ -153,7 +153,7 @@ class GradeImportController extends Controller
                 $importer = $this->user;
             }
 
-            $spreadsheet->importToDatabase();
+            $spreadsheet->importToDatabase($importer);
 
             try {
                 $email = new GradeDelivery();

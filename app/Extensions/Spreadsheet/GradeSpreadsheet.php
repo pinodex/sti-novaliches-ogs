@@ -168,6 +168,8 @@ class GradeSpreadsheet extends AbstractSpreadsheet
 
         // Probably not the best thing you would see today.
         $query = "INSERT INTO {$tableName} {$tables} VALUES {$values} ON DUPLICATE KEY UPDATE " .
+                'importer_id = VALUES(importer_id),' .
+
                 'prelim_grade = VALUES(prelim_grade),' .
                 'midterm_grade = VALUES(midterm_grade),' .
                 'prefinal_grade = VALUES(prefinal_grade), ' .
