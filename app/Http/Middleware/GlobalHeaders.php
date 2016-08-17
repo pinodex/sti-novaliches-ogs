@@ -30,10 +30,10 @@ class GlobalHeaders
         header_remove('X-Powered-By');
 
         $response->headers->add([
-            'X-Frame-Options'   => 'SAMEORIGIN',
-            'Pragma'            => 'no-cache',
-            'Expires'           => 'Thu, 9 Sept 1999 09:00:00 GMT',
-            'Cache-Control'     => 'no-cache, no-store, max-age=0, must-revalidate'
+            'Content-Security-Policy'   => "frame-ancestors 'self' http://stinovaliches.net;",
+            'Pragma'                    => 'no-cache',
+            'Expires'                   => 'Thu, 9 Sept 1999 09:00:00 GMT',
+            'Cache-Control'             => 'no-cache, no-store, max-age=0, must-revalidate'
         ]);
 
         return $response;
