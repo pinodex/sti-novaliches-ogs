@@ -135,7 +135,7 @@ class SgrReporter
                 $this->noGrades[] = [
                     'id'        => $student->id,
                     'name'      => $student->name,
-                    'remark'    => 'No grade'
+                    'remark'    => 'Not in SGR'
                 ];
             });
 
