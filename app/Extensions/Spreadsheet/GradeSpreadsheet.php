@@ -17,13 +17,13 @@ use App\Models\Faculty;
 
 class GradeSpreadsheet extends AbstractSpreadsheet
 {
-    const SETTINGS_SHEET_NUMBER_LECTURE = 6;
+    const SETTINGS_SHEET_NUMBER_LECTURE = 0;
 
-    const SUMMARY_SHEET_NUMBER_LECTURE = 5;
+    const SUMMARY_SHEET_NUMBER_LECTURE = 6;
 
-    const SETTINGS_SHEET_NUMBER_LAB = 7;
+    const SETTINGS_SHEET_NUMBER_LAB = 0;
 
-    const SUMMARY_SHEET_NUMBER_LAB = 6;
+    const SUMMARY_SHEET_NUMBER_LAB = 7;
 
     const MODE_LECTURE = 0;
 
@@ -35,16 +35,28 @@ class GradeSpreadsheet extends AbstractSpreadsheet
     {
         parent::__construct($filePath);
 
+        // Use predefined sheet indices by default
         if (count($this->getSheets()) == 10) {
             $this->mode = self::MODE_LAB;
+
             $this->settingsSheetNumber = self::SETTINGS_SHEET_NUMBER_LAB;
             $this->summarySheetNumber = self::SUMMARY_SHEET_NUMBER_LAB;
         }
 
         if (count($this->getSheets()) == 9) {
             $this->mode = self::MODE_LECTURE;
+
             $this->settingsSheetNumber = self::SETTINGS_SHEET_NUMBER_LECTURE;
             $this->summarySheetNumber = self::SUMMARY_SHEET_NUMBER_LECTURE;
+        }
+
+        // Or if we can determine sheet indices JIT, use it.
+        if ($settingsSheetNumber = $this->getSheetIndexByName('SETTINGS')) {
+            $this->settingsSheetNumber = $settingsSheetNumber;
+        }
+
+        if ($summarySheetNumber = $this->getSheetIndexByName('Summary')) {
+            $this->summarySheetNumber = $summarySheetNumber;
         }
     }
 
@@ -69,12 +81,12 @@ class GradeSpreadsheet extends AbstractSpreadsheet
         $this->changeSheet($this->settingsSheetNumber);
 
         foreach ($this->spreadsheet as $row => $col) {
-            if ($row == 2) {
-                $contents['metadata']['subject'] = $col[16];
+            if ($row == 1) {
+                $contents['metadata']['subject'] = $col[10];
             }
 
-            if ($row == 3) {
-                $contents['metadata']['section'] = $col[16];
+            if ($row == 2) {
+                $contents['metadata']['section'] = $col[10];
             }
         }
 
