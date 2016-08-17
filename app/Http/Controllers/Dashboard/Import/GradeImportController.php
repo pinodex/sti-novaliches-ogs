@@ -145,7 +145,6 @@ class GradeImportController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $queue = new ParallelJob();
             $importer = null;
 
             if ($this->isRole('faculty')) {
@@ -153,16 +152,6 @@ class GradeImportController extends Controller
             }
 
             $spreadsheet->importToDatabase($importer);
-
-            try {
-                $email = new GradeDelivery();
-                $email->attach($file['path'], $file['name'], mime_content_type($file['path']));
-
-                $queue->add(new SendEmailJob($email));
-            } catch (\Exception $ignored) {}
-
-            $queue->add(new DeleteFileJob($file['path']));
-            $this->dispatch($queue);
 
             Session::put($sessionId . 'gw_import_done', true);
 
@@ -200,13 +189,41 @@ class GradeImportController extends Controller
         $spreadsheet = new GradeSpreadsheet($file['path']);
         $report = SgrReporter::check($spreadsheet);
 
-        if ($this->isRole('faculty')) {
-            $this->user->addSubmissionLogEntry($report->isValid());
+        $form = Form::create();
+        
+        $form->add('_confirm', Type\HiddenType::class, [
+            'required' => false
+        ]);
+        
+        $form = $form->getForm();
+        $form->handleRequest($request);
+        
+        if ($form->isValid()) {
+            if ($this->isRole('faculty')) {
+                $this->user->addSubmissionLogEntry($report->isValid());
+            }
+
+            $queue = new ParallelJob();
+
+            try {
+                $email = new GradeDelivery();
+                $email->attach($file['path'], $file['name'], mime_content_type($file['path']));
+
+                $queue->add(new SendEmailJob($email));
+            } catch (\Exception $ignored) {}
+
+            $queue->add(new DeleteFileJob($file['path']));
+            $this->dispatch($queue);
+
+            return redirect()->route('dashboard.import.grades.stepFour', [
+                'session' => $sessionId
+            ]);
         }
 
         return view('dashboard/import/grades/3', [
             'report'        => $report,
             'uploaded'      => $report->getTotalImports() - count($report->getNoStudents()),
+            'confirm_form'  => $form->createView(),
             'session_id'    => $sessionId,
             'current_step'  => 3
         ]);

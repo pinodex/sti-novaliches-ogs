@@ -67,7 +67,14 @@
                             </table>
                         {% endif %}
 
-                        <a href="{{ route('dashboard.import.grades.stepFour', {'session': session_id}, false) }}" class="button success">Continue</a>
+                        <form method="post" action="{{ app.request.getRequestUri }}" @submit="disableAction = true">
+                            {{ csrf_field() }}
+                            {{ form_widget(confirm_form) }}
+
+                            <div class="buttons">
+                                <button type="submit" class="success" :disabled="disableAction">Finish <span class="icon-navigate_next"></span></button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
