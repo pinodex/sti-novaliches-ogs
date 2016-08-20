@@ -153,6 +153,10 @@ input[type="time"] {
     width: auto;
 }
 
+input[type="file"] {
+    display: block;
+}
+
 select {
     background: #fff;
 }
