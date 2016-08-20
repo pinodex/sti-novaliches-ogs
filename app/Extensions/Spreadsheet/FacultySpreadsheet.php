@@ -47,21 +47,21 @@ class FacultySpreadsheet extends AbstractSpreadsheet
                 break;
             }
 
-            foreach ($sheet->getRowIterator() as $i => $row) {
-                if ($i >= 4) {
-                    if (empty($row[3]) &&
-                        empty($row[4]) &&
-                        empty($row[5]) &&
-                        empty($row[8])) {
+            foreach ($sheet->getRowIterator() as $row => $col) {
+                if ($row >= 5) {
+                    if (empty($col[3]) &&
+                        empty($col[4]) &&
+                        empty($col[5]) &&
+                        empty($col[8])) {
 
                         continue;
                     }
 
                     $contents[] = [
-                        'last_name' => trim($row[3]),
-                        'first_name' => trim($row[4]),
-                        'middle_name' => trim($row[5]),
-                        'department' => trim($row[8])
+                        'last_name' => trim($col[3]),
+                        'first_name' => trim($col[4]),
+                        'middle_name' => trim($col[5]),
+                        'department' => trim($col[8])
                     ];
                 }
             }

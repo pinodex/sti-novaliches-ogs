@@ -57,11 +57,11 @@ class GradeSpreadsheet extends AbstractSpreadsheet
 
             if (strtolower($sheet->getName()) == 'summary') {
                 foreach ($sheet->getRowIterator() as $row => $col) {
-                    if ($row <= 6) {
+                    if ($row <= 7) {
                         continue;
                     }
 
-                    if ($row == 7) {
+                    if ($row == 8) {
                         $contents['metadata']['prelim_presences'] = $this->parseHours($col[19]);
                         $contents['metadata']['midterm_presences'] = $this->parseHours($col[20]);
                         $contents['metadata']['prefinal_presences'] = $this->parseHours($col[21]);

@@ -30,17 +30,17 @@ class StudentSpreadsheet extends AbstractSpreadsheet
                 break;
             }
             
-            foreach ($sheet->getRowIterator() as $i => $row) {
-                if ($i > 0 && isStudentId($row[1])) {
-                    $name = $this->getNameParts($row[2]);
+            foreach ($sheet->getRowIterator() as $row => $col) {
+                if ($row > 0 && isStudentId($col[1])) {
+                    $name = $this->getNameParts($col[2]);
 
                     $contents[] = [
-                        'id'            => parseStudentId($row[1]),
+                        'id'            => parseStudentId($col[1]),
                         'last_name'     => $name['last_name'],
                         'middle_name'   => $name['first_name'],
                         'first_name'    => $name['middle_name'],
-                        'course'        => $row[3],
-                        'section'       => $row[4]
+                        'course'        => $col[3],
+                        'section'       => $col[4]
                     ];
                 }
             }
@@ -83,9 +83,9 @@ class StudentSpreadsheet extends AbstractSpreadsheet
         $nameComma = explode(',', $name);
         $nameSpaces = explode(' ', $nameComma[1]);
 
-        $parts['last_name'] = $nameComma[0];
-        $parts['middle_name'] = array_pop($nameSpaces);
-        $parts['first_name'] = implode(' ', $nameSpaces);
+        $parts['last_name'] = trim($nameComma[0]);
+        $parts['middle_name'] = trim(array_pop($nameSpaces));
+        $parts['first_name'] = trim(implode(' ', $nameSpaces));
 
         return $parts;
     }

@@ -33,9 +33,9 @@ class StudentStatusSpreadsheet extends AbstractSpreadsheet
                 continue;
             }
 
-            foreach ($sheet->getRowIterator() as $i => $row) {
-                if ($i > 0 && isStudentId($row[1])) {
-                    $studentId = parseStudentId($row[1]);
+            foreach ($sheet->getRowIterator() as $row => $col) {
+                if ($row > 0 && isStudentId($col[1])) {
+                    $studentId = parseStudentId($col[1]);
 
                     if (!array_key_exists($studentId, $contents)) {
                         $contents[$studentId] = [
@@ -57,8 +57,6 @@ class StudentStatusSpreadsheet extends AbstractSpreadsheet
 
             unset($contents[$id]);
         }
-
-        dd($contents);
 
         return $contents;
     }

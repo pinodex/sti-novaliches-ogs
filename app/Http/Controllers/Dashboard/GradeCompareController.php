@@ -44,7 +44,7 @@ class GradeCompareController extends Controller
         $form = Form::create();
 
         $form->add('file', Type\FileType::class, [
-            'label' => ' ',
+            'label' => 'Master Grade CSV File',
             'attr'  => ['accept' => 'text/csv']
         ]);
 

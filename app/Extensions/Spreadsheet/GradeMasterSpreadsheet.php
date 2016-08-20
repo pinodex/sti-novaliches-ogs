@@ -25,24 +25,20 @@ class GradeMasterSpreadsheet extends AbstractSpreadsheet
     {
         $contents = [];
 
-        foreach ($this->spreadsheet->getSheetIterator() as $sheet) {
-            if ($sheet->getIndex() != 0) {
-                break;
-            }
-            
-            foreach ($sheet->getRowIterator() as $i => $row) {
-                if ($i < 2) {
+        foreach ($this->spreadsheet->getSheetIterator() as $sheet) {            
+            foreach ($sheet->getRowIterator() as $row => $col) {
+                if ($row < 2) {
                     continue;
                 }
 
                 $contents[] = [
-                    'student_id'        => $this->fixStudentId($row[8]),
-                    'subject'           => $row[6],
-                    'section'           => $row[7],
-                    'prelim_grade'      => parseGrade($row[15]),
-                    'midterm_grade'     => parseGrade($row[13]),
-                    'prefinal_grade'    => parseGrade($row[21]),
-                    'final_grade'       => parseGrade($row[24])
+                    'student_id'        => $this->fixStudentId($col[8]),
+                    'subject'           => $col[6],
+                    'section'           => $col[7],
+                    'prelim_grade'      => parseGrade($col[15]),
+                    'midterm_grade'     => parseGrade($col[13]),
+                    'prefinal_grade'    => parseGrade($col[21]),
+                    'final_grade'       => parseGrade($col[24])
                 ];
             }
         }
