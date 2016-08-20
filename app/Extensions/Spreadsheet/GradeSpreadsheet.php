@@ -219,6 +219,8 @@ class GradeSpreadsheet extends AbstractSpreadsheet
             $id = strval($id);
         }
 
+        $id = str_replace('-', '', $id);
+
         // 11 is the length of our student IDs.
         return str_pad($id, 11, '0', STR_PAD_LEFT);
     }
