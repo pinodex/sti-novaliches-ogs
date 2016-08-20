@@ -24,17 +24,16 @@ class StudentStatusSpreadsheet extends AbstractSpreadsheet
     public function getParsedContents()
     {
         $contents = [];
+        $periods = ['prelim', 'midterm', 'prefinal', 'final'];
 
-        foreach (['prelim', 'midterm', 'prefinal', 'final'] as $term) {
-            $sheetIndex = $this->getSheetIndexByName($term, true);
+        foreach ($this->spreadsheet->getSheetIterator() as $sheet) {
+            $period = strtolower($sheet->getName());
 
-            if ($sheetIndex === false) {
+            if (!in_array($period, $periods)) {
                 continue;
             }
 
-            $this->changeSheet($sheetIndex);
-
-            foreach ($this->spreadsheet as $i => $row) {
+            foreach ($sheet->getRowIterator() as $i => $row) {
                 if ($i > 0 && isStudentId($row[1])) {
                     $studentId = parseStudentId($row[1]);
 
@@ -47,7 +46,7 @@ class StudentStatusSpreadsheet extends AbstractSpreadsheet
                         ];
                     }
 
-                    $contents[$studentId][$term] = true;
+                    $contents[$studentId][$period] = true;
                 }
             }
         }
@@ -58,6 +57,8 @@ class StudentStatusSpreadsheet extends AbstractSpreadsheet
 
             unset($contents[$id]);
         }
+
+        dd($contents);
 
         return $contents;
     }

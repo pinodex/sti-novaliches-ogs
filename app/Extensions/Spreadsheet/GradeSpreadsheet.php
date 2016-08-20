@@ -17,58 +17,22 @@ use App\Models\Faculty;
 
 class GradeSpreadsheet extends AbstractSpreadsheet
 {
-    const SETTINGS_SHEET_NUMBER_LECTURE = 0;
-
-    const SUMMARY_SHEET_NUMBER_LECTURE = 6;
-
-    const SETTINGS_SHEET_NUMBER_LAB = 0;
-
-    const SUMMARY_SHEET_NUMBER_LAB = 7;
-
-    const MODE_LECTURE = 0;
-
-    const MODE_LAB = 1;
-
-    protected $mode, $settingsSheetNumber, $summarySheetNumber;
-
-    public function __construct($filePath)
-    {
-        parent::__construct($filePath);
-
-        // Use predefined sheet indices by default
-        if (count($this->getSheets()) == 10) {
-            $this->mode = self::MODE_LAB;
-
-            $this->settingsSheetNumber = self::SETTINGS_SHEET_NUMBER_LAB;
-            $this->summarySheetNumber = self::SUMMARY_SHEET_NUMBER_LAB;
-        }
-
-        if (count($this->getSheets()) == 9) {
-            $this->mode = self::MODE_LECTURE;
-
-            $this->settingsSheetNumber = self::SETTINGS_SHEET_NUMBER_LECTURE;
-            $this->summarySheetNumber = self::SUMMARY_SHEET_NUMBER_LECTURE;
-        }
-
-        // Or if we can determine sheet indices JIT, use it.
-        if ($settingsSheetNumber = $this->getSheetIndexByName('SETTINGS')) {
-            $this->settingsSheetNumber = $settingsSheetNumber;
-        }
-
-        if ($summarySheetNumber = $this->getSheetIndexByName('Summary')) {
-            $this->summarySheetNumber = $summarySheetNumber;
-        }
-    }
-
     public function isValid()
     {
-        $initialCheckOk =
-            $this->mode !== null &&
-            $this->spreadsheet !== null &&
-            $this->getSheetIndexByName('SETTINGS') !== false &&
-            $this->getSheetIndexByName('Summary') !== false;
+        $hasSettings = false;
+        $hasSummary = false;
 
-        return $initialCheckOk;
+        foreach ($this->spreadsheet->getSheetIterator() as $sheet) {
+            if (strtolower($sheet->getName()) == 'settings') {
+                $hasSettings = true;
+            }
+
+            if (strtolower($sheet->getName()) == 'summary') {
+                $hasSummary = true;
+            }
+        }
+
+        return $hasSettings && $hasSummary;
     }
 
     public function getParsedContents()
@@ -78,54 +42,56 @@ class GradeSpreadsheet extends AbstractSpreadsheet
             'students' => []
         ];
 
-        $this->changeSheet($this->settingsSheetNumber);
+        foreach ($this->spreadsheet->getSheetIterator() as $sheet) {
+            if (strtolower($sheet->getName()) == 'settings') {
+                foreach ($sheet->getRowIterator() as $row => $col) {
+                    if ($row == 1) {
+                        $contents['metadata']['subject'] = $col[10];
+                    }
 
-        foreach ($this->spreadsheet as $row => $col) {
-            if ($row == 1) {
-                $contents['metadata']['subject'] = $col[10];
+                    if ($row == 2) {
+                        $contents['metadata']['section'] = $col[10];
+                    }
+                }
             }
 
-            if ($row == 2) {
-                $contents['metadata']['section'] = $col[10];
+            if (strtolower($sheet->getName()) == 'summary') {
+                foreach ($sheet->getRowIterator() as $row => $col) {
+                    if ($row <= 6) {
+                        continue;
+                    }
+
+                    if ($row == 7) {
+                        $contents['metadata']['prelim_presences'] = $this->parseHours($col[19]);
+                        $contents['metadata']['midterm_presences'] = $this->parseHours($col[20]);
+                        $contents['metadata']['prefinal_presences'] = $this->parseHours($col[21]);
+                        $contents['metadata']['final_presences'] = $this->parseHours($col[22]);
+
+                        continue;
+                    }
+
+                    $studentId = $this->parseStudentId($col[2]);
+
+                    if (empty($col[2]) || !isStudentId($studentId)) {
+                        continue;
+                    }
+
+                    $contents['students'][] = [
+                        'student_id'        => $studentId,
+                        'name'              => $col[4],
+
+                        'prelim_grade'      => parseGrade($col[6]),
+                        'midterm_grade'     => parseGrade($col[8]),
+                        'prefinal_grade'    => parseGrade($col[10]),
+                        'final_grade'       => parseGrade($col[12]),
+
+                        'prelim_absences'   => $this->parseHours($col[19]),
+                        'midterm_absences'  => $this->parseHours($col[20]),
+                        'prefinal_absences' => $this->parseHours($col[21]),
+                        'final_absences'    => $this->parseHours($col[22])
+                    ];
+                }
             }
-        }
-
-        $this->changeSheet($this->summarySheetNumber);
-
-        foreach ($this->spreadsheet as $row => $col) {
-            if ($row <= 6) {
-                continue;
-            }
-
-            if ($row == 7) {
-                $contents['metadata']['prelim_presences'] = $this->parseHours($col[19]);
-                $contents['metadata']['midterm_presences'] = $this->parseHours($col[20]);
-                $contents['metadata']['prefinal_presences'] = $this->parseHours($col[21]);
-                $contents['metadata']['final_presences'] = $this->parseHours($col[22]);
-
-                continue;
-            }
-
-            $studentId = $this->parseStudentId($col[2]);
-
-            if (empty($col[2]) || !isStudentId($studentId)) {
-                continue;
-            }
-
-            $contents['students'][] = [
-                'student_id'        => $studentId,
-                'name'              => $col[4],
-
-                'prelim_grade'      => parseGrade($col[6]),
-                'midterm_grade'     => parseGrade($col[8]),
-                'prefinal_grade'    => parseGrade($col[10]),
-                'final_grade'       => parseGrade($col[12]),
-
-                'prelim_absences'   => $this->parseHours($col[19]),
-                'midterm_absences'  => $this->parseHours($col[20]),
-                'prefinal_absences' => $this->parseHours($col[21]),
-                'final_absences'    => $this->parseHours($col[22])
-            ];
         }
 
         return $contents;

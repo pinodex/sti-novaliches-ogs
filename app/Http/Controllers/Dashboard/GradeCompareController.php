@@ -60,7 +60,7 @@ class GradeCompareController extends Controller
                 return redirect()->route('dashboard.grades.compare.upload');
             }
 
-            $spreadsheet = new GradeMasterSpreadsheet($file->getPathname());
+            $spreadsheet = new GradeMasterSpreadsheet($file->getPathname(), 'csv');
             
             Cache::put('master_grading_sheet', $spreadsheet->getParsedContents(), 60);
             return redirect()->route('dashboard.grades.compare.diff');

@@ -11,13 +11,15 @@
 
 namespace App\Extensions\Spreadsheet;
 
+use Exception;
 use Serializable;
-use SpreadsheetReader;
-use Illuminate\Support\Collection;
 use App\Jobs\ImportToDatabaseJob;
+use Illuminate\Support\Collection;
+use Box\Spout\Reader\ReaderFactory;
+use Box\Spout\Common\Type;
 
 /**
- * Wraps around nuovo/spreadsheet-reader
+ * Wraps around Spout (box/spout)
  */
 abstract class AbstractSpreadsheet implements Serializable, SpreadsheetInterface
 {
@@ -34,44 +36,33 @@ abstract class AbstractSpreadsheet implements Serializable, SpreadsheetInterface
     /**
      * @param string $filePath Excel file path
      */
-    public function __construct($filePath)
+    public function __construct($filePath, $format = null)
     {
         $this->filePath = $filePath;
 
-        try {
-            $this->spreadsheet = new SpreadsheetReader($filePath);
-        } catch (\Exception $e) {
-            // Exception ignored. $this->spreadsheet will be null.
-        }
-    }
-
-    public function getSheets()
-    {
-        return $this->spreadsheet->Sheets();
-    }
-
-    public function getSheetIndexByName($search, $caseInsensitive = false)
-    {
-        if ($caseInsensitive) {
-            return array_search(strtolower($search), array_map('strtolower', $this->getSheets()));
+        if ($format === null) {
+            $format = pathinfo($filePath, PATHINFO_EXTENSION);
         }
 
-        return array_search($search, $this->getSheets());
+        switch ($format) {
+            case 'xlsx':
+                $type = Type::XLSX;
+                break;
+
+            case 'csv':
+                $type = Type::CSV;
+                break;
+        }
+
+        if ($type !== null) {
+            $this->spreadsheet = ReaderFactory::create($type);
+            $this->spreadsheet->open($filePath);
+        }
     }
 
     public function isValid()
     {
         return $this->spreadsheet !== null;
-    }
-
-    /**
-     * Change active sheet
-     * 
-     * @param int $index Sheet index
-     */
-    public function changeSheet($index)
-    {
-        return $this->spreadsheet->ChangeSheet($index);
     }
 
     /**

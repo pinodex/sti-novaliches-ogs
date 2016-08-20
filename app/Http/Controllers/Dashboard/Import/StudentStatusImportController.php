@@ -59,7 +59,7 @@ class StudentStatusImportController extends Controller
         $form = Form::create();
 
         $form->add('file', Type\FileType::class, [
-            'label' => ' '
+            'label' => 'Student Status List File'
         ]);
 
         $form = $form->getForm();
@@ -99,6 +99,8 @@ class StudentStatusImportController extends Controller
         }
 
         $spreadsheet = new StudentStatusSpreadsheet($uploadedFile);
+
+        $spreadsheet->getParsedContents();
 
         $form = Form::create();
 

@@ -59,7 +59,7 @@ class StudentImportController extends Controller
         $form = Form::create();
 
         $form->add('file', Type\FileType::class, [
-            'label' => ' '
+            'label' => 'Student List File'
         ]);
 
         $form = $form->getForm();

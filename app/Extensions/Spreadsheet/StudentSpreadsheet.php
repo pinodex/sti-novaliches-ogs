@@ -25,18 +25,24 @@ class StudentSpreadsheet extends AbstractSpreadsheet
     {
         $contents = [];
 
-        foreach ($this->spreadsheet as $i => $row) {
-            if ($i > 0 && isStudentId($row[1])) {
-                $name = $this->getNameParts($row[2]);
+        foreach ($this->spreadsheet->getSheetIterator() as $sheet) {
+            if ($sheet->getIndex() != 0) {
+                break;
+            }
+            
+            foreach ($sheet->getRowIterator() as $i => $row) {
+                if ($i > 0 && isStudentId($row[1])) {
+                    $name = $this->getNameParts($row[2]);
 
-                $contents[] = [
-                    'id'            => parseStudentId($row[1]),
-                    'last_name'     => $name['last_name'],
-                    'middle_name'   => $name['first_name'],
-                    'first_name'    => $name['middle_name'],
-                    'course'        => $row[3],
-                    'section'       => $row[4]
-                ];
+                    $contents[] = [
+                        'id'            => parseStudentId($row[1]),
+                        'last_name'     => $name['last_name'],
+                        'middle_name'   => $name['first_name'],
+                        'first_name'    => $name['middle_name'],
+                        'course'        => $row[3],
+                        'section'       => $row[4]
+                    ];
+                }
             }
         }
 

@@ -11,13 +11,13 @@
         "symfony/validator": "3.0.*",
         "symfony/security-csrf": "3.0.*",
         "laravel/framework": "5.2.*",
-        "nuovo/spreadsheet-reader": "^0.5.11",
         "barryvdh/laravel-form-bridge": "^0.1.2",
         "barryvdh/laravel-async-queue": "0.4.x",
         "barryvdh/laravel-debugbar": "^2.2",
         "bugsnag/bugsnag-laravel": "1.*",
         "rcrowe/twigbridge": "^0.9.2",
-        "google/apiclient": "1.*"
+        "google/apiclient": "1.*",
+        "box/spout": "^2.5"
     },
     "autoload": {
         "classmap": [

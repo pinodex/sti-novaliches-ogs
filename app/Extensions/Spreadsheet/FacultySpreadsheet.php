@@ -35,29 +35,35 @@ class FacultySpreadsheet extends AbstractSpreadsheet
 
     public function isValid()
     {
-        return true;
+        return count($this->spreadsheet->getSheetIterator()) === 1;
     }
 
     public function getParsedContents()
     {
         $contents = [];
 
-        foreach ($this->spreadsheet as $i => $row) {
-            if ($i >= 4) {
-                if (empty($row[3]) &&
-                    empty($row[4]) &&
-                    empty($row[5]) &&
-                    empty($row[8])) {
+        foreach ($this->spreadsheet->getSheetIterator() as $sheet) {
+            if ($sheet->getIndex() != 0) {
+                break;
+            }
 
-                    continue;
+            foreach ($sheet->getRowIterator() as $i => $row) {
+                if ($i >= 4) {
+                    if (empty($row[3]) &&
+                        empty($row[4]) &&
+                        empty($row[5]) &&
+                        empty($row[8])) {
+
+                        continue;
+                    }
+
+                    $contents[] = [
+                        'last_name' => trim($row[3]),
+                        'first_name' => trim($row[4]),
+                        'middle_name' => trim($row[5]),
+                        'department' => trim($row[8])
+                    ];
                 }
-
-                $contents[] = [
-                    'last_name' => trim($row[3]),
-                    'first_name' => trim($row[4]),
-                    'middle_name' => trim($row[5]),
-                    'department' => trim($row[8])
-                ];
             }
         }
 

@@ -14,23 +14,6 @@ namespace App\Extensions\Spreadsheet;
 interface SpreadsheetInterface
 {
     /**
-     * Get sheets
-     * 
-     * @return array
-     */
-    public function getSheets();
-
-    /**
-     * Get sheet index by name
-     * 
-     * @param string $name Sheet name to search
-     * @param boolean $caseInsensitive Case-insensitive search
-     * 
-     * @return int
-     */
-    public function getSheetIndexByName($search, $caseInsensitive = false);
-
-    /**
      * Validates the spreadsheet
      * 
      * @return boolean If spreadsheet is valid

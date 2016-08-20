@@ -59,7 +59,7 @@ class FacultyImportController extends Controller
         $form = Form::create();
 
         $form->add('file', Type\FileType::class, [
-            'label' => ' ',
+            'label' => 'Manpower Report Sheet',
             'constraints' => new Assert\File([
                 'mimeTypesMessage' => 'Please upload a valid XLSX file',
                 'mimeTypes' => ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
