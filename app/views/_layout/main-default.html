@@ -52,7 +52,7 @@
     <script>
         (function () {
             if (window == window.parent) {
-{% if not config('app.debug') %}
+{% if app().environment('production') %}
                 window.location = 'http://stinovaliches.net' + document.location.pathname + document.location.search
 {% endif %}
                 return;

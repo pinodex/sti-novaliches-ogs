@@ -175,6 +175,7 @@ return [
         |
         */
         'functions' => [
+            'app',
             'elixir',
             'head',
             'last',
