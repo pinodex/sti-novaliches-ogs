@@ -25,6 +25,8 @@ class GradeImportLog extends Model
     protected $fillable = [
         'faculty_id',
         'period',
+        'subject',
+        'section',
         'date',
         'is_valid'
     ];

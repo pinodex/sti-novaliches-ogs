@@ -21,6 +21,7 @@ use App\Traits\ConcatenateNameTrait;
 use App\Traits\SearchableTrait;
 use App\Traits\ChoosableTrait;
 use App\Extensions\Settings;
+use App\Extensions\SgrReporter;
 
 /**
  * Head model
@@ -312,13 +313,15 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
     /**
      * Add submission log entry
      */
-    public function addSubmissionLogEntry($valid = true)
+    public function addSubmissionLogEntry(SgrReporter $report)
     {
         GradeImportLog::create([
             'faculty_id'    => $this->id,
             'period'        => Settings::get('period', 'PRELIM'),
             'date'          => date('Y-m-d H:i:s'),
-            'is_valid'      => $valid
+            'subject'       => $report->getSubject(),
+            'section'       => $report->getSection(),
+            'is_valid'      => $report->isValid()
         ]);
     }
 }

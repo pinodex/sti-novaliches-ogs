@@ -15,14 +15,21 @@ use DB;
 use App\Models\Grade;
 use App\Models\Student;
 use App\Extensions\Spreadsheet\GradeSpreadsheet;
+use App\Extensions\Spreadsheet\OmegaSpreadsheet;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Collection;
 
 class SgrReporter
 {
     /**
-     * @var \Illuminate\Support\Collection Student IDs from grading sheet
+     * @var \Illuminate\Support\Collection Grading sheet contents
      */
-    protected $imported;
+    protected $sgr;
+
+    /**
+     * @var \Illuminate\Support\Collection OMEGA sheet contents
+     */
+    protected $omega;
 
     /**
      * @var string Section defined in SGR
@@ -35,14 +42,9 @@ class SgrReporter
     protected $subject;
 
     /**
-     * @var array Students with no grades
+     * @var array Records difference
      */
-    protected $noGrades = [];
-
-    /**
-     * @var array Students not in OMEGA
-     */
-    protected $noStudents = [];
+    protected $diff;
 
     /**
      * @var bool
@@ -59,18 +61,45 @@ class SgrReporter
      * 
      * @param GradeSpreadsheet $sgr Instance of GradeSpreadsheet
      */
-    public function __construct(GradeSpreadsheet $sgr)
+    public function __construct(GradeSpreadsheet $sgr, OmegaSpreadsheet $omega)
     {
         $contents = $sgr->getParsedContents();
 
         $this->section = $contents['metadata']['section'];
         $this->subject = $contents['metadata']['subject'];
 
-        $this->imported = collect($contents['students']);
+        $this->sgr = Collection::make($contents['students']);
+        $this->omega = Collection::make($omega->getParsedContents());
 
-        // preload data
-        $this->getNoGrades();
-        $this->getNoStudents();
+        // Transform to a structure uniform to the structure of OMEGA
+        $this->sgr->transform(function ($item) use ($contents) {
+            $output = [
+                'student_id'        => $item['student_id'],
+                'name'              => $item['name'],
+                'subject'           => $contents['metadata']['subject'],
+                'section'           => $contents['metadata']['section'],
+                'prelim_grade'      => $item['prelim_grade'],
+                'midterm_grade'     => $item['midterm_grade'],
+                'prefinal_grade'    => $item['prefinal_grade'],
+                'final_grade'       => $item['final_grade']
+            ];
+
+            $output['id'] = $this->makeIdentificationHash($output);
+            $output['hash'] = $this->makeRecordHash($output);
+
+            return $output;
+        });
+
+        $this->omega->transform(function ($item) {
+            $item['id'] = $this->makeIdentificationHash($item);
+            $item['hash'] = $this->makeRecordHash($item);
+
+            return $item;
+        });
+
+        unset($contents);
+
+        $this->getMismatches();
     }
 
     /**
@@ -80,9 +109,9 @@ class SgrReporter
      * 
      * @return SgrReporter
      */
-    public static function check(GradeSpreadsheet $sgr)
+    public static function check(GradeSpreadsheet $sgr, OmegaSpreadsheet $omega)
     {
-        return new static($sgr);
+        return new static($sgr, $omega);
     }
 
     /**
@@ -92,7 +121,7 @@ class SgrReporter
      */
     public function getTotalImports()
     {
-        return count($this->imported);
+        return count($this->sgr);
     }
 
     /**
@@ -116,60 +145,60 @@ class SgrReporter
     }
 
     /**
-     * Get students with no grades
+     * Get record mismatches
      * 
      * @return array
      */
-    public function getNoGrades()
+    public function getMismatches()
     {
-        if ($this->isNoGradesLoaded) {
-            return $this->noGrades;
+        if ($this->diff !== null) {
+            return $this->diff;
         }
 
-        $ids = $this->imported->pluck('student_id');
+        $sgrHashes = $this->sgr->pluck('hash');
+        $omegaHashes = $this->omega->pluck('hash');
 
-        Student::select(['id', 'last_name', 'first_name', 'middle_name'])
-            ->where('section', $this->section)
-            ->whereNotIn('id', $ids)
-            ->each(function (Student $student) {
-                $this->noGrades[] = [
-                    'id'        => $student->id,
-                    'name'      => $student->name,
-                    'remark'    => 'Not in SGR'
-                ];
-            });
+        $sgrIds = $this->sgr->pluck('id');
+        $omegaIds = $this->omega->pluck('id');
 
-        $this->isNoGradesLoaded = true;
-        return $this->noGrades;
-    }
+        $this->diff = $sgrHashes->diff($omegaHashes);
 
-    /**
-     * Get students not in omega
-     * 
-     * @return array
-     */
-    public function getNoStudents()
-    {
-        if ($this->isNoStudentsLoaded) {
-            return $this->noStudents;
-        }
+        $this->diff->transform(function ($hash) use ($sgrHashes, $omegaHashes) {
+            if ($index = $sgrHashes->search($hash)) {
+                return $this->sgr[$index];
+            }
 
-        Grade::select(['student_id'])
-            ->whereNull('id')
-            ->leftJoin('students', function (JoinClause $join) {
-                $join->on('students.id', '=', 'grades.student_id');
-                $join->on('students.section', '=', 'grades.section');
-            })
-            ->each(function (Grade $grade) use (&$data) {
-                $this->noStudents[] = [
-                    'id'        => $grade->student_id,
-                    'name'      => $this->searchStudentName($grade->student_id),
-                    'remark'    => 'Not in OMEGA'
-                ];
-            });
+            if ($index = $omegaHashes->search($hash)) {
+                return $this->omega[$index];
+            }
+        });
 
-        $this->isNoStudentsLoaded = true;
-        return $this->noStudents;
+        $this->diff->transform(function ($record) use ($sgrIds, $omegaIds) {
+            $output = [
+                'student_id'    => null,
+                'student_name'  => null,
+                'sgr'           => null,
+                'omega'         => null
+            ];
+
+            if ($sgrIndex = $sgrIds->search($record['id'])) {
+                $output['student_id'] = $this->sgr[$sgrIndex]['student_id'];
+                $output['student_name'] = $this->sgr[$sgrIndex]['name'];
+
+                $output['sgr'] = $this->getGrades($this->sgr[$sgrIndex]);
+            }
+
+            if ($omegaIndex = $omegaIds->search($record['id'])) {
+                $output['student_id'] = $this->omega[$sgrIndex]['student_id'];
+                $output['student_name'] = $this->omega[$sgrIndex]['name'];
+
+                $output['omega'] = $this->getGrades($this->omega[$omegaIndex]);
+            }
+
+            return $output;
+        });
+
+        return $this->diff;
     }
 
     /**
@@ -179,7 +208,7 @@ class SgrReporter
      */
     public function isValid()
     {
-        return count($this->noGrades) == 0 && count($this->noStudents) == 0;
+        return $this->diff !== null && empty($this->diff);
     }
 
     /**
@@ -191,7 +220,7 @@ class SgrReporter
      */
     protected function searchStudentName($id)
     {
-        $index = $this->imported->search(function ($item) use ($id) {
+        $index = $this->sgr->search(function ($item) use ($id) {
             return $item['student_id'] == $id;
         });
 
@@ -199,6 +228,59 @@ class SgrReporter
             return 'N/A';
         }
 
-        return $this->imported[$index]['name'];
+        return $this->sgr[$index]['name'];
+    }
+
+    /**
+     * Generate hash for grade record
+     * 
+     * @param array $record Grade record
+     * 
+     * @return string
+     */
+    protected function makeRecordHash($record)
+    {
+        return hash('sha1',
+            $record['student_id'] .
+            $record['subject'] .
+            $record['section'] .
+            $record['prelim_grade'] .
+            $record['midterm_grade'] .
+            $record['prefinal_grade'] .
+            $record['final_grade']
+        );
+    }
+
+    /**
+     * Generate identification hash for grade record
+     * 
+     * @param array $record Grade record
+     * 
+     * @return string
+     */
+    protected function makeIdentificationHash($record)
+    {
+        return hash('sha1',
+            $record['student_id'] .
+            $record['subject'] .
+            $record['section']
+        );
+    }
+
+    /**
+     * Returns grades from each period from grade entry
+     * 
+     * @param array $record Grade record
+     * 
+     * @return array
+     */
+    protected function getGrades($record)
+    {
+        return [
+            'prelim_grade'      => $record['prelim_grade'],
+            'midterm_grade'     => $record['midterm_grade'],
+            'prefinal_grade'    => $record['prefinal_grade'],
+            'final_grade'       => $record['final_grade']
+        ];
     }
 }

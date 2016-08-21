@@ -1659,6 +1659,14 @@ table.simple td {
     display: block !important;
   }
 
+  .panel .panel-heading {
+    display: none;
+  }
+  .panel .panel-body {
+    border: none;
+    padding: 0;
+  }
+
   span.print-visible {
     display: inline !important;
   }

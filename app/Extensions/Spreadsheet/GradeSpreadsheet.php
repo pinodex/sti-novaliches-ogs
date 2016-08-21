@@ -45,11 +45,11 @@ class GradeSpreadsheet extends AbstractSpreadsheet
         foreach ($this->spreadsheet->getSheetIterator() as $sheet) {
             if (strtolower($sheet->getName()) == 'settings') {
                 foreach ($sheet->getRowIterator() as $row => $col) {
-                    if ($row == 1) {
+                    if ($row == 2) {
                         $contents['metadata']['subject'] = $col[10];
                     }
 
-                    if ($row == 2) {
+                    if ($row == 3) {
                         $contents['metadata']['section'] = $col[10];
                     }
                 }

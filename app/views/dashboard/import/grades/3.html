@@ -4,77 +4,118 @@
 
 {% block content %}
     <div class="container">
-        <h1><span class="icon-file_upload"></span> {{ page_title }}</h1>
+        <h1 class="print-invisible"><span class="icon-file_upload"></span> {{ page_title }}</h1>
 
         <div class="grid">
-            {% include '/dashboard/import/grades/steps.html' %}
-
-            <div class="column-8">
+            <div class="column-12">
                 <div class="panel">
                     <div class="panel-heading">Report</div>
                     <div class="panel-body">
-                        <div class="alert alert-info">
+                        <h2 class="print-visible">SGR Submission Report</h2>
+
+                        <div class="alert alert-info print-invisible">
                             Your grading sheet was successfully uploaded. Below is the upload report.
                         </div>
 
                         <table class="center-align">
                             <tbody>
                                 <tr>
-                                    <td>Subject: {{ report.getSubject() }}</td>
-                                    <td>Section: {{ report.getSection() }}</td>
-                                    <td>Records Uploaded: {{ uploaded }}</td>
+                                    <td>{{ auth_user().name }}</td>
+                                    <td>{{ report.getSubject() }}</td>
+                                    <td>{{ report.getSection() }}</td>
+                                    <td>{{ report.getTotalImports() }} records uploaded</td>
                                 </tr>
                             </tbody>
                         </table>
 
-                        {% if report.getNoGrades() %}
-                            <h3>Invalid records:</h3>
+                        {% if not report.getMismatches() is empty %}
+                            <h3 class="print-invisible">Mismatched records:</h3>
 
-                            <table class="center-align">
+                            <table class="small center-align">
                                 <thead>
                                     <tr>
-                                        <th>
+                                        <th rowspan="2">
                                             <span class="long">Student #</span>
                                             <span class="short">#</span>
                                         </th>
-                                        <th>
+                                        
+                                        <th rowspan="2">
                                             <span class="long">Name</span>
                                             <span class="short">N</span>
                                         </th>
-                                        <th>
-                                            <span class="long">Remark</span>
-                                            <span class="short">R</span>
+
+                                        <th colspan="4">SGR</th>
+                                        <th colspan="4">OMEGA</th>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="has-parent">
+                                            <span class="long">Prelim</span>
+                                            <span class="short">P</span>
+                                        </th>
+                                        <th class="has-parent">
+                                            <span class="long">Midterm</span>
+                                            <span class="short">M</span>
+                                        </th>
+                                        <th class="has-parent">
+                                            <span class="long">Pre-final</span>
+                                            <span class="short">PF</span>
+                                        </th>
+                                        <th class="has-parent">
+                                            <span class="long">Final</span>
+                                            <span class="short">F</span>
+                                        </th>
+
+                                        <th class="has-parent">
+                                            <span class="long">Prelim</span>
+                                            <span class="short">P</span>
+                                        </th>
+                                        <th class="has-parent">
+                                            <span class="long">Midterm</span>
+                                            <span class="short">M</span>
+                                        </th>
+                                        <th class="has-parent">
+                                            <span class="long">Pre-final</span>
+                                            <span class="short">PF</span>
+                                        </th>
+                                        <th class="has-parent">
+                                            <span class="long">Final</span>
+                                            <span class="short">F</span>
                                         </th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    {% for row in report.getNoGrades() %}
+                                    {% for entry in report.getMismatches() %}
                                         <tr>
-                                            <td>{{ row.id|format_student_id }}</td>
-                                            <td>{{ row.name }}</td>
-                                            <td>{{ row.remark }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                    {% for row in report.getNoStudents() %}
-                                        <tr>
-                                            <td>{{ row.id|format_student_id }}</td>
-                                            <td>{{ row.name }}</td>
-                                            <td>{{ row.remark }}</td>
+                                            <td>{{ entry.student_id ? entry.student_id|format_student_id : 'N/A' }}</td>
+                                            <td>{{ entry.student_name|default('N/A') }}</td>
+
+                                            {% if entry.sgr != null %}
+                                                <td>{{ entry.sgr.prelim_grade|format_grade }}</td>
+                                                <td>{{ entry.sgr.midterm_grade|format_grade }}</td>
+                                                <td>{{ entry.sgr.prefinal_grade|format_grade }}</td>
+                                                <td>{{ entry.sgr.final_grade|format_grade }}</td>
+                                            {% else %}
+                                                <td colspan="4" class="color-danger">Not in SGR</td>
+                                            {% endif %}
+
+                                            {% if entry.omega != null %}
+                                                <td>{{ entry.omega.prelim_grade|format_grade }}</td>
+                                                <td>{{ entry.omega.midterm_grade|format_grade }}</td>
+                                                <td>{{ entry.omega.prefinal_grade|format_grade }}</td>
+                                                <td>{{ entry.omega.final_grade|format_grade }}</td>
+                                            {% else %}
+                                                <td colspan="4" class="color-danger">Not in OMEGA</td>
+                                            {% endif %}
                                         </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
                         {% endif %}
 
-                        <form method="post" action="{{ app.request.getRequestUri }}" @submit="disableAction = true">
-                            {{ csrf_field() }}
-                            {{ form_widget(confirm_form) }}
-
-                            <div class="buttons">
-                                <button type="submit" class="success" :disabled="disableAction">Finish <span class="icon-navigate_next"></span></button>
-                            </div>
-                        </form>
+                        <a href="{{ route('dashboard.import.grades.stepFour', {'session': session_id}, false) }}" class="button success" :disabled="disableAction">Finish Import <span class="icon-navigate_next"></span></a>
+                        <button type="button" class="link" @click="printDocument()">Print Document</button>
                     </div>
                 </div>
             </div>

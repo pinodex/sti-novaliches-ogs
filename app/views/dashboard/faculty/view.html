@@ -98,6 +98,8 @@
                                     <tr>
                                         <th>Date</th>
                                         <th>Period</th>
+                                        <th>Subject</th>
+                                        <th>Section</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -106,6 +108,8 @@
                                         <tr>
                                             <td>{{ log.date }}</td>
                                             <td>{{ log.period|capitalize }}</td>
+                                            <td>{{ log.subject }}</td>
+                                            <td>{{ log.section }}</td>
                                             <td>{{ log.is_valid ? 'Valid' : 'Invalid' }}</td>
                                         </tr>
                                     {% endfor %}

@@ -17,7 +17,10 @@ use Storage;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Extensions\Spreadsheet\SpreadsheetFactory;
 use App\Extensions\Spreadsheet\GradeSpreadsheet;
+use App\Extensions\Spreadsheet\OmegaSpreadsheet;
 use App\Http\Controllers\Controller;
 use App\Jobs\ParallelJob;
 use App\Jobs\DeleteFileJob;
@@ -57,42 +60,56 @@ class GradeImportController extends Controller
             return redirect()->route('dashboard.import.grades');
         }
 
-        if ($uploadedFile = Session::get('gw_uploaded_file')) {
-            @unlink($uploadedFile);
-        }
-
-        Session::forget($sessionId . 'gw_file');
+        Session::forget($sessionId . 'gw_files');
         Session::forget($sessionId . 'gw_import_done');
 
+        Cache::forget($sessionId . 'report');
         Cache::forget($sessionId . 'grading_sheet');
 
         $form = Form::create();
 
-        $form->add('file', Type\FileType::class, [
-            'label' => ' '
+        $form->add('sgr', Type\FileType::class, [
+            'label'         => 'Grading Sheet',
+            'attr'          => ['accept' => '.xlsx']
+        ]);
+
+        $form->add('omega', Type\FileType::class, [
+            'label'         => 'OMEGA File',
+            'attr'          => ['accept' => '.xlsx']
         ]);
 
         $form = $form->getForm();
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $file = $form['file']->getData();
+            $files = $form->getData();
             
-            if ($file->getError() > 0) {
-                Session::flash('flash_message', 'danger>>>' . $file->getErrorMessage());
+            if ($files['sgr']->getError() > 0 || $files['omega']->getError() > 0) {
+                Session::flash('flash_message', 'danger>>>' . $files['sgr']->getErrorMessage());
 
                 return redirect()->route('dashboard.import.grades.stepOne', [
                     'session' => $sessionId
                 ]);
             }
 
-            $storageName = sprintf('/imports/grades/%s.xlsx', uniqid(null, true));
-
-            Storage::put($storageName, file_get_contents($file->getPathname()));
+            $id = uniqid(null, true);
             
-            Session::put($sessionId . 'gw_file', [
-                'name' => $file->getClientOriginalName(),
-                'path' => storage_path('app' . $storageName)
+            $sgrTarget = sprintf('/imports/grades/%s-sgr.xlsx', $id);
+            $omegaTarget = sprintf('/imports/grades/%s-omega.xlsx', $id);
+
+            Storage::put($sgrTarget, file_get_contents($files['sgr']->getPathname()));
+            Storage::put($omegaTarget, file_get_contents($files['omega']->getPathname()));
+            
+            Session::put($sessionId . 'gw_files', [
+                'sgr' => [
+                    'name' => $files['sgr']->getClientOriginalName(),
+                    'path' => storage_path('app' . $sgrTarget)
+                ],
+
+                'omega' => [
+                    'name' => $files['omega']->getClientOriginalName(),
+                    'path' => storage_path('app' . $omegaTarget)
+                ]
             ]);
             
             return redirect()->route('dashboard.import.grades.stepTwo', [
@@ -117,21 +134,30 @@ class GradeImportController extends Controller
             return redirect()->route('dashboard.import.grades');
         }
 
-        if (!$file = Session::get($sessionId . 'gw_file')) {
+        if (!$files = Session::get($sessionId . 'gw_files')) {
             return redirect()->route('dashboard.import.grades.stepOne');
         }
 
-        $spreadsheet = new GradeSpreadsheet($file['path']);
+        if (Session::get($sessionId . 'gw_import_done')) {
+            Session::flash('flash_message', 'info>>>Your SGR was already imported.');
 
-        if (!$spreadsheet->isValid()) {
-            Session::flash('flash_message', 'danger>>>' . 'Please upload a valid grading sheet file.');
+            return redirect()->route('dashboard.import.grades.stepThree', [
+                'session' => $sessionId
+            ]);
+        }
+
+        $sgr = new GradeSpreadsheet($files['sgr']['path']);
+        $omega = new OmegaSpreadsheet($files['omega']['path']);
+
+        if (!$sgr->isValid() || !$omega->isValid()) {
+            Session::flash('flash_message', 'danger>>>Please upload a valid files.');
             return redirect()->route('dashboard.import.grades.stepOne');
         }
 
         if (!$contents = Cache::get($sessionId . 'grading_sheet')) {
             set_time_limit(0);
             
-            $contents = $spreadsheet->getParsedContents();
+            $contents = $sgr->getParsedContents();
             Cache::put($sessionId . 'grading_sheet', $contents, 60);
         }
 
@@ -147,11 +173,33 @@ class GradeImportController extends Controller
         if ($form->isValid()) {
             $importer = null;
 
+            $sgr = new GradeSpreadsheet($files['sgr']['path']);
+            $omega = new OmegaSpreadsheet($files['omega']['path']);
+        
+            $report = SgrReporter::check($sgr, $omega);
+
             if ($this->isRole('faculty')) {
+                $this->user->addSubmissionLogEntry($report);
                 $importer = $this->user;
             }
 
-            $spreadsheet->importToDatabase($importer);
+            $sgr->importToDatabase($importer);
+
+            Cache::put($sessionId . 'report', $report, 60);
+
+            $queue = new ParallelJob();
+
+            try {
+                $email = new GradeDelivery();
+                $email->attach($files['sgr']['path'], $files['sgr']['name'], mime_content_type($files['sgr']['path']));
+
+                $queue->add(new SendEmailJob($email));
+            } catch (\Exception $ignored) {}
+
+            $queue->add(new DeleteFileJob($files['sgr']['path']));
+            $queue->add(new DeleteFileJob($files['omega']['path']));
+
+            $this->dispatch($queue);
 
             Session::put($sessionId . 'gw_import_done', true);
 
@@ -178,7 +226,7 @@ class GradeImportController extends Controller
             return redirect()->route('dashboard.import.grades');
         }
 
-        if (!$file = Session::get($sessionId . 'gw_file')) {
+        if (!$files = Session::get($sessionId . 'gw_files')) {
             return redirect()->route('dashboard.import.grades.stepOne');
         }
 
@@ -186,44 +234,10 @@ class GradeImportController extends Controller
             return redirect()->route('dashboard.import.grades.stepTwo');
         }
 
-        $spreadsheet = new GradeSpreadsheet($file['path']);
-        $report = SgrReporter::check($spreadsheet);
-
-        $form = Form::create();
-        
-        $form->add('_confirm', Type\HiddenType::class, [
-            'required' => false
-        ]);
-        
-        $form = $form->getForm();
-        $form->handleRequest($request);
-        
-        if ($form->isValid()) {
-            if ($this->isRole('faculty')) {
-                $this->user->addSubmissionLogEntry($report->isValid());
-            }
-
-            $queue = new ParallelJob();
-
-            try {
-                $email = new GradeDelivery();
-                $email->attach($file['path'], $file['name'], mime_content_type($file['path']));
-
-                $queue->add(new SendEmailJob($email));
-            } catch (\Exception $ignored) {}
-
-            $queue->add(new DeleteFileJob($file['path']));
-            $this->dispatch($queue);
-
-            return redirect()->route('dashboard.import.grades.stepFour', [
-                'session' => $sessionId
-            ]);
-        }
+        $report = Cache::get($sessionId . 'report');
 
         return view('dashboard/import/grades/3', [
             'report'        => $report,
-            'uploaded'      => $report->getTotalImports() - count($report->getNoStudents()),
-            'confirm_form'  => $form->createView(),
             'session_id'    => $sessionId,
             'current_step'  => 3
         ]);
@@ -239,7 +253,7 @@ class GradeImportController extends Controller
             return redirect()->route('dashboard.import.grades');
         }
 
-        if (!Session::get($sessionId . 'gw_file')) {
+        if (!Session::get($sessionId . 'gw_files')) {
             return redirect()->route('dashboard.import.grades.stepOne');
         }
 
@@ -248,9 +262,10 @@ class GradeImportController extends Controller
         }
 
         // cleanup
-        Session::forget($sessionId . 'gw_file');
+        Session::forget($sessionId . 'gw_files');
         Session::forget($sessionId . 'gw_import_done');
 
+        Cache::forget($sessionId . 'report');
         Cache::forget($sessionId . 'grading_sheet');
         
         return view('dashboard/import/grades/4', [
