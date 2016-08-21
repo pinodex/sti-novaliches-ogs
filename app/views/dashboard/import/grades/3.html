@@ -114,8 +114,10 @@
                             </table>
                         {% endif %}
 
-                        <a href="{{ route('dashboard.import.grades.stepFour', {'session': session_id}, false) }}" class="button success" :disabled="disableAction">Finish Import <span class="icon-navigate_next"></span></a>
-                        <button type="button" class="link" @click="printDocument()">Print Document</button>
+                        <div class="print-invisible">
+                            <a href="{{ route('dashboard.import.grades.stepFour', {'session': session_id}, false) }}" class="button success" :disabled="disableAction">Finish Import <span class="icon-navigate_next"></span></a>
+                            <button type="button" class="link" @click="printDocument()">Print Document</button>
+                        </div>
                     </div>
                 </div>
             </div>
