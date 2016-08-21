@@ -31,7 +31,7 @@ class Authenticate
                 return response('Unauthorized.', 401);
             } else {
                 return redirect()->route('auth.login', [
-                    'next' => urlencode($request->getRequestUri())
+                    'next' => $request->getRequestUri()
                 ]);
             }
         }
