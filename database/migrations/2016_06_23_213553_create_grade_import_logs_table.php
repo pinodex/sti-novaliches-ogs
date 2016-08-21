@@ -20,7 +20,7 @@ class CreateGradeImportLogsTable extends Migration {
 			$table->string('subject', 32);
 			$table->string('section', 32);
 			$table->dateTime('date');
-			$table->boolean('prelim')->default(true);
+			$table->boolean('is_valid')->default(true);
 		});
 	}
 
