@@ -16,6 +16,10 @@
             }
         }
 
+        .container {
+            max-width: 500px;
+        }
+
         h1 {
             font-size: 52px;
             padding: 0;
@@ -54,12 +58,12 @@
     -->
 </head>
 <body>
-    <h1>Error 500</h1>
-    <h2>Something went wrong.</h2>
+    <div class="container">
+        <h1>Error 500</h1>
+        <h2>Something went wrong.</h2>
     
-    <p>
-        An error occured while processing your request.<br />
-        Try again, and if it&rsquo;s still doesn&rsquo;t work, <a href="http://bugreports.raphaelmarco.me/create?project=stinovaliches&amp;timestamp={{ date().format('U') }}">let us know</a>.
-    </p>
+        <p>An error occured while processing your request. Please try again.</p>
+        <p>If the issue persists, please visit the Academic Head Office and look for Mr. Noriel Domondon to report the problem.</p>
+    </div>
 </body>
 </html>
