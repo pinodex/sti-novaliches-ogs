@@ -18,7 +18,6 @@ return [
         App\Http\Controllers\Dashboard\AdminController::class,
         App\Http\Controllers\Dashboard\DepartmentController::class,
         App\Http\Controllers\Dashboard\FacultyController::class,
-        App\Http\Controllers\Dashboard\GradeCompareController::class,
         App\Http\Controllers\Dashboard\GradeController::class,
         App\Http\Controllers\Dashboard\GuidanceController::class,
         App\Http\Controllers\Dashboard\HeadController::class,

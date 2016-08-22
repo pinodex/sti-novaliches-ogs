@@ -109,13 +109,6 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
 
     Route::group(['prefix' => 'grades', 'as' => 'grades.'], function () {
         Route::get('/', 'GradeController@index')->name('index');
-        Route::get('/compare', 'GradeController@compare')->name('compare');
-
-        Route::group(['prefix' => 'compare', 'as' => 'compare.'], function () {
-            Route::match(['get', 'post'], '/upload', 'GradeCompareController@upload')->name('upload');
-
-            Route::get('/diff', 'GradeCompareController@diff')->name('diff');
-        });
     });
 
     Route::group(['prefix' => 'memo', 'as' => 'memo.'], function () {

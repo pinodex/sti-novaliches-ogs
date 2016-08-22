@@ -32,14 +32,4 @@ class GradeController extends Controller
     {
         return view('dashboard/grades/index');
     }
-
-    /**
-     * Grades compare page redirector
-     * 
-     * URL: /dashboard/grades/compare
-     */
-    public function compare()
-    {
-        return redirect()->route('dashboard.grades.compare.upload');
-    }
 }
