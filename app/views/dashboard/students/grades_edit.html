@@ -44,7 +44,7 @@
                     <div class="panel-heading">Grades</div>
                     <div class="panel-body">
                         <p>
-                        <small>You are in grades edit page. Only number, <em>INC</em>, <em>DRP</em>, and <em>TRF</em> value are allowed. Please leave blank if the grade is currently not available.</small>
+                        <small>You are in grades edit page. Only number values are allowed. Please leave blank or <em>N/A</em> if the grade is not available.</small>
                         </p>
                 
                         <form action="{{ app.request.getRequestUri }}" method="post">
@@ -59,19 +59,19 @@
                                         </th>
                                         <th>
                                             <span class="long">Prelim</span>
-                                            <span class="short">1</span>
+                                            <span class="short">P</span>
                                         </th>
                                         <th>
                                             <span class="long">Midterm</span>
-                                            <span class="short">2</span>
+                                            <span class="short">M</span>
                                         </th>
                                         <th>
                                             <span class="long">Pre-final</span>
-                                            <span class="short">3</span>
+                                            <span class="short">PF</span>
                                         </th>
                                         <th>
                                             <span class="long">Final</span>
-                                            <span class="short">4</span>
+                                            <span class="short">F</span>
                                         </th>
                                     </tr>
                                 </thead>
