@@ -184,9 +184,8 @@ class Grade extends Model
         return self::with('student')
             ->where(['section' => $section, 'subject' => $subject])
             ->whereNotNull($period)
-            ->orderBy($period, 'DESC')
+            ->orderBy($period, 'ASC')
             ->take(5)
-            ->get([$period, 'student_id'])
-            ->toArray();
+            ->get([$period, 'student_id']);
     }
 }

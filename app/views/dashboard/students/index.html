@@ -46,13 +46,7 @@
 
             <div class="column-8">
                 {% if result is empty %}
-                    <div class="alert alert-neutral">
-                        No records found
-
-                        {% if section is not null %}
-                            <p><small>If you&rsquo;re searching by section, chances are, no one has imported their grading sheet yet. Please try searching by name instead.</small></p>
-                        {% endif %}
-                    </div>
+                    <div class="alert alert-neutral">No records found</div>
                 {% else %}
                     <select name="pages" @change="changePaginationPage" v-model="paginationPage">
                         {% for i in 1..result.lastPage %}

@@ -39,7 +39,7 @@ class MainController extends Controller
     public function index()
     {
         if (!$this->user->is_required_info_filled) {
-            return redirect()->route('student.account');
+            //return redirect()->route('student.account');
         }
 
         $period = strtolower(Settings::get('period', 'prelim'));
