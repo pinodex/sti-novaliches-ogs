@@ -47,14 +47,9 @@ class SgrReporter
     protected $diff;
 
     /**
-     * @var bool
+     * @var int Invalid records count
      */
-    protected $isNoGradesLoaded = false;
-
-    /**
-     * @var bool
-     */
-    protected $isNoStudentsLoaded = false;
+    protected $invalidRecordCount = 0;
 
     /**
      * Constructs SgrReporter
@@ -122,6 +117,16 @@ class SgrReporter
     public function getTotalImports()
     {
         return count($this->sgr);
+    }
+
+    /**
+     * Get total count of invalid records
+     * 
+     * @return int
+     */
+    public function getInvalidRecordCount()
+    {
+        return $this->invalidRecordCount;
     }
 
     /**
@@ -197,6 +202,8 @@ class SgrReporter
 
             return $output;
         });
+
+        $this->invalidRecordCount = $this->diff->count();
 
         return $this->diff;
     }

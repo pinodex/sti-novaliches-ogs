@@ -183,7 +183,7 @@ class GradeImportController extends Controller
                 $importer = $this->user;
             }
 
-            $sgr->importToDatabase($importer);
+            $sgr->importToDatabase($importer, $report->getMismatches()->pluck('student_id'));
 
             Cache::put($sessionId . 'report', $report, 60);
 

@@ -14,9 +14,17 @@ namespace App\Extensions\Spreadsheet;
 use DB;
 use App\Models\Grade;
 use App\Models\Faculty;
+use Illuminate\Support\Collection;
 
 class GradeSpreadsheet extends AbstractSpreadsheet
 {
+    public function __construct($filePath)
+    {
+        parent::__construct($filePath);
+
+        $this->filteredIds = Collection::make();
+    }
+
     public function isValid()
     {
         $hasSettings = false;
@@ -100,13 +108,14 @@ class GradeSpreadsheet extends AbstractSpreadsheet
     public function importToDatabase()
     {
         $importerId = null;
+        $filteredIds = Collection::make();
 
-        if (func_num_args() > 0) {
-            $importer = func_get_arg(0);
+        if (func_get_arg(0) instanceof Faculty) {
+            $importerId = func_get_arg(0)->id;
+        }
 
-            if ($importer instanceof Faculty) {
-                $importerId = $importer->id;
-            }
+        if (func_get_arg(1) instanceof Collection) {
+            $filteredIds = func_get_arg(1);
         }
 
         $contents = $this->getParsedContents();
@@ -120,6 +129,10 @@ class GradeSpreadsheet extends AbstractSpreadsheet
             'midterm_absences,prefinal_absences,final_absences)';
 
         foreach ($contents['students'] as $student) {
+            if ($filteredIds->contains($student['student_id'])) {
+                continue;
+            }
+
             $values[] = '(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 
             $bindings = array_merge($bindings, [
@@ -141,7 +154,7 @@ class GradeSpreadsheet extends AbstractSpreadsheet
                 $student['final_absences'],
             ]);
         }
-
+        
         $values = implode(',', $values);
 
         // Probably not the best thing you would see today.

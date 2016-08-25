@@ -23,7 +23,7 @@
                                     <td>{{ auth_user().name }}</td>
                                     <td>{{ report.getSubject() }}</td>
                                     <td>{{ report.getSection() }}</td>
-                                    <td>{{ report.getTotalImports() }} records uploaded</td>
+                                    <td>{{ report.getTotalImports() - report.getInvalidRecordCount() }} records uploaded</td>
                                 </tr>
                             </tbody>
                         </table>
