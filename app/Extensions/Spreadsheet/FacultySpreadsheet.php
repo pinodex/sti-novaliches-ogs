@@ -21,16 +21,10 @@ class FacultySpreadsheet extends AbstractSpreadsheet
      * @var array Mappings of department code to names
      */
     protected $departmentMappings = [
-        'BM'    => 'BMAT Department',
-        'BMAT'  => 'BMAT Department',
-        'IT'    => 'ICT Department',
         'ICT'   => 'ICT Department',
-        'AT'    => 'Accounting Technology',
-        'HR'    => 'THM Department',
-        'TM'    => 'THM Department',
-        'TH'    => 'THM Department',
-        'HR/TM' => 'THM Department',
-        'GE'    => 'GE Department'
+        'BA'    => 'BMAT Department',
+        'GE'    => 'GE Department',
+        'TH'    => 'THM Department'
     ];
 
     public function isValid()
@@ -87,11 +81,12 @@ class FacultySpreadsheet extends AbstractSpreadsheet
         foreach ($this->getParsedContents() as $entry) {
             $departmentId = null;
 
-            $isMapped = array_key_exists($entry['department'], $this->departmentMappings);
-            $hasDepartment = $departments->has($this->departmentMappings[$entry['department']]);
+            if (array_key_exists($entry['department'], $this->departmentMappings)) {
+                $hasDepartment = $departments->has($this->departmentMappings[$entry['department']]);
 
-            if ($isMapped && $hasDepartment) {
-                $departmentId = $departments->get($this->departmentMappings[$entry['department']]);
+                if ($hasDepartment) {
+                    $departmentId = $departments->get($this->departmentMappings[$entry['department']]);
+                }
             }
 
             unset($entry['department']);
