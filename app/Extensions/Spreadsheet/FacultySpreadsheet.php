@@ -21,16 +21,16 @@ class FacultySpreadsheet extends AbstractSpreadsheet
      * @var array Mappings of department code to names
      */
     protected $departmentMappings = [
-        'BM'    => 'Business Management',
-        'BMAT'  => 'Business Management',
-        'IT'    => 'Information Technology',
-        'ICT'   => 'Information Technology',
+        'BM'    => 'BMAT Department',
+        'BMAT'  => 'BMAT Department',
+        'IT'    => 'ICT Department',
+        'ICT'   => 'ICT Department',
         'AT'    => 'Accounting Technology',
-        'HR'    => 'Hotel and Restaurant Management',
-        'TM'    => 'Hotel and Restaurant Management',
-        'TH'    => 'Hotel and Restaurant Management',
-        'HR/TM' => 'Hotel and Restaurant Management',
-        'GE'    => 'General Education'
+        'HR'    => 'THM Department',
+        'TM'    => 'THM Department',
+        'TH'    => 'THM Department',
+        'HR/TM' => 'THM Department',
+        'GE'    => 'GE Department'
     ];
 
     public function isValid()
