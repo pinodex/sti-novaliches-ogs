@@ -150,8 +150,11 @@ class GradeImportController extends Controller
         $omega = new OmegaSpreadsheet($files['omega']['path']);
 
         if (!$sgr->isValid() || !$omega->isValid()) {
-            Session::flash('flash_message', 'danger>>>Please upload a valid files.');
-            return redirect()->route('dashboard.import.grades.stepOne');
+            Session::flash('flash_message', 'danger>>>Invalid files uploaded');
+
+            return redirect()->route('dashboard.import.grades.stepOne', [
+                'session' => $sessionId
+            ]);
         }
 
         if (!$contents = Cache::get($sessionId . 'grading_sheet')) {
@@ -172,9 +175,6 @@ class GradeImportController extends Controller
         
         if ($form->isValid()) {
             $importer = null;
-
-            $sgr = new GradeSpreadsheet($files['sgr']['path']);
-            $omega = new OmegaSpreadsheet($files['omega']['path']);
         
             $report = SgrReporter::check($sgr, $omega);
 
