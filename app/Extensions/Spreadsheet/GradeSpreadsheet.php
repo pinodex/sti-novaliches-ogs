@@ -71,11 +71,11 @@ class GradeSpreadsheet extends AbstractSpreadsheet
             if (strtolower($sheet->getName()) == 'settings') {
                 foreach ($sheet->getRowIterator() as $row => $col) {
                     if ($row == 2) {
-                        $contents['metadata']['subject'] = $col[10];
+                        $contents['metadata']['subject'] = strtoupper(cleanString($col[10]));
                     }
 
                     if ($row == 3) {
-                        $contents['metadata']['section'] = $col[10];
+                        $contents['metadata']['section'] = strtoupper(cleanString($col[10]));
                     }
                 }
             }

@@ -204,6 +204,20 @@ if (!function_exists('normalizeAccents')) {
     }
 }
 
+if (!function_exists('cleanString')) {
+    /**
+     * Clean string by keeping only alphanumeric characters.
+     * 
+     * @param string $string Input string
+     * 
+     * @return string
+     */
+    function cleanString($string)
+    {
+        return preg_replace('/[^a-zA-Z0-9]+/', '', $string);
+    }
+}
+
 if (!function_exists('getGradeClass')) {
     /**
      * Get HTML class for grade value

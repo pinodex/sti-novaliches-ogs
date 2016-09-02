@@ -87,8 +87,8 @@ class OmegaSpreadsheet extends AbstractSpreadsheet
                 $contents[] = [
                     'student_id'        => $this->parseStudentId($col[19]),
                     'name'              => $col[6] . ', ' . $col[7] . ' ' . $col[8],
-                    'subject'           => $col[17],
-                    'section'           => $col[18],
+                    'subject'           => strtoupper(cleanString($col[17])),
+                    'section'           => strtoupper(cleanString($col[18])),
                     'prelim_grade'      => parseGrade($col[23]),
                     'midterm_grade'     => parseGrade($col[21]),
                     'prefinal_grade'    => parseGrade($col[30]),
