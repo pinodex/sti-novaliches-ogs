@@ -69,7 +69,7 @@ class GradeImportController extends Controller
         $form = Form::create();
 
         $form->add('sgr', Type\FileType::class, [
-            'label'         => 'Grading Sheet',
+            'label'         => 'SGR File',
             'attr'          => ['accept' => '.xlsx']
         ]);
 
@@ -120,7 +120,8 @@ class GradeImportController extends Controller
         return view('dashboard/import/grades/1', [
             'session_id'    => $sessionId,
             'upload_form'   => $form->createView(),
-            'current_step'  => 1
+            'current_step'  => 1,
+            'invalid'       => $request->query->get('invalid')
         ]);
     }
 
@@ -150,17 +151,24 @@ class GradeImportController extends Controller
         $omega = new OmegaSpreadsheet($files['omega']['path']);
 
         if (!$sgr->isValid() || !$omega->isValid()) {
-            Session::flash('flash_message', 'danger>>>Invalid files uploaded');
-
             return redirect()->route('dashboard.import.grades.stepOne', [
-                'session' => $sessionId
+                'session' => $sessionId,
+                'invalid' => true
             ]);
         }
 
         if (!$contents = Cache::get($sessionId . 'grading_sheet')) {
             set_time_limit(0);
             
-            $contents = $sgr->getParsedContents();
+            try {
+                $contents = $sgr->getParsedContents();
+            } catch (\Exception $e) {
+                return redirect()->route('dashboard.import.grades.stepOne', [
+                    'session' => $sessionId,
+                    'invalid' => true
+                ]);
+            }
+
             Cache::put($sessionId . 'grading_sheet', $contents, 60);
         }
 

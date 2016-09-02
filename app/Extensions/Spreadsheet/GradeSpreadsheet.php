@@ -30,14 +30,31 @@ class GradeSpreadsheet extends AbstractSpreadsheet
         $hasSettings = false;
         $hasSummary = false;
 
+        $subject = '';
+        $section = '';
+
         foreach ($this->spreadsheet->getSheetIterator() as $sheet) {
             if (strtolower($sheet->getName()) == 'settings') {
                 $hasSettings = true;
+
+                foreach ($sheet->getRowIterator() as $row => $col) {
+                    if ($row == 2) {
+                        $subject = $col[10];
+                    }
+
+                    if ($row == 3) {
+                        $section = $col[10];
+                    }
+                }
             }
 
             if (strtolower($sheet->getName()) == 'summary') {
                 $hasSummary = true;
             }
+        }
+
+        if (empty(trim($subject)) || empty(trim($section))) {
+            return false;
         }
 
         return $hasSettings && $hasSummary;
