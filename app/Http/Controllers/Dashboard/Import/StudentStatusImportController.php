@@ -62,6 +62,16 @@ class StudentStatusImportController extends Controller
             'label' => 'Student Status List File'
         ]);
 
+        $form->add('period', Type\ChoiceType::class, [
+            'expanded'  => true,
+            'choices'   => [
+                'Prelim'        => 'prelim',
+                'Midterm'       => 'midterm',
+                'Pre-final'     => 'prefinal',
+                'Final'         => 'final'
+            ]
+        ]);
+
         $form = $form->getForm();
         $form->handleRequest($request);
 
@@ -78,6 +88,8 @@ class StudentStatusImportController extends Controller
 
             Storage::put($storageName, file_get_contents($form['file']->getData()->getPathName()));
             Session::put('ss_uploaded_file', storage_path('app' . $storageName));
+
+            Session::put('ss_period', $form['period']->getData());
             
             return redirect()->route('dashboard.import.studentsstatus.stepTwo');
         }
@@ -98,9 +110,9 @@ class StudentStatusImportController extends Controller
             return redirect()->route('dashboard.import.studentsstatus.stepOne');
         }
 
-        $spreadsheet = new StudentStatusSpreadsheet($uploadedFile);
+        $period = Session::get('ss_period');
 
-        $spreadsheet->getParsedContents();
+        $spreadsheet = new StudentStatusSpreadsheet($uploadedFile);
 
         $form = Form::create();
 
@@ -108,20 +120,11 @@ class StudentStatusImportController extends Controller
             'required' => false
         ]);
 
-        $form->add('purge', Type\CheckboxType::class, [
-            'label'     => 'Purge and replace current students status',
-            'required'  => false
-        ]);
-
         $form = $form->getForm();
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            if ($form['purge']->getData()) {
-                StudentStatus::truncate();
-            }
-
-            $spreadsheet->importToDatabase();
+            $spreadsheet->importToDatabase($period);
             Session::put('ss_import_done', true);
 
             return redirect()->route('dashboard.import.studentsstatus.stepThree');
@@ -150,6 +153,7 @@ class StudentStatusImportController extends Controller
         // cleanup
         Session::forget('ss_uploaded_file');
         Session::forget('ss_import_done');
+        Session::forget('ss_period');
 
         Cache::forget('status_sheet');
 

@@ -24,38 +24,17 @@ class StudentStatusSpreadsheet extends AbstractSpreadsheet
     public function getParsedContents()
     {
         $contents = [];
-        $periods = ['prelim', 'midterm', 'prefinal', 'final'];
 
         foreach ($this->spreadsheet->getSheetIterator() as $sheet) {
-            $period = strtolower($sheet->getName());
-
-            if (!in_array($period, $periods)) {
-                continue;
+            if ($sheet->getIndex() != 0) {
+                break;
             }
 
             foreach ($sheet->getRowIterator() as $row => $col) {
                 if ($row > 0 && isStudentId($col[1])) {
-                    $studentId = parseStudentId($col[1]);
-
-                    if (!array_key_exists($studentId, $contents)) {
-                        $contents[$studentId] = [
-                            'prelim'    => false,
-                            'midterm'   => false,
-                            'prefinal'  => false,
-                            'final'     => false
-                        ];
-                    }
-
-                    $contents[$studentId][$period] = true;
+                    $contents[] = parseStudentId($col[1]);
                 }
             }
-        }
-
-        // flatten
-        foreach ($contents as $id => $status) {
-            $contents[] = array_merge(['student_id' => $id], $status);
-
-            unset($contents[$id]);
         }
 
         return $contents;
@@ -63,6 +42,12 @@ class StudentStatusSpreadsheet extends AbstractSpreadsheet
 
     public function importToDatabase()
     {
+        if (func_num_args() == 0) {
+            return;
+        }
+
+        $period = func_get_arg(0);
+
         $tableName = with(new StudentStatus)->getTable();
         $chunks = array_chunk($this->getParsedContents(), 500);
 
@@ -70,22 +55,16 @@ class StudentStatusSpreadsheet extends AbstractSpreadsheet
             $values = [];
             $bindings = [];
 
-            $tables = '(student_id,prelim,midterm,prefinal,final)';
+            $tables = "(student_id,{$period})";
 
             foreach ($students as $student) {
-                $values[] = '(?,?,?,?,?)';
-                $bindings = array_merge($bindings, array_values($student));
+                $values[] = '(?, true)';
             }
 
             $values = implode(',', $values);
+            $query = "INSERT INTO {$tableName} {$tables} VALUES {$values} ON DUPLICATE KEY UPDATE {$period} = VALUES({$period});";
 
-            $query = "INSERT INTO {$tableName} {$tables} VALUES {$values} ON DUPLICATE KEY UPDATE " .
-                'prelim = VALUES(prelim),' .
-                'midterm = VALUES(midterm),' .
-                'prefinal = VALUES(prefinal),' .
-                'final = VALUES(final)';
-
-            DB::insert($query, $bindings);
+            DB::insert($query, $students);
         }
     }
 }

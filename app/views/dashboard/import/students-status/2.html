@@ -15,8 +15,6 @@
                 <div class="panel">
                     <div class="panel-heading">Confirm imports</div>
                     <div class="panel-body">
-                        <p>This will overwrite existing records.</p>
-                        
                         <p><em>Importing to database may take several seconds depending on the amount of records to be imported. Please don't close this window/tab while importing.</em></p>
                         
                         <form method="post" action="{{ app.request.getRequestUri }}" @submit="disableAction = true">
