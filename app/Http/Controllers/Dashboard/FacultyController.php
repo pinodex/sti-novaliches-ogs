@@ -17,11 +17,12 @@ use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Extensions\Constraints as CustomAssert;
 use App\Http\Controllers\Controller;
-use App\Extensions\Settings;
-use App\Extensions\Form;
+use App\Models\GradeImportLog;
 use App\Models\Department;
 use App\Models\Faculty;
 use App\Models\Grade;
+use App\Extensions\Form;
+use App\Extensions\Settings;
 
 class FacultyController extends Controller
 {
@@ -123,6 +124,55 @@ class FacultyController extends Controller
                     'final'     => $faculty->submittedGrades->whereInLoose('final_grade', [5])->count()
                 ]
             ]
+        ]);
+    }
+
+    /**
+     * View faculty submission entry
+     * 
+     * URL: /dashboard/faculty/{id}/submission/{subId}
+     */
+    public function viewSubmission(Request $request, Faculty $faculty, GradeImportLog $submission)
+    {
+        if ($faculty->id != $submission->faculty_id) {
+            abort(404);
+        }
+
+        $grades = $faculty->submittedGrades()->getQuery()->where([
+            'section'   => $submission->section,
+            'subject'   => $submission->subject
+        ])->with('student')->get();
+
+        $form = Form::create(['status' => $submission->is_valid]);
+
+        $form->add('status', Type\ChoiceType::class, [
+            'label'     => 'Set submission status',
+            'expanded'  => true,
+            'choices'   => [
+                'Invalid'   => 0,
+                'Valid'     => 1
+            ]
+        ]);
+
+        $form = $form->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $submission->is_valid = $form['status']->getData();
+            $submission->save();
+
+            Session::flash('flash_message', 'success>>>Faculty submission changes has been saved');
+
+            return redirect()->route('dashboard.faculty.view', [
+                'faculty' => $faculty->id
+            ]);
+        }
+
+        return view('dashboard/faculty/view_submission', [
+            'faculty'       => $faculty,
+            'submission'    => $submission,
+            'grades'        => $grades,
+            'form'          => $form->createView()
         ]);
     }
 

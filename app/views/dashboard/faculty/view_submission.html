@@ -1,0 +1,113 @@
+{% extends '/_layout/main-default.html' %}
+
+{% form_theme form '/_layout/form-default.html' %}
+
+{% set page_title = 'View submission' %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ page_title }}</h1>
+
+        <div class="grid">
+            <div class="column-4">
+                <div class="panel">
+                    <div class="panel-heading">Information</div>
+                    <div class="panel-body">
+                        <table class="borderless colorless">
+                            <tbody>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>{{ faculty.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Date</td>
+                                    <td>{{ submission.date }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Section</td>
+                                    <td>{{ submission.section }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Subject</td>
+                                    <td>{{ submission.subject }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Status</td>
+                                    <td>{{ submission.is_valid ? 'Valid' : 'Invalid' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-heading">Actions</div>
+                    <div class="panel-body">
+                        <form method="post" action="{{ app.request.getRequestUri }}">
+                            {{ csrf_field() }}
+                            {{ form_widget(form) }}
+                    
+                            <button type="submit" class="success">Save <span class="icon-navigate_next"></span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column-8">
+                <div class="panel">
+                    <div class="panel-heading">Grades</div>
+                    <div class="panel-body">
+                        <table class="center-align">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span class="long">Student #</span>
+                                        <span class="short">#</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Name</span>
+                                        <span class="short">N</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Prelim</span>
+                                        <span class="short">1</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Midterm</span>
+                                        <span class="short">2</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Pre-final</span>
+                                        <span class="short">3</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Final</span>
+                                        <span class="short">4</span>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for grade in grades %}
+                                    <tr>
+                                        {% if grade.student != null %}
+                                            <td>{{ grade.student.id|format_student_id }}</td>
+                                            <td>{{ grade.student.name }}</td>
+                                        {% else %}
+                                            <td>{{ grade.student_id }}</td>
+                                            <td>N/A</td>
+                                        {% endif %}
+                                        <td class="{{ grade.prelim_grade|grade_class }}">{{ grade.prelim_grade|format_grade }}</td>
+                                        <td class="{{ grade.midterm_grade|grade_class }}">{{ grade.midterm_grade|format_grade }}</td>
+                                        <td class="{{ grade.prefinal_grade|grade_class }}">{{ grade.prefinal_grade|format_grade }}</td>
+                                        <td class="{{ grade.final_grade|grade_class }}">{{ grade.final_grade|format_grade }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

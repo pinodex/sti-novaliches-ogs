@@ -70,6 +70,8 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
 
         Route::get('/summary', 'FacultyController@summary')->name('summary');
         Route::get('/{faculty}', 'FacultyController@view')->name('view');
+
+        Route::match(['get', 'post'], '/{faculty}/submission/{submission}', 'FacultyController@viewSubmission')->name('view.submission');
     });
 
     Route::group(['prefix' => 'guidance', 'as' => 'guidance.'], function () {
