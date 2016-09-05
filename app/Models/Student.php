@@ -12,11 +12,12 @@
 namespace App\Models;
 
 use Hash;
+use App\Extensions\User\Roles\MultiRoleModelInterface;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HashablePasswordTrait;
 use App\Traits\ConcatenateNameTrait;
 use App\Traits\SearchableTrait;
-use App\Extensions\User\Roles\MultiRoleModelInterface;
 
 /**
  * Student model
@@ -25,12 +26,13 @@ use App\Extensions\User\Roles\MultiRoleModelInterface;
  */
 class Student extends Model implements Authenticatable, MultiRoleModelInterface
 {
-    use ConcatenateNameTrait, SearchableTrait;
+    use ConcatenateNameTrait, HashablePasswordTrait,SearchableTrait;
     
     public $incrementing = false;
 
     protected $fillable = [
         'id',
+        'password',
         'last_name',
         'first_name',
         'middle_name',
@@ -44,6 +46,8 @@ class Student extends Model implements Authenticatable, MultiRoleModelInterface
         'other_info',
         'remarks'
     ];
+
+    protected $hidden = ['password'];
 
     protected $appends = [
         'is_required_info_filled',

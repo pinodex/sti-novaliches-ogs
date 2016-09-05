@@ -11,6 +11,7 @@
 
 namespace App\Extensions\User\Roles;
 
+use Hash;
 use App\Models\Student;
 use App\Exceptions\AuthException;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -43,6 +44,20 @@ class StudentUserRole implements UserRoleInterface
 
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
+        // Use password if student has password, else use their middle name.
+        if ($user->password !== null) {
+            if (Hash::check($credentials['password'], $user->password)) {
+                if (Hash::needsRehash($user->password)) {
+                    $user->password = Hash::make($credentials['password']);
+                    $user->save();
+                }
+
+                return true;
+            }
+
+            throw new AuthException('Invalid ID and/or password', AuthException::INVALID_PASSWORD);
+        }
+
         // As a security measure, don't allow access to students with no middle name
         if (empty($user->middle_name) || $user->middle_name == '.') {
             throw new AuthException('Your account is temporarily locked.', AuthException::ACCOUNT_LOCKED);

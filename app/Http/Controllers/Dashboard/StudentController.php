@@ -151,6 +151,20 @@ class StudentController extends Controller
         $form->add('first_name', Type\TextType::class);
         $form->add('middle_name', Type\TextType::class);
         $form->add('last_name', Type\TextType::class);
+
+        $form->add('password', Type\RepeatedType::class, [
+            'type'      => Type\PasswordType::class,
+            'required'  => false,
+
+            'first_options' => ['label' => 'Custom password (leave blank if not changing)'],
+            'second_options' => ['label' => 'Repeat custom password (leave blank if not changing)']
+        ]);
+
+        $form->add('remove_password', Type\CheckBoxType::class, [
+            'required'  => false,
+            'label'     => 'Remove custom password'
+        ]);
+
         $form->add('course', Type\TextType::class);
 
         $form->add('mobile_number', Type\TextType::class, [
@@ -203,10 +217,20 @@ class StudentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $student->fill($form->getData());
+            $data = $form->getData();
+
+            if ($data['password'] === null) {
+                unset($data['password']);
+            }
+
+            if ($data['remove_password']) {
+                $data['password'] = null;
+            }
+
+            $student->fill($data);
             $student->save();
 
-            Session::flash('flash_message', 'success>>>Student has been saved');
+            Session::flash('flash_message', 'success>>>Student information changes has been saved');
 
             return redirect()->route('dashboard.students.view', [
                 'id' => $student->id
