@@ -194,8 +194,8 @@ class SgrReporter
             }
 
             if ($omegaIndex = $omegaIds->search($record['id'])) {
-                $output['student_id'] = $this->omega[$sgrIndex]['student_id'];
-                $output['student_name'] = $this->omega[$sgrIndex]['name'];
+                $output['student_id'] = $this->omega[$omegaIndex]['student_id'];
+                $output['student_name'] = $this->omega[$omegaIndex]['name'];
 
                 $output['omega'] = $this->getGrades($this->omega[$omegaIndex]);
             }
