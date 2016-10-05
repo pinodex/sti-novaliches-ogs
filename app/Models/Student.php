@@ -145,10 +145,14 @@ class Student extends Model implements Authenticatable, MultiRoleModelInterface
                 'subject'    => $row['subject'],
             ];
 
-            if ($grade = Grade::where($query)->first()) {
-                $grade->fill($row);
-                $grade->save();
-            }
+            $updatedRecord = [
+                'prelim_grade'      => parseGrade($row['prelim_grade']),
+                'midterm_grade'     => parseGrade($row['midterm_grade']),
+                'prefinal_grade'    => parseGrade($row['prefinal_grade']),
+                'final_grade'       => parseGrade($row['final_grade'])
+            ];
+
+            Grade::where($query)->update($updatedRecord);
         }
     }
 
