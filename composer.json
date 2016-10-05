@@ -6,7 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "twig/twig": "~1.0",
+        "twig/twig": "~1.25.0",
         "symfony/form": "3.0.*",
         "symfony/validator": "3.0.*",
         "symfony/security-csrf": "3.0.*",
