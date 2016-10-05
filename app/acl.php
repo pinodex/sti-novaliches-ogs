@@ -30,6 +30,7 @@ return [
         App\Http\Controllers\Dashboard\Settings\EmailDeliveryController::class,
         App\Http\Controllers\Dashboard\Import\FacultyImportController::class,
         App\Http\Controllers\Dashboard\Import\GradeImportController::class,
+        App\Http\Controllers\Dashboard\Import\OmegaImportController::class,
         App\Http\Controllers\Dashboard\Import\StudentImportController::class,
         App\Http\Controllers\Dashboard\Import\StudentStatusImportController::class
     ],
@@ -37,7 +38,7 @@ return [
     'head' => [
         App\Http\Controllers\Dashboard\MainController::class,
         App\Http\Controllers\Dashboard\DepartmentController::class => ['self', 'view'],
-        App\Http\Controllers\Dashboard\FacultyController::class => ['view'],
+        App\Http\Controllers\Dashboard\FacultyController::class => ['view', 'viewSubmission'],
         App\Http\Controllers\Dashboard\StudentController::class => ['index', 'view'],
         App\Http\Controllers\Dashboard\SectionController::class
     ],
