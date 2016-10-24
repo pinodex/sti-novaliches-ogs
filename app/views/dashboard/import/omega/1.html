@@ -1,0 +1,38 @@
+{% extends '/_layout/main-default.html' %}
+
+{% form_theme upload_form '/_layout/form-default.html' %}
+
+{% set page_title = 'OMEGA import wizard' %}
+
+{% block content %}
+    <div class="container">
+        <h1><span class="icon-file_upload"></span> {{ page_title }}</h1>
+
+        <div class="grid">
+            {% include '/dashboard/import/omega/steps.html' %}
+
+            <div class="column-9">
+                {% if invalid != null %}
+                    <div class="alert alert-danger">
+                        <p>The file(s) you uploaded is/are invalid. Please check to see if:</p>
+                        <ul style="margin: 0">
+                            <li>You have selected the correct OMEGA file.</li>
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <div class="panel">
+                    <div class="panel-heading">Upload XLSX file</div>
+                    <div class="panel-body">
+                        <form method="post" action="{{ app.request.getRequestUri }}" enctype="multipart/form-data" @submit="disableAction = true">
+                            {{ csrf_field() }}
+                            {{ form_widget(upload_form) }}
+
+                            <button type="submit" class="success" :disabled="disableAction">Next <span class="icon-navigate_next"></span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

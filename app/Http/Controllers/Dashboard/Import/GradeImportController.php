@@ -60,7 +60,7 @@ class GradeImportController extends Controller
             return redirect()->route('dashboard.import.grades');
         }
 
-        Session::forget($sessionId . 'gw_files');
+        Session::forget($sessionId . 'gw_sgr');
         Session::forget($sessionId . 'gw_import_done');
 
         Cache::forget($sessionId . 'report');
@@ -73,19 +73,14 @@ class GradeImportController extends Controller
             'attr'          => ['accept' => '.xlsx']
         ]);
 
-        $form->add('omega', Type\FileType::class, [
-            'label'         => 'OMEGA File',
-            'attr'          => ['accept' => '.xlsx']
-        ]);
-
         $form = $form->getForm();
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $files = $form->getData();
+            $data = $form->getData();
             
-            if ($files['sgr']->getError() > 0 || $files['omega']->getError() > 0) {
-                Session::flash('flash_message', 'danger>>>' . $files['sgr']->getErrorMessage());
+            if ($data['sgr']->getError() > 0) {
+                Session::flash('flash_message', 'danger>>>' . $data['sgr']->getErrorMessage());
 
                 return redirect()->route('dashboard.import.grades.stepOne', [
                     'session' => $sessionId
@@ -95,21 +90,12 @@ class GradeImportController extends Controller
             $id = uniqid(null, true);
             
             $sgrTarget = sprintf('/imports/grades/%s-sgr.xlsx', $id);
-            $omegaTarget = sprintf('/imports/grades/%s-omega.xlsx', $id);
 
-            Storage::put($sgrTarget, file_get_contents($files['sgr']->getPathname()));
-            Storage::put($omegaTarget, file_get_contents($files['omega']->getPathname()));
+            Storage::put($sgrTarget, file_get_contents($data['sgr']->getPathname()));
             
-            Session::put($sessionId . 'gw_files', [
-                'sgr' => [
-                    'name' => $files['sgr']->getClientOriginalName(),
-                    'path' => storage_path('app' . $sgrTarget)
-                ],
-
-                'omega' => [
-                    'name' => $files['omega']->getClientOriginalName(),
-                    'path' => storage_path('app' . $omegaTarget)
-                ]
+            Session::put($sessionId . 'gw_sgr', [
+                'name' => $data['sgr']->getClientOriginalName(),
+                'path' => storage_path('app' . $sgrTarget)
             ]);
             
             return redirect()->route('dashboard.import.grades.stepTwo', [
@@ -135,7 +121,7 @@ class GradeImportController extends Controller
             return redirect()->route('dashboard.import.grades');
         }
 
-        if (!$files = Session::get($sessionId . 'gw_files')) {
+        if (!$file = Session::get($sessionId . 'gw_sgr')) {
             return redirect()->route('dashboard.import.grades.stepOne');
         }
 
@@ -147,10 +133,9 @@ class GradeImportController extends Controller
             ]);
         }
 
-        $sgr = new GradeSpreadsheet($files['sgr']['path']);
-        $omega = new OmegaSpreadsheet($files['omega']['path']);
+        $sgr = new GradeSpreadsheet($file['path']);
 
-        if (!$sgr->isValid() || !$omega->isValid()) {
+        if (!$sgr->isValid()) {
             return redirect()->route('dashboard.import.grades.stepOne', [
                 'session' => $sessionId,
                 'invalid' => true
@@ -184,7 +169,7 @@ class GradeImportController extends Controller
         if ($form->isValid()) {
             $importer = null;
         
-            $report = SgrReporter::check($sgr, $omega);
+            $report = SgrReporter::check($sgr);
 
             if ($this->isRole('faculty')) {
                 $this->user->addSubmissionLogEntry($report);
@@ -199,13 +184,12 @@ class GradeImportController extends Controller
 
             try {
                 $email = new GradeDelivery();
-                $email->attach($files['sgr']['path'], $files['sgr']['name'], mime_content_type($files['sgr']['path']));
+                $email->attach($file['path'], $file['name'], mime_content_type($file['path']));
 
                 $queue->add(new SendEmailJob($email));
             } catch (\Exception $ignored) {}
 
-            $queue->add(new DeleteFileJob($files['sgr']['path']));
-            $queue->add(new DeleteFileJob($files['omega']['path']));
+            $queue->add(new DeleteFileJob($file['path']));
 
             $this->dispatch($queue);
 
@@ -234,7 +218,7 @@ class GradeImportController extends Controller
             return redirect()->route('dashboard.import.grades');
         }
 
-        if (!$files = Session::get($sessionId . 'gw_files')) {
+        if (!$file = Session::get($sessionId . 'gw_sgr')) {
             return redirect()->route('dashboard.import.grades.stepOne');
         }
 
@@ -261,7 +245,7 @@ class GradeImportController extends Controller
             return redirect()->route('dashboard.import.grades');
         }
 
-        if (!Session::get($sessionId . 'gw_files')) {
+        if (!Session::get($sessionId . 'gw_sgr')) {
             return redirect()->route('dashboard.import.grades.stepOne');
         }
 
@@ -270,7 +254,7 @@ class GradeImportController extends Controller
         }
 
         // cleanup
-        Session::forget($sessionId . 'gw_files');
+        Session::forget($sessionId . 'gw_sgr');
         Session::forget($sessionId . 'gw_import_done');
 
         Cache::forget($sessionId . 'report');

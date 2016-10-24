@@ -103,7 +103,7 @@ class GradeSpreadsheet extends AbstractSpreadsheet
 
                     $contents['students'][] = [
                         'student_id'        => $studentId,
-                        'name'              => $col[4],
+                        'name'              => ucwords(strtolower($col[4])),
 
                         'prelim_grade'      => parseGrade($col[6]),
                         'midterm_grade'     => parseGrade($col[8]),
@@ -173,6 +173,10 @@ class GradeSpreadsheet extends AbstractSpreadsheet
         }
         
         $values = implode(',', $values);
+
+        if (empty($values)) {
+            return;
+        }
 
         // Probably not the best thing you would see today.
         $query = "INSERT INTO {$tableName} {$tables} VALUES {$values} ON DUPLICATE KEY UPDATE " .

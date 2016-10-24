@@ -55,6 +55,8 @@ class StudentSpreadsheet extends AbstractSpreadsheet
         $timestamp = date('Y-m-d H:i:s');
         $chunks = array_chunk($this->getParsedContents(), 500);
 
+        DB::beginTransaction();
+
         foreach ($chunks as $students) {
             $values = [];
             $bindings = [];
@@ -70,6 +72,8 @@ class StudentSpreadsheet extends AbstractSpreadsheet
 
             DB::insert("INSERT IGNORE INTO {$tableName} {$tables} VALUES {$values}", $bindings);
         }
+
+        DB::commit();
     }
 
     protected function getNameParts($name)

@@ -13,10 +13,12 @@ namespace App\Extensions;
 
 use DB;
 use App\Models\Grade;
+use App\Models\Omega;
 use App\Models\Student;
 use App\Extensions\Spreadsheet\GradeSpreadsheet;
 use App\Extensions\Spreadsheet\OmegaSpreadsheet;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class SgrReporter
@@ -56,7 +58,7 @@ class SgrReporter
      * 
      * @param GradeSpreadsheet $sgr Instance of GradeSpreadsheet
      */
-    public function __construct(GradeSpreadsheet $sgr, OmegaSpreadsheet $omega)
+    public function __construct(GradeSpreadsheet $sgr)
     {
         $contents = $sgr->getParsedContents();
 
@@ -64,7 +66,18 @@ class SgrReporter
         $this->subject = $contents['metadata']['subject'];
 
         $this->sgr = Collection::make($contents['students']);
-        $this->omega = Collection::make($omega->getParsedContents());
+        
+        $this->omega = Omega::with('student')->where(function (Builder $query) use ($contents) {
+            $search = [];
+
+            foreach ($contents['students'] as $student) {
+                $query->orWhere([
+                    'student_id'    => $student['student_id'],
+                    'subject'       => $contents['metadata']['subject'],
+                    'section'       => $contents['metadata']['section'],
+                ]);
+            }
+        })->get();
 
         // Transform to a structure uniform to the structure of OMEGA
         $this->sgr->transform(function ($item) use ($contents) {
@@ -86,14 +99,24 @@ class SgrReporter
         });
 
         $this->omega->transform(function ($item) {
-            $item['id'] = $this->makeIdentificationHash($item);
-            $item['hash'] = $this->makeRecordHash($item);
+            $output = [
+                'student_id'        => $item['student_id'],
+                'name'              => $item['student']['name'],
+                'subject'           => $item['subject'],
+                'section'           => $item['section'],
+                'prelim_grade'      => parseGrade($item['prelim_grade']),
+                'midterm_grade'     => parseGrade($item['midterm_grade']),
+                'prefinal_grade'    => parseGrade($item['prefinal_grade']),
+                'final_grade'       => parseGrade($item['final_grade'])
+            ];
 
-            return $item;
+            $output['id'] = $this->makeIdentificationHash($output);
+            $output['hash'] = $this->makeRecordHash($output);
+
+            return $output;
         });
 
         unset($contents);
-
         $this->getMismatches();
     }
 
@@ -104,9 +127,9 @@ class SgrReporter
      * 
      * @return SgrReporter
      */
-    public static function check(GradeSpreadsheet $sgr, OmegaSpreadsheet $omega)
+    public static function check(GradeSpreadsheet $sgr)
     {
-        return new static($sgr, $omega);
+        return new static($sgr);
     }
 
     /**
@@ -169,11 +192,11 @@ class SgrReporter
         $this->diff = $sgrHashes->diff($omegaHashes);
 
         $this->diff->transform(function ($hash) use ($sgrHashes, $omegaHashes) {
-            if ($index = $sgrHashes->search($hash)) {
+            if (($index = $sgrHashes->search($hash)) !== false) {
                 return $this->sgr[$index];
             }
 
-            if ($index = $omegaHashes->search($hash)) {
+            if (($index = $omegaHashes->search($hash)) !== false) {
                 return $this->omega[$index];
             }
         });
