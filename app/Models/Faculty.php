@@ -320,7 +320,7 @@ class Faculty extends Model implements Authenticatable, MultiRoleModelInterface
             'period'        => Settings::get('period', 'PRELIM'),
             'date'          => date('Y-m-d H:i:s'),
             'subject'       => $report->getSubject(),
-            'section'       => $report->getSection(),
+            'section'       => implode('/', $report->getSections()),
             'is_valid'      => $report->isValid()
         ]);
     }

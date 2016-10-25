@@ -138,10 +138,10 @@ class FacultyController extends Controller
             abort(404);
         }
 
-        $grades = $faculty->submittedGrades()->getQuery()->where([
-            'section'   => $submission->section,
-            'subject'   => $submission->subject
-        ])->with('student')->get();
+        $grades = $faculty->submittedGrades()->getQuery()
+            ->where('subject', $submission->subject)
+            ->whereIn('section', explode('/', $submission->section))
+            ->with('student')->get();
 
         $form = Form::create(['status' => $submission->is_valid]);
 
