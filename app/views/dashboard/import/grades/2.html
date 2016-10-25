@@ -23,7 +23,7 @@
                             <tbody>
                                 <tr>
                                     <td>{{ contents.metadata.subject }}</td>
-                                    <td>{{ contents.metadata.section }}</td>
+                                    <td>{{ contents.metadata.sections|join(', ') }}</td>
                                 </tr>
                             </tbody>
                         </table>

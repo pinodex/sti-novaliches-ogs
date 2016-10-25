@@ -17,6 +17,7 @@ use App\Models\Omega;
 use App\Models\Student;
 use App\Extensions\Spreadsheet\GradeSpreadsheet;
 use App\Extensions\Spreadsheet\OmegaSpreadsheet;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -34,9 +35,9 @@ class SgrReporter
     protected $omega;
 
     /**
-     * @var string Section defined in SGR
+     * @var array Sections defined in SGR
      */
-    protected $section;
+    protected $sections;
 
     /**
      * @var string Subject defined in SGR
@@ -62,43 +63,50 @@ class SgrReporter
     {
         $contents = $sgr->getParsedContents();
 
-        $this->section = $contents['metadata']['section'];
+        $this->sections = $contents['metadata']['sections'];
         $this->subject = $contents['metadata']['subject'];
 
-        $this->sgr = Collection::make($contents['students']);
-        
-        $this->omega = Omega::with('student')->where(function (Builder $query) use ($contents) {
+        $this->sgr = Collection::make();
+
+        foreach ($contents['students'] as $item) {
+            $outputs = [];
+
+            foreach ($contents['metadata']['sections'] as $section) {
+                $output = [
+                    'student_id'        => $item['student_id'],
+                    'name'              => $item['name'],
+                    'subject'           => $contents['metadata']['subject'],
+                    'section'           => $section,
+                    'prelim_grade'      => $item['prelim_grade'],
+                    'midterm_grade'     => $item['midterm_grade'],
+                    'prefinal_grade'    => $item['prefinal_grade'],
+                    'final_grade'       => $item['final_grade']
+                ];
+
+                $output['id'] = $this->makeIdentificationHash($output);
+                $output['hash'] = $this->makeRecordHash($output);
+
+                $outputs[] = $output;
+            }
+
+            $this->sgr = $this->sgr->merge($outputs);
+        }
+
+        $this->omega = Omega::where(function (Builder $query) use ($contents) {
             $search = [];
 
             foreach ($contents['students'] as $student) {
-                $query->orWhere([
-                    'student_id'    => $student['student_id'],
-                    'subject'       => $contents['metadata']['subject'],
-                    'section'       => $contents['metadata']['section'],
-                ]);
+                $query->orWhere(function (Builder $orQuery) use ($student, $contents) {
+                    //$orQuery->where('student_id', $student['student_id']);
+                    $orQuery->where('subject', $contents['metadata']['subject']);
+                    $orQuery->whereIn('section', $contents['metadata']['sections']);
+                });
             }
-        })->get();
-
-        // Transform to a structure uniform to the structure of OMEGA
-        $this->sgr->transform(function ($item) use ($contents) {
-            $output = [
-                'student_id'        => $item['student_id'],
-                'name'              => $item['name'],
-                'subject'           => $contents['metadata']['subject'],
-                'section'           => $contents['metadata']['section'],
-                'prelim_grade'      => $item['prelim_grade'],
-                'midterm_grade'     => $item['midterm_grade'],
-                'prefinal_grade'    => $item['prefinal_grade'],
-                'final_grade'       => $item['final_grade']
-            ];
-
-            $output['id'] = $this->makeIdentificationHash($output);
-            $output['hash'] = $this->makeRecordHash($output);
-
-            return $output;
-        });
-
-        $this->omega->transform(function ($item) {
+        })->with([
+            'student' => function (BelongsTo $relation) {
+                $relation->select('id', 'last_name', 'first_name', 'middle_name', 'course', 'section');
+            }
+        ])->get()->transform(function ($item) {
             $output = [
                 'student_id'        => $item['student_id'],
                 'name'              => $item['student']['name'],
@@ -114,6 +122,14 @@ class SgrReporter
             $output['hash'] = $this->makeRecordHash($output);
 
             return $output;
+        });
+
+        //dd($this->omega);
+
+        $this->sgr->filter(function ($item) {
+            return $this->omega->search(function ($result) use ($item) {
+                return $result['id'] == $item['id'];
+            }) !== false;
         });
 
         unset($contents);
@@ -133,13 +149,19 @@ class SgrReporter
     }
 
     /**
-     * Get total grades imported count
+     * Get valid record count
      * 
      * @return int
      */
-    public function getTotalImports()
+    public function getValidCount()
     {
-        return count($this->sgr);
+        $count = (count($this->sgr) / count($this->sections)) - $this->invalidRecordCount;
+
+        if ($count < 0) {
+            $count = 0;
+        }
+
+        return $count;
     }
 
     /**
@@ -165,11 +187,11 @@ class SgrReporter
     /**
      * Get section
      * 
-     * @return string
+     * @return array
      */
-    public function getSection()
+    public function getSections()
     {
-        return $this->section;
+        return $this->sections;
     }
 
     /**
@@ -186,22 +208,34 @@ class SgrReporter
         $sgrHashes = $this->sgr->pluck('hash');
         $omegaHashes = $this->omega->pluck('hash');
 
-        $sgrIds = $this->sgr->pluck('id');
-        $omegaIds = $this->omega->pluck('id');
+        $this->diff = Collection::make();
 
-        $this->diff = $sgrHashes->diff($omegaHashes);
+        $this->diff = $this->diff->merge($omegaHashes->diff($sgrHashes));
+        $this->diff = $this->diff->merge($sgrHashes->diff($omegaHashes));
 
         $this->diff->transform(function ($hash) use ($sgrHashes, $omegaHashes) {
-            if (($index = $sgrHashes->search($hash)) !== false) {
-                return $this->sgr[$index];
+            $sgr = $this->sgr->first(function ($key, $value) use ($hash) {
+                return $value['hash'] == $hash;
+            });
+            
+            if ($sgr) {
+                return $sgr;
             }
 
-            if (($index = $omegaHashes->search($hash)) !== false) {
-                return $this->omega[$index];
+            $omega = $this->omega->first(function ($key, $value) use ($hash) {
+                return $value['hash'] == $hash;
+            });
+
+            if ($omega) {
+                return $omega;
             }
         });
 
-        $this->diff->transform(function ($record) use ($sgrIds, $omegaIds) {
+        $this->diff = $this->diff->unique(function ($item) {
+            return $item['id'];
+        });
+
+        $this->diff->transform(function ($record) {
             $output = [
                 'student_id'    => null,
                 'student_name'  => null,
@@ -209,21 +243,41 @@ class SgrReporter
                 'omega'         => null
             ];
 
-            if ($sgrIndex = $sgrIds->search($record['id'])) {
-                $output['student_id'] = $this->sgr[$sgrIndex]['student_id'];
-                $output['student_name'] = $this->sgr[$sgrIndex]['name'];
+            $sgr = $this->sgr->first(function ($key, $value) use ($record) {
+                return $value['id'] == $record['id'];
+            });
 
-                $output['sgr'] = $this->getGrades($this->sgr[$sgrIndex]);
+            $omega = $this->omega->first(function ($key, $value) use ($record) {
+                return $value['id'] == $record['id'];
+            });
+
+            if ($sgr) {
+                $output['student_id'] = $sgr['student_id'];
+                $output['student_name'] = $sgr['name'];
+
+                $output['sgr'] = $this->getGrades($sgr);
             }
 
-            if ($omegaIndex = $omegaIds->search($record['id'])) {
-                $output['student_id'] = $this->omega[$omegaIndex]['student_id'];
-                $output['student_name'] = $this->omega[$omegaIndex]['name'];
+            if ($omega) {
+                $output['student_id'] = $omega['student_id'];
+                $output['student_name'] = $omega['name'];
 
-                $output['omega'] = $this->getGrades($this->omega[$omegaIndex]);
+                $output['omega'] = $this->getGrades($omega);
             }
 
             return $output;
+        });
+
+        $this->diff = $this->diff->sortBy('student_name');
+
+        $this->diff->each(function ($item) {
+            $others = $this->diff->where('student_id', $item['student_id']);
+
+            if ($others->count() > 1) {
+                $others->where('omega', null)->keys()->each(function ($key) {
+                    $this->diff->forget($key);
+                });
+            }
         });
 
         $this->invalidRecordCount = $this->diff->count();

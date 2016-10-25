@@ -12,19 +12,13 @@
 namespace App\Extensions\Spreadsheet;
 
 use DB;
+use App\Models\Omega;
 use App\Models\Grade;
 use App\Models\Faculty;
 use Illuminate\Support\Collection;
 
 class GradeSpreadsheet extends AbstractSpreadsheet
 {
-    public function __construct($filePath)
-    {
-        parent::__construct($filePath);
-
-        $this->filteredIds = Collection::make();
-    }
-
     public function isValid()
     {
         $hasSettings = false;
@@ -75,7 +69,9 @@ class GradeSpreadsheet extends AbstractSpreadsheet
                     }
 
                     if ($row == 3) {
-                        $contents['metadata']['section'] = strtoupper(cleanString($col[10]));
+                        $contents['metadata']['sections'] = array_map(function ($string) {
+                            return cleanString($string);
+                        }, explode('/', strtoupper($col[10])));
                     }
                 }
             }
@@ -152,11 +148,23 @@ class GradeSpreadsheet extends AbstractSpreadsheet
 
             $values[] = '(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 
+            $section = $contents['metadata']['sections'][0];
+
+            $omega = Omega::select('section')
+                ->where('student_id', $student['student_id'])
+                ->where('subject', $contents['metadata']['subject'])
+                ->whereIn('section', $contents['metadata']['sections'])
+                ->first();
+
+            if ($omega !== null) {
+                $section = $omega->section;
+            }
+
             $bindings = array_merge($bindings, [
                 $student['student_id'],
                 $importerId,
                 $contents['metadata']['subject'],
-                $contents['metadata']['section'],
+                $section,
                 $student['prelim_grade'],
                 $student['midterm_grade'],
                 $student['prefinal_grade'],
