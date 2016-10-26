@@ -44,8 +44,8 @@
                                             <span class="short">N</span>
                                         </th>
 
-                                        <th colspan="4">SGR</th>
-                                        <th colspan="4">OMEGA</th>
+                                        <th colspan="5">SGR</th>
+                                        <th colspan="5">OMEGA</th>
                                     </tr>
 
                                     <tr>
@@ -65,6 +65,10 @@
                                             <span class="long">Final</span>
                                             <span class="short">F</span>
                                         </th>
+                                        <th class="has-parent">
+                                            <span class="long">EQV</span>
+                                            <span class="short">E</span>
+                                        </th>
 
                                         <th class="has-parent">
                                             <span class="long">Prelim</span>
@@ -82,6 +86,10 @@
                                             <span class="long">Final</span>
                                             <span class="short">F</span>
                                         </th>
+                                        <th class="has-parent">
+                                            <span class="long">EQV</span>
+                                            <span class="short">E</span>
+                                        </th>
                                     </tr>
                                 </thead>
 
@@ -96,8 +104,9 @@
                                                 <td>{{ entry.sgr.midterm_grade|format_grade }}</td>
                                                 <td>{{ entry.sgr.prefinal_grade|format_grade }}</td>
                                                 <td>{{ entry.sgr.final_grade|format_grade }}</td>
+                                                <td>{{ entry.sgr.actual_grade|format_grade }}</td>
                                             {% else %}
-                                                <td colspan="4" class="color-danger">Not in SGR</td>
+                                                <td colspan="5" class="color-danger">Not in SGR</td>
                                             {% endif %}
 
                                             {% if entry.omega != null %}
@@ -105,8 +114,9 @@
                                                 <td>{{ entry.omega.midterm_grade|format_grade }}</td>
                                                 <td>{{ entry.omega.prefinal_grade|format_grade }}</td>
                                                 <td>{{ entry.omega.final_grade|format_grade }}</td>
+                                                <td>{{ entry.omega.actual_grade|format_grade }}</td>
                                             {% else %}
-                                                <td colspan="4" class="color-danger">Not in OMEGA</td>
+                                                <td colspan="5" class="color-danger">Not in OMEGA</td>
                                             {% endif %}
                                         </tr>
                                     {% endfor %}

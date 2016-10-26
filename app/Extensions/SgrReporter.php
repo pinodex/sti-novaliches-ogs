@@ -80,7 +80,8 @@ class SgrReporter
                     'prelim_grade'      => $item['prelim_grade'],
                     'midterm_grade'     => $item['midterm_grade'],
                     'prefinal_grade'    => $item['prefinal_grade'],
-                    'final_grade'       => $item['final_grade']
+                    'final_grade'       => $item['final_grade'],
+                    'actual_grade'      => $item['actual_grade']
                 ];
 
                 $output['id'] = $this->makeIdentificationHash($output);
@@ -97,7 +98,6 @@ class SgrReporter
 
             foreach ($contents['students'] as $student) {
                 $query->orWhere(function (Builder $orQuery) use ($student, $contents) {
-                    //$orQuery->where('student_id', $student['student_id']);
                     $orQuery->where('subject', $contents['metadata']['subject']);
                     $orQuery->whereIn('section', $contents['metadata']['sections']);
                 });
@@ -115,7 +115,8 @@ class SgrReporter
                 'prelim_grade'      => parseGrade($item['prelim_grade']),
                 'midterm_grade'     => parseGrade($item['midterm_grade']),
                 'prefinal_grade'    => parseGrade($item['prefinal_grade']),
-                'final_grade'       => parseGrade($item['final_grade'])
+                'final_grade'       => parseGrade($item['final_grade']),
+                'actual_grade'      => parseGrade($item['actual_grade'])
             ];
 
             $output['id'] = $this->makeIdentificationHash($output);
@@ -124,7 +125,7 @@ class SgrReporter
             return $output;
         });
 
-        $this->sgr->filter(function ($item) {
+        $this->sgr = $this->sgr->filter(function ($item) {
             return $this->omega->search(function ($result) use ($item) {
                 return $result['id'] == $item['id'];
             }) !== false;
@@ -153,7 +154,7 @@ class SgrReporter
      */
     public function getValidCount()
     {
-        $count = (count($this->sgr) / count($this->sections)) - $this->invalidRecordCount;
+        $count = $this->sgr->count() - $this->invalidRecordCount;
 
         if ($count < 0) {
             $count = 0;
@@ -329,7 +330,8 @@ class SgrReporter
             $record['prelim_grade'] .
             $record['midterm_grade'] .
             $record['prefinal_grade'] .
-            $record['final_grade']
+            $record['final_grade'] .
+            $record['actual_grade']
         );
     }
 
@@ -362,7 +364,8 @@ class SgrReporter
             'prelim_grade'      => $record['prelim_grade'],
             'midterm_grade'     => $record['midterm_grade'],
             'prefinal_grade'    => $record['prefinal_grade'],
-            'final_grade'       => $record['final_grade']
+            'final_grade'       => $record['final_grade'],
+            'actual_grade'      => $record['actual_grade']
         ];
     }
 }

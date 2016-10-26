@@ -44,7 +44,9 @@ class Grade extends Model
 
         'final_grade',
         'final_presences',
-        'final_absences'
+        'final_absences',
+
+        'actual_grade'
     ];
 
     protected $primaryKey = 'student_id';
@@ -148,13 +150,35 @@ class Grade extends Model
     }
 
     /**
-     * final_value attribute mutator
+     * final_grade attribute mutator
      * 
      * @param int $value Raw value
      */
     public function setFinalGradeAttribute($value)
     {
         $this->attributes['final_grade'] = parseGrade($value);
+    }
+
+    /**
+     * actual_grade attribute accessor
+     * 
+     * @param int $value Raw value
+     * 
+     * @return string
+     */
+    public function getActualGradeAttribute($value)
+    {
+        return formatGrade($value);
+    }
+
+    /**
+     * actual_grade attribute mutator
+     * 
+     * @param int $value Raw value
+     */
+    public function setActualGradeAttribute($value)
+    {
+        $this->attributes['actual_grade'] = parseGrade($value);
     }
 
     /**

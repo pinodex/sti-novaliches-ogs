@@ -82,7 +82,8 @@ class OmegaSpreadsheet extends AbstractSpreadsheet
                     'prelim_grade'      => parseGrade($col[14]),
                     'midterm_grade'     => parseGrade($col[12]),
                     'prefinal_grade'    => parseGrade($col[20]),
-                    'final_grade'       => parseGrade($col[23])
+                    'final_grade'       => parseGrade($col[23]),
+                    'actual_grade'      => parseGrade($col[9])
                 ];
             }
         }
@@ -95,7 +96,7 @@ class OmegaSpreadsheet extends AbstractSpreadsheet
         $tableName = with(new Omega)->getTable();
         $chunks = array_chunk($this->getParsedContents(), 1000);
 
-        $tables = '(student_id,subject,section,prelim_grade,midterm_grade,prefinal_grade,final_grade)';
+        $tables = '(student_id,subject,section,prelim_grade,midterm_grade,prefinal_grade,final_grade,actual_grade)';
 
         DB::beginTransaction();
 
@@ -104,16 +105,17 @@ class OmegaSpreadsheet extends AbstractSpreadsheet
             $bindings = [];
 
             foreach ($chunk as $grade) {
-                $values[] = '(?,?,?,?,?,?,?)';
+                $values[] = '(?,?,?,?,?,?,?,?)';
                 $bindings = array_merge($bindings, array_values($grade));
             }
-
+            
             $values = implode(',', $values);
             $query = "INSERT INTO {$tableName} {$tables} VALUES {$values} ON DUPLICATE KEY UPDATE " .
                 'prelim_grade = VALUES(prelim_grade),' .
                 'midterm_grade = VALUES(midterm_grade),' .
                 'prefinal_grade = VALUES(prefinal_grade),' .
-                'final_grade = VALUES(final_grade)';
+                'final_grade = VALUES(final_grade),' .
+                'actual_grade = VALUES(actual_grade)';
 
             DB::insert($query, $bindings);
         }

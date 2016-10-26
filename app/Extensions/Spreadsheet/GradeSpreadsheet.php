@@ -106,6 +106,8 @@ class GradeSpreadsheet extends AbstractSpreadsheet
                         'prefinal_grade'    => parseGrade($col[10]),
                         'final_grade'       => parseGrade($col[12]),
 
+                        'actual_grade'      => parseGrade($col[16]),
+
                         'prelim_absences'   => $this->parseHours($col[19]),
                         'midterm_absences'  => $this->parseHours($col[20]),
                         'prefinal_absences' => $this->parseHours($col[21]),

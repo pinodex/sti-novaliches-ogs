@@ -151,6 +151,7 @@ class StudentController extends Controller
                     'midterm_grade'         => 'N/A',
                     'prefinal_grade'        => 'N/A',
                     'final_grade'           => 'N/A',
+                    'actual_grade'          => 'N/A',
                     'prelim_presences'      => '0.00',
                     'midterm_presences'     => '0.00',
                     'prefinal_presences'    => '0.00',

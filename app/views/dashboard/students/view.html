@@ -151,6 +151,10 @@
                                 <span class="long">Final</span>
                                 <span class="short">F</span>
                             </th>
+                            <th>
+                                <span class="long">EQV</span>
+                                <span class="short">E</span>
+                            </th>
                         </tr>
                     </thead>
 
@@ -162,6 +166,7 @@
                                 <td class="{{ grade.midterm_grade|grade_class }}">{{ grade.midterm_grade }}</td>
                                 <td class="{{ grade.prefinal_grade|grade_class }}">{{ grade.prefinal_grade }}</td>
                                 <td class="{{ grade.final_grade|grade_class }}">{{ grade.final_grade }}</td>
+                                <td class="{{ grade.actual_grade|grade_class }}">{{ grade.actual_grade }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
