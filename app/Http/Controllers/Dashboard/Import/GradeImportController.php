@@ -133,7 +133,15 @@ class GradeImportController extends Controller
             ]);
         }
 
-        $sgr = new GradeSpreadsheet($file['path']);
+        try {
+            $sgr = new GradeSpreadsheet($file['path']);
+        } catch (\Exception $e) {
+            Session::flash('flash_message', 'warning>>>An error occurred. Please try again');
+
+            return redirect()->route('dashboard.import.grades.stepOne', [
+                'session' => $sessionId
+            ]);
+        }
 
         if (!$sgr->isValid()) {
             return redirect()->route('dashboard.import.grades.stepOne', [
