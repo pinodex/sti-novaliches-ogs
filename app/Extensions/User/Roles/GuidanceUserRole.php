@@ -18,6 +18,11 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 class GuidanceUserRole implements UserRoleInterface
 {
+    public function getModelClass()
+    {
+        return Guidance::class;
+    }
+
     public function retrieveById($identifier)
     {
         return Guidance::find($identifier);

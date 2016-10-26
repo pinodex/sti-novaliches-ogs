@@ -18,6 +18,11 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 class AdminUserRole implements UserRoleInterface
 {
+    public function getModelClass()
+    {
+        return Admin::class;
+    }
+
     public function retrieveById($identifier)
     {
         return Admin::find($identifier);

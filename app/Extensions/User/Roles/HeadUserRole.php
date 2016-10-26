@@ -18,6 +18,11 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 class HeadUserRole implements UserRoleInterface
 {
+    public function getModelClass()
+    {
+        return Head::class;
+    }
+
     public function retrieveById($identifier)
     {
         return Head::find($identifier);

@@ -18,6 +18,11 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 class StudentUserRole implements UserRoleInterface
 {
+    public function getModelClass()
+    {
+        return Student::class;
+    }
+
     public function retrieveById($identifier)
     {
         return Student::find(parseStudentId($identifier));

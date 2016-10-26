@@ -16,6 +16,13 @@ use Illuminate\Contracts\Auth\Authenticatable;
 interface UserRoleInterface
 {
     /**
+     * Get model class for user role
+     * 
+     * @return string description
+     */
+    public function getModelClass();
+
+    /**
      * Retrieve user by ID
      * 
      * @param mixed $identifer User identifier

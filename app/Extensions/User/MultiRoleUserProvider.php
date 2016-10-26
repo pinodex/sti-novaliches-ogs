@@ -79,14 +79,20 @@ class MultiRoleUserProvider implements UserProvider
         $lastException = null;
 
         foreach ($this->roles as $role => $roleClass) {
+            $roleInstance = new $roleClass;
+
+            if ($roleInstance->getModelClass() != get_class($user)) {
+                continue;
+            }
+
             try {
-                return (new $roleClass)->validateCredentials($user, $credentials);
-            } catch (AuthException $exception) {
-                if ($exception->getCode() == AuthException::ACCOUNT_LOCKED) {
-                    throw $exception;
+                return $roleInstance->validateCredentials($user, $credentials);
+            } catch (AuthException $e) {
+                if ($e->getCode() == AuthException::ACCOUNT_LOCKED) {
+                    throw $e;
                 }
 
-                $lastException = $exception;
+                $lastException = $e;
             }
         }
 
