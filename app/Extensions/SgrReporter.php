@@ -124,8 +124,6 @@ class SgrReporter
             return $output;
         });
 
-        //dd($this->omega);
-
         $this->sgr->filter(function ($item) {
             return $this->omega->search(function ($result) use ($item) {
                 return $result['id'] == $item['id'];
@@ -292,7 +290,7 @@ class SgrReporter
      */
     public function isValid()
     {
-        return $this->diff !== null && empty($this->diff);
+        return $this->diff !== null && $this->diff->isEmpty();
     }
 
     /**
