@@ -131,4 +131,26 @@ class Omega extends Model
     {
         $this->attributes['final_grade'] = parseGrade($value);
     }
+
+    /**
+     * actual_grade attribute accessor
+     * 
+     * @param int $value Raw value
+     * 
+     * @return string
+     */
+    public function getActualGradeAttribute($value)
+    {
+        return formatGrade($value);
+    }
+
+    /**
+     * actual_grade attribute mutator
+     * 
+     * @param int $value Raw value
+     */
+    public function setActualGradeAttribute($value)
+    {
+        $this->attributes['actual_grade'] = parseGrade($value);
+    }
 }
