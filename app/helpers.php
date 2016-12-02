@@ -250,6 +250,10 @@ if (!function_exists('parseGrade')) {
      */
     function parseGrade($grade)
     {
+        if ($grade == 'Drp') {
+            return -1;
+        }
+
         if (!is_numeric($grade)) {
             return null;
         }
@@ -272,6 +276,10 @@ if (!function_exists('formatGrade')) {
      */
     function formatGrade($grade)
     {
+        if (intval($grade) == -1) {
+            return 'DRP';
+        }
+
         if (!is_numeric($grade) || $grade === null || $grade === '') {
             return 'N/A';
         }

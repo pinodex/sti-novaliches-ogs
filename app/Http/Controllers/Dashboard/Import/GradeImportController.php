@@ -20,7 +20,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Extensions\Spreadsheet\SpreadsheetFactory;
 use App\Extensions\Spreadsheet\GradeSpreadsheet;
-use App\Extensions\Spreadsheet\OmegaSpreadsheet;
 use App\Http\Controllers\Controller;
 use App\Jobs\ParallelJob;
 use App\Jobs\DeleteFileJob;
@@ -175,19 +174,12 @@ class GradeImportController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $importer = null;
-        
-            $report = SgrReporter::check($sgr);
-
             if ($this->isRole('faculty')) {
+                $report = SgrReporter::check($sgr);
                 $this->user->addSubmissionLogEntry($report);
-                $importer = $this->user;
             }
-
-            $sgr->importToDatabase($importer, $report->getMismatches()->pluck('student_id'));
-
-            Cache::put($sessionId . 'report', $report, 60);
-
+            
+            $sgr->importToDatabase($this->isRole('faculty') ? $this->user : null);
             $queue = new ParallelJob();
 
             try {
@@ -198,7 +190,6 @@ class GradeImportController extends Controller
             } catch (\Exception $ignored) {}
 
             $queue->add(new DeleteFileJob($file['path']));
-
             $this->dispatch($queue);
 
             Session::put($sessionId . 'gw_import_done', true);
@@ -219,36 +210,9 @@ class GradeImportController extends Controller
     /**
      * Grade import wizard step 3
      * 
-     * URL: /dashboard/import/grades/report
-     */
-    public function stepThree(Request $request) {
-        if (!$sessionId = $request->query->get('session')) {
-            return redirect()->route('dashboard.import.grades');
-        }
-
-        if (!$file = Session::get($sessionId . 'gw_sgr')) {
-            return redirect()->route('dashboard.import.grades.stepOne');
-        }
-
-        if (!Session::get($sessionId . 'gw_import_done')) {
-            return redirect()->route('dashboard.import.grades.stepTwo');
-        }
-
-        $report = Cache::get($sessionId . 'report');
-
-        return view('dashboard/import/grades/3', [
-            'report'        => $report,
-            'session_id'    => $sessionId,
-            'current_step'  => 3
-        ]);
-    }
-
-    /**
-     * Grade import wizard step 4
-     * 
      * URL: /dashboard/import/grades/finish
      */
-    public function stepFour(Request $request) {
+    public function stepThree(Request $request) {
         if (!$sessionId = $request->query->get('session')) {
             return redirect()->route('dashboard.import.grades');
         }
@@ -265,12 +229,12 @@ class GradeImportController extends Controller
         Session::forget($sessionId . 'gw_sgr');
         Session::forget($sessionId . 'gw_import_done');
 
-        Cache::forget($sessionId . 'report');
         Cache::forget($sessionId . 'grading_sheet');
         
-        return view('dashboard/import/grades/4', [
+        return view('dashboard/import/grades/3', [
             'session_id'    => $sessionId,
-            'current_step' => 4
+            'report'        => $report,
+            'current_step'  => 3
         ]);
     }
 }

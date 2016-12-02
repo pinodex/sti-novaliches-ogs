@@ -126,7 +126,6 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
         Route::get('/students', 'StudentImportController@index')->name('students');
         Route::get('/students-status', 'StudentStatusImportController@index')->name('studentsstatus');
         Route::get('/grades', 'GradeImportController@index')->name('grades');
-        Route::get('/omega', 'OmegaImportController@index')->name('omega');
         
         Route::group(['prefix' => 'faculty', 'as' => 'faculty.'], function () {
             Route::match(['get', 'post'], '/upload', 'FacultyImportController@stepOne')->name('stepOne');
@@ -152,18 +151,10 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'as' => 'dash
         Route::group(['prefix' => 'grades', 'as' => 'grades.'], function () {
             Route::match(['get', 'post'], '/upload', 'GradeImportController@stepOne')->name('stepOne');
             Route::match(['get', 'post'], '/confirm', 'GradeImportController@stepTwo')->name('stepTwo');
-            Route::match(['get', 'post'], '/report', 'GradeImportController@stepThree')->name('stepThree');
 
-            Route::get('/finish', 'GradeImportController@stepFour')->name('stepFour');
+            Route::get('/finish', 'GradeImportController@stepThree')->name('stepThree');
         });
-
-        Route::group(['prefix' => 'omega', 'as' => 'omega.'], function () {
-            Route::match(['get', 'post'], '/upload', 'OmegaImportController@stepOne')->name('stepOne');
-            Route::match(['get', 'post'], '/confirm', 'OmegaImportController@stepTwo')->name('stepTwo');
-
-            Route::get('/finish', 'OmegaImportController@stepThree')->name('stepThree');
-        });
-
+        
     });
 
     Route::group(['namespace' => 'Settings', 'prefix' => 'settings', 'as' => 'settings.'], function () {

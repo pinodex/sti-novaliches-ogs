@@ -4,130 +4,19 @@
 
 {% block content %}
     <div class="container">
-        <h1 class="print-invisible"><span class="icon-file_upload"></span> {{ page_title }}</h1>
+        <h1><span class="icon-file_upload"></span> {{ page_title }}</h1>
 
         <div class="grid">
-            <div class="column-12">
+            {% include '/dashboard/import/grades/steps.html' %}
+
+            <div class="column-9">
                 <div class="panel">
-                    <div class="panel-heading">Report</div>
+                    <div class="panel-heading">Finished</div>
                     <div class="panel-body">
-                        <h2 class="print-visible">SGR Submission Report</h2>
+                        <div>Grading sheet was successfully uploaded.</div>
 
-                        <div class="alert alert-info print-invisible">
-                            Your grading sheet was successfully uploaded. Below is the upload report.
-                        </div>
-
-                        <table class="center-align">
-                            <tbody>
-                                <tr>
-                                    <td>{{ auth_user().name }}</td>
-                                    <td>{{ report.getSubject() }}</td>
-                                    <td>{{ report.getSections()|join(', ') }}</td>
-                                    <td>{{ report.getValidCount() }} records uploaded</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        {% if not report.getMismatches() is empty %}
-                            <h3 class="print-invisible">Mismatched records:</h3>
-
-                            <table class="small center-align">
-                                <thead>
-                                    <tr>
-                                        <th rowspan="2">
-                                            <span class="long">Student #</span>
-                                            <span class="short">#</span>
-                                        </th>
-                                        
-                                        <th rowspan="2">
-                                            <span class="long">Name</span>
-                                            <span class="short">N</span>
-                                        </th>
-
-                                        <th colspan="5">SGR</th>
-                                        <th colspan="5">OMEGA</th>
-                                    </tr>
-
-                                    <tr>
-                                        <th class="has-parent">
-                                            <span class="long">Prelim</span>
-                                            <span class="short">P</span>
-                                        </th>
-                                        <th class="has-parent">
-                                            <span class="long">Midterm</span>
-                                            <span class="short">M</span>
-                                        </th>
-                                        <th class="has-parent">
-                                            <span class="long">Pre-final</span>
-                                            <span class="short">PF</span>
-                                        </th>
-                                        <th class="has-parent">
-                                            <span class="long">Final</span>
-                                            <span class="short">F</span>
-                                        </th>
-                                        <th class="has-parent">
-                                            <span class="long">EQV</span>
-                                            <span class="short">E</span>
-                                        </th>
-
-                                        <th class="has-parent">
-                                            <span class="long">Prelim</span>
-                                            <span class="short">P</span>
-                                        </th>
-                                        <th class="has-parent">
-                                            <span class="long">Midterm</span>
-                                            <span class="short">M</span>
-                                        </th>
-                                        <th class="has-parent">
-                                            <span class="long">Pre-final</span>
-                                            <span class="short">PF</span>
-                                        </th>
-                                        <th class="has-parent">
-                                            <span class="long">Final</span>
-                                            <span class="short">F</span>
-                                        </th>
-                                        <th class="has-parent">
-                                            <span class="long">EQV</span>
-                                            <span class="short">E</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {% for entry in report.getMismatches() %}
-                                        <tr>
-                                            <td>{{ entry.student_id ? entry.student_id|format_student_id : 'N/A' }}</td>
-                                            <td>{{ entry.student_name|default('N/A') }}</td>
-
-                                            {% if entry.sgr != null %}
-                                                <td>{{ entry.sgr.prelim_grade|format_grade }}</td>
-                                                <td>{{ entry.sgr.midterm_grade|format_grade }}</td>
-                                                <td>{{ entry.sgr.prefinal_grade|format_grade }}</td>
-                                                <td>{{ entry.sgr.final_grade|format_grade }}</td>
-                                                <td>{{ entry.sgr.actual_grade|format_grade }}</td>
-                                            {% else %}
-                                                <td colspan="5" class="color-danger">Not in SGR</td>
-                                            {% endif %}
-
-                                            {% if entry.omega != null %}
-                                                <td>{{ entry.omega.prelim_grade|format_grade }}</td>
-                                                <td>{{ entry.omega.midterm_grade|format_grade }}</td>
-                                                <td>{{ entry.omega.prefinal_grade|format_grade }}</td>
-                                                <td>{{ entry.omega.final_grade|format_grade }}</td>
-                                                <td>{{ entry.omega.actual_grade|format_grade }}</td>
-                                            {% else %}
-                                                <td colspan="5" class="color-danger">Not in OMEGA</td>
-                                            {% endif %}
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        {% endif %}
-
-                        <div class="print-invisible">
-                            <a href="{{ route('dashboard.import.grades.stepFour', {'session': session_id}, false) }}" class="button success" :disabled="disableAction">Finish Import <span class="icon-navigate_next"></span></a>
-                            <button type="button" class="link" @click="printDocument()">Print Document</button>
-                        </div>
+                        <p><a href="{{ route('dashboard.index', {}, false) }}">Back to home</a></p>
+                        <p><a href="{{ route('dashboard.import.grades', {}, false) }}">Import another grades</a></p>
                     </div>
                 </div>
             </div>

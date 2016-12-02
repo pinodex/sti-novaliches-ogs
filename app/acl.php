@@ -30,7 +30,6 @@ return [
         App\Http\Controllers\Dashboard\Settings\EmailDeliveryController::class,
         App\Http\Controllers\Dashboard\Import\FacultyImportController::class,
         App\Http\Controllers\Dashboard\Import\GradeImportController::class,
-        App\Http\Controllers\Dashboard\Import\OmegaImportController::class,
         App\Http\Controllers\Dashboard\Import\StudentImportController::class,
         App\Http\Controllers\Dashboard\Import\StudentStatusImportController::class
     ],

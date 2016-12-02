@@ -24,7 +24,6 @@ use App\Extensions\Form;
 use App\Models\Student;
 use App\Models\StudentStatus;
 use App\Models\Grade;
-use App\Models\Omega;
 
 class StudentController extends Controller
 {
@@ -112,62 +111,10 @@ class StudentController extends Controller
         }
 
         $period = strtolower(Settings::get('period', 'prelim'));
-        $viewOmega = $this->isRole('admin') && $request->query->get('omega') != null;
-        
-        $omega = Omega::where('student_id', $student->id)->get();
-        $grades = Collection::make();
-
-        if ($viewOmega) {
-            $grades = $omega->transform(function (Omega $item) {
-                return array_merge($item->toArray(), [
-                    'prelim_presences'      => '0.00',
-                    'midterm_presences'     => '0.00',
-                    'prefinal_presences'    => '0.00',
-                    'final_presences'       => '0.00',
-                    'prelim_absences'       => '0.00',
-                    'midterm_absences'      => '0.00',
-                    'prefinal_absences'     => '0.00',
-                    'final_absences'        => '0.00'
-                ]);
-            });
-        } else {
-            $omega->each(function (Omega $item) use ($student, $grades) {
-                $grade = $student->grades
-                    ->where('subject', $item->subject)
-                    ->where('section', $item->section)
-                    ->first();
-
-                if ($grade !== null) {
-                    $grades[] = $grade->toArray();
-                    return;
-                }
-
-                $grades[] = [
-                    'student_id'            => $student->id,
-                    'importer_id'           => null,
-                    'subject'               => $item->subject,
-                    'section'               => $item->section,
-                    'prelim_grade'          => 'N/A',
-                    'midterm_grade'         => 'N/A',
-                    'prefinal_grade'        => 'N/A',
-                    'final_grade'           => 'N/A',
-                    'actual_grade'          => 'N/A',
-                    'prelim_presences'      => '0.00',
-                    'midterm_presences'     => '0.00',
-                    'prefinal_presences'    => '0.00',
-                    'final_presences'       => '0.00',
-                    'prelim_absences'       => '0.00',
-                    'midterm_absences'      => '0.00',
-                    'prefinal_absences'     => '0.00',
-                    'final_absences'        => '0.00'
-                ];
-            });
-        }
 
         return view('dashboard/students/view', [
-            'view_omega'    => $viewOmega,
             'student'       => $student,
-            'grades'        => $grades,
+            'grades'        => $student->grades,
             'period'        => $period,
             'active_period' => array_flip(['prelim', 'midterm', 'prefinal', 'final'])[$period]
         ]);

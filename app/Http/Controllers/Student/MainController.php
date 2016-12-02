@@ -21,7 +21,6 @@ use App\Http\Controllers\Controller;
 use App\Extensions\Settings;
 use App\Extensions\Form;
 use App\Models\Grade;
-use App\Models\Omega;
 
 class MainController extends Controller
 {
@@ -46,43 +45,9 @@ class MainController extends Controller
 
         $period = strtolower(Settings::get('period', 'prelim'));
 
-        $omega = Omega::where('student_id', $this->user->id)->get();
-        $grades = Collection::make();
-
-        $omega->each(function (Omega $item) use ($grades) {
-            $grade = $this->user->grades
-                ->where('subject', $item->subject)
-                ->where('section', $item->section)
-                ->first();
-
-            if ($grade !== null) {
-                $grades[] = $grade->toArray();
-                return;
-            }
-
-            $grades[] = [
-                'student_id'            => $this->user->id,
-                'importer_id'           => null,
-                'subject'               => $item->subject,
-                'section'               => $item->section,
-                'prelim_grade'          => 'N/A',
-                'midterm_grade'         => 'N/A',
-                'prefinal_grade'        => 'N/A',
-                'final_grade'           => 'N/A',
-                'prelim_presences'      => '0.00',
-                'midterm_presences'     => '0.00',
-                'prefinal_presences'    => '0.00',
-                'final_presences'       => '0.00',
-                'prelim_absences'       => '0.00',
-                'midterm_absences'      => '0.00',
-                'prefinal_absences'     => '0.00',
-                'final_absences'        => '0.00'
-            ];
-        });
-
         return view('student/index', [
             'student'       => $this->user,
-            'grades'        => $grades,
+            'grades'        => $this->user->grades,
             'period'        => $period,
             'active_period' => array_flip(['prelim', 'midterm', 'prefinal', 'final'])[$period],
         ]);

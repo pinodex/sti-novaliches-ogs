@@ -12,7 +12,6 @@
 namespace App\Extensions\Spreadsheet;
 
 use DB;
-use App\Models\Omega;
 use App\Models\Grade;
 use App\Models\Faculty;
 use Illuminate\Support\Collection;
@@ -123,14 +122,9 @@ class GradeSpreadsheet extends AbstractSpreadsheet
     public function importToDatabase()
     {
         $importerId = null;
-        $filteredIds = Collection::make();
 
         if (func_get_arg(0) instanceof Faculty) {
             $importerId = func_get_arg(0)->id;
-        }
-
-        if (func_get_arg(1) instanceof Collection) {
-            $filteredIds = func_get_arg(1);
         }
 
         $contents = $this->getParsedContents();
@@ -140,27 +134,13 @@ class GradeSpreadsheet extends AbstractSpreadsheet
         $bindings = [];
 
         $tables = '(student_id,importer_id,subject,section,prelim_grade,midterm_grade,prefinal_grade,'.
-            'final_grade,prelim_presences,midterm_presences,prefinal_presences,final_presences,prelim_absences,'.
+            'final_grade,actual_grade,prelim_presences,midterm_presences,prefinal_presences,final_presences,prelim_absences,'.
             'midterm_absences,prefinal_absences,final_absences)';
 
         foreach ($contents['students'] as $student) {
-            if ($filteredIds->contains($student['student_id'])) {
-                continue;
-            }
-
-            $values[] = '(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+            $values[] = '(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 
             $section = $contents['metadata']['sections'][0];
-
-            $omega = Omega::select('section')
-                ->where('student_id', $student['student_id'])
-                ->where('subject', $contents['metadata']['subject'])
-                ->whereIn('section', $contents['metadata']['sections'])
-                ->first();
-
-            if ($omega !== null) {
-                $section = $omega->section;
-            }
 
             $bindings = array_merge($bindings, [
                 $student['student_id'],
@@ -171,6 +151,7 @@ class GradeSpreadsheet extends AbstractSpreadsheet
                 $student['midterm_grade'],
                 $student['prefinal_grade'],
                 $student['final_grade'],
+                $student['actual_grade'],
                 $contents['metadata']['prelim_presences'],
                 $contents['metadata']['midterm_presences'],
                 $contents['metadata']['prefinal_presences'],
@@ -196,6 +177,8 @@ class GradeSpreadsheet extends AbstractSpreadsheet
                 'midterm_grade = VALUES(midterm_grade),' .
                 'prefinal_grade = VALUES(prefinal_grade), ' .
                 'final_grade = VALUES(final_grade),' .
+
+                'actual_grade = VALUES(final_grade),' .
 
                 'prelim_presences = VALUES(prelim_presences),' .
                 'midterm_presences = VALUES(midterm_presences),' .

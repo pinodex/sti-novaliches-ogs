@@ -97,10 +97,10 @@
                                             <td>{{ grade.student_id }}</td>
                                             <td>N/A</td>
                                         {% endif %}
-                                        <td class="{{ grade.prelim_grade|grade_class }}">{{ grade.prelim_grade|format_grade }}</td>
-                                        <td class="{{ grade.midterm_grade|grade_class }}">{{ grade.midterm_grade|format_grade }}</td>
-                                        <td class="{{ grade.prefinal_grade|grade_class }}">{{ grade.prefinal_grade|format_grade }}</td>
-                                        <td class="{{ grade.final_grade|grade_class }}">{{ grade.final_grade|format_grade }}</td>
+                                        <td class="{{ grade.prelim_grade|grade_class }}">{{ grade.prelim_grade }}</td>
+                                        <td class="{{ grade.midterm_grade|grade_class }}">{{ grade.midterm_grade }}</td>
+                                        <td class="{{ grade.prefinal_grade|grade_class }}">{{ grade.prefinal_grade }}</td>
+                                        <td class="{{ grade.final_grade|grade_class }}">{{ grade.final_grade }}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

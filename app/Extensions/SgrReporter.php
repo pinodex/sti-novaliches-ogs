@@ -12,27 +12,25 @@
 namespace App\Extensions;
 
 use DB;
-use App\Models\Grade;
-use App\Models\Omega;
-use App\Models\Student;
+use App\Extensions\Settings;
 use App\Extensions\Spreadsheet\GradeSpreadsheet;
-use App\Extensions\Spreadsheet\OmegaSpreadsheet;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Query\JoinClause;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class SgrReporter
 {
+    const PRELIM_INVALID_QUARTER = '25% or more of prelim grades are blank';
+
+    const PREVIOUS_PERIOD_INCOMPLETE = 'Previous period grades are incomplete';
+
     /**
      * @var \Illuminate\Support\Collection Grading sheet contents
      */
     protected $sgr;
 
     /**
-     * @var \Illuminate\Support\Collection OMEGA sheet contents
+     * @var \Illuminate\Support\Collection Student grades
      */
-    protected $omega;
+    protected $students;
 
     /**
      * @var array Sections defined in SGR
@@ -45,14 +43,19 @@ class SgrReporter
     protected $subject;
 
     /**
-     * @var array Records difference
+     * @var boolean Is SGR valid
      */
-    protected $diff;
+    protected $isValid = true;
 
     /**
-     * @var int Invalid records count
+     * @var string Reason message for invalidity
      */
-    protected $invalidRecordCount = 0;
+    protected $invalidReason;
+
+    /**
+     * @var array Columns to check
+     */
+    private $columns = ['prelim_grade', 'midterm_grade', 'prefinal_grade', 'final_grade'];
 
     /**
      * Constructs SgrReporter
@@ -62,77 +65,46 @@ class SgrReporter
     public function __construct(GradeSpreadsheet $sgr)
     {
         $contents = $sgr->getParsedContents();
-
-        $this->sections = $contents['metadata']['sections'];
+        
+        $this->students = collect($contents['students']);
         $this->subject = $contents['metadata']['subject'];
+        $this->sections = $contents['metadata']['sections'];
 
-        $this->sgr = Collection::make();
+        $this->validate();
+    }
 
-        foreach ($contents['students'] as $item) {
-            $outputs = [];
+    /**
+     * Validate SGR
+     */
+    public function validate()
+    {
+        $currentPeriod = Settings::get('period', 'prelim');
 
-            foreach ($contents['metadata']['sections'] as $section) {
-                $output = [
-                    'student_id'        => $item['student_id'],
-                    'name'              => $item['name'],
-                    'subject'           => $contents['metadata']['subject'],
-                    'section'           => $section,
-                    'prelim_grade'      => $item['prelim_grade'],
-                    'midterm_grade'     => $item['midterm_grade'],
-                    'prefinal_grade'    => $item['prefinal_grade'],
-                    'final_grade'       => $item['final_grade'],
-                    'actual_grade'      => $item['actual_grade']
-                ];
+        foreach ($this->columns as $i => $column) {
+            $columnValues = $this->students->pluck($column);
 
-                $output['id'] = $this->makeIdentificationHash($output);
-                $output['hash'] = $this->makeRecordHash($output);
+            if ($i == 0) {
+                if ($this->getNullCount($columnValues) / $columnValues->count() >= 0.25) {
+                    $this->isValid = false;
+                    $this->invalidReason = static::PRELIM_INVALID_QUARTER;
+                    
+                    return;
+                }
 
-                $outputs[] = $output;
+                continue;
             }
 
-            $this->sgr = $this->sgr->merge($outputs);
+            if ($columnValues->count() != $this->getNullCount($columnValues)) {
+                $previousColumnValues = $this->students->pluck($this->columns[$i - 1]);
+
+                if ($this->getNullCount($previousColumnValues) > 0) {
+                    $this->isValid = false;
+                    $this->invalidReason = static::PREVIOUS_PERIOD_INCOMPLETE;
+
+                    return;
+                }
+            }
         }
-
-        $this->omega = Omega::where(function (Builder $query) use ($contents) {
-            $search = [];
-
-            foreach ($contents['students'] as $student) {
-                $query->orWhere(function (Builder $orQuery) use ($student, $contents) {
-                    $orQuery->where('subject', $contents['metadata']['subject']);
-                    $orQuery->whereIn('section', $contents['metadata']['sections']);
-                });
-            }
-        })->with([
-            'student' => function (BelongsTo $relation) {
-                $relation->select('id', 'last_name', 'first_name', 'middle_name', 'course', 'section');
-            }
-        ])->get()->transform(function ($item) {
-            $output = [
-                'student_id'        => $item['student_id'],
-                'name'              => $item['student']['name'],
-                'subject'           => $item['subject'],
-                'section'           => $item['section'],
-                'prelim_grade'      => parseGrade($item['prelim_grade']),
-                'midterm_grade'     => parseGrade($item['midterm_grade']),
-                'prefinal_grade'    => parseGrade($item['prefinal_grade']),
-                'final_grade'       => parseGrade($item['final_grade']),
-                'actual_grade'      => parseGrade($item['actual_grade'])
-            ];
-
-            $output['id'] = $this->makeIdentificationHash($output);
-            $output['hash'] = $this->makeRecordHash($output);
-
-            return $output;
-        });
-
-        $this->sgr = $this->sgr->filter(function ($item) {
-            return $this->omega->search(function ($result) use ($item) {
-                return $result['id'] == $item['id'];
-            }) !== false;
-        });
-
-        unset($contents);
-        $this->getMismatches();
     }
 
     /**
@@ -145,32 +117,6 @@ class SgrReporter
     public static function check(GradeSpreadsheet $sgr)
     {
         return new static($sgr);
-    }
-
-    /**
-     * Get valid record count
-     * 
-     * @return int
-     */
-    public function getValidCount()
-    {
-        $count = $this->sgr->count() - $this->invalidRecordCount;
-
-        if ($count < 0) {
-            $count = 0;
-        }
-
-        return $count;
-    }
-
-    /**
-     * Get total count of invalid records
-     * 
-     * @return int
-     */
-    public function getInvalidRecordCount()
-    {
-        return $this->invalidRecordCount;
     }
 
     /**
@@ -194,178 +140,42 @@ class SgrReporter
     }
 
     /**
-     * Get record mismatches
-     * 
-     * @return array
-     */
-    public function getMismatches()
-    {
-        if ($this->diff !== null) {
-            return $this->diff;
-        }
-
-        $sgrHashes = $this->sgr->pluck('hash');
-        $omegaHashes = $this->omega->pluck('hash');
-
-        $this->diff = Collection::make();
-
-        $this->diff = $this->diff->merge($omegaHashes->diff($sgrHashes));
-        $this->diff = $this->diff->merge($sgrHashes->diff($omegaHashes));
-
-        $this->diff->transform(function ($hash) use ($sgrHashes, $omegaHashes) {
-            $sgr = $this->sgr->first(function ($key, $value) use ($hash) {
-                return $value['hash'] == $hash;
-            });
-            
-            if ($sgr) {
-                return $sgr;
-            }
-
-            $omega = $this->omega->first(function ($key, $value) use ($hash) {
-                return $value['hash'] == $hash;
-            });
-
-            if ($omega) {
-                return $omega;
-            }
-        });
-
-        $this->diff = $this->diff->unique(function ($item) {
-            return $item['id'];
-        });
-
-        $this->diff->transform(function ($record) {
-            $output = [
-                'student_id'    => null,
-                'student_name'  => null,
-                'sgr'           => null,
-                'omega'         => null
-            ];
-
-            $sgr = $this->sgr->first(function ($key, $value) use ($record) {
-                return $value['id'] == $record['id'];
-            });
-
-            $omega = $this->omega->first(function ($key, $value) use ($record) {
-                return $value['id'] == $record['id'];
-            });
-
-            if ($sgr) {
-                $output['student_id'] = $sgr['student_id'];
-                $output['student_name'] = $sgr['name'];
-
-                $output['sgr'] = $this->getGrades($sgr);
-            }
-
-            if ($omega) {
-                $output['student_id'] = $omega['student_id'];
-                $output['student_name'] = $omega['name'];
-
-                $output['omega'] = $this->getGrades($omega);
-            }
-
-            return $output;
-        });
-
-        $this->diff = $this->diff->sortBy('student_name');
-
-        $this->diff->each(function ($item) {
-            $others = $this->diff->where('student_id', $item['student_id']);
-
-            if ($others->count() > 1) {
-                $others->where('omega', null)->keys()->each(function ($key) {
-                    $this->diff->forget($key);
-                });
-            }
-        });
-
-        $this->invalidRecordCount = $this->diff->count();
-
-        return $this->diff;
-    }
-
-    /**
      * Check if records are valid
      * 
      * @return bool
      */
     public function isValid()
     {
-        return $this->diff !== null && $this->diff->isEmpty();
+        return $this->isValid;
     }
 
     /**
-     * Search student name by ID
-     * 
-     * @param string $id Student ID
-     * 
+     * Get invalid reason
+     *
      * @return string
      */
-    protected function searchStudentName($id)
+    public function getInvalidReason()
     {
-        $index = $this->sgr->search(function ($item) use ($id) {
-            return $item['student_id'] == $id;
+        return $this->invalidReason;
+    }
+
+    /**
+     * Get number of null rows from a column
+     *
+     * @var \Illuminate\Support\Collection $column Column
+     *
+     * @return int
+     */
+    private function getNullCount($column)
+    {
+        $nullCount = 0;
+
+        $column->each(function ($value) use (&$nullCount) {
+            if ($value === null) {
+                $nullCount++;
+            }
         });
 
-        if ($index === false) {
-            return 'N/A';
-        }
-
-        return $this->sgr[$index]['name'];
-    }
-
-    /**
-     * Generate hash for grade record
-     * 
-     * @param array $record Grade record
-     * 
-     * @return string
-     */
-    protected function makeRecordHash($record)
-    {
-        return hash('sha1',
-            $record['student_id'] .
-            $record['subject'] .
-            $record['section'] .
-            $record['prelim_grade'] .
-            $record['midterm_grade'] .
-            $record['prefinal_grade'] .
-            $record['final_grade'] .
-            $record['actual_grade']
-        );
-    }
-
-    /**
-     * Generate identification hash for grade record
-     * 
-     * @param array $record Grade record
-     * 
-     * @return string
-     */
-    protected function makeIdentificationHash($record)
-    {
-        return hash('sha1',
-            $record['student_id'] .
-            $record['subject'] .
-            $record['section']
-        );
-    }
-
-    /**
-     * Returns grades from each period from grade entry
-     * 
-     * @param array $record Grade record
-     * 
-     * @return array
-     */
-    protected function getGrades($record)
-    {
-        return [
-            'prelim_grade'      => $record['prelim_grade'],
-            'midterm_grade'     => $record['midterm_grade'],
-            'prefinal_grade'    => $record['prefinal_grade'],
-            'final_grade'       => $record['final_grade'],
-            'actual_grade'      => $record['actual_grade']
-        ];
+        return $nullCount;
     }
 }
