@@ -6,8 +6,6 @@
 
 {% block content %}
     <div class="container">
-        <h1>Student</h1>
-
         <div class="grid">
             <div class="column-4">
                 <div class="panel">
@@ -69,133 +67,135 @@
             </div>
 
             <div class="column-8">
-                <div class="panel">
+                <div class="panel plain">
                     <div class="panel-heading">Grades</div>
-                </div>
-
-                <table class="center-align">
-                    <thead>
-                        <tr>
-                            <th>
-                                <span class="long">Subject</span>
-                                <span class="short">Sub</span>
-                            </th>
-                            <th>
-                                <span class="long">Prelim</span>
-                                <span class="short">P</span>
-                            </th>
-                            <th>
-                                <span class="long">Midterm</span>
-                                <span class="short">M</span>
-                            </th>
-                            <th>
-                                <span class="long">Pre-final</span>
-                                <span class="short">PF</span>
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {% for grade in grades %}
-                            <tr>
-                                <th>{{ grade.subject }}</th>
-                                <td class="{{ grade.prelim_grade|grade_class }}">{{ (status and status.prelim) ? grade.prelim_grade : '?' }}</td>
-                                <td class="{{ grade.midterm_grade|grade_class }}">{{ (status and status.midterm) ? grade.midterm_grade : '?' }}</td>
-                                <td class="{{ grade.prefinal_grade|grade_class }}">{{ (status and status.prefinal) ? grade.prefinal_grade : '?' }}</td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="4">Nothing to see here yet.</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                    
-                <div class="panel">
-                    <div class="panel-heading">Attendance summary</div>
-                </div>
-
-                {% if grades is not empty %}
-                    <ul class="tabs" data-activated-tab="{{ active_period }}">
-                        <li @click="activateTab(0)" :class="{'active': activeTab == 0}">Prelim</li>
-                        <li @click="activateTab(1)" :class="{'active': activeTab == 1}">Midterm</li>
-                        <li @click="activateTab(2)" :class="{'active': activeTab == 2}">Prefinal</li>
-                        <li @click="activateTab(3)" :class="{'active': activeTab == 3}">Final</li>
-                    </ul>
-                {% endif %}
-
-                <table class="center-align">
-                    <thead>
-                        <tr>
-                            <th>
-                                <span class="long">Subject</span>
-                                <span class="short">Subj</span>
-                            </th>
-                            <th>
-                                <span class="long">Class hours</span>
-                                <span class="short">CH</span>
-                            </th>
-                            <th>
-                                <span class="long">Hours absent</span>
-                                <span class="short">HA</span>
-                            </th>
-                        </tr>
-                    </thead>
-
-                    {% if grades is empty %}
-                        <tbody>
-                            <tr>
-                                <td colspan="3">Nothing to see here yet.</td>
-                            </tr>
-                        </tbody>
-                    {% else %}
-                        <tbody v-show="activeTab == 0">
-                            {% for grade in grades %}
+                    <div class="panel-body">
+                        <table class="center-align">
+                            <thead>
                                 <tr>
-                                    <th>{{ grade.subject }}</th>
-                                    <td>{{ grade.prelim_presences }}</td>
-                                    <td>{{ grade.prelim_absences }}</td>
+                                    <th>
+                                        <span class="long">Subject</span>
+                                        <span class="short">Sub</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Prelim</span>
+                                        <span class="short">P</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Midterm</span>
+                                        <span class="short">M</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Pre-final</span>
+                                        <span class="short">PF</span>
+                                    </th>
                                 </tr>
-                            {% endfor %}
-                        </tbody>
+                            </thead>
 
-                        <tbody v-show="activeTab == 1">
-                            {% for grade in grades %}
-                                <tr>
-                                    <th>{{ grade.subject }}</th>
-                                    <td>{{ grade.midterm_presences }}</td>
-                                    <td>{{ grade.midterm_absences }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-
-                        <tbody v-show="activeTab == 2">
-                            {% for grade in grades %}
-                                <tr>
-                                    <th>{{ grade.subject }}</th>
-                                    <td>{{ grade.prefinal_presences }}</td>
-                                    <td>{{ grade.prefinal_absences }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-
-                        <tbody v-show="activeTab == 3">
-                            {% for grade in grades %}
-                                <tr>
-                                    <th>{{ grade.subject }}</th>
-                                    <td>{{ grade.final_presences }}</td>
-                                    <td>{{ grade.final_absences }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    {% endif %}
-                </table>
-                    
-                {% if grades is not empty and status is null or (status is not null and (not status.prelim or not status.midterm or not status.prefinal)) %}
-                    <div class="alert alert-warning">
-                        <small>If you are seeing question marks, you have not settled your payment yet, or your account has not been updated yet.</small>
+                            <tbody>
+                                {% for grade in grades %}
+                                    <tr>
+                                        <th>{{ grade.subject }}</th>
+                                        <td class="{{ grade.prelim_grade|grade_class }}">{{ (status and status.prelim) ? grade.prelim_grade : '?' }}</td>
+                                        <td class="{{ grade.midterm_grade|grade_class }}">{{ (status and status.midterm) ? grade.midterm_grade : '?' }}</td>
+                                        <td class="{{ grade.prefinal_grade|grade_class }}">{{ (status and status.prefinal) ? grade.prefinal_grade : '?' }}</td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4">Nothing to see here yet.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
-                {% endif %}
+                </div>
+                    
+                <div class="panel plain">
+                    <div class="panel-heading">Attendance summary</div>
+                    <div class="panel-body">
+                        {% if grades is not empty %}
+                            <ul class="tabs" data-activated-tab="{{ active_period }}">
+                                <li @click="activateTab(0)" :class="{'active': activeTab == 0}">Prelim</li>
+                                <li @click="activateTab(1)" :class="{'active': activeTab == 1}">Midterm</li>
+                                <li @click="activateTab(2)" :class="{'active': activeTab == 2}">Prefinal</li>
+                                <li @click="activateTab(3)" :class="{'active': activeTab == 3}">Final</li>
+                            </ul>
+                        {% endif %}
+
+                        <table class="center-align">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span class="long">Subject</span>
+                                        <span class="short">Subj</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Class hours</span>
+                                        <span class="short">CH</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">Hours absent</span>
+                                        <span class="short">HA</span>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            {% if grades is empty %}
+                                <tbody>
+                                    <tr>
+                                        <td colspan="3">Nothing to see here yet.</td>
+                                    </tr>
+                                </tbody>
+                            {% else %}
+                                <tbody v-show="activeTab == 0">
+                                    {% for grade in grades %}
+                                        <tr>
+                                            <th>{{ grade.subject }}</th>
+                                            <td>{{ grade.prelim_presences }}</td>
+                                            <td>{{ grade.prelim_absences }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                                <tbody v-show="activeTab == 1">
+                                    {% for grade in grades %}
+                                        <tr>
+                                            <th>{{ grade.subject }}</th>
+                                            <td>{{ grade.midterm_presences }}</td>
+                                            <td>{{ grade.midterm_absences }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                                <tbody v-show="activeTab == 2">
+                                    {% for grade in grades %}
+                                        <tr>
+                                            <th>{{ grade.subject }}</th>
+                                            <td>{{ grade.prefinal_presences }}</td>
+                                            <td>{{ grade.prefinal_absences }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                                <tbody v-show="activeTab == 3">
+                                    {% for grade in grades %}
+                                        <tr>
+                                            <th>{{ grade.subject }}</th>
+                                            <td>{{ grade.final_presences }}</td>
+                                            <td>{{ grade.final_absences }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            {% endif %}
+                        </table>
+                            
+                        {% if grades is not empty and status is null or (status is not null and (not status.prelim or not status.midterm or not status.prefinal)) %}
+                            <div class="alert alert-warning">
+                                <small>If you are seeing question marks, you have not settled your payment yet, or your account has not been updated yet.</small>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

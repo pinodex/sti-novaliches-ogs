@@ -9,7 +9,7 @@
     <div class="container">
         <div class="grid">
             <div class="column-4 column-offset-4">
-                <h1><span class="icon-lock"></span> Login</h1>
+                <h1 class="page-title"><span class="icon-lock"></span> Login</h1>
 
                 <form method="post" action="{{ app.request.getRequestUri }}">
                     {{ form_errors(login_form) }}
@@ -49,7 +49,7 @@
     {% endif %}
 
     <modal :show.sync="modals.helpBox">
-        <h3 slot="header">Login instructions</h3>
+        <h2 slot="header">Login instructions</h2>
         
         <div slot="body">
             <ol>

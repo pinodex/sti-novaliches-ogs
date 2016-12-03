@@ -22,7 +22,7 @@ html {
 }
 
 html, body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 14px;
     height: 100%;
 }
@@ -70,6 +70,16 @@ modal, [v-show] {
     @media (min-width: 1200px) {
         width: 1170px;
     }
+
+    & > h1:first-child {
+        font-weight: normal;
+        color: #405661;
+    }
+}
+
+.page-title {
+    font-weight: normal;
+    color: #405661;
 }
 
 .grid {
@@ -146,6 +156,14 @@ select {
     border: 1px solid #ccc;
     outline: none;
     width: 100%;
+
+    &:focus {
+        border-color: #607D8B;
+    }
+}
+
+textarea {
+    resize: none;
 }
 
 input[type="date"],
@@ -348,7 +366,7 @@ a.button {
 }
 
 .top-bar {
-    background: #FFF200;
+    background: #005aaa;
     position: fixed;
     left: 0;
     top: 0;
@@ -509,27 +527,27 @@ a.button {
     color: #fff;
 
     &.alert-primary {
-        background: $brand-primary;
+        background: $brand-primary-hover;
     }
 
     &.alert-success {
-        background: $brand-success;
+        background: $brand-success-hover;
     }
 
     &.alert-warning {
-        background: $brand-warning;
+        background: $brand-warning-hover;
     }
 
     &.alert-danger {
-        background: $brand-danger;
+        background: $brand-danger-hover;
     }
 
     &.alert-info {
-        background: $brand-info;
+        background: $brand-info-hover;
     }
 
     &.alert-neutral {
-        background: $black-50;
+        background: $black-60;
     }
 
     & > h1, & > h2, & > h3, & > h4, & > h5, & > p {
@@ -607,23 +625,34 @@ label {
     margin-bottom: 15px;
 
     .panel-heading {
-        background: rgba(0,109,183,1);
-        background: -moz-linear-gradient(45deg, rgba(0,109,183,1) 0%, rgba(0,109,183,1) 50%, rgba(255,242,0,1) 50%, rgba(255,242,0,1) 100%);
-        background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(0,109,183,1)), color-stop(50%, rgba(0,109,183,1)), color-stop(50%, rgba(255,242,0,1)), color-stop(100%, rgba(255,242,0,1)));
-        background: -webkit-linear-gradient(45deg, rgba(0,109,183,1) 0%, rgba(0,109,183,1) 50%, rgba(255,242,0,1) 50%, rgba(255,242,0,1) 100%);
-        background: -o-linear-gradient(45deg, rgba(0,109,183,1) 0%, rgba(0,109,183,1) 50%, rgba(255,242,0,1) 50%, rgba(255,242,0,1) 100%);
-        background: -ms-linear-gradient(45deg, rgba(0,109,183,1) 0%, rgba(0,109,183,1) 50%, rgba(255,242,0,1) 50%, rgba(255,242,0,1) 100%);
-        background: linear-gradient(45deg, rgba(0,109,183,1) 0%, rgba(0,109,183,1) 50%, rgba(255,242,0,1) 50%, rgba(255,242,0,1) 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#006db7', endColorstr='#fff200', GradientType=1 );
-
+        background: #607D8B;
         padding: 15px;
         color: #fff;
     }
 
     .panel-body {
-        border: 1px solid #ddd;
+        border: 1px solid #607D8B;
         border-top: none;
         padding: 15px;
+
+        & > *:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.panel.plain {
+    .panel-heading {
+        font-size: 26px;
+        background: none;
+        color: #607D8B;
+        margin-bottom: 10px;
+        padding: 0;
+    }
+
+    .panel-body {
+        padding: 0;
+        border: none;
 
         & > *:last-child {
             margin-bottom: 0;
@@ -671,7 +700,6 @@ label {
         border: 1px solid #ccc;
         padding: 15px;
         color: #000;
-        transition: all 100ms ease-in;
 
         span[class^="icon-"] {
             font-size: 48px;
@@ -697,9 +725,8 @@ label {
         }
 
         &:hover {
-            background: #006db7;
-            border-color: #006db7;
-            color: #fff;
+            border-color: #607D8B;
+            color: #607D8B;
         }
 
         &.has-notification {
@@ -713,7 +740,6 @@ label {
 }
 
 .sub-menu {
-    border: 1px solid #ddd;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -722,6 +748,7 @@ label {
         display: block;
 
         a {
+            border: 1px solid #ddd;
             display: block;
             padding: 15px;
             text-decoration: none;
@@ -742,12 +769,13 @@ label {
 
         &.active a {
             background: #607D8B;
+            border-color: #607D8B;
             color: #fff;
         }
-    }
 
-    li + li {
-        border-top: 1px solid #ddd;
+        & + li {
+            border-bottom: none;
+        }
     }
 }
 
@@ -886,10 +914,10 @@ table {
 
     p {
         margin: 0;
+        font-size: 14px;
         word-wrap: break-word;
 
         &.title {
-            font-weight: bold;
             font-size: 12px;
             color: #555;
         }
@@ -933,6 +961,7 @@ table {
     border: 1px solid #ccc;
 
     & > h3 {
+        font-weight: normal;
         background: #eee;
         padding: 10px 15px;
         margin: 0;
@@ -963,16 +992,12 @@ table {
 
 .wizard-steps {
     list-style: none;
-    border: 1px solid #ccc;
     margin: 0;
     padding: 0;
 
-    li + li {
-        border-top: 1px solid #ccc;
-    }
-
     li.active {
         background: $brand-success-hover;
+        border-color: $brand-success-hover;
         color: #fff;
 
         .step {
@@ -981,6 +1006,7 @@ table {
     }
 
     li {
+        border: 1px solid #ccc;
         padding: 10px 15px;
 
         .step {
@@ -989,6 +1015,10 @@ table {
 
         .text {
             padding-left: 10px;
+        }
+
+        & + li {
+            border-top: none;
         }
     }
 }
@@ -1066,8 +1096,8 @@ table {
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
 }
 
-.modal-header h3 {
-    color: #006db7;
+.modal-header > * {
+    color: #607D8B;
     margin: 0;
 }
 

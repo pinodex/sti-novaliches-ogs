@@ -6,10 +6,6 @@
     <div class="container">
         <div class="grid">
             <div class="column-8">
-                <div class="panel">
-                    <div class="panel-heading">Menu</div>
-                </div>
-
                 {% if auth_user().getRole() == 'admin' %}
                     <div class="dashboard-menu">
                         <div class="grid">
