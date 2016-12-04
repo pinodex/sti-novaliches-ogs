@@ -2,7 +2,7 @@
 
 {% form_theme search_form '/_layout/form-default.html' %}
 
-{% set page_title = department.name ~ ' Department' %}
+{% set page_title = department.name %}
 
 {% block content %}
     <div class="container">
@@ -65,7 +65,7 @@
             </div>
             
             <div class="column-8">
-                <div class="panel">
+                <div class="panel plain">
                     <div class="panel-heading">Faculty</div>
                     <div class="panel-body">
                         {% if result is not empty %}
