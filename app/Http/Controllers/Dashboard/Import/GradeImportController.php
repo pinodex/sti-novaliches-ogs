@@ -62,7 +62,6 @@ class GradeImportController extends Controller
         Session::forget($sessionId . 'gw_sgr');
         Session::forget($sessionId . 'gw_import_done');
 
-        Cache::forget($sessionId . 'report');
         Cache::forget($sessionId . 'grading_sheet');
 
         $form = Form::create();
@@ -233,7 +232,6 @@ class GradeImportController extends Controller
         
         return view('dashboard/import/grades/3', [
             'session_id'    => $sessionId,
-            'report'        => $report,
             'current_step'  => 3
         ]);
     }

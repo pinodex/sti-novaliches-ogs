@@ -135,10 +135,12 @@ class GradeSpreadsheet extends AbstractSpreadsheet
 
         $tables = '(student_id,importer_id,subject,section,prelim_grade,midterm_grade,prefinal_grade,'.
             'final_grade,actual_grade,prelim_presences,midterm_presences,prefinal_presences,final_presences,prelim_absences,'.
-            'midterm_absences,prefinal_absences,final_absences)';
+            'midterm_absences,prefinal_absences,final_absences,created_at,updated_at)';
+
+        $timestamp = date('Y-m-d H:i:s');
 
         foreach ($contents['students'] as $student) {
-            $values[] = '(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+            $values[] = '(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 
             $section = $contents['metadata']['sections'][0];
 
@@ -160,6 +162,8 @@ class GradeSpreadsheet extends AbstractSpreadsheet
                 $student['midterm_absences'],
                 $student['prefinal_absences'],
                 $student['final_absences'],
+                $timestamp,
+                $timestamp
             ]);
         }
         
@@ -188,7 +192,9 @@ class GradeSpreadsheet extends AbstractSpreadsheet
                 'prelim_absences = VALUES(prelim_absences),' .
                 'midterm_absences = VALUES(midterm_absences),' .
                 'prefinal_absences = VALUES(midterm_absences),' .
-                'final_absences = VALUES(final_absences)';
+                'final_absences = VALUES(final_absences),' .
+
+                'updated_at = VALUES(updated_at)';
     
         DB::insert($query, $bindings);
     }
