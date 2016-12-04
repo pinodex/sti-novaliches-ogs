@@ -159,7 +159,7 @@
                                         <td class="{{ grade.prefinal_grade|grade_class }}">{{ grade.prefinal_grade }}</td>
                                         <td class="{{ grade.final_grade|grade_class }}">{{ grade.final_grade }}</td>
                                         <td class="{{ grade.actual_grade|grade_class }}">{{ grade.actual_grade }}</td>
-                                        <td>{{ grade.updated_at|date('M d, Y h:i A') }}</td>
+                                        <td>{{ grade.updated_at ? grade.updated_at|date('M d, Y h:i A') : 'N/A' }}</td>
                                     </tr>
                                 {% else %}
                                     <tr>
