@@ -11,6 +11,8 @@ $grid-float-breakpoint:    768px;
 
 $darken-percent:           10%;
 
+$brand-info: #31b0d5;
+
 $brand-primary-hover:   darken($brand-primary, $darken-percent);
 $brand-success-hover:   darken($brand-success, $darken-percent);
 $brand-warning-hover:   darken($brand-warning, $darken-percent);

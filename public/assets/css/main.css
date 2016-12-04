@@ -907,7 +907,7 @@ input[type="button"], button, .button {
   padding: 10px 15px;
   margin-bottom: 15px;
   cursor: pointer;
-  background: #5bc0de;
+  background: #31b0d5;
   color: #fff;
 }
 input[type="button"].primary, button.primary, .button.primary {
@@ -960,17 +960,17 @@ input[type="button"].danger:not([disabled]):focus, button.danger:not([disabled])
   box-shadow: inset 0 0 0 3px #c9302c;
 }
 input[type="button"].info, button.info, .button.info {
-  background: #5bc0de;
+  background: #31b0d5;
   color: #fff;
 }
 input[type="button"].info:not([disabled]):hover, button.info:not([disabled]):hover, .button.info:not([disabled]):hover {
-  background: #31b0d5;
+  background: #2490af;
 }
 input[type="button"].info.active, button.info.active, .button.info.active {
-  background: #31b0d5;
+  background: #2490af;
 }
 input[type="button"].info:not([disabled]):focus, button.info:not([disabled]):focus, .button.info:not([disabled]):focus {
-  box-shadow: inset 0 0 0 3px #31b0d5;
+  box-shadow: inset 0 0 0 3px #2490af;
 }
 input[type="button"].neutral, button.neutral, .button.neutral {
   background: gray;
@@ -999,13 +999,13 @@ input[type="button"][disabled], button[disabled], .button[disabled] {
   opacity: 0.75;
 }
 input[type="button"].active, button.active, .button.active {
-  background: #31b0d5;
+  background: #2490af;
 }
 input[type="button"]:not([disabled]):hover, button:not([disabled]):hover, .button:not([disabled]):hover {
-  background: #31b0d5;
+  background: #2490af;
 }
 input[type="button"]:not([disabled]):focus, button:not([disabled]):focus, .button:not([disabled]):focus {
-  box-shadow: inset 0 0 0 3px #31b0d5;
+  box-shadow: inset 0 0 0 3px #2490af;
 }
 
 a.button[disabled]:not(.link), .button[disabled].link:not(.link) {
@@ -1037,7 +1037,7 @@ a.button[disabled]:not(.link), .button[disabled].link:not(.link) {
 }
 
 .color-info {
-  color: #31b0d5;
+  color: #2490af;
 }
 
 .color-neutral {
@@ -1213,7 +1213,7 @@ a.button, input.button[type="button"].link, .button.link {
   background: #c9302c;
 }
 .alert.alert-info {
-  background: #31b0d5;
+  background: #2490af;
 }
 .alert.alert-neutral {
   background: #666666;
