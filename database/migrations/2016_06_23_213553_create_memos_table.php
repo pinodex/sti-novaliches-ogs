@@ -20,7 +20,7 @@ class CreateMemosTable extends Migration {
 			$table->string('subject');
 			$table->text('content', 65535);
 			$table->timestamps();
-			$table->dateTime('opened_at')->nullable();
+			$table->timestamp('opened_at')->nullable();
 			$table->softDeletes();
 		});
 	}

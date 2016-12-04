@@ -21,7 +21,7 @@ class CreateAdminsTable extends Migration {
 			$table->string('first_name');
 			$table->string('middle_name');
 			$table->timestamps();
-			$table->dateTime('last_login_at')->nullable();
+			$table->timestamp('last_login_at')->nullable();
 			$table->softDeletes();
 		});
 	}
