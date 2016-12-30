@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Extensions\Symfony\Form\FormValidatorExtension;
 use App\Extensions\GoogleClient;
 use App\Extensions\Settings;
 

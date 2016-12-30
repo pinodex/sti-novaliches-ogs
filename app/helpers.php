@@ -310,8 +310,40 @@ if (!function_exists('formatBytes')) {
 }
 
 if (!function_exists('settings')) {
+    /**
+     * Get setting value by key
+     *
+     * @param $id Setting key
+     * @param mixed $default Default value
+     * @return string
+     */
     function settings($id, $default = null)
     {
         return \App\Extensions\Settings::get($id, $default);
+    }
+}
+
+if (!function_exists('getPeriods')) {
+    /**
+     * Get periods
+     *
+     * @return array
+     */
+    function getPeriods()
+    {
+        return ['prelim', 'midterm', 'prefinal', 'final'];
+    }
+}
+
+if (!function_exists('getPeriodIndex')) {
+    /**
+     * Get period index by name
+     *
+     * @param $period Period name
+     * @return string
+     */
+    function getPeriodIndex($period)
+    {
+        return array_flip(getPeriods())[$period];
     }
 }

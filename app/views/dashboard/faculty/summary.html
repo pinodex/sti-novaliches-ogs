@@ -54,7 +54,7 @@
                             <th class="print-invisible">Report</th>
                         </tr>
                     </thead>
-                    {% for i, period in ['prelim', 'midterm', 'prefinal', 'final'] %}
+                    {% for i, period in getPeriods() %}
                         <tbody v-show="summaryTabs.period == '{{ period }}'">
                             {% for faculty in faculty %}
                                 <tr v-show="summaryTabs.status == 'all' || summaryTabs.status == '{{ faculty.getStatus(period) }}'">

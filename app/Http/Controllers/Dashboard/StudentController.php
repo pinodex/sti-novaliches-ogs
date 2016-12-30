@@ -111,8 +111,7 @@ class StudentController extends Controller
         return view('dashboard/students/view', [
             'student'       => $student,
             'grades'        => $student->grades,
-            'period'        => $period,
-            'active_period' => array_flip(['prelim', 'midterm', 'prefinal', 'final'])[$period]
+            'period'        => $period
         ]);
     }
 

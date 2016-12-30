@@ -67,7 +67,6 @@ class SectionController extends Controller
         }
         
         $aggregatedResults = [];
-        $periods = ['prelim', 'midterm', 'prefinal', 'final'];
 
         $all = $grades->get()->groupBy(function (Grade $grade) {
             return $grade->section . '/' . $grade->subject;
@@ -88,7 +87,7 @@ class SectionController extends Controller
             ];
 
             foreach ($grades as $grade) {
-                foreach ($periods as $period) {
+                foreach (getPeriods() as $period) {
                     $value = $grade->getOriginal($period . '_grade');
 
                     if ($value !== null && $value >= 5.0) {

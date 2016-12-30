@@ -84,7 +84,7 @@ class FacultyController extends Controller
         return view('dashboard/faculty/summary', [
             'faculty'       => Faculty::all(),
             'period'        => $period,
-            'periodIndex'   => array_flip(['prelim', 'midterm', 'prefinal', 'final'])[$period]
+            'periodIndex'   => getPeriodIndex($period)
         ]);
     }
 
@@ -103,11 +103,10 @@ class FacultyController extends Controller
         }
 
         $period = strtolower(Settings::get('period', 'prelim'));
-        $activePeriod = array_flip(['prelim', 'midterm', 'prefinal', 'final'])[$period];
+        $activePeriod = getPeriodIndex($period);
 
         return view('dashboard/faculty/view', [
             'period'        => $period,
-            'active_period' => $activePeriod,
             'faculty'       => $faculty,
             'logs'          => $faculty->submissionLogs->reverse(),
 

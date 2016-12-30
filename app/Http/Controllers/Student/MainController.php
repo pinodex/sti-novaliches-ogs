@@ -48,8 +48,7 @@ class MainController extends Controller
         return view('student/index', [
             'student'       => $this->user,
             'grades'        => $this->user->grades,
-            'period'        => $period,
-            'active_period' => array_flip(['prelim', 'midterm', 'prefinal', 'final'])[$period],
+            'period'        => $period
         ]);
     }
 
@@ -64,7 +63,7 @@ class MainController extends Controller
             return redirect()->route('student.account');
         }
         
-        if ($period && !in_array($period, ['prelim', 'midterm', 'prefinal', 'final'])) {
+        if ($period && !in_array($period, getPeriods())) {
             abort(404);
         }
 

@@ -180,7 +180,9 @@ return [
             'head',
             'last',
             'route',
-            'settings'
+            'settings',
+            'getPeriods',
+            'getPeriodIndex'
         ],
 
         /*
