@@ -120,7 +120,33 @@ class Student extends Model implements Authenticatable, MultiRoleModelInterface
     }
 
     /**
-     * Check if required informations are filled
+     * @param Authenticatable $user Authenticatable model instance
+     *
+     * @return boolean
+     */
+    public function canBeViewedBy(Authenticatable $user)
+    {
+        switch (get_class($user)) {
+            case Admin::class:
+            case Head::class:
+            case Guidance::class:
+                return true;
+                break;
+
+            case Faculty::class:
+                return $this->grades()->getQuery()->where('importer_id', $user->id)->count() != 0;
+                break;
+
+            case Student::class:
+                return $this->id == $user->id;
+                break;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if required information are filled
      * 
      * @return boolean
      */
