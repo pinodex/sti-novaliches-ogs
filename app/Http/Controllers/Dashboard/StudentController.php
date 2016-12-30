@@ -11,7 +11,6 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Session;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\Form\Extension\Core\Type;
@@ -19,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Extensions\Constraints as CustomAssert;
 use App\Http\Controllers\Controller;
 use App\Extensions\Settings;
+use App\Extensions\Alert;
 use App\Extensions\Form;
 use App\Extensions\Role;
 use App\Models\Student;
@@ -227,7 +227,13 @@ class StudentController extends Controller
             $student->fill($data);
             $student->save();
 
-            Session::flash('flash_message', 'success>>>Student information changes has been saved');
+            if ($mode == 'add') {
+                Alert::success("Student has been added to the database");
+            }
+
+            if ($mode == 'edit') {
+                Alert::success("Student information changes has been saved");
+            }
 
             return redirect()->route('dashboard.students.view', [
                 'id' => $student->id
@@ -270,6 +276,8 @@ class StudentController extends Controller
             }
 
             $student->updateGrades($gradesInput);
+
+            Alert::success('Student grade changes has been saved');
 
             return redirect()->route('dashboard.students.view', [
                 'id' => $student->id
@@ -338,7 +346,7 @@ class StudentController extends Controller
         if ($form->isValid()) {
             $student->delete();
 
-            Session::flash('flash_message', 'info>>>Student has been deleted');
+            Alert::info('Student has been deleted');
 
             return redirect()->route('dashboard.students.index');
         }

@@ -11,12 +11,12 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Session;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Extensions\Constraints as CustomAssert;
 use App\Http\Controllers\Controller;
+use App\Extensions\Alert;
 use App\Extensions\Form;
 use App\Models\Department;
 use App\Models\Head;
@@ -125,7 +125,13 @@ class HeadController extends Controller
             $head->fill($data);
             $head->save();
 
-            Session::flash('flash_message', 'success>>>Head account has been saved');
+            if ($mode == 'add') {
+                Alert::success("<strong>{$head->name}</strong> has been added to head accounts");
+            }
+
+            if ($mode == 'edit') {
+                Alert::success("Changes to <strong>{$head->name}</strong> has been saved");
+            }
 
             return redirect()->route('dashboard.heads.index');
         }
@@ -151,8 +157,8 @@ class HeadController extends Controller
 
         if ($form->isValid()) {
             $head->delete();
-            
-            Session::flash('flash_message', 'info>>>Head account has been deleted');
+
+            Alert::info("<strong>{$head->name}</strong> account has been deleted");
 
             return redirect()->route('dashboard.heads.index');
         }

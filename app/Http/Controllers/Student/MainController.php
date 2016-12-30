@@ -11,14 +11,12 @@
 
 namespace App\Http\Controllers\Student;
 
-use Session;
-use Redirect;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Http\Controllers\Controller;
 use App\Extensions\Settings;
+use App\Extensions\Alert;
 use App\Extensions\Form;
 use App\Models\Grade;
 
@@ -104,7 +102,7 @@ class MainController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            return Redirect::route('student.top', $form->getData());
+            return redirect()->route('student.top', $form->getData());
         }
 
         if ($period && $subject) {
@@ -186,7 +184,7 @@ class MainController extends Controller
             $this->user->fill($form->getData());
             $this->user->save();
 
-            Session::flash('flash_message', 'success>>>Your student information has been updated.');
+            Alert::success('Your student information has been updated');
 
             return redirect()->route('student.index');
         }

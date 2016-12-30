@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Extensions\Spreadsheet\FacultySpreadsheet;
 use App\Http\Controllers\Controller;
+use App\Extensions\Alert;
 use App\Extensions\Form;
 
 class FacultyImportController extends Controller
@@ -75,7 +76,7 @@ class FacultyImportController extends Controller
             $file = $form['file']->getData();
             
             if ($file->getError() != 0) {
-                Session::flash('flash_message', 'danger>>>' . $file->getErrorMessage());
+                Alert::danger($file->getErrorMessage());
                 
                 return redirect()->route('dashboard.import.faculty.stepOne');
             }

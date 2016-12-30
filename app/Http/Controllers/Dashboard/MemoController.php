@@ -11,10 +11,10 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Session;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use App\Http\Controllers\Controller;
+use App\Extensions\Alert;
 use App\Extensions\Form;
 use App\Extensions\Role;
 use App\Models\Faculty;
@@ -93,13 +93,13 @@ class MemoController extends Controller
     public function send(Request $request)
     {
         if (!$recipient = $request->query->get('recipient')) {
-            Session::flash('flash_message', 'danger>>>No valid recipient');
+            Alert::danger('No valid recipient');
 
             return redirect()->route('dashboard.memo.index');
         }
 
         if (!$faculty = Faculty::find($recipient)) {
-            Session::flash('flash_message', 'danger>>>Invalid recipient');
+            Alert::danger('Invalid recipient');
 
             return redirect()->route('dashboard.memo.index');
         }
@@ -136,7 +136,7 @@ class MemoController extends Controller
 
             Memo::create($data);
 
-            Session::flash('flash_message', 'success>>>Memo sent');
+            Alert::success("Memo has been successfully sent to <strong>{$faculty->name}</strong>");
 
             return redirect()->route('dashboard.memo.index');
         }

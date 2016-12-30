@@ -18,8 +18,8 @@ use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use App\Extensions\Spreadsheet\StudentStatusSpreadsheet;
 use App\Http\Controllers\Controller;
+use App\Extensions\Alert;
 use App\Extensions\Form;
-use App\Models\StudentStatus;
 
 class StudentStatusImportController extends Controller
 {
@@ -79,7 +79,7 @@ class StudentStatusImportController extends Controller
             $file = $form['file']->getData();
 
             if ($file->getError() != 0) {
-                Session::flash('flash_message', 'danger>>>' . $file->getErrorMessage());
+                Alert::danger($file->getErrorMessage());
                 
                 return redirect()->route('dashboard.import.studentsstatus.stepOne');
             }

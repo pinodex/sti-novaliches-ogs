@@ -113,11 +113,27 @@
             </nav>
         </div>
     </div>
-{% set flash_message = session_get('flash_message') %}
+{% set alerts = session_get('alerts') %}
     <div id="page-content">
-        {% if flash_message %}
+        {% if alerts %}
             <div class="container">
-                <div class="alert alert-{{ flash_message|split('>>>')[0] }}">{{ flash_message|split('>>>')[1] }}</div>
+                {% for i, alert in alerts %}
+                    {% if i == 0 %}
+                        <modal class="modal-alert-{{ alert[0] }}" :show.sync="modals.alert">
+                            <div slot="body">
+                                <p>{{ alert[1]|raw }}</p>
+                            </div>
+
+                            <div slot="footer">
+                                <button type="button" class="{{ alert[0] }}" @click="modals.alert = false" autofocus>Close</button>
+                            </div>
+                        </modal>
+                    {% endif %}
+
+                    {% if i > 0 %}
+                        <div class="alert alert-{{ alert[0] }}">{{ alert[1] }}</div>
+                    {% endif %}
+                {% endfor %}
             </div>
         {% endif %}
 
@@ -142,9 +158,9 @@
     </div>
 
     <script type="x/template" id="modal-template">
-        <div class="modal-mask" v-show="show" @click="show = false" transition="modal">
+        <div class="modal-mask" v-show="show" transition="modal">
             <div class="modal-wrapper">
-                <div class="modal-container" @click.stop>
+                <div class="modal-container">
                     <div class="modal-header">
                         <slot name="header"></slot>
                     </div>

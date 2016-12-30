@@ -13,11 +13,11 @@ namespace App\Http\Controllers\Dashboard\Settings;
 
 use Artisan;
 use Storage;
-use Session;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use App\Http\Controllers\Controller;
 use App\Extensions\Settings;
+use App\Extensions\Alert;
 use App\Extensions\Form;
 
 class MainController extends Controller
@@ -104,7 +104,7 @@ class MainController extends Controller
 
         if ($form->isValid()) {
             Settings::setArray($form->getData());
-            Session::flash('flash_message', 'success>>>Settings has been updated');
+            Alert::success('Settings has been updated');
 
             return redirect()->route('dashboard.settings.index');
         }
@@ -171,7 +171,7 @@ class MainController extends Controller
         if ($request->getMethod() == 'POST') {
             $action();
 
-            Session::flash('flash_message', 'success>>>Action completed');
+            Alert::success('Action completed');
             return redirect()->route('dashboard.settings.maintenance');
         }
 

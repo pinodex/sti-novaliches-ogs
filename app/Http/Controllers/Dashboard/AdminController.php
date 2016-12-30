@@ -11,12 +11,12 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Session;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Extensions\Constraints as CustomAssert;
 use App\Http\Controllers\Controller;
+use App\Extensions\Alert;
 use App\Extensions\Form;
 use App\Extensions\Role;
 use App\Models\Admin;
@@ -106,7 +106,13 @@ class AdminController extends Controller
             $admin->fill($data);
             $admin->save();
 
-            Session::flash('messages', 'success>>>Admin account has been saved');
+            if ($mode == 'add') {
+                Alert::success("<strong>{$admin->name}</strong> has been added to admin accounts");
+            }
+
+            if ($mode == 'edit') {
+                Alert::success("Changes to <strong>{$admin->name}</strong> has been saved");
+            }
 
             return redirect()->route('dashboard.admins.index');
         }
@@ -132,14 +138,14 @@ class AdminController extends Controller
 
         if ($form->isValid()) {
             if ($this->isRole(Role::ADMIN) && $this->user->getModel()->id == $admin->id) {
-                Session::flash('flash_message', 'danger>>>You are not allowed to commit suicide');
+                Alert::danger('You are not allowed to commit suicide');
 
                 return redirect()->route('dashboard.admins.index');
             }
             
             $admin->delete();
 
-            Session::flash('flash_message', 'info>>>Admin account has been deleted');
+            Alert::info("Admin account <strong>{$admin->name}</strong> has been deleted");
 
             return redirect()->route('dashboard.admins.index');
         }

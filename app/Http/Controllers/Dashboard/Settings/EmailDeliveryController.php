@@ -11,12 +11,12 @@
 
 namespace App\Http\Controllers\Dashboard\Settings;
 
-use Session;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Http\Controllers\Controller;
 use App\Extensions\Settings;
+use App\Extensions\Alert;
 use App\Extensions\Form;
 
 class EmailDeliveryController extends Controller
@@ -63,7 +63,7 @@ class EmailDeliveryController extends Controller
 
             Settings::setArray($data);
 
-            Session::flash('flash_message', 'success>>>Email delivery settings has been saved');
+            Alert::success('Email delivery settings has been saved');
 
             return redirect()->route('dashboard.settings.emaildelivery.index');
         }

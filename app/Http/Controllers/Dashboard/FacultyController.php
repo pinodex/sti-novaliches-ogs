@@ -11,7 +11,6 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Session;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -20,6 +19,7 @@ use App\Http\Controllers\Controller;
 use App\Models\GradeImportLog;
 use App\Models\Department;
 use App\Models\Faculty;
+use App\Extensions\Alert;
 use App\Extensions\Form;
 use App\Extensions\Role;
 use App\Extensions\Settings;
@@ -162,7 +162,7 @@ class FacultyController extends Controller
             $submission->is_valid = $form['status']->getData();
             $submission->save();
 
-            Session::flash('flash_message', 'success>>>Faculty submission changes has been saved');
+            Alert::success('Faculty submission changes has been saved');
 
             return redirect()->route('dashboard.faculty.view', [
                 'faculty' => $faculty->id
@@ -236,7 +236,13 @@ class FacultyController extends Controller
             $faculty->fill($data);
             $faculty->save();
 
-            Session::flash('flash_message', 'success>>>Faculty account has been saved');
+            if ($mode == 'add') {
+                Alert::success("<strong>{$faculty->name}</strong> has been added to faculty accounts");
+            }
+
+            if ($mode == 'edit') {
+                Alert::success("Changes to <strong>{$faculty->name}</strong> has been saved");
+            }
 
             return redirect()->route('dashboard.faculty.index');
         }
@@ -263,7 +269,7 @@ class FacultyController extends Controller
         if ($form->isValid()) {
             $faculty->delete();
 
-            Session::flash('flash_message', 'info>>>Faculty account has been deleted');
+            Alert::info("<strong>{$faculty->name}</strong> account has been deleted");
 
             return redirect()->route('dashboard.faculty.index');
         }

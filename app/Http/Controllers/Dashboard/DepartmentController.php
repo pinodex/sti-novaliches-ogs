@@ -11,10 +11,10 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Session;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use App\Http\Controllers\Controller;
+use App\Extensions\Alert;
 use App\Extensions\Form;
 use App\Extensions\Role;
 use App\Models\Department;
@@ -55,7 +55,7 @@ class DepartmentController extends Controller
         }
 
         if ($this->isRole(Role::HEAD) && $this->user->department === null) {
-            Session::flash('flash_message', 'danger>>>You are not yet assigned to any department');
+            Alert::warning('You are not yet assigned to any department');
 
             return redirect()->route('dashboard.index');
         }
@@ -142,12 +142,14 @@ class DepartmentController extends Controller
                 ]);
             }
 
-            Session::flash('flash_message', 'success>>>Department has been saved');
-
             if ($mode == 'add') {
+                Alert::success("<strong>{$department->name}</strong> has been added to departments");
+
                 return redirect()->route('dashboard.departments.index');
             }
-            
+
+            Alert::success("Changes to <strong>{$department->name}</strong> has been saved");
+
             return redirect()->route('dashboard.departments.view', [
                 'id' => $department->id
             ]);
@@ -175,7 +177,7 @@ class DepartmentController extends Controller
         if ($form->isValid()) {
             $department->delete();
 
-            Session::flash('flash_message', 'info>>>Department has been deleted');
+            Alert::info("<strong>{$department->name}</strong> has been deleted");
 
             return redirect()->route('dashboard.departments.index');
         }

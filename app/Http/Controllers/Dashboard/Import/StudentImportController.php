@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use App\Extensions\Spreadsheet\StudentSpreadsheet;
 use App\Http\Controllers\Controller;
+use App\Extensions\Alert;
 use App\Extensions\Form;
 use App\Models\Student;
 
@@ -69,8 +70,8 @@ class StudentImportController extends Controller
             $file = $form['file']->getData();
 
             if ($file->getError() != 0) {
-                Session::flash('flash_message', 'danger>>>' . $file->getErrorMessage());
-                
+                Alert::danger($file->getErrorMessage());
+
                 return redirect()->route('dashboard.import.students.stepOne');
             }
 

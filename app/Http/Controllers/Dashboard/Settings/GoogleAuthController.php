@@ -11,13 +11,13 @@
 
 namespace App\Http\Controllers\Dashboard\Settings;
 
-use Session;
 use Storage;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Http\Controllers\Controller;
 use App\Extensions\Settings;
+use App\Extensions\Alert;
 use App\Extensions\Form;
 
 class GoogleAuthController extends Controller
@@ -46,7 +46,7 @@ class GoogleAuthController extends Controller
                 $userInfo = $user->userinfo->get();
             }
         } catch (\Exception $e) {
-            Session::flash('flash_message', 'warning>>>' . $e->getMessage());
+            Alert::warning($e->getMessage());
         }
 
         return view('dashboard/settings/googleauth/index', [
@@ -100,7 +100,7 @@ class GoogleAuthController extends Controller
                 return redirect()->route('dashboard.settings.googleauth.clientSecret');
             }
 
-            Session::flash('flash_message', 'success>>>Client secret file has been saved');
+            Alert::success('Client secret file has been saved');
             Storage::put('client_secret.json', file_get_contents($file->getPathname()));
 
             return redirect()->route('dashboard.settings.googleauth.clientSecret');
@@ -127,7 +127,7 @@ class GoogleAuthController extends Controller
         $client->setRedirectUri($request->getSchemeAndHttpHost() . $request->getPathinfo());
 
         if ($request->query->get('error')) {
-            Session::flash('flash_message', 'danger>>>Authorization error');
+            Alert::danger('Authorization error');
 
             return redirect()->route('dashboard.settings.googleauth.index');
         }
@@ -136,7 +136,7 @@ class GoogleAuthController extends Controller
             try {
                 $token = $client->authenticate($code);
             } catch (\Google_Auth_Exception $e) {
-                Session::flash('flash_message', 'danger>>>' . $e->getMessage());
+                Alert::danger($e->getMessage());
 
                 return redirect()->route('dashboard.settings.googleauth.index');
             }

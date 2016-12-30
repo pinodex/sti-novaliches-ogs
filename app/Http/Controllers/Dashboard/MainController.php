@@ -11,12 +11,12 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Session;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Extensions\Constraints as CustomAssert;
+use App\Extensions\Alert;
 use App\Extensions\Form;
 use App\Extensions\Role;
 
@@ -83,7 +83,7 @@ class MainController extends Controller
             $this->user->getModel()->fill($form->getData());
             $this->user->getModel()->save();
 
-            Session::flash('flash_message', 'success>>>Your account settings has been updated');
+            Alert::success('Your account settings has been updated');
 
             return redirect()->route('dashboard.index');
         }

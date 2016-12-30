@@ -11,12 +11,12 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Session;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Extensions\Constraints as CustomAssert;
 use App\Http\Controllers\Controller;
+use App\Extensions\Alert;
 use App\Extensions\Form;
 use App\Models\Guidance;
 
@@ -102,7 +102,13 @@ class GuidanceController extends Controller
             $guidance->fill($data);
             $guidance->save();
 
-            Session::flash('flash_message', 'success>>>Guidance account has been saved');
+            if ($mode == 'add') {
+                Alert::success("<strong>{$guidance->name}</strong> has been added to guidance accounts");
+            }
+
+            if ($mode == 'edit') {
+                Alert::success("Changes to <strong>{$guidance->name}</strong> has been saved");
+            }
 
             return redirect()->route('dashboard.guidance.index');
         }
@@ -129,7 +135,7 @@ class GuidanceController extends Controller
         if ($form->isValid()) {
             $guidance->delete();
 
-            Session::flash('flash_message', 'info>>>Guidance account has been deleted');
+            Alert::info("<strong>{$guidance->name}</strong> account has been deleted");
 
             return redirect()->route('dashboard.guidance.index');
         }

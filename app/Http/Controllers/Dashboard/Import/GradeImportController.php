@@ -23,6 +23,7 @@ use App\Http\Controllers\Controller;
 use App\Jobs\ParallelJob;
 use App\Jobs\DeleteFileJob;
 use App\Jobs\SendEmailJob;
+use App\Extensions\Alert;
 use App\Extensions\Form;
 use App\Extensions\Role;
 use App\Extensions\SgrReporter;
@@ -78,7 +79,7 @@ class GradeImportController extends Controller
             $data = $form->getData();
             
             if ($data['sgr']->getError() > 0) {
-                Session::flash('flash_message', 'danger>>>' . $data['sgr']->getErrorMessage());
+                Alert::danger($data['sgr']->getErrorMessage());
 
                 return redirect()->route('dashboard.import.grades.stepOne', [
                     'session' => $sessionId
@@ -124,7 +125,7 @@ class GradeImportController extends Controller
         }
 
         if (Session::get($sessionId . 'gw_import_done')) {
-            Session::flash('flash_message', 'info>>>Your SGR was already imported.');
+            Alert::info('Your SGR was already imported');
 
             return redirect()->route('dashboard.import.grades.stepThree', [
                 'session' => $sessionId
@@ -134,7 +135,7 @@ class GradeImportController extends Controller
         try {
             $sgr = new GradeSpreadsheet($file['path']);
         } catch (\Exception $e) {
-            Session::flash('flash_message', 'warning>>>An error occurred. Please try again');
+            Alert::warning('An error occurred. Please try again');
 
             return redirect()->route('dashboard.import.grades.stepOne', [
                 'session' => $sessionId
