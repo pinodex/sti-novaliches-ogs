@@ -11,7 +11,6 @@
 
 namespace App\Jobs;
 
-use App\Jobs\Job;
 use App\Extensions\Email\Composer;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
