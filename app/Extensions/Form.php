@@ -25,7 +25,7 @@ class Form
      *
      * @param string $identifier Form identifier
      *
-     * @return Symfony\Component\Form\FormBuilder
+     * @return \Symfony\Component\Form\FormBuilder
      */
     public static function create($data = null, array $options = array())
     {
@@ -41,7 +41,7 @@ class Form
     /**
      * Add flash error message to form
      *
-     * @param string $identifer Form identifier
+     * @param string $identifier Form identifier
      * @param string $message Error message 
      */
     public static function flashError($identifier, $message)
@@ -53,7 +53,7 @@ class Form
      * Apply flashed errors to form
      * 
      * @param SymfonyForm $form Form
-     * @param string $identifer Form identifer
+     * @param string $identifier Form identifier
      */
     public static function handleFlashErrors($identifier, SymfonyForm $form)
     {

@@ -12,9 +12,7 @@
 namespace App\Extensions;
 
 use DB;
-use App\Extensions\Settings;
 use App\Extensions\Spreadsheet\GradeSpreadsheet;
-use Illuminate\Support\Collection;
 
 class SgrReporter
 {
@@ -110,7 +108,7 @@ class SgrReporter
     /**
      * Static function for class constructor
      * 
-     * @param GradeSpreadsheet Instance of grading sheet
+     * @param $sgr GradeSpreadsheet Instance of grading sheet
      * 
      * @return SgrReporter
      */

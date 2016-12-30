@@ -32,7 +32,7 @@ class UniqueRecord extends Constraint
     public $comparator = '=';
 
     /**
-     * @var string Value to exlude in check
+     * @var string Value to exclude in check
      */
     public $exclude;
 
