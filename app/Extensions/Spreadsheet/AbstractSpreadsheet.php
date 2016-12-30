@@ -11,10 +11,8 @@
 
 namespace App\Extensions\Spreadsheet;
 
-use Exception;
 use Serializable;
 use App\Jobs\ImportToDatabaseJob;
-use Illuminate\Support\Collection;
 use Box\Spout\Reader\ReaderFactory;
 use Box\Spout\Common\Type;
 
@@ -24,7 +22,7 @@ use Box\Spout\Common\Type;
 abstract class AbstractSpreadsheet implements Serializable, SpreadsheetInterface
 {
     /**
-     * @var SpreadsheetReader Spreadsheet reader spreadsheet
+     * @var \Box\Spout\Reader\ReaderInterface Spreadsheet reader spreadsheet
      */
     protected $spreadsheet;
 
@@ -43,6 +41,8 @@ abstract class AbstractSpreadsheet implements Serializable, SpreadsheetInterface
         if ($format === null) {
             $format = pathinfo($filePath, PATHINFO_EXTENSION);
         }
+
+        $type = null;
 
         switch ($format) {
             case 'xlsx':
@@ -70,12 +70,12 @@ abstract class AbstractSpreadsheet implements Serializable, SpreadsheetInterface
      * 
      * @return boolean True if import was successful.
      */
-    public function importToDatabase() {}
+    public abstract function importToDatabase();
 
     /**
      * Create queue job for importing to database
      * 
-     * @return \App\Jobs\Jobs
+     * @return \App\Jobs\Job
      */
     public function createImportToDatabaseJob()
     {

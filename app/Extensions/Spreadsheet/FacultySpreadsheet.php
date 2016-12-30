@@ -29,7 +29,7 @@ class FacultySpreadsheet extends AbstractSpreadsheet
 
     public function isValid()
     {
-        return count($this->spreadsheet->getSheetIterator()) === 1;
+        return iterator_count($this->spreadsheet->getSheetIterator()) === 1;
     }
 
     public function getParsedContents()

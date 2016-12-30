@@ -14,7 +14,6 @@ namespace App\Extensions\Spreadsheet;
 use DB;
 use App\Models\Grade;
 use App\Models\Faculty;
-use Illuminate\Support\Collection;
 
 class GradeSpreadsheet extends AbstractSpreadsheet
 {
