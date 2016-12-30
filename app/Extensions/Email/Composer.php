@@ -97,7 +97,7 @@ class Composer
      * Add file attachment
      * 
      * @param string $filePath Path to file
-     * @param stirng $fileName Name of the file
+     * @param string $fileName Name of the file
      * @param string $mimeType MIME type of the file
      */
     public function attach($filePath, $fileName, $mimeType)
@@ -129,16 +129,16 @@ class Composer
         $mainBoundary = uniqid();
         $subBoundary = uniqid();
 
-        $output .= 'Content-Type: multipart/mixed; boundary=' . $mainBoundary . "\r\n";
+        $output .= "Content-Type: multipart/mixed; boundary={$mainBoundary}\r\n";
         $output .= "\r\n";
 
-        $output .= '--' . $mainBoundary . "\r\n";
-        $output .= 'Content-Type: multipart/alternative; boundary=' . $subBoundary . "\r\n";
+        $output .= "--{$mainBoundary}\r\n";
+        $output .= "Content-Type: multipart/alternative; boundary={$subBoundary}\r\n";
         $output .= "\r\n";
 
         if ($this->textBody) {
-            $output .= '--' . $subBoundary . "\r\n";
-            $output .= 'Content-Type: text/plain;' . "\r\n";
+            $output .= "--{$subBoundary}\r\n";
+            $output .= "Content-Type: text/plain;\r\n";
             $output .= "\r\n";
             
             $output .= $this->textBody;
@@ -146,29 +146,29 @@ class Composer
         }
 
         if ($this->htmlBody) {
-            $output .= '--' . $subBoundary . "\r\n";
-            $output .= 'Content-Type: text/html;' . "\r\n";
+            $output .= "--{$subBoundary}\r\n";
+            $output .= "Content-Type: text/html;\r\n";
             $output .= "\r\n";
             
             $output .= $this->htmlBody;
             $output .= "\r\n";
         }
 
-        $output .= '--' . $subBoundary . '--' . "\r\n";
+        $output .= "--{$subBoundary}--\r\n";
 
         foreach ($this->attachments as $attachment) {
             $fileContents = file_get_contents($attachment['filePath']);
             $encoding = mb_detect_encoding($fileContents) ?: 'UTF-8';
 
-            $output .= '--' . $mainBoundary . "\r\n";
-            $output .= 'Content-Type: ' . $attachment['mimeType'] . '; charset=' . $encoding . '; name="' . $attachment['fileName'] . '"' . "\r\n";
-            $output .= 'Content-Disposition: attachment; filename="' . $attachment['fileName'] . '"' . "\r\n";
+            $output .= "--{$mainBoundary}\r\n";
+            $output .= "Content-Type: {$attachment['mimeType']}; charset={$encoding}; name=\"{$attachment['fileName']}\"\r\n";
+            $output .= "Content-Disposition: attachment; filename=\"{$attachment['fileName']}\"\r\n";
             $output .= "\r\n";
 
-            $output .= $fileContents . "\r\n";
+            $output .= "{$fileContents}\r\n";
         }
 
-        $output .= '--' . $mainBoundary . '--' . "\r\n";
+        $output .= "--{$mainBoundary}--\r\n";
 
         return $output;
     }
