@@ -104,10 +104,8 @@ class StudentController extends Controller
      */
     public function view(Request $request, Student $student)
     {
-        if ($this->isRole('faculty')) {
-            if ($student->grades()->getQuery()->where('importer_id', $this->user->id)->count() == 0) {
-                abort(403);
-            }
+        if (!$student->canBeViewedBy($this->user)) {
+            abort(403);
         }
 
         $period = strtolower(Settings::get('period', 'prelim'));
