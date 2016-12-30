@@ -86,7 +86,9 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
         if ($request->ajax() || strpos($request->getPathinfo(), '/api') === 0) {
-            return $this->renderJson($request, $e);
+            if (app()->environment() == 'production') {
+                return $this->renderJson($request, $e);
+            }
         }
 
         if ($this->isHttpException($e)) {
