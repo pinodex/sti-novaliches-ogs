@@ -17,7 +17,6 @@ use Storage;
 use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Extensions\Spreadsheet\SpreadsheetFactory;
 use App\Extensions\Spreadsheet\GradeSpreadsheet;
 use App\Http\Controllers\Controller;
@@ -25,6 +24,7 @@ use App\Jobs\ParallelJob;
 use App\Jobs\DeleteFileJob;
 use App\Jobs\SendEmailJob;
 use App\Extensions\Form;
+use App\Extensions\Role;
 use App\Extensions\SgrReporter;
 use App\Extensions\Email\GradeDelivery;
 
@@ -173,12 +173,12 @@ class GradeImportController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            if ($this->isRole('faculty')) {
+            if ($this->isRole(Role::FACULTY)) {
                 $report = SgrReporter::check($sgr);
                 $this->user->addSubmissionLogEntry($report);
             }
             
-            $sgr->importToDatabase($this->isRole('faculty') ? $this->user : null);
+            $sgr->importToDatabase($this->isRole(Role::FACULTY) ? $this->user : null);
             $queue = new ParallelJob();
 
             try {

@@ -20,8 +20,8 @@ use App\Http\Controllers\Controller;
 use App\Models\GradeImportLog;
 use App\Models\Department;
 use App\Models\Faculty;
-use App\Models\Grade;
 use App\Extensions\Form;
+use App\Extensions\Role;
 use App\Extensions\Settings;
 
 class FacultyController extends Controller
@@ -65,7 +65,7 @@ class FacultyController extends Controller
      */
     public function me()
     {
-        if (!$this->isRole('faculty')) {
+        if (!$this->isRole(Role::FACULTY)) {
             abort(404);
         }
 
@@ -96,7 +96,9 @@ class FacultyController extends Controller
     public function view(Faculty $faculty)
     {
         // Deny if the faculty and head does not belong to the same department
-        if ($this->isRole('head') && (!$faculty->department || $faculty->department->id != $this->user->department->id)) {
+        if ($this->isRole(Role::FACULTY) &&
+            (!$faculty->department || $faculty->department->id != $this->user->department->id)) {
+
             abort(403);
         }
 

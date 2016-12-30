@@ -18,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Extensions\Constraints as CustomAssert;
 use App\Http\Controllers\Controller;
 use App\Extensions\Form;
+use App\Extensions\Role;
 use App\Models\Admin;
 
 class AdminController extends Controller
@@ -130,7 +131,7 @@ class AdminController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            if ($this->isRole('admin') && $this->user->getModel()->id == $admin->id) {
+            if ($this->isRole(Role::ADMIN) && $this->user->getModel()->id == $admin->id) {
                 Session::flash('flash_message', 'danger>>>You are not allowed to commit suicide');
 
                 return redirect()->route('dashboard.admins.index');
@@ -140,7 +141,7 @@ class AdminController extends Controller
 
             Session::flash('flash_message', 'info>>>Admin account has been deleted');
 
-            return redirect()->route('dashboard.admins.index');;
+            return redirect()->route('dashboard.admins.index');
         }
 
         return view('dashboard/admins/delete', [

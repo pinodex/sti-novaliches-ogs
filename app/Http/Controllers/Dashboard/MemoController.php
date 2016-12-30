@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use App\Http\Controllers\Controller;
 use App\Extensions\Form;
+use App\Extensions\Role;
 use App\Models\Faculty;
 use App\Models\Admin;
 use App\Models\Memo;
@@ -45,7 +46,7 @@ class MemoController extends Controller
             'required'  => false
         ]);
 
-        if (!$this->isRole('faculty')) {
+        if (!$this->isRole(Role::FACULTY)) {
             $searchForm->add('admin', Type\ChoiceType::class, [
                 'label'     => 'By admin',
                 'required'  => false,
@@ -59,7 +60,7 @@ class MemoController extends Controller
             ]);
         }
 
-        if ($this->isRole('admin')) {
+        if ($this->isRole(Role::ADMIN)) {
             $composeForm = Form::create();
 
             $composeForm->add('recipient', Type\ChoiceType::class, [
@@ -72,7 +73,7 @@ class MemoController extends Controller
         $adminId = $request->query->get('admin');
         $facultyId = $request->query->get('faculty');
         
-        if ($this->isRole('faculty')) {
+        if ($this->isRole(Role::FACULTY)) {
             $facultyId = $this->user->id;
             $adminId = null;
         }
@@ -127,7 +128,7 @@ class MemoController extends Controller
         if ($form->isValid()) {
             $data = $form->getData();
 
-            if ($this->isRole('admin')) {
+            if ($this->isRole(Role::ADMIN)) {
                 $data['admin_id'] = $this->user->getModel()->id;
             }
 
@@ -154,11 +155,11 @@ class MemoController extends Controller
      */
     public function view(Request $request, Memo $memo)
     {
-        if ($this->isRole('faculty') && $this->user->id != $memo->faculty->id) {
+        if ($this->isRole(Role::FACULTY) && $this->user->id != $memo->faculty->id) {
             abort(403);
         }
 
-        if ($this->isRole('faculty') && $memo->opened_at === null) {
+        if ($this->isRole(Role::FACULTY) && $memo->opened_at === null) {
             $memo->opened_at = date('Y-m-d H:i:s');
             $memo->save();
         }

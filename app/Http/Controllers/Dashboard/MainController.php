@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Extensions\Constraints as CustomAssert;
 use App\Extensions\Form;
+use App\Extensions\Role;
 
 class MainController extends Controller
 {
@@ -38,7 +39,7 @@ class MainController extends Controller
     {
         $context = [];
 
-        if ($this->isRole('faculty')) {
+        if ($this->isRole(Role::FACULTY)) {
             $faculty = $this->user->getModel();
 
             $context['faculty'] = $faculty->toArray();

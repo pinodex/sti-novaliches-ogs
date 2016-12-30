@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\Form\Extension\Core\Type;
 use App\Http\Controllers\Controller;
 use App\Extensions\Form;
+use App\Extensions\Role;
 use App\Models\Department;
 use App\Models\Faculty;
 use App\Models\Head;
@@ -49,11 +50,11 @@ class DepartmentController extends Controller
      */
     public function self()
     {
-        if (!$this->isRole('head') && !$this->isRole('faculty')) {
+        if (!$this->areRoles(Role::HEAD, Role::FACULTY)) {
             abort(404);
         }
 
-        if ($this->isRole('head') && $this->user->department === null) {
+        if ($this->isRole(Role::HEAD) && $this->user->department === null) {
             Session::flash('flash_message', 'danger>>>You are not yet assigned to any department');
 
             return redirect()->route('dashboard.index');
@@ -71,8 +72,8 @@ class DepartmentController extends Controller
      */
     public function view(Request $request, Department $department)
     {
-        if ($this->isRole('head') && $this->user->department === null || (
-            $this->user->department !== null && $this->user->department->id != $department->id)) {
+        if ($this->isRole(Role::HEAD) && $this->user->department === null ||
+            ($this->user->department !== null && $this->user->department->id != $department->id)) {
             
             abort(403);
         }

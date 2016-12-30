@@ -13,7 +13,6 @@ namespace App\Http\Controllers\Dashboard;
 
 use Session;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,9 +20,8 @@ use App\Extensions\Constraints as CustomAssert;
 use App\Http\Controllers\Controller;
 use App\Extensions\Settings;
 use App\Extensions\Form;
+use App\Extensions\Role;
 use App\Models\Student;
-use App\Models\StudentStatus;
-use App\Models\Grade;
 
 class StudentController extends Controller
 {
@@ -75,7 +73,7 @@ class StudentController extends Controller
         $section = $request->query->get('section');
 
         $builderHook = function (Builder $builder) use ($section) {
-            if ($this->isRole('faculty')) {
+            if ($this->isRole(Role::FACULTY)) {
                 $builder->leftJoin('grades', 'students.id', '=', 'grades.student_id');
                 $builder->select('students.*', 'grades.importer_id');
                 $builder->where('importer_id', $this->user->getModel()->id);
