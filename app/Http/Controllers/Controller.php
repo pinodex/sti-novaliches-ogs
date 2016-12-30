@@ -31,7 +31,7 @@ class Controller extends BaseController
     }
 
     /**
-     * Check if user's role
+     * Check user's role if it matches the parameter
      * 
      * @param string $role
      * 
@@ -40,6 +40,14 @@ class Controller extends BaseController
     protected function isRole($role)
     {
         return $this->user->getRole() == $role;
+    }
+
+    /**
+     * Check user's role if it matches the parameters
+     */
+    protected function areRoles()
+    {
+        return in_array($this->user->getRole(), func_get_args());
     }
 
     /**
