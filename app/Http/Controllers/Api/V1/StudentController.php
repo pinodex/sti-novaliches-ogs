@@ -24,12 +24,15 @@ class StudentController extends Controller
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function show(Student $student)
+    public function show($id)
     {
-        if (Auth::user()->id != $student->id) {
-            abort(403);
+        $user = Auth::user();
+        $student = Student::find($id);
+
+        if ($student->canBeViewedBy($user)) {
+            return $this->json($student);
         }
 
-        return $this->json($student);
+        abort(403);
     }
 }

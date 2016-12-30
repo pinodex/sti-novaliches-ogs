@@ -13,6 +13,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use Auth;
 use App\Http\Controllers\Controller;
+use App\Models\Student;
 use App\Models\Grade;
 
 class GradeController extends Controller
@@ -20,19 +21,22 @@ class GradeController extends Controller
     /**
      * Show record
      * 
-     * @param int $studentId Student ID
+     * @param int $id Student ID
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function show($studentId)
+    public function show($id)
     {
-        if (Auth::user()->id != $studentId) {
+        $user = Auth::user();
+        $student = Student::find($id);
+
+        if (!$student->canBeViewedBy($user)) {
             abort(403);
         }
 
         $output = [];
 
-        Grade::where('student_id', $studentId)->each(function (Grade $grade) use (&$output) {
+        $student->grades->each(function (Grade $grade) use (&$output) {
             $output[] = [
                 'subject' => $grade->subject,
                 'section' => $grade->section,
