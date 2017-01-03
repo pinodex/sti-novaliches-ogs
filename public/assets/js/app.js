@@ -28,7 +28,7 @@
         };
 
         return params;
-    }
+    };
 
     var getQueryVar = function getQueryVar(key) {
         var query = window.location.search.substring(1);
@@ -53,7 +53,7 @@
         }
 
         return queryString.substring(0, queryString.length - 1);
-    }
+    };
 
     var appData = {
         isNavActive: false,
@@ -68,6 +68,7 @@
         },
         
         modals: {
+            alert: true,
             confirm: false,
             helpBox: false,
             loading: false
@@ -117,7 +118,7 @@
         ready: function() {
             document.addEventListener('keydown', this.escapeClose);
         }
-    })
+    });
 
     var app = new Vue({
         el: '#app',
