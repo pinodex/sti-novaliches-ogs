@@ -4,6 +4,8 @@
 
 {% set status = student.payment ? student.payment.getBooleanValues() : null %}
 
+{% set hasQuestionMark = false %}
+
 {% block content %}
     <div class="container">
         <div class="grid">
@@ -98,11 +100,14 @@
 
                             <tbody>
                                 {% for grade in grades %}
+                                    {% if (grade.prelim_grade != 'N/A' and not (status and status.prelim)) or (grade.midterm_grade != 'N/A' and not (status and status.midterm)) or (grade.prefinal_grade != 'N/A' and not (status and status.prefinal)) %}
+                                        {% set hasQuestionMark = true %}
+                                    {% endif %}
                                     <tr>
                                         <th>{{ grade.subject }}</th>
-                                        <td class="{{ grade.prelim_grade|grade_class }}">{{ (status and status.prelim) ? grade.prelim_grade : '?' }}</td>
-                                        <td class="{{ grade.midterm_grade|grade_class }}">{{ (status and status.midterm) ? grade.midterm_grade : '?' }}</td>
-                                        <td class="{{ grade.prefinal_grade|grade_class }}">{{ (status and status.prefinal) ? grade.prefinal_grade : '?' }}</td>
+                                        <td class="{{ grade.prelim_grade|grade_class }}">{{ grade.prelim_grade == 'N/A' ? 'N/A' : (status and status.prelim) ? grade.prelim_grade : '?' }}</td>
+                                        <td class="{{ grade.midterm_grade|grade_class }}">{{ grade.midterm_grade == 'N/A' ? 'N/A' : (status and status.midterm) ? grade.midterm_grade : '?' }}</td>
+                                        <td class="{{ grade.prefinal_grade|grade_class }}">{{ grade.prefinal_grade == 'N/A' ? 'N/A' : (status and status.prefinal) ? grade.prefinal_grade : '?' }}</td>
                                         <td>{{ grade.updated_at|date('M d, Y h:i A') }}</td>
                                     </tr>
                                 {% else %}
@@ -194,7 +199,7 @@
                             {% endif %}
                         </table>
                             
-                        {% if grades is not empty and status is null or (status is not null and (not status.prelim or not status.midterm or not status.prefinal)) %}
+                        {% if hasQuestionMark %}
                             <div class="alert alert-warning">
                                 <small><em>If you are seeing question marks, you have not settled your payment yet, or your account has not been updated yet.</em></small>
                             </div>
