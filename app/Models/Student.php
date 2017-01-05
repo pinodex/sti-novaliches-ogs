@@ -15,6 +15,7 @@ use Hash;
 use App\Extensions\User\Roles\MultiRoleModelInterface;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HumanReadableDateTrait;
 use App\Traits\HashablePasswordTrait;
 use App\Traits\ConcatenateNameTrait;
 use App\Traits\SearchableTrait;
@@ -26,7 +27,10 @@ use App\Traits\SearchableTrait;
  */
 class Student extends Model implements Authenticatable, MultiRoleModelInterface
 {
-    use ConcatenateNameTrait, HashablePasswordTrait,SearchableTrait;
+    use ConcatenateNameTrait,
+        HumanReadableDateTrait,
+        HashablePasswordTrait,
+        SearchableTrait;
     
     public $incrementing = false;
 

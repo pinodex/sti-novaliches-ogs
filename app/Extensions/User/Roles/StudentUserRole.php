@@ -71,6 +71,9 @@ class StudentUserRole implements UserRoleInterface
         if (strtoupper($credentials['password']) == strtoupper($user->middle_name)  ||
             strtoupper($credentials['password']) == strtoupper(normalizeAccents($user->middle_name))) {
 
+            $user->last_login_at = date('Y-m-d H:i:s');
+            $user->save();
+
             return true;
         }
 
