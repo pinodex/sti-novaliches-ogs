@@ -44,7 +44,7 @@ if (!function_exists('isStudentId')) {
 
 if (!function_exists('formatStudentId')) {
     /**
-     * Format student ID to XXX-XXXX-XXXX
+     * Used to be XXX-XXXX-XXXX. Now just returns the raw ID.
      * 
      * @param string $id Raw student ID
      * 
@@ -52,18 +52,7 @@ if (!function_exists('formatStudentId')) {
      */
     function formatStudentId($id)
     {
-        $matches = [];
-        $match = preg_match_all('/([\d+]{3})([\d+]{4})([\d+]{4})/', $id, $matches);
-
-        if (!$match) {
-            return $id;
-        }
-
-        return sprintf('%s-%s-%s',
-            $matches[1][0],
-            $matches[2][0],
-            $matches[3][0]
-        );
+        return $id;
     }
 }
 
