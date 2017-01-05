@@ -68,8 +68,8 @@ class StudentUserRole implements UserRoleInterface
             throw new AuthException('Your account is temporarily locked.', AuthException::ACCOUNT_LOCKED);
         }
 
-        if (strtoupper($credentials['password']) == $user->middle_name  ||
-            strtoupper($credentials['password']) == normalizeAccents($user->middle_name)) {
+        if (strtoupper($credentials['password']) == strtoupper($user->middle_name)  ||
+            strtoupper($credentials['password']) == strtoupper(normalizeAccents($user->middle_name))) {
 
             return true;
         }
