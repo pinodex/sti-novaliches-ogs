@@ -30,15 +30,7 @@ class StudentUserRole implements UserRoleInterface
 
     public function retrieveByCredentials(array $credentials)
     {
-        $id = null;
-
-        if (isset($credentials['id'])) {
-            $id = $credentials['id'];
-        } else if (isset($credentials['email'])) {
-            $id = $credentials['email'];
-        }
-
-        $user = Student::find(parseStudentId($id));
+        $user = Student::find(parseStudentId($credentials['id']));
 
         if ($user) {
             return $user;

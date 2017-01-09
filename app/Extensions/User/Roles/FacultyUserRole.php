@@ -30,15 +30,7 @@ class FacultyUserRole implements UserRoleInterface
 
     public function retrieveByCredentials(array $credentials)
     {
-        $id = null;
-
-        if (isset($credentials['id'])) {
-            $id = $credentials['id'];
-        } else if (isset($credentials['email'])) {
-            $id = $credentials['email'];
-        }
-
-        $user = Faculty::where('username', $id)->first();
+        $user = Faculty::where('username', $credentials['id'])->first();
 
         if ($user) {
             return $user;

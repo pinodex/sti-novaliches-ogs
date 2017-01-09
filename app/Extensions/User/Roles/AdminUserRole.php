@@ -30,15 +30,7 @@ class AdminUserRole implements UserRoleInterface
 
     public function retrieveByCredentials(array $credentials)
     {
-        $id = null;
-
-        if (isset($credentials['id'])) {
-            $id = $credentials['id'];
-        } else if (isset($credentials['email'])) {
-            $id = $credentials['email'];
-        }
-
-        $user = Admin::where('username', $id)->first();
+        $user = Admin::where('username', $credentials['id'])->first();
 
         if ($user) {
             return $user;
