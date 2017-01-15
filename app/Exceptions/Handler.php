@@ -14,6 +14,7 @@ namespace App\Exceptions;
 use Auth;
 use Exception;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -96,6 +97,10 @@ class Handler extends ExceptionHandler
         }
 
         if (app()->environment() == 'production') {
+            if ($e instanceof TokenMismatchException) {
+                return response()->view('errors.403', [], 403);
+            }
+
             return response()->view('errors.500', [], 500);
         }
 
