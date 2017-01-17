@@ -11,26 +11,28 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
 
-class StudentController extends Controller
+class UserController extends Controller
 {
     /**
-     * Show record
+     * Show user record
      * 
      * @param string $id Student ID
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function show($id)
+    public function show()
     {
-        $student = Student::findOrFail($id);
-
-        if ($student->canBeViewedBy($this->user)) {
-            return $this->json($student);
+        if (!$this->user) {
+            abort(401);
         }
 
-        abort(403);
+        return $this->json([
+            'type' => $this->user->getRole(),
+            'data' => $this->user
+        ]);
     }
 }

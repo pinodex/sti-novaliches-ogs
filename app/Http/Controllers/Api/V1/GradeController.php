@@ -11,7 +11,6 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Models\Grade;
@@ -27,10 +26,9 @@ class GradeController extends Controller
      */
     public function show($id)
     {
-        $user = Auth::user();
-        $student = Student::find($id);
+        $student = Student::findOrFail($id);
 
-        if (!$student->canBeViewedBy($user)) {
+        if (!$student->canBeViewedBy($this->user)) {
             abort(403);
         }
 

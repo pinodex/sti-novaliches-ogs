@@ -55,6 +55,10 @@ class MultiRoleUserProvider implements UserProvider
     {
         $lastException = null;
 
+        if (!in_array('id', $credentials)) {
+            $credentials['id'] = $credentials['email'];
+        }
+
         foreach ($this->roles as $role => $roleClass) {
             try {
                 return (new $roleClass)->retrieveByCredentials($credentials);
