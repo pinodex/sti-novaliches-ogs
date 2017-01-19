@@ -55,7 +55,7 @@ class MultiRoleUserProvider implements UserProvider
     {
         $lastException = null;
 
-        if (isset($credentials['email']) {
+        if (isset($credentials['email'])) {
             $credentials['id'] = $credentials['email'];
         }
 
