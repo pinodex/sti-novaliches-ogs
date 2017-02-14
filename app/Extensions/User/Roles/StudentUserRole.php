@@ -55,14 +55,13 @@ class StudentUserRole implements UserRoleInterface
             throw new AuthException('Invalid ID and/or password', AuthException::INVALID_PASSWORD);
         }
 
-        // As a security measure, don't allow access to students with no middle name
-        if (empty($user->middle_name) || $user->middle_name == '.') {
-            throw new AuthException('Your account is temporarily locked.', AuthException::ACCOUNT_LOCKED);
+        $userPassword = $user->middle_name;
+
+        if (empty($userPassword) || $userPassword == '.') {
+            $userPassword = $user->last_name;
         }
 
-        if (strtoupper($credentials['password']) == strtoupper($user->middle_name)  ||
-            strtoupper($credentials['password']) == strtoupper(normalizeAccents($user->middle_name))) {
-
+        if ($this->checkPassword($credentials['password'], $userPassword)) {
             $user->last_login_at = date('Y-m-d H:i:s');
             $user->save();
 
@@ -70,5 +69,10 @@ class StudentUserRole implements UserRoleInterface
         }
 
         throw new AuthException('Invalid ID and/or password', AuthException::INVALID_PASSWORD);
+    }
+
+    private function checkPassword($enteredPassword, $password) {
+        return strtoupper($enteredPassword) == strtoupper($password)  ||
+            strtoupper($enteredPassword) == strtoupper(normalizeAccents($password));
     }
 }
