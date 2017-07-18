@@ -1,0 +1,494 @@
+/*!
+ * (c) 2017, Raphael Marco
+ */
+
+html, body {
+    height: 100%;
+}
+
+body {
+    overflow-x: initial;
+    background: #f6f9fc;
+
+    &.login-page {
+        background: #f1f1f1;
+    }
+
+    &.error-page {
+        background: #fff;
+
+        .main-container {
+            padding-top: 0;
+        }
+    }
+}
+
+/**
+ * Framework Overrides
+ */
+
+b-modal,
+[v-show] {
+    display: none;
+}
+
+.button.is-link {
+    text-decoration: none;
+}
+
+.is-clipped {
+    overflow-y: scroll !important;
+}
+
+.icon {
+    vertical-align: initial;
+}
+
+.notification {
+    padding: 1.25rem 1.5rem;
+
+    &.is-small {
+        font-size: 12px;
+        padding: 10px;
+        margin-bottom: 1em;
+    }
+
+    &.is-main {
+        margin-bottom: 0;
+        border-radius: 0;
+    }
+}
+
+/**
+ * Self framework
+ */
+
+.combo {
+    display: flex;
+
+    &.centered {
+        justify-content: center;
+    }
+
+    .combo-item {
+        display: flex;
+        align-items: center;
+        justify-content: middle;
+        margin: 0 0.5rem;
+    }
+
+    .combo-item:first-child {
+        margin-left: 0;
+    }
+
+    .combo-item:last-child {
+        margin-right: 0;
+    }
+}
+
+/**
+ * Application Design
+ */
+
+.login-view {
+    position: relative;
+
+    .header {
+        background: linear-gradient(rgba(0, 109, 183, 0.9), rgba(0, 109, 183, 0.9)) repeat-x,
+                    url('../img/building.png') no-repeat;
+        
+        background-position: center center, center -80px;
+        background-size: cover, cover;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 250px;
+
+        transition: height .5s ease;
+
+        &.is-short {
+            height: 52px;
+        }
+    }
+
+    .login-container {
+        z-index: 1;
+    }
+
+    .title, .subtitle {
+        margin-bottom: 1rem;
+    }
+
+    .login-panel {
+        background: #fff;
+        margin-top: 8rem;
+        padding: 1.5rem 0;
+        padding-top: 0;
+        border-radius: 0.25rem;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+
+        .login-header {
+            background: #fff400;
+            margin-bottom: 1rem;
+            padding-top: 5px;
+            height: 110px;
+        }
+
+        .logo {
+            margin: 0 auto;
+            margin-bottom: 1rem;
+        }
+
+        .input {
+            border-left: none;
+            border-right: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .action {
+            margin-right: 1rem;
+        }
+
+        .notification {
+            border-radius: 0;
+        }
+    }
+}
+
+.logo {
+    background: #fff300;
+
+    &.logo-50 {
+        background: url('../img/logo-50.png') no-repeat center;
+        height: 50px;
+        width: 65px;
+    }
+
+    &.logo-100 {
+        background: url('../img/logo-100.png') no-repeat center;
+        height: 100px;
+        width: 129px;
+    }
+}
+
+/*
+.navbar.is-fancy {
+    background: linear-gradient(rgba(0, 109, 183, 0.9), rgba(0, 109, 183, 0.9)) repeat-x,
+                    url('../img/building.png') no-repeat;
+        
+    background-position: center center, center -80px;
+    background-size: cover, cover;
+
+    color: #fff;
+    height: 50px;
+
+    margin-bottom: 1.5rem;
+
+    .container, .container-fluid {
+        display: flex;
+    }
+
+    .container-fluid {
+        width: 100%;
+    }
+
+    .logo {
+        margin-right: 1rem;
+    }
+
+    .logo-50 {
+        height: 48px;
+    }
+
+    .navbar-brand {
+        background: #fff600;
+        justify-content: center;
+        width: 250px;
+
+        .navbar-item,
+        .navbar-item:hover {
+            color: #222;
+        }
+    }
+
+    .navbar-item {
+        color: #eee;
+    }
+
+    .navbar-item:hover {
+        background: transparent;
+        color: #fff;
+    }
+}
+*/
+
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 999;
+
+    & > .container {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .nav-left {
+        overflow: hidden;
+    }
+
+    .nav-item.has-logo {
+        padding: 0;
+
+        img {
+            height: 45px;
+            max-height: 45px;
+        }
+    }
+
+    .nav-item .icon {
+        margin-right: 0.5em;
+    }
+
+    .toggle-menu-button {
+            position: relative;
+            background: #3273dc;
+            color: #fff;
+            width: 52px;
+            cursor: pointer;
+            outline: none;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+
+        .fa {
+            position: absolute;
+            left: 17px;
+
+            font-size: 20px;
+        }
+    }
+
+    .avatar {
+        margin-right: 10px;
+    }
+}
+
+.sidebar {
+    position: fixed;
+    top: 52px;
+    left: 0;
+    bottom: 0;
+    
+    width: 52px;
+    padding: 15px 0;
+
+    background: #222;
+    text-align: left;
+    transition: width 200ms ease;
+
+    overflow: hidden;
+
+    z-index: 10000;
+
+    @media (max-width: 768px) {
+        right: 0;
+
+        display: none;
+
+        overflow-y: auto;
+        text-align: center;
+    }
+
+    .menu-label {
+        padding: 0 0.75em;
+        transition: all 200ms ease;
+    }
+
+    .menu-list {
+        a {
+            color: #eee;
+            border-radius: 0;
+            line-height: 1.8em;
+            font-size: 14px;
+
+            &:hover {
+                background-color: #404040;
+            }
+
+            .icon .fa {
+                font-size: 16px;
+            }
+        }
+
+        li {
+            white-space: nowrap;
+
+            .icon {
+                margin-left: 4px;
+            }
+
+            .text {
+                opacity: 0;
+                transition: opacity 200ms ease;
+            }
+        }
+
+        li.is-active {
+            & > a {
+                background-color: #3273dc;
+            }
+
+            & > ul a {
+                padding-left: 2em;
+            }
+        }
+    }
+}
+
+.main-container {
+    padding-top: 52px;
+    padding-left: 52px;
+    overflow: hidden;
+    width: 100%;
+
+    transition: margin-left 200ms ease;
+
+    & > .columns {
+        background: #f6f9fc;
+        margin: 0;
+    }
+
+    @media (max-width: 768px) {
+        padding-left: 0;
+    }
+}
+
+.off-menu.active {
+    .sidebar.menu {
+        display: block;
+        width: 250px;
+
+        li .text {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            width: 100%;
+        }
+    }
+}
+
+.off-menu:not(.active) {
+    .sidebar.menu {
+        .menu-label {
+            margin: 0;
+            opacity: 0;
+        }
+    }
+}
+
+.welcome {
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-item {
+    display: flex;
+    justify-content: center;
+    align-items: middle;
+    text-align: center;
+
+    padding: 1rem;
+    border: 1px solid #eee;
+
+    .title {
+        margin-bottom: 0.5rem;
+        font-size: 2.5rem;
+    }
+
+    .heading {
+        color: #363636;
+        margin-bottom: 0;
+    }
+
+    &:hover {
+        border-color: #607D8B;
+
+        .title, .heading {
+            color: #607D8B;
+        }
+    }
+}
+
+/**
+ * Transitions
+ */
+
+.slide-up-enter-active {
+    transition: all .5s ease;
+}
+
+.slide-up-leave-active {
+    transition: all .5s ease;
+}
+
+.slide-up-enter, .slide-up-leave-to {
+    transform: translateY(-200px);
+    opacity: 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+}
+
+.fade-enter, .fade-leave-to {
+    opacity: 0
+}
+
+.slide-fade-enter-active, .slide-fade-leave-active {
+    transition: all .3s ease;
+}
+
+.slide-fade-enter, .slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+}
+
+.field-up-enter-active {
+    transition: all .3s ease;
+    overflow: hidden;
+    height: 36px;
+
+}
+
+.field-up-leave-active {
+    transition: all .3s ease;
+    margin-bottom: 0 !important;
+    overflow: hidden;
+    height: 36px;
+
+}
+
+.field-up-enter, .field-up-leave-to {
+    height: 0;
+}
+
+.field-up-enter {
+    margin-bottom: 0.75rem !important;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    
+    100% {
+        transform: rotate(360deg);
+    }
+}

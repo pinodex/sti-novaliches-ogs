@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet" />
+    <style type="text/css">
+        body {
+            font-family: 'Open Sans', sans-serif;
+            padding: 100px;
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: 10px;
+            }
+        }
+
+        .container {
+            max-width: 500px;
+        }
+
+        h1 {
+            font-size: 52px;
+            padding: 0;
+            margin: 0;
+            color: #999;
+        }
+            
+        a {
+            color: #2196f3;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <title>Something went wrong.</title>
+
+    <!--
+    - Unfortunately, Microsoft has added a clever new
+    - "feature" to Internet Explorer. If the text of
+    - an error's message is "too small", specifically
+    - less than 512 bytes, Internet Explorer returns
+    - its own error message. You can turn that off,
+    - but it's pretty tricky to find switch called
+    - "smart error messages". That means, of course,
+    - that short error messages are censored by default.
+    - IIS always returns error messages that are long
+    - enough to make Internet Explorer happy. The
+    - workaround is pretty simple: pad the error
+    - message with a big comment like this to push it
+    - over the five hundred and twelve bytes minimum.
+    - Of course, that's exactly what you're reading
+    - right now.
+    -->
+</head>
+<body>
+    <div class="container">
+        <h1>Error 500</h1>
+        <h2>Something went wrong.</h2>
+    
+        <p>An error occured while processing your request. Please try again.</p>
+        <p>If the issue persists, please visit the Academic Head Office and look for Mr. Noriel Domondon to report the problem.</p>
+    </div>
+</body>
+</html>

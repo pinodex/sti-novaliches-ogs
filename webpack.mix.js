@@ -11,5 +11,26 @@ const { mix } = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+let options = {
+    processCssUrls: false
+}
+
+mix
+    .sass('resources/assets/sass/main.scss',                    'public/assets/css')
+    .sass('resources/assets/sass/bulma.scss',                   'public/assets/css')
+    .sass('node_modules/font-awesome/scss/font-awesome.scss',   'public/assets/css')
+
+    .js('resources/assets/js/app.js',                           'public/assets/js')
+
+    .copy('resources/assets/img',                               'public/assets/img')
+    .copy('resources/assets/icon',                              'public/assets/icon')
+    .copy('node_modules/font-awesome/fonts',                    'public/assets/fonts')
+
+    .extract(['vue', 'buefy', 'axios', 'form-serialize', 'qs', 'timeago.js'])
+    
+    .disableNotifications()
+    .options(options)
+
+if (mix.config.inProduction) {
+    mix.version()
+}

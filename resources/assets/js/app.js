@@ -1,22 +1,60 @@
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
+/*!
+ * (c) 2017, Raphael Marco
  */
 
-require('./bootstrap');
+'use strict'
 
-window.Vue = require('vue');
+import Vue from 'vue'
+import Buefy from 'buefy'
+import timeago from 'timeago.js'
+import qs from 'qs'
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+import methods from './methods.js'
 
-Vue.component('example', require('./components/Example.vue'));
+Vue.use(Buefy, {
+    defaultIconPack: 'fa'
+})
 
-const app = new Vue({
-    el: '#app'
-});
+Vue.directive('focus', {
+    inserted: (el) => {
+        el.focus()
+    }
+})
+
+let app = new Vue({
+    el: '#app',
+    
+    data: function () {
+        return {
+            ui: {
+                nav: {
+                    sideBarActive: false
+                }
+            },
+
+            modal: {
+                helpModal: false
+            },
+
+            form: {
+                disabled: false,
+                errors: false,
+
+                login: {
+                    state: true,
+                    id: null
+                }
+            }
+        }
+    },
+
+    computed: {
+
+        isSsoLogin: function () {
+            return isNaN(this.form.login.id)
+        }
+
+    },
+
+    methods
+})

@@ -1,0 +1,15 @@
+{% extends '/layouts/main.twig' %}
+
+{% set page_title = 'Page not found' %}
+{% set body_class = 'error-page' %}
+
+{% block content %}
+    <section class="hero is-fullheight">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title">Page not found</h1>
+                <h2 class="subtitle">The page you requested was not found.</h2>
+            </div>
+        </div>
+    </section>
+{% endblock %}

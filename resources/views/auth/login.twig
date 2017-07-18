@@ -1,0 +1,109 @@
+{% extends '/layouts/main.twig' %}
+
+{% form_theme form '/layouts/bulma.twig' %}
+
+{% set body_class = 'login-page' %}
+{% set page_title = 'Login' %}
+
+{% block content %}
+    <section class="login-view">
+        <div class="header" :class="{ 'is-short': !form.login.state }"></div>
+
+        <div class="container login-container">
+            <div class="row">
+                <div class="column is-4 is-offset-4">
+                    <transition name="slide-up">
+                        <div class="login-panel" v-show="form.login.state">
+                            <div class="login-header">
+                                <div class="logo logo-100"></div>
+                            </div>
+
+                            <h2 class="subtitle has-text-centered">Student Portal Login</h2>
+
+                            {% if session_get('message') %}
+                                <div class="notification is-{{ session_get('message')[0] }} is-small">
+                                    {{ session_get('message')[1] }}
+                                </div>
+                            {% endif %}
+
+                            <form action="{{ app.request.getRequestUri() }}" method="post" @submit.prevent="asyncSubmit" autocomplete="off">
+                                {{ csrf_field() }}
+
+                                <div class="field">
+                                    <p class="control has-icons-left has-icons-right">
+                                        <input class="input" type="text" name="id" placeholder="Student Number" required
+                                            :disabled="form.disabled"
+                                            :class="{ 'is-danger': form.errors }"
+                                            v-model="form.login.id"
+                                            v-focus />
+
+                                        <span class="icon is-small is-left">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                    </p>
+                                </div>
+
+                                <transition name="field-up">
+                                    <div class="field" v-show="!isSsoLogin">
+                                        <p class="control has-icons-left has-icons-right">
+                                            <input class="input" type="password" name="password" placeholder="Password"
+                                                :disabled="form.disabled"
+                                                :required="!isSsoLogin"
+                                                :class="{ 'is-danger': form.errors }" />
+
+                                            <span class="icon is-small is-left">
+                                                <i class="fa fa-key"></i>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </transition>
+
+                                <div class="is-clearfix">
+                                    <div class="field is-grouped is-pulled-right action">
+                                        <p class="control">
+                                            <button type="button" class="button is-link" @click="modal.helpModal = true">Help</button>
+                                        </p>
+                                        <p class="control">
+                                            <button type="submit" class="button"
+                                                :disabled="form.disabled"
+                                                :class="{ 'is-loading': form.disabled, 'is-primary': !isSsoLogin, 'is-success': isSsoLogin }">
+
+                                                <span class="icon">
+                                                    <i class="fa fa-sign-in"></i>
+                                                </span>
+
+                                                <span v-show="!isSsoLogin">Login</span>
+                                                <span v-show="isSsoLogin">Continue</span>
+                                            </button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </transition>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <b-modal :active.sync="modal.helpModal" :width="400">
+        <div class="card">
+            <div class="card-content">
+                <div class="content">
+                    <h2 class="subtitle">Login Guide</h1>
+                    
+                    <ol>
+                        <li>Enter your student number</li>
+                        <li>Use your middle name as the password</li>
+                    </ol>
+
+                    <p><em>If your middle name contains accented letters (e.g. <strong>&#xF1;</strong> [enye]), you may use the non-accented one in place of it (e.g. <strong>n</strong>).</em></p>
+
+                    <p><em>In cases where middle name is not available, your last name should be your password.</em></p>
+
+                    <p>If you have problems logging in, please visit the Admission Office for assistance.</p>
+                </div>
+            </div>
+        </div>
+    </b-modal>
+{% endblock %}
