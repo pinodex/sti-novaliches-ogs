@@ -155,7 +155,7 @@ class MainController extends Controller
                 new Assert\Email(),
                 new Assert\Regex([
                     'pattern'   => '/\@novaliches\.sti\.edu\.ph$/',
-                    'message'   => 'You must use your @novaliches.sti.edu email'
+                    'message'   => 'You must use your @novaliches.sti.edu.ph email'
                 ])
             ]
         ]);
