@@ -32,15 +32,13 @@ class StudentSpreadsheet extends AbstractSpreadsheet
             
             foreach ($sheet->getRowIterator() as $row => $col) {
                 if ($row > 0 && isStudentId($col[1])) {
-                    $name = $this->getNameParts($col[2]);
-
                     $contents[] = [
                         'id'            => parseStudentId($col[1]),
-                        'last_name'     => $name['last_name'],
-                        'middle_name'   => $name['first_name'],
-                        'first_name'    => $name['middle_name'],
-                        'course'        => $col[3],
-                        'section'       => $col[4]
+                        'last_name'     => $col[2],
+                        'first_name'    => $col[3],
+                        'middle_name'   => $col[4],
+                        'course'        => $col[5],
+                        'section'       => $col[6]
                     ];
                 }
             }
@@ -74,23 +72,5 @@ class StudentSpreadsheet extends AbstractSpreadsheet
         }
 
         DB::commit();
-    }
-
-    protected function getNameParts($name)
-    {
-        $parts = [
-            'first_name'    => null,
-            'middle_name'   => null,
-            'last_name'     => null
-        ];
-
-        $nameComma = explode(',', $name);
-        $nameSpaces = explode(' ', $nameComma[1]);
-
-        $parts['last_name'] = trim($nameComma[0]);
-        $parts['middle_name'] = trim(array_pop($nameSpaces));
-        $parts['first_name'] = trim(implode(' ', $nameSpaces));
-
-        return $parts;
     }
 }

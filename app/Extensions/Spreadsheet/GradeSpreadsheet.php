@@ -62,6 +62,10 @@ class GradeSpreadsheet extends AbstractSpreadsheet
         foreach ($this->spreadsheet->getSheetIterator() as $sheet) {
             if (strtolower($sheet->getName()) == 'settings') {
                 foreach ($sheet->getRowIterator() as $row => $col) {
+                    if ($row == 1) {
+                        $contents['metadata']['subject_name'] = ucwords(strtolower($col[10]));
+                    }
+
                     if ($row == 2) {
                         $contents['metadata']['subject'] = strtoupper(cleanString($col[10]));
                     }
@@ -132,14 +136,14 @@ class GradeSpreadsheet extends AbstractSpreadsheet
         $values = [];
         $bindings = [];
 
-        $tables = '(student_id,importer_id,subject,section,prelim_grade,midterm_grade,prefinal_grade,'.
+        $tables = '(student_id,importer_id,subject,subject_name,section,prelim_grade,midterm_grade,prefinal_grade,'.
             'final_grade,actual_grade,prelim_presences,midterm_presences,prefinal_presences,final_presences,prelim_absences,'.
             'midterm_absences,prefinal_absences,final_absences,created_at,updated_at)';
 
         $timestamp = date('Y-m-d H:i:s');
 
         foreach ($contents['students'] as $student) {
-            $values[] = '(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+            $values[] = '(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 
             $section = $contents['metadata']['sections'][0];
 
@@ -147,6 +151,7 @@ class GradeSpreadsheet extends AbstractSpreadsheet
                 $student['student_id'],
                 $importerId,
                 $contents['metadata']['subject'],
+                $contents['metadata']['subject_name'],
                 $section,
                 $student['prelim_grade'],
                 $student['midterm_grade'],
@@ -175,6 +180,8 @@ class GradeSpreadsheet extends AbstractSpreadsheet
         // Probably not the best thing you would see today.
         $query = "INSERT INTO {$tableName} {$tables} VALUES {$values} ON DUPLICATE KEY UPDATE " .
                 'importer_id = VALUES(importer_id),' .
+
+                'subject_name = VALUES(subject_name),' .
 
                 'prelim_grade = VALUES(prelim_grade),' .
                 'midterm_grade = VALUES(midterm_grade),' .

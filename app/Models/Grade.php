@@ -27,6 +27,7 @@ class Grade extends Model
         'importer_id',
         'subject',
         'section',
+        'section_name',
 
         'prelim_grade',
         'prelim_presences',

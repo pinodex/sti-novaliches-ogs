@@ -16,13 +16,14 @@
                         <table class="center-align">
                             <thead>
                                 <tr>
-                                    <th>Subject</th>
+                                    <th colspan="2">Subject</th>
                                     <th>Section</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>{{ contents.metadata.subject }}</td>
+                                    <td>{{ contents.metadata.subject_name }}</td>
                                     <td>{{ contents.metadata.sections|join(', ') }}</td>
                                 </tr>
                             </tbody>
