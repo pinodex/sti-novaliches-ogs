@@ -125,7 +125,7 @@ class MainController extends Controller
     public function account(Request $request)
     {
         if ($this->user->email_address === null) {
-            $this->user->email_address = toSchoolEmail($this->user->first_name, $this->user->last_name);
+            $this->user->email_address = toSchoolEmail($this->user->id, $this->user->last_name);
         }
 
         $form = Form::create($this->user->toArray());
@@ -154,7 +154,7 @@ class MainController extends Controller
             'constraints'   => [
                 new Assert\Email(),
                 new Assert\Regex([
-                    'pattern'   => '/\@novaliches\.sti\.edu$/',
+                    'pattern'   => '/\@novaliches\.sti\.edu\.ph$/',
                     'message'   => 'You must use your @novaliches.sti.edu email'
                 ])
             ]

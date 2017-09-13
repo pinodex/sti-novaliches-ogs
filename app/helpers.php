@@ -60,20 +60,17 @@ if (!function_exists('toSchoolEmail')) {
     /**
      * Name to @novaliches.sti.edu email
      * 
-     * @param string $firstName First name
+     * @param string $id Student ID
      * @param string $lastName Last name
      * 
      * @return string
      */
-    function toSchoolEmail($firstName, $lastName)
+    function toSchoolEmail($id, $lastName)
     {
-        $firstName = strtolower(normalizeAccents($firstName));
-        $lastName = strtolower(normalizeAccents($lastName));
+        $lastName = strtolower(normalizeAccents(preg_replace('/\s+/', '', $lastName)));
+        $studentId = substr($id, -6);
 
-        $firstName = preg_replace('/\s+/', '', $firstName);
-        $lastName = preg_replace('/\s+/', '', $lastName);
-
-        return $firstName . '.' . $lastName . '@novaliches.sti.edu';
+        return $lastName . '.' . $studentId . '@novaliches.sti.edu.ph';
     }
 }
 
