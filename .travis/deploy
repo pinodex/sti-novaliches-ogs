@@ -1,0 +1,32 @@
+#!/bin/bash
+
+echo "Preparing deploy..."
+
+rm -rf .git/
+rm .gitignore
+
+echo "Creating dotenv file..."
+
+envsubst < .env.travis > .env
+
+echo $TRAVIS_COMMIT > .travis/commit_hash
+echo $TRAVIS_BUILD_ID > .travis/build_id
+
+echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+
+echo "Adding files to deploy"
+
+git init
+git config user.name "Travis CI"
+git config user.email "travis@domain.com"
+git config --global push.default simple
+git remote add production ${PRODUCTION_REPO}
+
+{
+    git add . 
+    git commit -m "Travis CI Build"
+} &> /dev/null
+
+echo "Pushing build to production..."
+
+git push production master --force
