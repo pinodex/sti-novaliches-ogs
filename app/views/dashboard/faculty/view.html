@@ -109,7 +109,7 @@
                                         <tr>
                                             <td>{{ log.date }}</td>
                                             <td>{{ log.period|capitalize }}</td>
-                                            <td>{{ log.subject }}</td>
+                                            <td>{{ log.subject_name }}</td>
                                             <td>{{ log.section }}</td>
                                             <td>{{ log.is_valid ? 'Valid' : 'Invalid' }}</td>
                                             <td><a href="{{ route('dashboard.faculty.view.submission', {faculty: faculty.id, submission: log.id}, false) }}">View</a></td>

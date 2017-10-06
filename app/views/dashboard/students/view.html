@@ -158,7 +158,7 @@
                             <tbody>
                                 {% for grade in grades %}
                                     <tr>
-                                        <th>{{ grade.subject }}</th>
+                                        <th>{{ grade.subject_name }}</th>
                                         <td class="{{ grade.prelim_grade|grade_class }}">{{ grade.prelim_grade }}</td>
                                         <td class="{{ grade.midterm_grade|grade_class }}">{{ grade.midterm_grade }}</td>
                                         <td class="{{ grade.prefinal_grade|grade_class }}">{{ grade.prefinal_grade }}</td>
@@ -214,7 +214,7 @@
                                 <tbody v-show="activeTab == 0">
                                     {% for grade in grades %}
                                         <tr>
-                                            <th>{{ grade.subject }}</th>
+                                            <th>{{ grade.subject_name }}</th>
                                             <td>{{ grade.prelim_presences }}</td>
                                             <td>{{ grade.prelim_absences }}</td>
                                         </tr>
@@ -224,7 +224,7 @@
                                 <tbody v-show="activeTab == 1">
                                     {% for grade in grades %}
                                         <tr>
-                                            <th>{{ grade.subject }}</th>
+                                            <th>{{ grade.subject_name }}</th>
                                             <td>{{ grade.midterm_presences }}</td>
                                             <td>{{ grade.midterm_absences }}</td>
                                         </tr>
@@ -234,7 +234,7 @@
                                 <tbody v-show="activeTab == 2">
                                     {% for grade in grades %}
                                         <tr>
-                                            <th>{{ grade.subject }}</th>
+                                            <th>{{ grade.subject_name }}</th>
                                             <td>{{ grade.prefinal_presences }}</td>
                                             <td>{{ grade.prefinal_absences }}</td>
                                         </tr>
@@ -244,7 +244,7 @@
                                 <tbody v-show="activeTab == 3">
                                     {% for grade in grades %}
                                         <tr>
-                                            <th>{{ grade.subject }}</th>
+                                            <th>{{ grade.subject_name }}</th>
                                             <td>{{ grade.final_presences }}</td>
                                             <td>{{ grade.final_absences }}</td>
                                         </tr>
