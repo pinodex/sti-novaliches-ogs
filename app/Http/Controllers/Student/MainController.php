@@ -194,4 +194,16 @@ class MainController extends Controller
             'display_prompt'    => $this->user->is_required_info_filled === false && $request->getMethod() == 'GET'
         ]);
     }
+
+    /**
+     * Download grades consultation slip
+     * 
+     * URL: /student/grades-consultation-slip
+     */
+    public function gradesConsultationSlip()
+    {
+        $localPath = app_path('files/grades-consultation-slip.pdf');
+
+        return response()->download($localPath, 'STI Novaliches - Grades Consultation Slip.pdf');
+    }
 }

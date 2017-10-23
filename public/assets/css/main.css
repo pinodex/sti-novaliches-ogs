@@ -382,8 +382,8 @@ table {
 
 @font-face {
   font-family: 'icomoon';
-  src: url("../fonts/icomoon.eot?s13y3j");
-  src: url("../fonts/icomoon.eot?s13y3j#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?s13y3j") format("truetype"), url("../fonts/icomoon.woff?s13y3j") format("woff"), url("../fonts/icomoon.svg?s13y3j#icomoon") format("svg");
+  src: url("../fonts/icomoon.eot?mglnal");
+  src: url("../fonts/icomoon.eot?mglnal#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?mglnal") format("truetype"), url("../fonts/icomoon.woff?mglnal") format("woff"), url("../fonts/icomoon.svg?mglnal#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -399,6 +399,18 @@ table {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-download:before {
+  content: "\e900";
+}
+
+.icon-save:before {
+  content: "\e900";
+}
+
+.icon-store:before {
+  content: "\e900";
 }
 
 .icon-students:before {
