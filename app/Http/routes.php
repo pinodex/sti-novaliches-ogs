@@ -25,6 +25,8 @@ Route::group(['namespace' => 'Help', 'prefix' => 'help', 'as' => 'help.'], funct
 Route::group(['namespace' => 'Student', 'prefix' => 'student', 'as' => 'student.'], function () {
 
     Route::get('/', 'MainController@index')->name('index');
+    Route::get('/grades-consultation-slip', 'MainController@gradesConsultationSlip')->name('gcs');
+
     Route::match(['get', 'post'], '/top/{period?}/{subject?}', 'MainController@top')->name('top');
     Route::match(['get', 'post'], '/account', 'MainController@account')->name('account');
 
