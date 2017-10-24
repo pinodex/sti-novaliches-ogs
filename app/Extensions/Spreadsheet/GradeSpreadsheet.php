@@ -188,7 +188,7 @@ class GradeSpreadsheet extends AbstractSpreadsheet
                 'prefinal_grade = VALUES(prefinal_grade), ' .
                 'final_grade = VALUES(final_grade),' .
 
-                'actual_grade = VALUES(final_grade),' .
+                'actual_grade = VALUES(actual_grade),' .
 
                 'prelim_presences = VALUES(prelim_presences),' .
                 'midterm_presences = VALUES(midterm_presences),' .
