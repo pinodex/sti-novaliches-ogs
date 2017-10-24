@@ -108,8 +108,8 @@
                                         <span class="short">F</span>
                                     </th>
                                     <th>
-                                        <span class="long">EQV</span>
-                                        <span class="short">E</span>
+                                        <span class="long">SG</span>
+                                        <span class="short">SG</span>
                                     </th>
                                     <th>
                                         <span class="long">Updated at</span>
@@ -129,7 +129,7 @@
                                         <td class="{{ grade.midterm_grade|grade_class }}">{{ grade.midterm_grade == 'N/A' ? 'N/A' : (status and status.midterm) ? grade.midterm_grade : '?' }}</td>
                                         <td class="{{ grade.prefinal_grade|grade_class }}">{{ grade.prefinal_grade == 'N/A' ? 'N/A' : (status and status.prefinal) ? grade.prefinal_grade : '?' }}</td>
                                         <td class="{{ grade.final_grade|grade_class }}">{{ grade.final_grade == 'N/A' ? 'N/A' : (status and status.final) ? grade.final_grade : '?' }}</td>
-                                        <td class="{{ grade.actual_grade|grade_class }}">{{ grade.actual_grade == 'N/A' ? 'N/A' : (status and status.prelim and status.midterm and status.final) ? grade.actual_grade : '?' }}</td>
+                                        <td class="{{ grade.actual_grade|grade_class }}"><strong>{{ grade.actual_grade == 'N/A' ? 'N/A' : (status and status.prelim and status.midterm and status.final) ? grade.actual_grade : '?' }}</strong></td>
                                         <td>{{ grade.updated_at|date('M d, Y h:i A') }}</td>
                                     </tr>
                                 {% else %}

@@ -57,8 +57,8 @@
                                         <span class="short">4</span>
                                     </th>
                                     <th>
-                                        <span class="long">EQV</span>
-                                        <span class="short">EQ</span>
+                                        <span class="long">SG</span>
+                                        <span class="short">SG</span>
                                     </th>
                                 </tr>
                             </thead>
@@ -72,7 +72,7 @@
                                         <td class="{{ row.midterm_grade|grade_class }}">{{ row.midterm_grade|format_grade }}</td>
                                         <td class="{{ row.prefinal_grade|grade_class }}">{{ row.prefinal_grade|format_grade }}</td>
                                         <td class="{{ row.final_grade|grade_class }}">{{ row.final_grade|format_grade }}</td>
-                                        <td class="{{ row.actual_grade|grade_class }}">{{ row.actual_grade|format_grade }}</td>
+                                        <td class="{{ row.actual_grade|grade_class }}"><strong>{{ row.actual_grade|format_grade }}</strong></td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
