@@ -9,7 +9,7 @@
 {% block content %}
     <div class="container">
         <div class="grid">
-            <div class="column-4">
+            <div class="column-3">
                 <div class="panel">
                     <div class="panel-heading">Student Information</div>
                     <div class="panel-body">
@@ -68,7 +68,7 @@
                 </div>
             </div>
 
-            <div class="column-8">
+            <div class="column-9">
                 <div class="alert" style="background: #eee; color: #222;">
                     <h3>Grades Consultation Slip</h3>
                     <p style="margin: 1rem 0;">Please download and forward the <strong>grades consulation slip</strong> to your respective program head for your grade concerns.</p>
@@ -104,6 +104,14 @@
                                         <span class="short">PF</span>
                                     </th>
                                     <th>
+                                        <span class="long">Final</span>
+                                        <span class="short">F</span>
+                                    </th>
+                                    <th>
+                                        <span class="long">EQV</span>
+                                        <span class="short">E</span>
+                                    </th>
+                                    <th>
                                         <span class="long">Updated at</span>
                                         <span class="short">Upd</span>
                                     </th>
@@ -120,6 +128,8 @@
                                         <td class="{{ grade.prelim_grade|grade_class }}">{{ grade.prelim_grade == 'N/A' ? 'N/A' : (status and status.prelim) ? grade.prelim_grade : '?' }}</td>
                                         <td class="{{ grade.midterm_grade|grade_class }}">{{ grade.midterm_grade == 'N/A' ? 'N/A' : (status and status.midterm) ? grade.midterm_grade : '?' }}</td>
                                         <td class="{{ grade.prefinal_grade|grade_class }}">{{ grade.prefinal_grade == 'N/A' ? 'N/A' : (status and status.prefinal) ? grade.prefinal_grade : '?' }}</td>
+                                        <td class="{{ grade.final_grade|grade_class }}">{{ grade.final_grade == 'N/A' ? 'N/A' : (status and status.final) ? grade.final_grade : '?' }}</td>
+                                        <td class="{{ grade.actual_grade|grade_class }}">{{ grade.actual_grade == 'N/A' ? 'N/A' : (status and status.prelim and status.midterm and status.final) ? grade.actual_grade : '?' }}</td>
                                         <td>{{ grade.updated_at|date('M d, Y h:i A') }}</td>
                                     </tr>
                                 {% else %}
